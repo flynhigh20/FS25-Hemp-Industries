@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modDesc descVersion="95">
 
-    <author>Seth L & ChatGPT</author>
+    <author>TooBlastu &amp; ChatGPT</author>
 
     <version>0.0.1.0</version>
 
@@ -24,12 +24,14 @@ Features:
 Project Status:
 Early Alpha (0.0.1)
 
-Developed by Seth L & ChatGPT.
+Developed by TooBlastu & ChatGPT.
         ]]></en>
     </description>
 
     <iconFilename>icon_mod.dds</iconFilename>
 
+    <fillTypes filename="xml/fillTypes.xml"/>
+   
     <multiplayer supported="true"/>
 
 </modDesc>
