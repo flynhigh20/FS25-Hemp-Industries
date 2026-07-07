@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modDesc descVersion="95">
+
+    <author>Seth L & ChatGPT</author>
+
+    <version>0.0.1.0</version>
+
+    <title>
+        <en>FS25 Hemp Industries</en>
+    </title>
+
+    <description>
+        <en><![CDATA[
+Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
+
+Features:
+• New industrial hemp crop
+• Greenhouse production
+• New fill types
+• Production chains
+• Future custom equipment
+• Console-friendly design
+
+Project Status:
+Early Alpha (0.0.1)
+
+Developed by Seth L & ChatGPT.
+        ]]></en>
+    </description>
+
+    <iconFilename>icon_mod.dds</iconFilename>
+
+    <multiplayer supported="true"/>
+
+</modDesc>
