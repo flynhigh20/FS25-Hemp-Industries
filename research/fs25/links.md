@@ -1,5 +1,49 @@
 # FS25 Research Links
 
+## Priority References
+
+### Greenhouse
+- PlaceableGreenhouse
+- greenhousePlant XML schema
+
+Use for:
+- Hemp greenhouse
+- Plant stage models
+- Withered plant model
+- Output fill-type changes
+
+### Core Registration
+- FillTypeDesc
+- FillTypeManager
+- FruitTypeDesc
+- FruitTypeManager
+
+Use for:
+- Registering GHI_HEMP and related materials
+- Connecting the field crop to its harvested fill type
+- Avoiding name conflicts with other hemp mods
+
+### Production
+- PlaceableProductionPoint
+- ProductionPoint
+- PlaceableSellingStation
+
+Use for:
+- Fiber Mill
+- Oil Press
+- Rope Factory
+- Hempcrete Plant
+- Eco Materials Depot
+
+### Later: PC Enhancement / Equipment
+- SpecializationManager
+- Combine
+- Cutter
+- AIFieldWorker
+- WorkArea
+- WindBending
+- PrecisionFarmingStatistic
+
 ## FS25 Mapping Tutorial - Selling Stations
 https://gdn.giants-software.com/videoTutorials2.php?s=1&p=0&c=7&LANGUAGE=en
 
