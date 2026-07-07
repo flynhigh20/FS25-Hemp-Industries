@@ -1,2 +1,6 @@
-# FS25-Hemp-Industries
-Fs25 mod
+
+🚧 Alpha Development
+🖥️ PC Compatible
+🎮 Console Goal
+🌱 Industrial Hemp Expansion
+🚜 Green Horizon Industries
