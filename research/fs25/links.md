@@ -1,4 +1,13 @@
 # FS25 Research Links
+## FS25 LuaDoc - Fill Types
+
+FillTypeDesc:
+https://gdn.giants-software.com/documentation_scripting_fs25.php?version=script&category=36&class=408
+
+Important:
+FS25 fill types use child nodes for image, physics, and economy.
+Use this before finalizing mod/xml/fillTypes.xml.
+
 LUADOC - FARMING SIMULATOR 22
 ##https://gdn.giants-software.com/documentation_scripting_fs22.php
 
