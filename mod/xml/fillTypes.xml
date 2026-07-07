@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+  
+    <!--
+        Green Horizon Industries
+        Core fill types — Alpha 0.0.1
+
+        GHI_ prefix prevents conflicts with other hemp-related mods.
+        Player-facing names remain clean and readable.
+    -->
+
+    <fillTypes>
+
+        <fillType
+            name="GHI_HEMP"
+            title="Industrial Hemp"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <!-- Temporary Alpha price: rebalance after field testing -->
+            <economy pricePerLiter="0.45"/>
+
+            <!-- Approximate loose harvested material density -->
+            <physics massPerLiter="0.12"/>
+
+        </fillType>
+
+        <fillType
+            name="GHI_HEMP_SEED"
+            title="Hemp Seed"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <!-- Temporary Alpha price -->
+            <economy pricePerLiter="0.85"/>
+
+            <physics massPerLiter="0.62"/>
+
+        </fillType>
+
+        <fillType
+            name="GHI_HEMP_BIOMASS"
+            title="Hemp Biomass"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <!-- Temporary Alpha price -->
+            <economy pricePerLiter="0.18"/>
+
+            <physics massPerLiter="0.08"/>
+
+        </fillType>
+
+    </fillTypes>
+
+</map>
