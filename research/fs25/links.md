@@ -1,9 +1,19 @@
 # FS25 Research Links
-## FS25 LuaDoc - Fill Types
+
+## FS25 Mapping Tutorial - Selling Stations
+https://gdn.giants-software.com/videoTutorials2.php?s=1&p=0&c=7&LANGUAGE=en
+
+Use for:
+- Hemp sell point
+- Eco Materials Depot
+- Fiber buyer
+- Grain/storage triggers
+- Placeable organization
 
 FillTypeDesc:
 https://gdn.giants-software.com/documentation_scripting_fs25.php?version=script&category=36&class=408
 
+## FS25 LuaDoc - Fill Types
 Important:
 FS25 fill types use child nodes for image, physics, and economy.
 Use this before finalizing mod/xml/fillTypes.xml.
