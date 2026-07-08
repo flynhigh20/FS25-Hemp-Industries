@@ -4,6 +4,20 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.1 - Phase 2 Icon Log Fix
+
+### Changed
+- Updated `modDesc.xml` version to `0.2.1.0`.
+- Removed the `iconFilename` reference until `icon_mod.dds` is actually packaged.
+
+### Test Focus
+- Confirm the missing `icon_mod.dds` error is gone.
+- Confirm the mod still loads the 3 fill types.
+- Check whether the Hemp Greenhouse appears in the FS25 construction/store menu.
+- If it does not appear, search the log for `hempGreenhouse.xml`, `storeItem_ghi_hempGreenhouse`, or `production_ghi_hempGreenhouseBasic`.
+
+---
+
 ## Version 0.2.0 - Phase 2 Greenhouse Test Build
 
 ### Added
