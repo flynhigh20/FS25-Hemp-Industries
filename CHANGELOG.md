@@ -4,6 +4,22 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.2 - Phase 2 Store Visibility Test
+
+### Changed
+- Updated `modDesc.xml` descriptor version from `91` to `109` for FS25 1.19.
+- Updated mod version to `0.2.2.0`.
+- Changed Hemp Greenhouse store category from `productionPoints` to `greenhouses` for the next construction-menu test.
+
+### Test Focus
+- Delete the old zip before testing.
+- Confirm the mod list shows version `0.2.2.0`.
+- Check Construction > Production > Greenhouses.
+- If not visible, also check Construction > Production > Factories / Production Points.
+- Search the log for `Unknown category`, `Invalid store item`, or `hempGreenhouse.xml`.
+
+---
+
 ## Version 0.2.1 - Phase 2 Icon Log Fix
 
 ### Changed
