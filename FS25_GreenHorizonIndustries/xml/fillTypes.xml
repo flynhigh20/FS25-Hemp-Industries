@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+
+    <!-- Green Horizon Industries
+         Phase 1 / Alpha 0.1 — initial fill type registration -->
+
+    <fillTypes>
+
+        <!-- Main field-crop harvest material.
+             Future hemp foliage/fruit type should also use HEMP for consistency. -->
+        <fillType
+            name="HEMP"
+            title="Industrial Hemp"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <economy pricePerLiter="0.45"/>
+            <physics massPerLiter="0.12"/>
+
+        </fillType>
+
+        <!-- Future greenhouse / planting material -->
+        <fillType
+            name="GHI_HEMP_SEED"
+            title="Hemp Seed"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <economy pricePerLiter="0.85"/>
+            <physics massPerLiter="0.62"/>
+
+        </fillType>
+
+        <!-- Future fiber-mill / biofuel by-product -->
+        <fillType
+            name="GHI_HEMP_BIOMASS"
+            title="Hemp Biomass"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+
+            <economy pricePerLiter="0.18"/>
+            <physics massPerLiter="0.08"/>
+
+        </fillType>
+
+    </fillTypes>
+
+</map>
