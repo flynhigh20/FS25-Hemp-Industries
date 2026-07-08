@@ -4,6 +4,26 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.0 - Phase 2 Greenhouse Test Build
+
+### Added
+- Hemp Greenhouse production placeable XML.
+- Store item wiring in `modDesc.xml`.
+- Localized text entries for the greenhouse store item, function text, and production name.
+- Greenhouse recipe balance notes XML.
+
+### Changed
+- Updated `modDesc.xml` version to `0.2.0.0`.
+- README now tracks the successful Phase 1 fill type load and Phase 2 greenhouse test scope.
+- Roadmap now marks the first successful fill type load.
+
+### Test Focus
+- Confirm the Hemp Greenhouse appears in the FS25 construction/store menu.
+- Watch the FS25 log for errors around `placeables/greenhouses/hempGreenhouse.xml`.
+- Confirm whether the temporary base-game greenhouse visual path resolves.
+
+---
+
 ## Version 0.1.0 - Phase 1 Foundation
 
 ### Added
