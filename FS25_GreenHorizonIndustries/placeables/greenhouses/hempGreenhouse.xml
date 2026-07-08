@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<placeable type="productionPoint">
+
+    <!-- Green Horizon Industries
+         Phase 2 / Alpha 0.2 — hemp greenhouse production test shell
+
+         This file is intentionally simple for the first greenhouse load test.
+         If FS25 reports missing nodes or schema fields, the game log should point
+         directly at this file so we can tighten the production-point XML next. -->
+
+    <storeData>
+        <name>$l10n_storeItem_ghi_hempGreenhouse</name>
+        <functions>
+            <function>$l10n_function_ghi_hempGreenhouse</function>
+        </functions>
+        <image>$data/store/ui/greenhouse.png</image>
+        <price>36000</price>
+        <dailyUpkeep>24</dailyUpkeep>
+        <lifetime>1000</lifetime>
+        <rotation>0</rotation>
+        <brand>NONE</brand>
+        <species>placeable</species>
+        <category>productionPoints</category>
+        <canBeSold>true</canBeSold>
+        <showInStore>true</showInStore>
+    </storeData>
+
+    <base>
+        <!-- Temporary base-game visual reference for Phase 2 testing.
+             Replace with original Green Horizon Industries model later. -->
+        <filename>$data/placeables/mapUS/greenhouses/greenhouseSmall/greenhouseSmall.i3d</filename>
+        <canBeRenamed>true</canBeRenamed>
+    </base>
+
+    <productionPoint>
+        <productions>
+            <production
+                id="ghi_hemp_greenhouse_basic"
+                name="$l10n_production_ghi_hempGreenhouseBasic"
+                cyclesPerHour="24"
+                costsPerActiveHour="18">
+
+                <inputs>
+                    <input fillType="WATER" amount="20"/>
+                    <input fillType="GHI_HEMP_SEED" amount="4"/>
+                </inputs>
+
+                <outputs>
+                    <output fillType="HEMP" amount="18" sellDirectly="false"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="6" sellDirectly="false"/>
+                </outputs>
+
+            </production>
+        </productions>
+    </productionPoint>
+
+</placeable>
