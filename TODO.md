@@ -9,18 +9,23 @@
 - [x] Roadmap
 - [x] Initial modDesc.xml
 - [x] Initial Fill Types
-- [ ] Verify modDesc.xml in FS25
+- [x] Verify fillTypes.xml loads in FS25
 - [ ] Confirm descVersion against installed FS25 build
 - [ ] Add icon_mod.dds
-- [ ] First Successful Game Load
+- [x] First Successful Fill Type Load
 
 ---
 
-## Phase 2 / Alpha 0.2 — Hemp Systems
+## Phase 2 / Alpha 0.2 — Hemp Greenhouse Systems
 
-- [ ] Greenhouse Production
-- [ ] Hemp pallets
-- [ ] Production inputs/outputs
+- [x] Greenhouse Production test XML
+- [x] Store item wiring in modDesc.xml
+- [x] Production inputs/outputs draft
+- [x] Recipe balance notes
+- [ ] Verify greenhouse appears in FS25 store
+- [ ] Confirm temporary greenhouse visual path
+- [ ] Add Hemp pallets
+- [ ] Add storage/loading triggers
 - [ ] Sell Points
 - [ ] Economy Balancing
 
