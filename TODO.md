@@ -1,26 +1,39 @@
 # FS25 Hemp Industries Roadmap
 
-## Alpha 0.1
+## Phase 1 / Alpha 0.1 — Foundation
 
 - [x] GitHub Repository
 - [x] Folder Structure
+- [x] Rename active mod folder to `FS25_GreenHorizonIndustries/`
 - [x] Project Branding
 - [x] Roadmap
-- [ ] Verify modDesc.xml
-- [ ] Add Fill Types
-- [ ] Add Fruit Types
-- [ ] Register Crop
-- [ ] Create Crop Textures
-- [ ] Greenhouse Production
+- [x] Initial modDesc.xml
+- [x] Initial Fill Types
+- [ ] Verify modDesc.xml in FS25
+- [ ] Confirm descVersion against installed FS25 build
+- [ ] Add icon_mod.dds
 - [ ] First Successful Game Load
 
 ---
 
-## Alpha 0.2
+## Phase 2 / Alpha 0.2 — Hemp Systems
 
-- [ ] Production Chains
+- [ ] Greenhouse Production
+- [ ] Hemp pallets
+- [ ] Production inputs/outputs
 - [ ] Sell Points
 - [ ] Economy Balancing
+
+---
+
+## Phase 3 / Alpha 0.3 — Field Crop Extension
+
+- [ ] Add Fruit Types
+- [ ] Register Industrial Hemp crop
+- [ ] Create Crop Textures
+- [ ] Growth stages
+- [ ] Harvest setup
+- [ ] Precision Farming experiments
 
 ---
 
