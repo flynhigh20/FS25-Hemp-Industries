@@ -35,6 +35,26 @@ Includes:
 - Map-specific fruit registration or Lua-based integration
 - Precision Farming experiments
 
+## Active Phase 2 Test Loop
+
+The first greenhouse production test uses this loop:
+
+```text
+WATER + GHI_HEMP_SEED -> HEMP + GHI_HEMP_BIOMASS
+```
+
+The active placeable XML is:
+
+```text
+FS25_GreenHorizonIndustries/placeables/greenhouses/hempGreenhouse.xml
+```
+
+Recipe balancing notes are kept in:
+
+```text
+FS25_GreenHorizonIndustries/xml/productions/hempGreenhouseRecipes.xml
+```
+
 ## Development Rule
 
 Do not modify Farming Simulator 25 base-game files.
@@ -49,7 +69,8 @@ Do not upload GIANTS game files or extracted assets to this public repository.
 - Research library started
 - FS25 test environment being installed
 - Core Pack architecture selected
-- Phase 1 foundation started
+- Phase 1 fill type load confirmed in FS25 log
 - Active mod folder renamed to `FS25_GreenHorizonIndustries/`
 - Initial fill types added
+- Phase 2 hemp greenhouse test XML added
 - Field Crop Extension deferred until verified against FS25 map files
