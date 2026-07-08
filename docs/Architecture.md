@@ -5,6 +5,14 @@
 Create an industrial-hemp expansion for Farming Simulator 25 focused on
 agriculture, sustainable materials, production chains, and original equipment.
 
+## Active Mod Folder
+
+```text
+FS25_GreenHorizonIndustries/
+```
+
+This is the active mod folder and future zip root for FS25 testing.
+
 ## Release Structure
 
 ### Green Horizon Core Pack
@@ -41,4 +49,7 @@ Do not upload GIANTS game files or extracted assets to this public repository.
 - Research library started
 - FS25 test environment being installed
 - Core Pack architecture selected
+- Phase 1 foundation started
+- Active mod folder renamed to `FS25_GreenHorizonIndustries/`
+- Initial fill types added
 - Field Crop Extension deferred until verified against FS25 map files
