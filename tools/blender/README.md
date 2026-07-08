@@ -1,18 +1,42 @@
 # Blender Tool Notes
 
-## Current Script Order
+## Current Scripts
 
-Run the greenhouse generator first:
+### Greenhouse
+
+Run the greenhouse generator when you want the main Green Horizon greenhouse model:
 
 ```text
 create_green_horizon_greenhouse.py
 ```
 
-That script creates the greenhouse model scene from scratch and saves a `.blend` file.
+It creates the greenhouse model scene from scratch, assigns procedural materials, and saves:
 
-If an animation or detail script is added later, run it second unless its header says otherwise. Most animation/detail scripts will expect the greenhouse objects to already exist, so running them first can fail or create empty animation tracks.
+```text
+assets/blender/green_horizon_hemp_greenhouse.blend
+```
 
-## Safe Workflow
+### Product Pallets
+
+Run the pallet generator when you want the product pallet concept models:
+
+```text
+create_green_horizon_pallets.py
+```
+
+It creates Industrial Hemp, Hemp Biomass, and Hemp Seed Input pallets with readable labels and procedural materials, then saves:
+
+```text
+assets/blender/green_horizon_product_pallets.blend
+```
+
+## Script Order
+
+The greenhouse script and pallet script are separate generators. They do not need to be run in a specific order unless you intentionally want to combine scenes later.
+
+For greenhouse animation/detail scripts, run the greenhouse generator first. Most animation/detail scripts expect the greenhouse objects to already exist, so running them first can fail or create empty animation tracks.
+
+## Safe Greenhouse Workflow
 
 1. Open Blender.
 2. Run `create_green_horizon_greenhouse.py`.
@@ -21,6 +45,14 @@ If an animation or detail script is added later, run it second unless its header
 5. Run any future animation/detail script.
 6. Save another copy.
 7. Export to `.i3d` only after the model looks right in Blender.
+
+## Safe Pallet Workflow
+
+1. Open Blender.
+2. Run `create_green_horizon_pallets.py`.
+3. Confirm pallet text is readable from the front and top.
+4. Save the `.blend`.
+5. Export to `.i3d` only after the pallets look right in Blender.
 
 ## Economy / Crop Reminder
 
