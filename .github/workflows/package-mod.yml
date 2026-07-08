@@ -1,0 +1,26 @@
+name: Package FS25 Mod
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  package:
+    name: Build drop-in mod zip
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build FS25_Hemp_Industries.zip
+        run: python3 tools/package_mod.py --mod-folder FS25_GreenHorizonIndustries --output dist/FS25_Hemp_Industries.zip
+
+      - name: Upload drop-in mod zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: FS25_Hemp_Industries
+          path: dist/FS25_Hemp_Industries.zip
+          if-no-files-found: error
