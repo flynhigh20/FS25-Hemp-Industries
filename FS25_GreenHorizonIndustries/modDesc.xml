@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.0.0</version>
+    <version>0.2.1.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,11 +13,11 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2 test build: initial fill types plus a hemp greenhouse production placeable.
+Phase 2.1 test build: removes missing icon reference and keeps hemp greenhouse store wiring active.
         ]]></en>
     </description>
 
-    <iconFilename>icon_mod.dds</iconFilename>
+    <!-- iconFilename intentionally omitted until icon_mod.dds is packaged. -->
 
     <multiplayer supported="true"/>
 
