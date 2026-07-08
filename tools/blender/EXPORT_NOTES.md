@@ -2,7 +2,7 @@
 
 ## Orientation
 
-The greenhouse generator script builds the model upright in Blender with:
+The current repo generator script is intended to build the greenhouse flat in Blender with:
 
 ```text
 X = width / left-right
@@ -10,40 +10,49 @@ Y = depth / front-back
 Z = height / up-down
 ```
 
-That means the greenhouse should sit flat on the floor inside Blender.
+The concrete slab should sit flat on the Blender grid. If the model is standing up before export, that is a Blender model-orientation issue, not a GIANTS export issue.
 
-If the model stands up sideways after export/import into GIANTS Editor or FS25, do not redesign the model. That means the export axis conversion needs correction.
+## If The Greenhouse Is Standing Up In Blender
 
-## Axis Fix To Try
+Try this first:
 
-For a Blender Z-up model going into a GIANTS/FS-style Y-up scene, try rotating the exported root object:
+1. Press `A` to select all greenhouse objects.
+2. Press `R`.
+3. Press `X`.
+4. Type `90`.
+5. Press `Enter`.
+6. If it flips the wrong way, undo and use `-90` instead.
+7. Once the slab is flat on the grid, press `Ctrl + A` and choose `Rotation` to apply the rotation.
+8. Save a fixed copy of the blend file.
+
+The most likely fixes are:
 
 ```text
-X rotation: 90 degrees
-Y rotation: 0 degrees
-Z rotation: 0 degrees
+Rotate X 90 degrees
+or
+Rotate X -90 degrees
 ```
 
-If it flips the wrong way, use:
+If X does not fix it, try the same idea on Y:
 
 ```text
-X rotation: -90 degrees
-Y rotation: 0 degrees
-Z rotation: 0 degrees
+Rotate Y 90 degrees
+or
+Rotate Y -90 degrees
 ```
 
-Then apply transforms before the final i3d export if the exporter requires applied transforms.
+## After Blender Looks Correct
 
-## Practical Workflow
+Only export after the model sits correctly in Blender.
 
-1. Run `tools/blender/create_green_horizon_greenhouse.py` in Blender.
-2. Confirm the concrete slab is flat on the Blender grid.
-3. Export using the GIANTS Blender Exporter.
-4. Open the i3d in GIANTS Editor.
-5. If it is standing upright/sideways, rotate the root object 90 degrees on X.
-6. Re-export once the orientation is correct.
+Then:
 
-## Important
+1. Export using the GIANTS Blender Exporter.
+2. Open the i3d in GIANTS Editor.
+3. If it stands up only after export, fix the exporter axis/root object.
+4. Re-export once the orientation is correct.
+
+## Current Repo Status
 
 The in-game Phase 2 XML currently uses a temporary base-game greenhouse visual path. The Blender greenhouse script is the real original model direction, but it still needs:
 
