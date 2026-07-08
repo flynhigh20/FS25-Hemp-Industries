@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<modDesc descVersion="91">
+<modDesc descVersion="109">
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.1.0</version>
+    <version>0.2.2.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,7 +13,7 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.1 test build: removes missing icon reference and keeps hemp greenhouse store wiring active.
+Phase 2.2 test build: updates modDesc for FS25 1.19 and moves Hemp Greenhouse toward the greenhouse construction category.
         ]]></en>
     </description>
 
