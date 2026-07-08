@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.1.0.0</version>
+    <version>0.2.0.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,7 +13,7 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 1 foundation build: mod descriptor, initial fill types, and clean mod folder layout.
+Phase 2 test build: initial fill types plus a hemp greenhouse production placeable.
         ]]></en>
     </description>
 
@@ -21,6 +21,22 @@ Phase 1 foundation build: mod descriptor, initial fill types, and clean mod fold
 
     <multiplayer supported="true"/>
 
+    <l10n>
+        <text name="storeItem_ghi_hempGreenhouse">
+            <en>Hemp Greenhouse</en>
+        </text>
+        <text name="function_ghi_hempGreenhouse">
+            <en>Grows industrial hemp from water and hemp seed.</en>
+        </text>
+        <text name="production_ghi_hempGreenhouseBasic">
+            <en>Grow Industrial Hemp</en>
+        </text>
+    </l10n>
+
     <fillTypes filename="xml/fillTypes.xml"/>
+
+    <storeItems>
+        <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
+    </storeItems>
 
 </modDesc>
