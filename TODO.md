@@ -22,6 +22,7 @@
 - [x] Store item wiring in modDesc.xml
 - [x] Production inputs/outputs draft
 - [x] Recipe balance notes
+- [x] Remove missing icon_mod.dds reference until asset is packaged
 - [ ] Verify greenhouse appears in FS25 store
 - [ ] Confirm temporary greenhouse visual path
 - [ ] Add Hemp pallets
