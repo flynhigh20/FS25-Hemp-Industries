@@ -2,11 +2,7 @@
 <placeable type="productionPoint">
 
     <!-- Green Horizon Industries
-         Phase 2 / Alpha 0.2 — hemp greenhouse production test shell
-
-         This file is intentionally simple for the first greenhouse load test.
-         If FS25 reports missing nodes or schema fields, the game log should point
-         directly at this file so we can tighten the production-point XML next. -->
+         Phase 2.2 / Alpha 0.2 — hemp greenhouse construction-menu test shell -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
@@ -20,7 +16,7 @@
         <rotation>0</rotation>
         <brand>NONE</brand>
         <species>placeable</species>
-        <category>productionPoints</category>
+        <category>greenhouses</category>
         <canBeSold>true</canBeSold>
         <showInStore>true</showInStore>
     </storeData>
