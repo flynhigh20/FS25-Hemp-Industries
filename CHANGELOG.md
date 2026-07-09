@@ -4,6 +4,27 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.4 - Phase 2 Blender Roof / Local Descriptor Test
+
+### Changed
+- Updated mod version to `0.2.4.0`.
+- Returned `modDesc.xml` descriptor version to `91` for the current local FS25 test setup.
+- Kept Hemp Greenhouse store category as valid `productionPoints`.
+- Updated Blender greenhouse generator for Blender 4.2 LTS workflow.
+- Removed the floating flat roof panel from the greenhouse concept.
+- Added a real curved polycarbonate roof mesh.
+- Moved roof ribs up so they sit on the wall tops instead of reading as flipped into the body.
+- Kept early top/front greenhouse signs removed.
+
+### Test Focus
+- Delete the old zip/folder before testing.
+- Confirm the mod list shows version `0.2.4.0`.
+- Check Construction > Production > Factories / Production Points.
+- Run the greenhouse generator in Blender 4.2 LTS.
+- Confirm the generated roof is curved and seated on the wall tops.
+
+---
+
 ## Version 0.2.3 - Phase 2 Category Rejection Fix
 
 ### Changed
