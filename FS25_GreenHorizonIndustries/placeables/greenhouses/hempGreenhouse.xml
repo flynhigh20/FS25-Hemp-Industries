@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<placeable type="productionPoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
+<placeable type="greenhouse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
 
     <!-- Green Horizon Industries
-         Phase 2.7 / Alpha 0.2 — hemp greenhouse production-point visibility shell.
+         Phase 2.9 — inactive draft greenhouse XML.
 
-         Keep store category as productionPoints for the productionPoint test.
-         FS25 previously rejected category="greenhouses" when used on this productionPoint shell.
-         The store image temporarily reuses icon_mod.dds so testing only needs one known-good image file.
-         Replace this with a proper store image later. -->
+         This file is intentionally NOT active in modDesc.xml yet.
+         It uses the FS25 greenhouse-style store values from the base glass greenhouse reference:
+         species PLACEABLE, category placeableMisc, and brush tab greenhouses.
+
+         Re-enable only after the original Green Horizon greenhouse .i3d export has matching helper nodes
+         for placement, clear/level areas, triggers, storage, plant nodes, and spawn places. -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
@@ -20,23 +22,32 @@
         <lifetime>1000</lifetime>
         <rotation>0</rotation>
         <brand>NONE</brand>
-        <species>placeable</species>
-        <category>productionPoints</category>
+        <species>PLACEABLE</species>
+        <category>placeableMisc</category>
         <brush>
             <type>placeable</type>
             <category>production</category>
-            <tab>factories</tab>
+            <tab>greenhouses</tab>
         </brush>
         <canBeSold>true</canBeSold>
         <showInStore>true</showInStore>
     </storeData>
 
     <base>
-        <!-- Temporary local placeholder i3d for Phase 2.7 store visibility testing.
-             Replace with original Green Horizon Industries i3d after Blender -> GIANTS export. -->
+        <!-- Replace with original Green Horizon Industries .i3d after Blender -> GIANTS export. -->
         <filename>placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d</filename>
         <canBeRenamed>true</canBeRenamed>
     </base>
+
+    <greenhouse>
+        <plants>
+            <!-- Draft placeholder. Replace with our hemp plant XML after the plant node layout is exported. -->
+            <plant fillType="HEMP" xmlFilename="placeables/greenhouses/plants/hemp/hemp.xml" />
+        </plants>
+        <plantSpaces>
+            <spacesParent node="plantNodes" useRandomYRot="true" />
+        </plantSpaces>
+    </greenhouse>
 
     <productionPoint>
         <productions>
@@ -48,16 +59,38 @@
 
                 <inputs>
                     <input fillType="WATER" amount="20"/>
-                    <input fillType="GHI_HEMP_SEED" amount="4"/>
                 </inputs>
 
                 <outputs>
                     <output fillType="HEMP" amount="18" sellDirectly="false"/>
-                    <output fillType="GHI_HEMP_BIOMASS" amount="6" sellDirectly="false"/>
                 </outputs>
 
             </production>
         </productions>
+
+        <!-- Draft placeholders; require matching i3dMappings after export. -->
+        <!--
+        <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
+            <unloadTrigger exactFillRootNode="exactFillRootNode" fillTypes="WATER" aiNode="unloadTriggerAINode"/>
+        </sellingStation>
+
+        <loadingStation fillTypes="WATER" supportsExtension="true" />
+
+        <palletSpawner>
+            <spawnPlaces>
+                <spawnPlace startNode="spawnPlaceStart01" endNode="spawnPlaceEnd01" />
+            </spawnPlaces>
+        </palletSpawner>
+
+        <storage node="storage" isExtension="false" fillTypes="WATER" fillLevelSyncThreshold="10">
+            <capacity fillType="WATER" capacity="40000" />
+            <capacity fillType="HEMP" capacity="28000" />
+        </storage>
+
+        <playerTrigger node="playerTrigger" />
+        -->
     </productionPoint>
+
+    <!-- Add i3dMappings after the helper nodes exist in the exported .i3d. -->
 
 </placeable>
