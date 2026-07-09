@@ -2,19 +2,19 @@
 <placeable type="productionPoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
 
     <!-- Green Horizon Industries
-         Phase 2.6 / Alpha 0.2 — hemp greenhouse production-point visibility shell.
+         Phase 2.7 / Alpha 0.2 — hemp greenhouse production-point visibility shell.
 
          Keep store category as productionPoints for the productionPoint test.
          FS25 previously rejected category="greenhouses" when used on this productionPoint shell.
-         Store image and i3d now use local mod paths so the test does not depend on missing
-         base-game greenhouse paths. Replace the placeholder i3d after GIANTS export. -->
+         The store image temporarily reuses icon_mod.dds so testing only needs one known-good image file.
+         Replace this with a proper store image later. -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
         <functions>
             <function>$l10n_function_ghi_hempGreenhouse</function>
         </functions>
-        <image>store/store_hempGreenhouse.png</image>
+        <image>icon_mod.dds</image>
         <price>36000</price>
         <dailyUpkeep>24</dailyUpkeep>
         <lifetime>1000</lifetime>
@@ -32,7 +32,7 @@
     </storeData>
 
     <base>
-        <!-- Temporary local placeholder i3d for Phase 2.6 store visibility testing.
+        <!-- Temporary local placeholder i3d for Phase 2.7 store visibility testing.
              Replace with original Green Horizon Industries i3d after Blender -> GIANTS export. -->
         <filename>placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d</filename>
         <canBeRenamed>true</canBeRenamed>
