@@ -45,6 +45,28 @@ dist/FS25_GreenHorizonIndustries.zip
 
 Then you can manually copy that zip into your FS25 mods folder.
 
+## Log Checker
+
+After you run FS25 once, double-click:
+
+```text
+tools/windows/check_fs25_log.bat
+```
+
+This scans the normal FS25 log location:
+
+```text
+Documents/My Games/FarmingSimulator2025/log.txt
+```
+
+It filters for Green Horizon lines, warnings, and errors, then saves a smaller report in:
+
+```text
+Documents/My Games/FarmingSimulator2025/GreenHorizonReports/
+```
+
+Send that report text if the greenhouse does not show or if FS25 throws warnings.
+
 ## Why This Exists
 
 The most common packaging mistake is zipping the parent folder so the zip looks like this:
