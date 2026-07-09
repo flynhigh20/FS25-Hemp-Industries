@@ -2,7 +2,44 @@
 
 Use this after pulling the latest repo.
 
-## 1. Package the Mod
+## 0. Start From The Windows Test Menu
+
+Preferred helper menu:
+
+```text
+tools/windows/green_horizon_test_menu.bat
+```
+
+Recommended order:
+
+```text
+1. Preflight check repo files
+3. Package and install to FS25 mods folder
+4. Check FS25 log after running game
+```
+
+## 1. Preflight Check
+
+Before packaging, run from the menu or double-click:
+
+```text
+tools/windows/preflight_check.bat
+```
+
+This checks:
+
+```text
+modDesc.xml parses
+mod version is 0.2.4.0
+descVersion is 91
+store item target exists
+fillTypes target exists
+greenhouse category is productionPoints
+old rejected greenhouses category is not active
+zip root is correct if dist zip exists
+```
+
+## 2. Package the Mod
 
 Preferred Windows test method:
 
@@ -30,7 +67,7 @@ Open the zip and confirm this is true:
 modDesc.xml is visible immediately at the top of the zip
 ```
 
-## 2. Start FS25
+## 3. Start FS25
 
 In the mod list, confirm the current version is visible:
 
@@ -44,7 +81,7 @@ Current descriptor test value:
 descVersion="91"
 ```
 
-## 3. Confirm Phase 1 Still Works
+## 4. Confirm Phase 1 Still Works
 
 Search the FS25 log for:
 
@@ -60,7 +97,7 @@ tools/windows/check_fs25_log.bat
 
 This creates a filtered report from the FS25 log so you do not have to scroll the whole file.
 
-## 4. Check Greenhouse Visibility
+## 5. Check Greenhouse Visibility
 
 Look in the construction menu, not the vehicle/equipment store:
 
@@ -74,7 +111,7 @@ Expected store item name:
 Hemp Greenhouse
 ```
 
-## 5. If It Does Not Show
+## 6. If It Does Not Show
 
 Run:
 
@@ -99,7 +136,7 @@ Can't load resource
 
 Copy the matching log section or the generated report for debugging.
 
-## 6. Blender Greenhouse Test
+## 7. Blender Greenhouse Test
 
 Use Blender 4.2 LTS for the current FS25/GIANTS workflow.
 
@@ -124,7 +161,7 @@ Visual checks:
 - No top/front signs are present.
 - Materials show in Material Preview or Rendered view.
 
-## 7. Optional GIANTS Helper Marker Test
+## 8. Optional GIANTS Helper Marker Test
 
 Only run this after the greenhouse shape looks right:
 
@@ -147,7 +184,7 @@ Visual checks:
 - Pallet spawn area is visible and not inside the grow beds.
 - Helper labels/placeholders are understood as layout markers, not final visible game signs.
 
-## 8. Blender Pallet Test
+## 9. Blender Pallet Test
 
 Run:
 
@@ -167,7 +204,7 @@ Visual checks:
 - No top pallet signs are present.
 - Materials show in Material Preview or Rendered view.
 
-## 9. GIANTS Editor Prep
+## 10. GIANTS Editor Prep
 
 Do not export to `.i3d` until the Blender model shape is approved.
 
