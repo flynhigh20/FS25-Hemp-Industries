@@ -6,12 +6,12 @@ cd /d "%~dp0"
 echo Green Horizon Industries - Install Loose Folder For GIANTS Icon Generator
 echo.
 echo This will:
-echo   1. Generate temporary alpha icon/store image files if missing
-echo   2. Build the normal zip for backup/testing
-echo   3. Remove old Green Horizon / Hemp Industries zips and loose folders from your FS25 mods folder
-echo   4. Copy a complete unzipped FS25_GreenHorizonIndustries folder into your FS25 mods folder
+echo   1. Build the normal zip for backup/testing
+echo   2. Remove old Green Horizon / Hemp Industries zips and loose folders from your FS25 mods folder
+echo   3. Copy a complete unzipped FS25_GreenHorizonIndustries folder into your FS25 mods folder
 echo.
-echo Use this option when you want GIANTS Icon Generator to see the mod.
+echo This does NOT generate icons or store images.
+echo Use the official GIANTS Icon Generator for icon_mod.dds later.
 echo Use package_and_install_mod.bat when you only want normal zipped FS25 testing.
 echo.
 pause
