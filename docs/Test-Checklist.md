@@ -52,6 +52,14 @@ Search the FS25 log for:
 Loaded 3 fill types from mod
 ```
 
+Easy Windows option:
+
+```text
+tools/windows/check_fs25_log.bat
+```
+
+This creates a filtered report from the FS25 log so you do not have to scroll the whole file.
+
 ## 4. Check Greenhouse Visibility
 
 Look in the construction menu, not the vehicle/equipment store:
@@ -68,7 +76,13 @@ Hemp Greenhouse
 
 ## 5. If It Does Not Show
 
-Search the FS25 log for these exact strings:
+Run:
+
+```text
+tools/windows/check_fs25_log.bat
+```
+
+Or manually search the FS25 log for these exact strings:
 
 ```text
 FS25_GreenHorizonIndustries
@@ -79,10 +93,11 @@ Invalid store item
 Invalid placeable
 Unknown category
 Invalid category
+No categories defined
 Can't load resource
 ```
 
-Copy the matching log section for debugging.
+Copy the matching log section or the generated report for debugging.
 
 ## 6. Blender Greenhouse Test
 
@@ -109,7 +124,30 @@ Visual checks:
 - No top/front signs are present.
 - Materials show in Material Preview or Rendered view.
 
-## 7. Blender Pallet Test
+## 7. Optional GIANTS Helper Marker Test
+
+Only run this after the greenhouse shape looks right:
+
+```text
+tools/blender/add_giants_editor_helpers.py
+```
+
+Expected output:
+
+```text
+assets/blender/green_horizon_hemp_greenhouse_giants_helpers.blend
+```
+
+Visual checks:
+
+- New collection exists: `GHI_GIANTS_EDITOR_HELPERS`.
+- Collision placeholder surrounds the greenhouse footprint.
+- Player trigger is near the front door.
+- Water and seed unload markers are on the side/back service area.
+- Pallet spawn area is visible and not inside the grow beds.
+- Helper labels/placeholders are understood as layout markers, not final visible game signs.
+
+## 8. Blender Pallet Test
 
 Run:
 
@@ -129,7 +167,7 @@ Visual checks:
 - No top pallet signs are present.
 - Materials show in Material Preview or Rendered view.
 
-## 8. GIANTS Editor Prep
+## 9. GIANTS Editor Prep
 
 Do not export to `.i3d` until the Blender model shape is approved.
 
