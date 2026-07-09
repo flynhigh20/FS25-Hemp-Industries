@@ -8,7 +8,7 @@
 
 ## Current Build
 
-**Phase 2.6 / Alpha 0.2 safe Blender greenhouse rebuild and store visibility retest is active.**
+**Phase 2.6 / Alpha 0.2 safe Blender greenhouse rebuild, generated icon, and store visibility retest is active.**
 
 The active mod folder is:
 
@@ -69,12 +69,14 @@ Info: Loaded 3 fill types from mod
 
 ## Phase 2.6 Scope
 
-Phase 2.6 starts the Blender greenhouse model over with a safe rebuild while keeping the current FS25 store visibility retest path.
+Phase 2.6 starts the Blender greenhouse model over with a safe rebuild, adds a packaged icon filename, and keeps the current FS25 store visibility retest path.
 
 Included now:
 
-- `modDesc.xml` remains mod version `0.2.5.0` for the current FS25 package retest
+- `modDesc.xml` updated to mod version `0.2.6.0`
 - `modDesc.xml` descriptor version remains `91` for the current local FS25 test setup
+- `modDesc.xml` now includes `<iconFilename>icon_mod.dds</iconFilename>`
+- Windows package/install helper generates an alpha placeholder `icon_mod.dds` before zipping if it is missing
 - Windows package/install helper removes old loose mod folders as well as old zips
 - Store item wiring for a Hemp Greenhouse
 - Hemp Greenhouse category kept as `productionPoints` for the production-point shell
@@ -105,10 +107,10 @@ Included now:
 First confirm FS25 shows the mod version as:
 
 ```text
-0.2.5.0
+0.2.6.0
 ```
 
-If FS25 still shows the mod as version `0.2.2.0`, `0.2.3.0`, or `0.2.4.0`, the old zip or loose folder is still installed.
+If FS25 still shows the mod as version `0.2.2.0`, `0.2.3.0`, `0.2.4.0`, or `0.2.5.0`, the old zip or loose folder is still installed.
 
 Then check the construction menu:
 
@@ -118,13 +120,15 @@ Construction > Production > Factories / Production Points
 
 Still pending:
 
-- Verify FS25 loads version `0.2.5.0`
+- Verify FS25 loads version `0.2.6.0`
+- Verify the missing icon filename error is gone
 - Verify the greenhouse appears in the FS25 construction menu under Production/Factories
 - Decide whether the later true greenhouse system should use `PlaceableGreenhouse` / greenhouse plant schema instead of the current productionPoint shell
 - Confirm the temporary base-game greenhouse visual path loads
 - Approve the safe rebuilt Blender greenhouse shape
+- Replace the alpha placeholder icon with a real GIANTS-generated DDS icon
 - Add original Green Horizon greenhouse model/assets to the placeable XML after i3d export
-- Add real DDS store image and icon files
+- Add real DDS store image files
 - Add pallets/storage triggers after first placeable test
 - Add sell points and economy balancing
 - Add upgradeable-style greenhouse modules after greenhouse test passes
