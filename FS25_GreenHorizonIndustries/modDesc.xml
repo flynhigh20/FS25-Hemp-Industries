@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.6.0</version>
+    <version>0.2.7.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,7 +13,7 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.6 test build: adds a packaged icon filename, uses the safe rebuilt Blender greenhouse generator, keeps descriptor version 91 for the current local FS25 setup, and keeps the Hemp Greenhouse store item wired for the next visibility test.
+Phase 2.7 test build: active in-game greenhouse/store placement is paused while the original Blender greenhouse model is rebuilt and approved. The mod icon remains packaged, but the greenhouse store item will be re-enabled after the real Green Horizon .i3d export and XML are ready.
         ]]></en>
     </description>
 
@@ -33,10 +33,15 @@ Phase 2.6 test build: adds a packaged icon filename, uses the safe rebuilt Blend
         </text>
     </l10n>
 
+    <!-- Phase 2.7: paused while the Blender model/i3d is rebuilt.
+         Re-enable these after the real Green Horizon greenhouse .i3d and XML are ready.
+
     <fillTypes filename="xml/fillTypes.xml"/>
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
     </storeItems>
+
+    -->
 
 </modDesc>
