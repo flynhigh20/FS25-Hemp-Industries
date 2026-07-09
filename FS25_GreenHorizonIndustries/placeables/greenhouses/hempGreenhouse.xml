@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<placeable type="productionPoint">
+<placeable type="productionPoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
 
     <!-- Green Horizon Industries
-         Phase 2.3 / Alpha 0.2 — hemp greenhouse production-point test shell.
+         Phase 2.5 / Alpha 0.2 — hemp greenhouse production-point test shell.
 
-         FS25 1.19 rejected category="greenhouses" with:
-         Invalid category 'greenhouses' in store data.
-         Keep the item in a known production store category until the full custom greenhouse
-         placeable schema is ready. -->
+         Keep store category as productionPoints for the productionPoint test.
+         FS25 previously rejected category="greenhouses" when used on this productionPoint shell.
+         The old CBD/oil plant XML showed that production placeables should also include
+         a brush category/tab block for Construction > Production > Factories placement. -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
@@ -22,6 +22,11 @@
         <brand>NONE</brand>
         <species>placeable</species>
         <category>productionPoints</category>
+        <brush>
+            <type>placeable</type>
+            <category>production</category>
+            <tab>factories</tab>
+        </brush>
         <canBeSold>true</canBeSold>
         <showInStore>true</showInStore>
     </storeData>
