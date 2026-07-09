@@ -7,6 +7,48 @@ This project has two packaging options:
 
 Use the Windows launchers if you are just testing the mod locally.
 
+## One Menu For Testing
+
+Double-click:
+
+```text
+tools/windows/green_horizon_test_menu.bat
+```
+
+This menu lets you run:
+
+```text
+Preflight check
+Package only
+Package and install
+FS25 log check
+Open docs
+```
+
+This is the easiest starting point if you do not want to remember each helper file name.
+
+## Preflight Check
+
+Before opening FS25, run this from the test menu or double-click:
+
+```text
+tools/windows/preflight_check.bat
+```
+
+It checks the repo/mod folder for common problems:
+
+```text
+modDesc.xml exists at the mod root
+modDesc.xml parses as XML
+mod version is 0.2.4.0
+descVersion is 91
+store item XML target exists
+fillTypes XML target exists
+greenhouse category is productionPoints
+rejected greenhouses category is not still active
+dist zip root is correct if a zip already exists
+```
+
 ## Easiest Option: Package and Install
 
 Double-click:
