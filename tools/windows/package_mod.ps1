@@ -56,34 +56,29 @@ function New-PlaceholderDdsIcon {
     $dataSize = $width * $height * $bytesPerPixel
     $buffer = New-Object byte[] ($headerSize + $dataSize)
 
-    # Magic: DDS
     $buffer[0] = [byte][char]'D'
     $buffer[1] = [byte][char]'D'
     $buffer[2] = [byte][char]'S'
     $buffer[3] = 32
 
-    # DDS_HEADER
-    Write-UInt32LE $buffer 4 124                  # dwSize
-    Write-UInt32LE $buffer 8 0x0000100F           # dwFlags: CAPS | HEIGHT | WIDTH | PITCH | PIXELFORMAT
-    Write-UInt32LE $buffer 12 $height             # dwHeight
-    Write-UInt32LE $buffer 16 $width              # dwWidth
-    Write-UInt32LE $buffer 20 ($width * 4)        # dwPitchOrLinearSize
+    Write-UInt32LE $buffer 4 124
+    Write-UInt32LE $buffer 8 0x0000100F
+    Write-UInt32LE $buffer 12 $height
+    Write-UInt32LE $buffer 16 $width
+    Write-UInt32LE $buffer 20 ($width * 4)
 
-    # DDS_PIXELFORMAT at offset 76
-    Write-UInt32LE $buffer 76 32                  # dwSize
-    Write-UInt32LE $buffer 80 0x00000041          # dwFlags: ALPHAPIXELS | RGB
-    Write-UInt32LE $buffer 88 32                  # dwRGBBitCount
-    Write-UInt32LE $buffer 92 0x00FF0000          # R mask
-    Write-UInt32LE $buffer 96 0x0000FF00          # G mask
-    Write-UInt32LE $buffer 100 0x000000FF         # B mask
-    Write-UInt32LE $buffer 104 0xFF000000         # A mask
-    Write-UInt32LE $buffer 108 0x00001000         # dwCaps: TEXTURE
+    Write-UInt32LE $buffer 76 32
+    Write-UInt32LE $buffer 80 0x00000041
+    Write-UInt32LE $buffer 88 32
+    Write-UInt32LE $buffer 92 0x00FF0000
+    Write-UInt32LE $buffer 96 0x0000FF00
+    Write-UInt32LE $buffer 100 0x000000FF
+    Write-UInt32LE $buffer 104 0xFF000000
+    Write-UInt32LE $buffer 108 0x00001000
 
-    # Pixel data: simple dark green icon with lighter center mark.
     for ($y = 0; $y -lt $height; $y++) {
         for ($x = 0; $x -lt $width; $x++) {
             $offset = $headerSize + (($y * $width + $x) * $bytesPerPixel)
-
             $border = ($x -lt 10 -or $x -gt ($width - 11) -or $y -lt 10 -or $y -gt ($height - 11))
             $center = ($x -gt 72 -and $x -lt 184 -and $y -gt 72 -and $y -lt 184)
             $stripe = ([Math]::Abs($x - $y) -lt 10)
@@ -98,7 +93,6 @@ function New-PlaceholderDdsIcon {
                 $r = 12; $g = 42; $b = 24
             }
 
-            # Byte order for A8R8G8B8 in little-endian storage: B G R A
             $buffer[$offset + 0] = [byte]$b
             $buffer[$offset + 1] = [byte]$g
             $buffer[$offset + 2] = [byte]$r
@@ -107,6 +101,77 @@ function New-PlaceholderDdsIcon {
     }
 
     [System.IO.File]::WriteAllBytes($IconPath, $buffer)
+}
+
+function New-PlaceholderStorePng {
+    param([string]$ImagePath)
+
+    Add-Type -AssemblyName System.Drawing
+
+    $dir = Split-Path -Parent $ImagePath
+    New-Item -ItemType Directory -Force -Path $dir | Out-Null
+
+    $bitmap = New-Object System.Drawing.Bitmap 512, 512
+    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+
+    $bg = [System.Drawing.Color]::FromArgb(255, 12, 42, 24)
+    $panel = [System.Drawing.Color]::FromArgb(255, 37, 120, 55)
+    $accent = [System.Drawing.Color]::FromArgb(255, 155, 220, 130)
+    $dark = [System.Drawing.Color]::FromArgb(255, 8, 22, 12)
+    $white = [System.Drawing.Color]::FromArgb(255, 235, 250, 225)
+
+    $graphics.Clear($bg)
+
+    $brushPanel = New-Object System.Drawing.SolidBrush $panel
+    $brushAccent = New-Object System.Drawing.SolidBrush $accent
+    $brushDark = New-Object System.Drawing.SolidBrush $dark
+    $brushWhite = New-Object System.Drawing.SolidBrush $white
+    $penAccent = New-Object System.Drawing.Pen $accent, 10
+    $penWhite = New-Object System.Drawing.Pen $white, 5
+
+    $graphics.FillRectangle($brushPanel, 52, 102, 408, 290)
+    $graphics.DrawRectangle($penAccent, 52, 102, 408, 290)
+
+    # Simple greenhouse roof and frame.
+    $points = @(
+        [System.Drawing.Point]::new(52, 102),
+        [System.Drawing.Point]::new(256, 36),
+        [System.Drawing.Point]::new(460, 102)
+    )
+    $graphics.DrawLines($penAccent, $points)
+    $graphics.DrawLine($penWhite, 256, 36, 256, 392)
+    $graphics.DrawLine($penWhite, 154, 102, 154, 392)
+    $graphics.DrawLine($penWhite, 358, 102, 358, 392)
+    $graphics.DrawLine($penWhite, 52, 242, 460, 242)
+
+    # Grow beds.
+    $graphics.FillRectangle($brushDark, 115, 330, 282, 44)
+    $graphics.FillEllipse($brushAccent, 150, 285, 34, 34)
+    $graphics.FillEllipse($brushAccent, 215, 276, 34, 34)
+    $graphics.FillEllipse($brushAccent, 280, 285, 34, 34)
+    $graphics.FillEllipse($brushAccent, 345, 276, 34, 34)
+
+    $fontTitle = New-Object System.Drawing.Font "Arial", 34, ([System.Drawing.FontStyle]::Bold)
+    $fontSmall = New-Object System.Drawing.Font "Arial", 24, ([System.Drawing.FontStyle]::Bold)
+    $format = New-Object System.Drawing.StringFormat
+    $format.Alignment = [System.Drawing.StringAlignment]::Center
+    $graphics.DrawString("GHI", $fontTitle, $brushWhite, [System.Drawing.RectangleF]::new(0, 405, 512, 45), $format)
+    $graphics.DrawString("HEMP GREENHOUSE", $fontSmall, $brushWhite, [System.Drawing.RectangleF]::new(0, 452, 512, 45), $format)
+
+    $bitmap.Save($ImagePath, [System.Drawing.Imaging.ImageFormat]::Png)
+
+    $graphics.Dispose()
+    $bitmap.Dispose()
+    $brushPanel.Dispose()
+    $brushAccent.Dispose()
+    $brushDark.Dispose()
+    $brushWhite.Dispose()
+    $penAccent.Dispose()
+    $penWhite.Dispose()
+    $fontTitle.Dispose()
+    $fontSmall.Dispose()
+    $format.Dispose()
 }
 
 function Ensure-ModIcon {
@@ -119,6 +184,19 @@ function Ensure-ModIcon {
     }
     else {
         Write-Host "Icon exists: $iconPath" -ForegroundColor Green
+    }
+}
+
+function Ensure-StoreImage {
+    param([string]$ModFolder)
+
+    $imagePath = Join-Path $ModFolder "store\store_hempGreenhouse.png"
+    if (-not (Test-Path $imagePath)) {
+        New-PlaceholderStorePng -ImagePath $imagePath
+        Write-Host "Generated alpha placeholder store image: $imagePath" -ForegroundColor Yellow
+    }
+    else {
+        Write-Host "Store image exists: $imagePath" -ForegroundColor Green
     }
 }
 
@@ -181,6 +259,7 @@ if (-not (Test-Path $modDescPath)) {
 }
 
 Ensure-ModIcon -ModFolder $modFolder
+Ensure-StoreImage -ModFolder $modFolder
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
