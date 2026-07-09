@@ -30,12 +30,11 @@ This checks:
 
 ```text
 modDesc.xml parses
-mod version is 0.2.4.0
+mod version is 0.2.5.0
 descVersion is 91
 store item target exists
 fillTypes target exists
 greenhouse category is productionPoints
-old rejected greenhouses category is not active
 zip root is correct if dist zip exists
 ```
 
@@ -47,7 +46,7 @@ Preferred Windows test method:
 tools/windows/package_and_install_mod.bat
 ```
 
-This builds and installs the zip into the default FS25 mods folder.
+This builds and installs the zip into the default FS25 mods folder. It also removes old loose mod folders and old zips for the Green Horizon test names.
 
 If you only want to create the zip:
 
@@ -72,8 +71,10 @@ modDesc.xml is visible immediately at the top of the zip
 In the mod list, confirm the current version is visible:
 
 ```text
-0.2.4.0
+0.2.5.0
 ```
+
+If FS25 still shows `0.2.2.0`, `0.2.3.0`, or `0.2.4.0`, an old zip or loose folder is still being loaded.
 
 Current descriptor test value:
 
@@ -110,6 +111,8 @@ Expected store item name:
 ```text
 Hemp Greenhouse
 ```
+
+Note: the current active XML is still a `productionPoint` shell. A true greenhouse tab/category test probably needs the later `PlaceableGreenhouse` / greenhouse plant schema instead of only changing the store category text.
 
 ## 6. If It Does Not Show
 
@@ -155,8 +158,8 @@ assets/blender/green_horizon_hemp_greenhouse.blend
 Visual checks:
 
 - Slab sits flat on the Blender grid.
-- Roof is curved, not flat.
-- Roof sits on the wall tops.
+- Roof uses the restored tall original arch/rib shape.
+- Ribs are adjustable from constants near the top of the script.
 - Roof is not flipped into the building.
 - No top/front signs are present.
 - Materials show in Material Preview or Rendered view.
