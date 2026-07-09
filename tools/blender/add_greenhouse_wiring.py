@@ -1,12 +1,11 @@
-# Green Horizon Industries - Add Greenhouse Wiring Helper
+# Green Horizon Industries - Add Greenhouse Light Wiring Helper
 # Run after tools/blender/create_green_horizon_greenhouse.py in Blender 4.2 LTS.
 #
-# This keeps the approved frame-first greenhouse shape and adds only small utility details:
-# - black power conduit from the control box
-# - side power run
-# - short drops to each grow light
-# - small connector blocks
-# - irrigation hose lines along grow beds
+# Simple pass only:
+# - wires for the grow lights
+# - no connector cubes
+# - no irrigation hoses
+# - no extra detail clutter
 
 from __future__ import annotations
 
@@ -35,8 +34,7 @@ REPO_ROOT = find_repo_root()
 BLEND_FILE = REPO_ROOT / "assets" / "blender" / "green_horizon_hemp_greenhouse.blend"
 
 
-def make_mat(name: str, color, roughness: float = 0.75):
-    """Create/reuse material after the target .blend is already open."""
+def make_mat(name: str, color, roughness: float = 0.82):
     mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     mat.use_nodes = True
     bsdf = mat.node_tree.nodes.get("Principled BSDF")
@@ -48,18 +46,10 @@ def make_mat(name: str, color, roughness: float = 0.75):
     return mat
 
 
-def get_detail_materials():
-    """Do not store material globals before open_mainfile; Blender invalidates them."""
-    return {
-        "cable": make_mat("black_electrical_cable_detail", (0.004, 0.004, 0.003, 1.0), 0.82),
-        "hose": make_mat("matte_black_irrigation_hose_detail", (0.006, 0.007, 0.005, 1.0), 0.88),
-        "box": make_mat("dark_connector_box_detail", (0.015, 0.015, 0.012, 1.0), 0.70),
-    }
-
-
 def clear_old_wiring() -> None:
+    prefixes = ("GHI_wire_", "GHI_hose_", "GHI_connector_")
     for obj in list(bpy.context.scene.objects):
-        if obj.name.startswith("GHI_wire_") or obj.name.startswith("GHI_hose_") or obj.name.startswith("GHI_connector_"):
+        if obj.name.startswith(prefixes):
             bpy.data.objects.remove(obj, do_unlink=True)
 
 
@@ -81,93 +71,52 @@ def cable_curve(name: str, points, radius: float, mat):
     return obj
 
 
-def cube(name: str, loc, scale, mat):
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=loc)
-    obj = bpy.context.object
-    obj.name = name
-    obj.dimensions = scale
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    obj.data.materials.append(mat)
-    return obj
-
-
-def add_wiring() -> None:
+def add_light_wires() -> None:
     clear_old_wiring()
-    materials = get_detail_materials()
-    mat_cable = materials["cable"]
-    mat_hose = materials["hose"]
-    mat_box = materials["box"]
+    mat_cable = make_mat("black_electrical_cable_detail", (0.004, 0.004, 0.003, 1.0), 0.82)
 
-    # Main conduit: up from the side control box, then along the left wall/eave.
+    # Main wire run along the side/eave area.
     cable_curve(
-        "GHI_wire_main_conduit_from_control_box",
+        "GHI_wire_main_light_power_run",
         [
             (-3.20, -2.52, 1.55),
             (-3.20, -2.52, 2.24),
             (-3.20, -2.28, 2.36),
-            (-2.60, -2.28, 2.36),
             (-1.40, -2.28, 2.36),
             (0.00, -2.28, 2.36),
             (1.40, -2.28, 2.36),
-            (2.60, -2.28, 2.36),
+            (2.80, -2.28, 2.36),
         ],
-        0.018,
+        0.016,
         mat_cable,
     )
 
-    # Feeder wires across to the three light strips.
+    # Simple feeds/drops to the three grow light strips.
     for idx, y in enumerate([-1.45, 0.0, 1.45], start=1):
         cable_curve(
             f"GHI_wire_light_feed_{idx}",
             [
-                (-2.60, -2.28, 2.36),
-                (-2.45, y, 2.37),
-                (-2.20, y, 2.46),
-            ],
-            0.012,
-            mat_cable,
-        )
-        cable_curve(
-            f"GHI_wire_light_drop_{idx}",
-            [
+                (-2.65, -2.28, 2.36),
+                (-2.50, y, 2.38),
                 (-2.20, y, 2.46),
                 (-2.20, y, 2.34),
             ],
             0.011,
             mat_cable,
         )
-        cube(f"GHI_connector_light_junction_{idx}", (-2.20, y, 2.36), (0.16, 0.10, 0.08), mat_box)
 
-    # Small cross jumpers so the light strips do not look like floating bars.
-    for y in [-1.45, 0.0, 1.45]:
+        # A thin backbone directly above each light so the bars do not look like floating pieces.
         cable_curve(
-            f"GHI_wire_light_backbone_y{y:.2f}",
-            [(-3.10, y, 2.47), (-1.20, y, 2.47), (1.20, y, 2.47), (3.10, y, 2.47)],
-            0.010,
+            f"GHI_wire_light_backbone_{idx}",
+            [
+                (-3.05, y, 2.47),
+                (-1.00, y, 2.47),
+                (1.00, y, 2.47),
+                (3.05, y, 2.47),
+            ],
+            0.008,
             mat_cable,
         )
-
-    # Irrigation hoses tucked low beside the grow beds.
-    for idx, y in enumerate([-1.45, 0.0, 1.45], start=1):
-        cable_curve(
-            f"GHI_hose_irrigation_bed_{idx}",
-            [(-3.25, y - 0.32, 0.73), (-1.40, y - 0.32, 0.73), (0.0, y - 0.32, 0.73), (1.40, y - 0.32, 0.73), (3.25, y - 0.32, 0.73)],
-            0.014,
-            mat_hose,
-        )
-
-    # Water feed from tank to first hose run.
-    cable_curve(
-        "GHI_hose_water_tank_feed",
-        [
-            (-3.35, 2.05, 0.78),
-            (-3.55, 1.40, 0.72),
-            (-3.55, 0.30, 0.72),
-            (-3.45, -1.77, 0.73),
-        ],
-        0.020,
-        mat_hose,
-    )
 
 
 def main() -> None:
@@ -175,9 +124,9 @@ def main() -> None:
         raise FileNotFoundError(f"Run create_green_horizon_greenhouse.py first. Missing: {BLEND_FILE}")
 
     bpy.ops.wm.open_mainfile(filepath=str(BLEND_FILE))
-    add_wiring()
+    add_light_wires()
     bpy.ops.wm.save_as_mainfile(filepath=str(BLEND_FILE))
-    print(f"Added greenhouse wiring and hose details: {BLEND_FILE}")
+    print(f"Added simple grow-light wires: {BLEND_FILE}")
 
 
 if __name__ == "__main__":
