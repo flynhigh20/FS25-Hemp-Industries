@@ -139,7 +139,7 @@ Can't load resource
 
 Copy the matching log section or the generated report for debugging.
 
-## 7. Blender Greenhouse Test
+## 7. Blender Greenhouse Safe Rebuild Test
 
 Use Blender 4.2 LTS for the current FS25/GIANTS workflow.
 
@@ -158,9 +158,10 @@ assets/blender/green_horizon_hemp_greenhouse.blend
 Visual checks:
 
 - Slab sits flat on the Blender grid.
-- Roof uses the restored tall original arch/rib shape.
+- Roof is above the walls, not on the floor.
+- Roof is made from separate thin transparent segmented panels.
+- There is no single solid curved roof slab.
 - Ribs are adjustable from constants near the top of the script.
-- Roof is not flipped into the building.
 - No top/front signs are present.
 - Materials show in Material Preview or Rendered view.
 
