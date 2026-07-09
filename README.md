@@ -20,7 +20,21 @@ This folder is intended to become the final FS25 mod folder/zip root for in-game
 
 ## Quick Windows Testing
 
-Package and install the mod with:
+Start with the helper menu:
+
+```text
+tools/windows/green_horizon_test_menu.bat
+```
+
+Recommended order:
+
+```text
+1. Preflight check repo files
+3. Package and install to FS25 mods folder
+4. Check FS25 log after running game
+```
+
+You can also package/install directly with:
 
 ```text
 tools/windows/package_and_install_mod.bat
@@ -35,6 +49,7 @@ tools/windows/check_fs25_log.bat
 Helpful docs:
 
 ```text
+docs/Next-Test-Plan.md
 docs/Windows-Packaging.md
 docs/Test-Checklist.md
 docs/GIANTS-Editor-Prep.md
@@ -67,6 +82,8 @@ Included now:
 - Curved greenhouse roof restored as a real mesh, with no floating flat roof panel
 - Early top/front greenhouse signs removed from the Blender model
 - Top pallet signs removed; pallets keep front labels only
+- Windows test menu added
+- Windows preflight checker added
 - Windows package/install helper added
 - Windows FS25 log checker added
 - Optional Blender GIANTS Editor helper markers added
