@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.8.0</version>
+    <version>0.2.9.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,7 +13,7 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.8 test build: the mod loads clean, hemp fill types are active again, and greenhouse store placement remains paused while the original Blender greenhouse model and real Green Horizon .i3d export are finished.
+Phase 2.9 test build: clean loading/model-work build. Active fill type loading and greenhouse store placement are paused while the original Blender greenhouse model, helper nodes, and real Green Horizon .i3d export are finished.
         ]]></en>
     </description>
 
@@ -33,9 +33,10 @@ Phase 2.8 test build: the mod loads clean, hemp fill types are active again, and
         </text>
     </l10n>
 
-    <fillTypes filename="xml/fillTypes.xml"/>
+    <!-- Phase 2.9: paused while the Blender model/i3d helper nodes are rebuilt.
+         Re-enable after the package zip confirms these XML files exist and the real .i3d is ready.
 
-    <!-- Phase 2.8: greenhouse placeable/store item stays paused until the real .i3d exists.
+    <fillTypes filename="xml/fillTypes.xml"/>
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
