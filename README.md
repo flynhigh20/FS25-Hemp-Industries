@@ -18,6 +18,29 @@ FS25_GreenHorizonIndustries/
 
 This folder is intended to become the final FS25 mod folder/zip root for in-game testing.
 
+## Quick Windows Testing
+
+Package and install the mod with:
+
+```text
+tools/windows/package_and_install_mod.bat
+```
+
+After running FS25 once, check the filtered log report with:
+
+```text
+tools/windows/check_fs25_log.bat
+```
+
+Helpful docs:
+
+```text
+docs/Windows-Packaging.md
+docs/Test-Checklist.md
+docs/GIANTS-Editor-Prep.md
+tools/blender/README.md
+```
+
 ## Phase 1 Result
 
 Phase 1 fill type loading has been confirmed by FS25 log output:
@@ -44,6 +67,9 @@ Included now:
 - Curved greenhouse roof restored as a real mesh, with no floating flat roof panel
 - Early top/front greenhouse signs removed from the Blender model
 - Top pallet signs removed; pallets keep front labels only
+- Windows package/install helper added
+- Windows FS25 log checker added
+- Optional Blender GIANTS Editor helper markers added
 - Production input/output loop:
   - Inputs: `WATER`, `GHI_HEMP_SEED`
   - Outputs: `HEMP`, `GHI_HEMP_BIOMASS`
