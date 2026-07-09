@@ -2,12 +2,15 @@
 # Run in Blender with:
 # blender --background --python tools/blender/create_green_horizon_greenhouse.py
 #
-# This is an original model concept generator. It creates a better greenhouse
-# direction than the temporary Phase 2 XML placeholder. Export to i3d later with
-# the GIANTS Blender Exporter after scale, collision, and triggers are finalized.
+# This is an original model concept generator. It creates a greenhouse concept
+# scene with procedural Blender materials. It does not create final DDS/i3d game
+# assets yet; export to i3d later with the GIANTS Blender Exporter after scale,
+# collision, triggers, and textures are finalized.
 #
-# Phase 2 asset pass: procedural Blender materials/textures are generated here
-# so the model is not a plain gray block while we are still before final DDS work.
+# Phase 2.3:
+# - Saves to the repository assets/blender folder instead of Blender's launch folder.
+# - Avoids Windows permission errors when Blender is launched from Program Files.
+# - Removes the top/front branding signs because the early signs did not fit the look.
 
 from __future__ import annotations
 
@@ -18,10 +21,31 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
-OUTPUT_DIR = Path("assets/blender")
-OUTPUT_FILE = OUTPUT_DIR / "green_horizon_hemp_greenhouse.blend"
 
 random.seed(42025)
+
+
+def find_repo_root() -> Path:
+    """Find the project root from this script location, with a safe fallback."""
+    try:
+        script_path = Path(__file__).resolve()
+    except NameError:
+        script_path = Path.cwd()
+
+    candidates = [script_path if script_path.is_dir() else script_path.parent]
+    candidates.extend(candidates[0].parents)
+
+    for candidate in candidates:
+        if (candidate / "FS25_GreenHorizonIndustries").exists() or (candidate / ".git").exists():
+            return candidate
+
+    # Fallback avoids trying to write into Blender/Program Files if the script was copied elsewhere.
+    return Path.home() / "Documents" / "GreenHorizonIndustries"
+
+
+REPO_ROOT = find_repo_root()
+OUTPUT_DIR = REPO_ROOT / "assets" / "blender"
+OUTPUT_FILE = OUTPUT_DIR / "green_horizon_hemp_greenhouse.blend"
 
 
 def clear_scene() -> None:
@@ -56,7 +80,8 @@ def make_mat(name: str, color, roughness: float = 0.55, metallic: float = 0.0, a
     if alpha < 1.0:
         mat.blend_method = "BLEND"
         mat.show_transparent_back = True
-        mat.use_screen_refraction = True
+        if hasattr(mat, "use_screen_refraction"):
+            mat.use_screen_refraction = True
     return mat
 
 
@@ -118,7 +143,7 @@ def make_emission_mat(name: str, color, strength: float = 1.2):
     return mat
 
 
-# Procedural texture/material set.
+# Procedural material set. These are Blender procedural materials, not external image textures.
 MAT_GLASS = make_mat("smoky_green_polycarbonate_panels_subtle_noise", (0.55, 0.85, 0.70, 0.35), 0.12, 0.0, 0.35)
 add_noise_color(MAT_GLASS, (0.45, 0.76, 0.62, 0.35), (0.78, 0.98, 0.86, 0.35), scale=9, detail=4)
 
@@ -145,11 +170,6 @@ MAT_WATER = make_mat("blue_poly_water_tank_scuffed", (0.04, 0.20, 0.55, 1.0), 0.
 add_noise_color(MAT_WATER, (0.02, 0.12, 0.38, 1.0), (0.08, 0.32, 0.70, 1.0), scale=12, detail=5)
 add_bump(MAT_WATER, strength=0.025, distance=0.04, scale=35, detail=6)
 
-MAT_SIGN = make_mat("green_horizon_sign_painted_panel", (0.02, 0.20, 0.10, 1.0), 0.50, 0.0)
-add_noise_color(MAT_SIGN, (0.012, 0.12, 0.055, 1.0), (0.055, 0.32, 0.13, 1.0), scale=16, detail=5)
-add_bump(MAT_SIGN, strength=0.025, distance=0.035, scale=38, detail=6)
-
-MAT_TEXT = make_mat("warm_sign_lettering_slightly_raised", (0.92, 0.95, 0.72, 1.0), 0.35, 0.0)
 MAT_LIGHT = make_emission_mat("warm_amber_grow_light_strip_emissive", (1.0, 0.70, 0.22, 1.0), strength=1.8)
 MAT_RUBBER = make_mat("black_rubber_door_gasket", (0.008, 0.008, 0.007, 1.0), 0.72, 0.0)
 add_bump(MAT_RUBBER, strength=0.035, distance=0.03, scale=70, detail=6)
@@ -176,19 +196,6 @@ def cylinder(name: str, loc, radius: float, depth: float, mat=None, vertices: in
         bpy.ops.object.shade_smooth()
     except Exception:
         pass
-    return obj
-
-
-def add_label(name: str, text: str, loc, size: float):
-    bpy.ops.object.text_add(location=loc, rotation=(math.radians(90), 0, 0))
-    obj = bpy.context.object
-    obj.name = name
-    obj.data.body = text
-    obj.data.align_x = "CENTER"
-    obj.data.align_y = "CENTER"
-    obj.data.size = size
-    obj.data.extrude = 0.015
-    obj.data.materials.append(MAT_TEXT)
     return obj
 
 
@@ -234,35 +241,34 @@ def add_leaf(name: str, loc, angle: float, scale: float = 1.0):
 def add_hemp_plant(x: float, y: float):
     cylinder("hemp_fiber_stem", (x, y, 0.78), 0.018, 0.62, MAT_STEM, vertices=8)
     for i in range(6):
-        a = math.radians(i * 60)
+        angle = math.radians(i * 60)
         leaf_scale = random.uniform(0.65, 0.86)
-        add_leaf("simple_original_hemp_leaf", (x + math.cos(a) * 0.06, y + math.sin(a) * 0.06, 1.03), a, leaf_scale)
+        add_leaf("simple_original_hemp_leaf", (x + math.cos(angle) * 0.06, y + math.sin(angle) * 0.06, 1.03), angle, leaf_scale)
 
 
 def build_model() -> None:
     clear_scene()
 
-    # Foundation and curbs
+    # Foundation and curbs.
     cube("concrete_slab_textured", (0, 0, 0.05), (8.8, 5.6, 0.1), MAT_CONCRETE)
     cube("front_curb_textured", (0, -2.78, 0.28), (8.8, 0.18, 0.36), MAT_CONCRETE)
     cube("rear_curb_textured", (0, 2.78, 0.28), (8.8, 0.18, 0.36), MAT_CONCRETE)
     cube("left_curb_textured", (-4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
     cube("right_curb_textured", (4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
 
-    # Glass shell
+    # Glass shell.
     cube("left_wall_polycarbonate_panels", (0, -2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("right_wall_polycarbonate_panels", (0, 2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("rear_wall_polycarbonate_panels", (-4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
     cube("front_wall_polycarbonate_panels", (4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
     cube("roof_polycarbonate_panel", (0, 0, 3.0), (8.2, 5.0, 0.08), MAT_GLASS)
 
-    # Panel seams make the procedural material read like real greenhouse panels.
     add_panel_seams("left_wall", y=-2.59)
     add_panel_seams("right_wall", y=2.59)
     add_panel_seams("front_wall", x=4.14)
     add_panel_seams("rear_wall", x=-4.14)
 
-    # Frame ribs and rails
+    # Frame ribs and rails.
     for x in [-4, -2.7, -1.35, 0, 1.35, 2.7, 4]:
         add_arch_rib("arched_steel_roof_rib", x)
         cube("vertical_wall_post_left", (x, -2.55, 1.45), (0.08, 0.08, 2.2), MAT_FRAME)
@@ -272,7 +278,7 @@ def build_model() -> None:
         cube("lower_side_rail", (0, y, 0.72), (8.3, 0.08, 0.08), MAT_FRAME)
         cube("upper_side_rail", (0, y, 2.55), (8.3, 0.08, 0.08), MAT_FRAME)
 
-    # Front double doors
+    # Front double doors.
     cube("front_door_left_frame", (4.18, -0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
     cube("front_door_right_frame", (4.18, 0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
     cube("front_door_top_frame", (4.18, 0, 2.18), (0.08, 1.05, 0.08), MAT_FRAME)
@@ -280,14 +286,14 @@ def build_model() -> None:
     cube("front_door_glass_left", (4.2, -0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
     cube("front_door_glass_right", (4.2, 0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
 
-    # Grow beds and plants
+    # Grow beds and plants.
     for y in [-1.45, 0, 1.45]:
         cube("raised_hemp_grow_bed_powder_frame", (0, y, 0.45), (6.8, 0.72, 0.32), MAT_FRAME)
         cube("soil_surface_chunky_texture", (0, y, 0.64), (6.55, 0.55, 0.06), MAT_SOIL)
         for x in [-2.8, -2.0, -1.2, -0.4, 0.4, 1.2, 2.0, 2.8]:
             add_hemp_plant(x, y)
 
-    # Utility details
+    # Utility details. No roof/front brand signs in this version.
     cylinder("blue_water_storage_tank_scuffed", (-3.35, 2.05, 1.05), 0.42, 1.55, MAT_WATER, vertices=48)
     cylinder("water_tank_cap_black", (-3.35, 2.05, 1.86), 0.28, 0.08, MAT_FRAME, vertices=32)
     cube("nutrient_control_box_satin_black", (-3.2, -2.35, 1.15), (0.62, 0.12, 0.82), MAT_FRAME)
@@ -295,12 +301,7 @@ def build_model() -> None:
     cube("grow_light_strip_2_emissive", (0, 0, 2.72), (6.8, 0.08, 0.06), MAT_LIGHT)
     cube("grow_light_strip_3_emissive", (0, 1.45, 2.72), (6.8, 0.08, 0.06), MAT_LIGHT)
 
-    # Branding sign
-    cube("front_brand_sign_painted_panel", (4.25, 0, 2.55), (0.08, 2.2, 0.46), MAT_SIGN)
-    add_label("front_brand_sign_text", "GREEN HORIZON", (4.32, 0, 2.58), 0.24)
-    add_label("front_brand_sub_text", "INDUSTRIAL HEMP", (4.33, 0, 2.35), 0.13)
-
-    # Lighting and camera
+    # Lighting and camera.
     bpy.ops.object.light_add(type="AREA", location=(0, -7, 6))
     light = bpy.context.object
     light.name = "large_softbox_preview_light"
