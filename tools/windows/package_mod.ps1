@@ -67,8 +67,6 @@ function Copy-IconFromZip {
     try {
         foreach ($entry in $zip.Entries) {
             if ($entry.FullName -eq "icon_mod.dds") {
-                $dir = Split-Path -Parent $DestinationPath
-                New-Item -ItemType Directory -Force -Path $dir | Out-Null
                 [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $DestinationPath, $true)
                 return $true
             }
@@ -88,7 +86,7 @@ function Restore-ExistingIcon {
 
     $iconPath = Join-Path $ModFolder "icon_mod.dds"
     if (Test-Path $iconPath) {
-        Write-Host "Icon exists in repo mod folder: $iconPath" -ForegroundColor Green
+        Write-Host "Icon exists: icon_mod.dds" -ForegroundColor Green
         return
     }
 
@@ -102,19 +100,6 @@ function Restore-ExistingIcon {
     $zipIconSource = Join-Path $ModsDir "FS25_GreenHorizonIndustries.zip"
     if (Copy-IconFromZip -ZipPath $zipIconSource -DestinationPath $iconPath) {
         Write-Host "Recovered icon_mod.dds from installed mod zip." -ForegroundColor Green
-        return
-    }
-
-    $legacyLooseIcon = Join-Path $ModsDir "FS25_Hemp_Industries\icon_mod.dds"
-    if (Test-Path $legacyLooseIcon) {
-        Copy-Item -Path $legacyLooseIcon -Destination $iconPath -Force
-        Write-Host "Recovered icon_mod.dds from legacy loose Hemp Industries folder." -ForegroundColor Green
-        return
-    }
-
-    $legacyZipIconSource = Join-Path $ModsDir "FS25_Hemp_Industries.zip"
-    if (Copy-IconFromZip -ZipPath $legacyZipIconSource -DestinationPath $iconPath) {
-        Write-Host "Recovered icon_mod.dds from legacy Hemp Industries zip." -ForegroundColor Green
         return
     }
 
@@ -161,7 +146,6 @@ if (-not (Test-Path $modDescPath)) {
     throw "Missing modDesc.xml: $modDescPath"
 }
 
-# Simple path only: use icon_mod.dds if present, otherwise recover it from an installed mod copy.
 Restore-ExistingIcon -ModFolder $modFolder -ModsDir $ModsDir
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
@@ -170,7 +154,8 @@ if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force
 }
 
-$items = Get-ChildItem -Path $modFolder -Force
+# Do not package helper backup files. FS25 should see the real icon_mod.dds only.
+$items = Get-ChildItem -Path $modFolder -Force | Where-Object { $_.Name -ne "icon_mod.dds.b64" }
 Compress-Archive -Path $items.FullName -DestinationPath $zipPath -CompressionLevel Optimal
 
 if (-not (Test-ZipRoot -ZipPath $zipPath)) {
