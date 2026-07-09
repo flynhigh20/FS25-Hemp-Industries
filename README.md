@@ -8,7 +8,7 @@
 
 ## Current Build
 
-**Phase 2.4 / Alpha 0.2 greenhouse store visibility and Blender roof test is active.**
+**Phase 2.5 / Alpha 0.2 greenhouse install, store visibility, and restored Blender roof retest is active.**
 
 The active mod folder is:
 
@@ -67,27 +67,28 @@ Phase 1 fill type loading has been confirmed by FS25 log output:
 Info: Loaded 3 fill types from mod
 ```
 
-## Phase 2.4 Scope
+## Phase 2.5 Scope
 
-Phase 2.4 focuses on keeping the Hemp Greenhouse visible in the FS25 construction menu while correcting the Blender greenhouse concept model.
+Phase 2.5 focuses on making sure the latest package is actually installed, restoring the first/taller Blender roof style, and improving the greenhouse production store metadata.
 
 Included now:
 
-- `modDesc.xml` updated to mod version `0.2.4.0`
-- `modDesc.xml` descriptor version returned to `91` for the current local FS25 test setup
+- `modDesc.xml` updated to mod version `0.2.5.0`
+- `modDesc.xml` descriptor version remains `91` for the current local FS25 test setup
+- Windows package/install helper now removes old loose mod folders as well as old zips
 - Store item wiring for a Hemp Greenhouse
-- Hemp Greenhouse category kept as the valid `productionPoints` category
+- Hemp Greenhouse category kept as `productionPoints` for the production-point shell
+- Production brush metadata added: `production` / `factories`
 - Greenhouse production placeable XML
 - Recipe balance notes XML
 - Blender greenhouse generator output-path fix
 - Blender pallet generator output-path fix
 - Greenhouse Blender script marked for Blender 4.2 LTS workflow
-- Curved greenhouse roof restored as a real mesh, with no floating flat roof panel
+- Original tall greenhouse roof arch/rib style restored with adjustable roof constants
 - Early top/front greenhouse signs removed from the Blender model
 - Top pallet signs removed; pallets keep front labels only
 - Windows test menu added
 - Windows preflight checker added
-- Windows package/install helper added
 - Windows FS25 log checker added
 - Optional Blender GIANTS Editor helper markers added
 - Console optimization planning added
@@ -99,17 +100,25 @@ Included now:
 
 ## Where To Look In Game
 
-Check the construction menu, not the normal vehicle/equipment store:
+First confirm FS25 shows the mod version as:
+
+```text
+0.2.5.0
+```
+
+If FS25 still shows the mod as version `0.2.2.0`, `0.2.3.0`, or `0.2.4.0`, the old zip or loose folder is still installed.
+
+Then check the construction menu:
 
 ```text
 Construction > Production > Factories / Production Points
 ```
 
-If FS25 still shows the mod as version `0.2.3.0` or older, the old zip/folder is still installed.
-
 Still pending:
 
-- Verify the greenhouse appears in the FS25 construction menu under Production Points
+- Verify FS25 loads version `0.2.5.0`
+- Verify the greenhouse appears in the FS25 construction menu under Production/Factories
+- Decide whether the later true greenhouse system should use `PlaceableGreenhouse` / greenhouse plant schema instead of the current productionPoint shell
 - Confirm the temporary base-game greenhouse visual path loads
 - Add original Green Horizon greenhouse model/assets to the placeable XML after i3d export
 - Add real DDS store image and icon files
