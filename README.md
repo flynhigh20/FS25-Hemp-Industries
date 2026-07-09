@@ -53,6 +53,8 @@ docs/Next-Test-Plan.md
 docs/Windows-Packaging.md
 docs/Test-Checklist.md
 docs/GIANTS-Editor-Prep.md
+docs/Phase-3-Upgradeable-CBD-Plant.md
+docs/Console-Optimization.md
 tools/blender/README.md
 ```
 
@@ -87,6 +89,8 @@ Included now:
 - Windows package/install helper added
 - Windows FS25 log checker added
 - Optional Blender GIANTS Editor helper markers added
+- Console optimization planning added
+- Upgradeable-style CBD plant / selling point progression plan added
 - Production input/output loop:
   - Inputs: `WATER`, `GHI_HEMP_SEED`
   - Outputs: `HEMP`, `GHI_HEMP_BIOMASS`
@@ -109,6 +113,7 @@ Still pending:
 - Add real DDS store image and icon files
 - Add pallets/storage triggers after first placeable test
 - Add sell points and economy balancing
+- Add upgradeable-style CBD plant progression after greenhouse test passes
 - Add fruit/crop registration after FS25 map file references are verified
 
 ## Development Rule
