@@ -7,7 +7,7 @@ echo Green Horizon Industries - Package and Install
 echo.
 echo This will:
 echo   1. Build FS25_GreenHorizonIndustries.zip
-echo   2. Remove old FS25_GreenHorizonIndustries.zip / FS25_Hemp_Industries.zip from your FS25 mods folder
+echo   2. Remove old Green Horizon / Hemp Industries zips and loose folders from your FS25 mods folder
 echo   3. Copy the new zip into your FS25 mods folder
 echo.
 pause
