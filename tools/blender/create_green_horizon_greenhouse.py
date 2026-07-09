@@ -2,15 +2,14 @@
 # Run in Blender 4.2 LTS with:
 # blender --background --python tools/blender/create_green_horizon_greenhouse.py
 #
-# Original Green Horizon greenhouse concept shape with the material pass added.
+# Safe greenhouse rebuild.
 # This creates a Blender concept scene, not final game-ready DDS/i3d assets yet.
 #
-# Phase 2.5:
-# - Keeps Blender 4.2-friendly Python/API usage.
-# - Saves to the repository assets/blender folder instead of Blender's launch folder.
-# - Restores the first/original tall greenhouse roof arch shape the user liked.
-# - Makes the roof ribs adjustable from constants near the top of this file.
-# - Keeps the no-sign look requested after the first material pass.
+# Phase 2.6:
+# - Starts the greenhouse model over from a clean simple structure.
+# - Removes the single curved roof mesh and all solidify/thickness modifiers.
+# - Builds the roof from many thin segmented panels so it cannot become one solid slab.
+# - Keeps adjustable arched ribs and no top/front signs.
 
 from __future__ import annotations
 
@@ -24,18 +23,24 @@ from mathutils import Vector
 
 random.seed(42025)
 
-# Roof controls: tweak these first if the roof needs another pass.
-# The first model used z_base=1.15 and rise=1.65; that gave the taller arch/rib look.
-ROOF_RADIUS = 2.55
-ROOF_BASE_Z = 1.15
-ROOF_RISE = 1.65
-ROOF_STEPS = 16
+# Overall greenhouse controls.
+GREENHOUSE_LENGTH = 8.4
+GREENHOUSE_WIDTH = 5.2
+SLAB_LENGTH = 9.0
+SLAB_WIDTH = 5.9
+WALL_HEIGHT = 2.35
+WALL_CENTER_Z = 1.45
+EAVE_Z = 2.62
+ROOF_RISE = 1.05
+ROOF_STEPS = 14
+
+# Roof/rib controls. Tweak these before changing the model functions.
+ROOF_HALF_WIDTH = GREENHOUSE_WIDTH / 2.0
 ROOF_RIB_WIDTH = 0.075
-ROOF_RIB_X_VALUES = [-4.0, -2.7, -1.35, 0.0, 1.35, 2.7, 4.0]
-ROOF_PANEL_X_VALUES = ROOF_RIB_X_VALUES
-ROOF_SEAM_X_VALUES = [-3.0, -1.5, 0.0, 1.5, 3.0]
-ROOF_LONGITUDINAL_SEAM_T_VALUES = [0.28, 0.50, 0.72]
-ROOF_PANEL_SOLIDIFY_THICKNESS = 0.035
+ROOF_PANEL_THICKNESS = 0.022
+ROOF_RIB_X_VALUES = [-4.1, -2.75, -1.38, 0.0, 1.38, 2.75, 4.1]
+ROOF_PANEL_X_SPANS = [(-4.1, -2.75), (-2.75, -1.38), (-1.38, 0.0), (0.0, 1.38), (1.38, 2.75), (2.75, 4.1)]
+ROOF_LONG_RAIL_T_VALUES = [0.22, 0.50, 0.78]
 
 
 def find_repo_root() -> Path:
@@ -72,7 +77,6 @@ def get_bsdf(mat):
 
 
 def set_input(node, names, value) -> None:
-    """Set a node input safely across Blender versions."""
     if isinstance(names, str):
         names = [names]
     for name in names:
@@ -89,6 +93,7 @@ def make_mat(name: str, color, roughness: float = 0.55, metallic: float = 0.0, a
     set_input(bsdf, "Roughness", roughness)
     set_input(bsdf, "Metallic", metallic)
     set_input(bsdf, "Alpha", alpha)
+
     if alpha < 1.0:
         mat.blend_method = "BLEND"
         mat.show_transparent_back = True
@@ -153,15 +158,14 @@ def make_emission_mat(name: str, color, strength: float = 1.2):
     return mat
 
 
-# Procedural material set. These are Blender procedural materials, not external image textures.
-MAT_GLASS = make_mat("smoky_green_polycarbonate_panels_subtle_noise", (0.55, 0.85, 0.70, 0.35), 0.12, 0.0, 0.35)
-add_noise_color(MAT_GLASS, (0.45, 0.76, 0.62, 0.35), (0.78, 0.98, 0.86, 0.35), scale=9, detail=4)
+MAT_GLASS = make_mat("clear_smoky_green_polycarbonate", (0.55, 0.85, 0.70, 0.28), 0.14, 0.0, 0.28)
+add_noise_color(MAT_GLASS, (0.45, 0.74, 0.62, 0.28), (0.82, 0.98, 0.86, 0.28), scale=9, detail=4)
 
-MAT_FRAME = make_mat("black_powder_coated_frame_satin_texture", (0.035, 0.04, 0.035, 1.0), 0.42, 0.35)
+MAT_FRAME = make_mat("black_powder_coated_steel", (0.035, 0.04, 0.035, 1.0), 0.42, 0.32)
 add_noise_color(MAT_FRAME, (0.015, 0.017, 0.014, 1.0), (0.09, 0.095, 0.085, 1.0), scale=35, detail=8)
 add_bump(MAT_FRAME, strength=0.018, distance=0.045, scale=85, detail=8)
 
-MAT_CONCRETE = make_mat("poured_concrete_foundation_mottled", (0.42, 0.42, 0.38, 1.0), 0.88, 0.0)
+MAT_CONCRETE = make_mat("poured_concrete_foundation", (0.42, 0.42, 0.38, 1.0), 0.88, 0.0)
 add_noise_color(MAT_CONCRETE, (0.31, 0.31, 0.28, 1.0), (0.60, 0.59, 0.53, 1.0), scale=18, detail=10)
 add_bump(MAT_CONCRETE, strength=0.09, distance=0.11, scale=55, detail=9)
 
@@ -180,17 +184,17 @@ MAT_WATER = make_mat("blue_poly_water_tank_scuffed", (0.04, 0.20, 0.55, 1.0), 0.
 add_noise_color(MAT_WATER, (0.02, 0.12, 0.38, 1.0), (0.08, 0.32, 0.70, 1.0), scale=12, detail=5)
 add_bump(MAT_WATER, strength=0.025, distance=0.04, scale=35, detail=6)
 
-MAT_LIGHT = make_emission_mat("warm_amber_grow_light_strip_emissive", (1.0, 0.70, 0.22, 1.0), strength=1.8)
-MAT_RUBBER = make_mat("black_rubber_door_gasket", (0.008, 0.008, 0.007, 1.0), 0.72, 0.0)
-add_bump(MAT_RUBBER, strength=0.035, distance=0.03, scale=70, detail=6)
+MAT_LIGHT = make_emission_mat("warm_amber_grow_light_strip", (1.0, 0.70, 0.22, 1.0), strength=1.8)
+MAT_RUBBER = make_mat("black_rubber_gasket", (0.008, 0.008, 0.007, 1.0), 0.72, 0.0)
 
 
-def cube(name: str, loc, scale, mat=None):
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=loc)
+def cube(name: str, loc, scale, mat=None, rotation=(0.0, 0.0, 0.0)):
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=loc, rotation=rotation)
     obj = bpy.context.object
     obj.name = name
     obj.dimensions = scale
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    obj.rotation_euler = rotation
     if mat:
         obj.data.materials.append(mat)
     return obj
@@ -209,116 +213,80 @@ def cylinder(name: str, loc, radius: float, depth: float, mat=None, vertices: in
     return obj
 
 
-def make_arch_points(radius: float = ROOF_RADIUS, z_base: float = ROOF_BASE_Z, rise: float = ROOF_RISE, steps: int = ROOF_STEPS):
-    """Original tall roof arch points from the first approved greenhouse model."""
+def roof_points(steps: int = ROOF_STEPS):
+    """Roof arch from left wall top to right wall top. It never touches the floor."""
     points = []
     for i in range(steps + 1):
         t = math.pi * i / steps
-        y = math.cos(t) * radius
-        z = z_base + math.sin(t) * rise
+        y = math.cos(t) * ROOF_HALF_WIDTH
+        z = EAVE_Z + math.sin(t) * ROOF_RISE
         points.append(Vector((0.0, y, z)))
     return points
 
 
-def add_curved_roof_panel(name: str, x_values=None, z_offset: float = 0.018):
-    """Curved translucent panel following the same original-style arch as the ribs."""
-    if x_values is None:
-        x_values = ROOF_PANEL_X_VALUES
-
-    arch = make_arch_points(steps=ROOF_STEPS)
-
-    verts = []
-    for x in x_values:
-        for p in arch:
-            verts.append((x, p.y, p.z + z_offset))
-
-    faces = []
-    row = len(arch)
-    for ix in range(len(x_values) - 1):
-        for iy in range(row - 1):
-            a = ix * row + iy
-            b = (ix + 1) * row + iy
-            c = (ix + 1) * row + iy + 1
-            d = ix * row + iy + 1
-            faces.append((a, b, c, d))
-
-    mesh = bpy.data.meshes.new(f"{name}_mesh")
-    mesh.from_pydata(verts, [], faces)
-    mesh.update()
-
-    obj = bpy.data.objects.new(name, mesh)
-    bpy.context.collection.objects.link(obj)
-    obj.data.materials.append(MAT_GLASS)
-
-    try:
-        for poly in obj.data.polygons:
-            poly.use_smooth = True
-        bpy.context.view_layer.objects.active = obj
-        obj.select_set(True)
-        bpy.ops.object.mode_set(mode="EDIT")
-        bpy.ops.mesh.select_all(action="SELECT")
-        bpy.ops.mesh.normals_make_consistent(inside=False)
-        bpy.ops.object.mode_set(mode="OBJECT")
-        obj.select_set(False)
-    except Exception:
-        pass
-
-    try:
-        solid = obj.modifiers.new("thin_polycarbonate_thickness", "SOLIDIFY")
-        solid.thickness = ROOF_PANEL_SOLIDIFY_THICKNESS
-        solid.offset = 0
-    except Exception:
-        pass
-
-    return obj
+def add_arch_segmented_bar(name: str, x: float, width: float, mat, z_offset: float = 0.0):
+    """Build one arched rib or seam out of small straight bars."""
+    pts = roof_points()
+    for idx, (p, q) in enumerate(zip(pts, pts[1:])):
+        a = Vector((x, p.y, p.z + z_offset))
+        b = Vector((x, q.y, q.z + z_offset))
+        mid = (a + b) * 0.5
+        seg_len = (b - a).length
+        angle = math.atan2((b - a).z, (b - a).y)
+        cube(
+            f"{name}_{x:.2f}_{idx:02d}",
+            mid,
+            (width, seg_len, width),
+            mat,
+            rotation=(-angle, 0.0, 0.0),
+        )
 
 
-def add_roof_seams(prefix: str):
-    """Thin black strips following the restored original roof arch."""
-    arch = make_arch_points(steps=ROOF_STEPS)
-    for x in ROOF_SEAM_X_VALUES:
-        for idx, (p, q) in enumerate(zip(arch, arch[1:])):
-            a = Vector((x, p.y, p.z + 0.04))
-            b = Vector((x, q.y, q.z + 0.04))
+def add_roof_ribs():
+    for x in ROOF_RIB_X_VALUES:
+        add_arch_segmented_bar("adjustable_arched_roof_rib", x, ROOF_RIB_WIDTH, MAT_FRAME, z_offset=0.0)
+
+
+def add_segmented_roof_panels():
+    """Build roof panels as separate thin transparent pieces, not one solid mesh."""
+    pts = roof_points()
+    for span_index, (x0, x1) in enumerate(ROOF_PANEL_X_SPANS):
+        x_mid = (x0 + x1) * 0.5
+        x_len = abs(x1 - x0) - 0.08
+        for idx, (p, q) in enumerate(zip(pts, pts[1:])):
+            a = Vector((x_mid, p.y, p.z + 0.018))
+            b = Vector((x_mid, q.y, q.z + 0.018))
             mid = (a + b) * 0.5
-            length_seg = (b - a).length
+            seg_len = (b - a).length - 0.015
             angle = math.atan2((b - a).z, (b - a).y)
-            bar = cube(f"{prefix}_original_arch_seam_{x}_{idx:02d}", mid, (0.035, length_seg, 0.035), MAT_RUBBER)
-            bar.rotation_euler[0] = -angle
+            cube(
+                f"roof_panel_segment_{span_index}_{idx:02d}",
+                mid,
+                (x_len, seg_len, ROOF_PANEL_THICKNESS),
+                MAT_GLASS,
+                rotation=(-angle, 0.0, 0.0),
+            )
 
+
+def add_roof_long_rails():
     span_length = max(ROOF_RIB_X_VALUES) - min(ROOF_RIB_X_VALUES)
-    for t in ROOF_LONGITUDINAL_SEAM_T_VALUES:
-        y = math.cos(math.pi * t) * ROOF_RADIUS
-        z = ROOF_BASE_Z + math.sin(math.pi * t) * ROOF_RISE + 0.05
-        cube(f"{prefix}_original_longitudinal_seam_{t:.2f}", (0, y, z), (span_length, 0.035, 0.035), MAT_RUBBER)
+    for t in ROOF_LONG_RAIL_T_VALUES:
+        y = math.cos(math.pi * t) * ROOF_HALF_WIDTH
+        z = EAVE_Z + math.sin(math.pi * t) * ROOF_RISE + 0.04
+        cube(f"roof_longitudinal_black_rail_{t:.2f}", (0, y, z), (span_length, 0.045, 0.045), MAT_RUBBER)
 
 
-def add_panel_seams(prefix: str, x: float | None = None, y: float | None = None):
-    """Add thin black greenhouse wall panel seam strips."""
+def add_wall_panel_seams(prefix: str, x: float | None = None, y: float | None = None):
     if y is not None:
         for x_pos in [-3.0, -1.5, 0, 1.5, 3.0]:
-            cube(f"{prefix}_vertical_seam_{x_pos}", (x_pos, y, 1.65), (0.035, 0.035, 2.35), MAT_RUBBER)
-        for z_pos in [1.05, 1.85, 2.55]:
-            cube(f"{prefix}_horizontal_seam_{z_pos}", (0, y, z_pos), (8.1, 0.035, 0.035), MAT_RUBBER)
+            cube(f"{prefix}_vertical_seam_{x_pos}", (x_pos, y, WALL_CENTER_Z), (0.035, 0.035, WALL_HEIGHT), MAT_RUBBER)
+        for z_pos in [0.95, 1.75, EAVE_Z]:
+            cube(f"{prefix}_horizontal_seam_{z_pos}", (0, y, z_pos), (GREENHOUSE_LENGTH, 0.035, 0.035), MAT_RUBBER)
     if x is not None:
         for y_pos in [-1.8, -0.9, 0, 0.9, 1.8]:
-            cube(f"{prefix}_end_vertical_seam_{y_pos}", (x, y_pos, 1.65), (0.035, 0.035, 2.35), MAT_RUBBER)
-        for z_pos in [1.05, 1.85, 2.55]:
-            cube(f"{prefix}_end_horizontal_seam_{z_pos}", (x, 0, z_pos), (0.035, 4.9, 0.035), MAT_RUBBER)
-
-
-def add_arch_rib(name: str, x: float, width: float = ROOF_RIB_WIDTH):
-    """Adjustable original-style roof rib from the first greenhouse shape."""
-    arch_points = make_arch_points(steps=ROOF_STEPS)
-
-    for idx, (p, q) in enumerate(zip(arch_points, arch_points[1:])):
-        a = Vector((x, p.y, p.z))
-        b = Vector((x, q.y, q.z))
-        mid = (a + b) * 0.5
-        length = (b - a).length
-        angle = math.atan2((b - a).z, (b - a).y)
-        bar = cube(f"{name}_{x}_segment_{idx:02d}", mid, (width, length, width), MAT_FRAME)
-        bar.rotation_euler[0] = -angle
+            cube(f"{prefix}_end_vertical_seam_{y_pos}", (x, y_pos, WALL_CENTER_Z), (0.035, 0.035, WALL_HEIGHT), MAT_RUBBER)
+        for z_pos in [0.95, 1.75, EAVE_Z]:
+            cube(f"{prefix}_end_horizontal_seam_{z_pos}", (x, 0, z_pos), (0.035, GREENHOUSE_WIDTH - 0.2, 0.035), MAT_RUBBER)
 
 
 def add_leaf(name: str, loc, angle: float, scale: float = 1.0):
@@ -335,49 +303,54 @@ def add_hemp_plant(x: float, y: float):
     for i in range(6):
         angle = math.radians(i * 60)
         leaf_scale = random.uniform(0.65, 0.86)
-        add_leaf("simple_original_hemp_leaf", (x + math.cos(angle) * 0.06, y + math.sin(angle) * 0.06, 1.03), angle, leaf_scale)
+        add_leaf("simple_industrial_hemp_leaf", (x + math.cos(angle) * 0.06, y + math.sin(angle) * 0.06, 1.03), angle, leaf_scale)
 
 
-def build_model() -> None:
-    clear_scene()
-
+def build_foundation_and_shell():
     # Foundation and curbs.
-    cube("concrete_slab_textured", (0, 0, 0.05), (8.8, 5.6, 0.1), MAT_CONCRETE)
-    cube("front_curb_textured", (0, -2.78, 0.28), (8.8, 0.18, 0.36), MAT_CONCRETE)
-    cube("rear_curb_textured", (0, 2.78, 0.28), (8.8, 0.18, 0.36), MAT_CONCRETE)
-    cube("left_curb_textured", (-4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
-    cube("right_curb_textured", (4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
+    cube("concrete_slab_textured", (0, 0, 0.05), (SLAB_LENGTH, SLAB_WIDTH, 0.1), MAT_CONCRETE)
+    cube("front_curb_textured", (0, -SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), MAT_CONCRETE)
+    cube("rear_curb_textured", (0, SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), MAT_CONCRETE)
+    cube("left_curb_textured", (-SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), MAT_CONCRETE)
+    cube("right_curb_textured", (SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), MAT_CONCRETE)
 
-    # Glass shell. The roof now follows the first approved tall arch/rib shape.
-    cube("left_wall_polycarbonate_panels", (0, -2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
-    cube("right_wall_polycarbonate_panels", (0, 2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
-    cube("rear_wall_polycarbonate_panels", (-4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
-    cube("front_wall_polycarbonate_panels", (4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
-    add_curved_roof_panel("original_style_curved_polycarbonate_roof")
+    # Straight walls.
+    cube("left_wall_polycarbonate_panels", (0, -GREENHOUSE_WIDTH / 2, WALL_CENTER_Z), (GREENHOUSE_LENGTH, 0.055, WALL_HEIGHT), MAT_GLASS)
+    cube("right_wall_polycarbonate_panels", (0, GREENHOUSE_WIDTH / 2, WALL_CENTER_Z), (GREENHOUSE_LENGTH, 0.055, WALL_HEIGHT), MAT_GLASS)
+    cube("rear_wall_polycarbonate_panels", (-GREENHOUSE_LENGTH / 2, 0, WALL_CENTER_Z), (0.055, GREENHOUSE_WIDTH, WALL_HEIGHT), MAT_GLASS)
+    cube("front_wall_polycarbonate_panels", (GREENHOUSE_LENGTH / 2, 0, WALL_CENTER_Z), (0.055, GREENHOUSE_WIDTH, WALL_HEIGHT), MAT_GLASS)
 
-    add_panel_seams("left_wall", y=-2.59)
-    add_panel_seams("right_wall", y=2.59)
-    add_panel_seams("front_wall", x=4.14)
-    add_panel_seams("rear_wall", x=-4.14)
-    add_roof_seams("roof")
-
-    # Frame ribs and rails.
+    # Wall posts and rails.
     for x in ROOF_RIB_X_VALUES:
-        add_arch_rib("arched_steel_roof_rib", x)
-        cube("vertical_wall_post_left", (x, -2.55, 1.45), (0.08, 0.08, 2.2), MAT_FRAME)
-        cube("vertical_wall_post_right", (x, 2.55, 1.45), (0.08, 0.08, 2.2), MAT_FRAME)
+        cube("vertical_wall_post_left", (x, -GREENHOUSE_WIDTH / 2, 1.47), (0.08, 0.08, 2.25), MAT_FRAME)
+        cube("vertical_wall_post_right", (x, GREENHOUSE_WIDTH / 2, 1.47), (0.08, 0.08, 2.25), MAT_FRAME)
 
-    for y in [-2.55, 2.55]:
-        cube("lower_side_rail", (0, y, 0.72), (8.3, 0.08, 0.08), MAT_FRAME)
-        cube("upper_side_rail", (0, y, 2.55), (8.3, 0.08, 0.08), MAT_FRAME)
+    for y in [-GREENHOUSE_WIDTH / 2, GREENHOUSE_WIDTH / 2]:
+        cube("lower_side_rail", (0, y, 0.72), (GREENHOUSE_LENGTH + 0.12, 0.08, 0.08), MAT_FRAME)
+        cube("upper_side_rail", (0, y, EAVE_Z), (GREENHOUSE_LENGTH + 0.12, 0.08, 0.08), MAT_FRAME)
 
+    add_wall_panel_seams("left_wall", y=-GREENHOUSE_WIDTH / 2 - 0.035)
+    add_wall_panel_seams("right_wall", y=GREENHOUSE_WIDTH / 2 + 0.035)
+    add_wall_panel_seams("front_wall", x=GREENHOUSE_LENGTH / 2 + 0.035)
+    add_wall_panel_seams("rear_wall", x=-GREENHOUSE_LENGTH / 2 - 0.035)
+
+
+def build_roof():
+    # Order matters: panels first, ribs/rails above them.
+    add_segmented_roof_panels()
+    add_roof_ribs()
+    add_roof_long_rails()
+
+
+def build_doors_and_details():
     # Front double doors.
-    cube("front_door_left_frame", (4.18, -0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
-    cube("front_door_right_frame", (4.18, 0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
-    cube("front_door_top_frame", (4.18, 0, 2.18), (0.08, 1.05, 0.08), MAT_FRAME)
-    cube("front_door_center_rubber_gasket", (4.235, 0, 1.25), (0.045, 0.035, 1.65), MAT_RUBBER)
-    cube("front_door_glass_left", (4.2, -0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
-    cube("front_door_glass_right", (4.2, 0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
+    front_x = GREENHOUSE_LENGTH / 2 + 0.08
+    cube("front_door_left_frame", (front_x, -0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
+    cube("front_door_right_frame", (front_x, 0.45, 1.25), (0.08, 0.08, 1.85), MAT_FRAME)
+    cube("front_door_top_frame", (front_x, 0, 2.18), (0.08, 1.05, 0.08), MAT_FRAME)
+    cube("front_door_center_rubber_gasket", (front_x + 0.035, 0, 1.25), (0.045, 0.035, 1.65), MAT_RUBBER)
+    cube("front_door_glass_left", (front_x + 0.02, -0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
+    cube("front_door_glass_right", (front_x + 0.02, 0.25, 1.25), (0.04, 0.42, 1.65), MAT_GLASS)
 
     # Grow beds and plants.
     for y in [-1.45, 0, 1.45]:
@@ -389,12 +362,13 @@ def build_model() -> None:
     # Utility details. No roof/front brand signs in this version.
     cylinder("blue_water_storage_tank_scuffed", (-3.35, 2.05, 1.05), 0.42, 1.55, MAT_WATER, vertices=48)
     cylinder("water_tank_cap_black", (-3.35, 2.05, 1.86), 0.28, 0.08, MAT_FRAME, vertices=32)
-    cube("nutrient_control_box_satin_black", (-3.2, -2.35, 1.15), (0.62, 0.12, 0.82), MAT_FRAME)
-    cube("grow_light_strip_1_emissive", (0, -1.45, 2.72), (6.8, 0.08, 0.06), MAT_LIGHT)
-    cube("grow_light_strip_2_emissive", (0, 0, 2.72), (6.8, 0.08, 0.06), MAT_LIGHT)
-    cube("grow_light_strip_3_emissive", (0, 1.45, 2.72), (6.8, 0.08, 0.06), MAT_LIGHT)
+    cube("nutrient_control_box_satin_black", (-3.2, -2.45, 1.15), (0.62, 0.12, 0.82), MAT_FRAME)
+    cube("grow_light_strip_1_emissive", (0, -1.45, 2.46), (6.8, 0.08, 0.06), MAT_LIGHT)
+    cube("grow_light_strip_2_emissive", (0, 0, 2.46), (6.8, 0.08, 0.06), MAT_LIGHT)
+    cube("grow_light_strip_3_emissive", (0, 1.45, 2.46), (6.8, 0.08, 0.06), MAT_LIGHT)
 
-    # Lighting and camera.
+
+def add_preview_lighting_and_camera():
     bpy.ops.object.light_add(type="AREA", location=(0, -7, 6))
     light = bpy.context.object
     light.name = "large_softbox_preview_light"
@@ -410,9 +384,17 @@ def build_model() -> None:
         pass
     bpy.context.scene.unit_settings.system = "METRIC"
 
+
+def build_model() -> None:
+    clear_scene()
+    build_foundation_and_shell()
+    build_roof()
+    build_doors_and_details()
+    add_preview_lighting_and_camera()
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_FILE))
-    print(f"Saved textured greenhouse model: {OUTPUT_FILE}")
+    print(f"Saved safe rebuilt greenhouse model: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
