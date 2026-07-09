@@ -80,6 +80,28 @@ function Copy-IconFromZip {
     }
 }
 
+function Decode-IconFromBase64Backup {
+    param(
+        [string]$BackupPath,
+        [string]$DestinationPath
+    )
+
+    if (-not (Test-Path $BackupPath)) {
+        return $false
+    }
+
+    try {
+        $base64 = (Get-Content -Path $BackupPath -Raw).Trim()
+        $bytes = [Convert]::FromBase64String($base64)
+        [System.IO.File]::WriteAllBytes($DestinationPath, $bytes)
+        return $true
+    }
+    catch {
+        Write-Host "WARN: Found icon_mod.dds.b64 but could not decode it: $($_.Exception.Message)" -ForegroundColor Yellow
+        return $false
+    }
+}
+
 function Restore-ExistingIcon {
     param(
         [string]$ModFolder,
@@ -89,6 +111,12 @@ function Restore-ExistingIcon {
     $iconPath = Join-Path $ModFolder "icon_mod.dds"
     if (Test-Path $iconPath) {
         Write-Host "Icon exists in repo mod folder: $iconPath" -ForegroundColor Green
+        return
+    }
+
+    $backupPath = Join-Path $ModFolder "icon_mod.dds.b64"
+    if (Decode-IconFromBase64Backup -BackupPath $backupPath -DestinationPath $iconPath) {
+        Write-Host "Restored icon_mod.dds from checked-in base64 backup." -ForegroundColor Green
         return
     }
 
