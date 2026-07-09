@@ -1,16 +1,16 @@
 # Green Horizon Industries - Hemp Greenhouse Blender Generator
-# Run in Blender with:
+# Run in Blender 4.2 LTS with:
 # blender --background --python tools/blender/create_green_horizon_greenhouse.py
 #
-# This is an original model concept generator. It creates a greenhouse concept
-# scene with procedural Blender materials. It does not create final DDS/i3d game
-# assets yet; export to i3d later with the GIANTS Blender Exporter after scale,
-# collision, triggers, and textures are finalized.
+# Original Green Horizon greenhouse concept shape with the material pass added.
+# This creates a Blender concept scene, not final game-ready DDS/i3d assets yet.
 #
-# Phase 2.3:
+# Phase 2.4:
+# - Keeps Blender 4.2-friendly Python/API usage.
 # - Saves to the repository assets/blender folder instead of Blender's launch folder.
-# - Avoids Windows permission errors when Blender is launched from Program Files.
-# - Removes the top/front branding signs because the early signs did not fit the look.
+# - Removes the floating flat roof panel.
+# - Rebuilds the roof as a real curved greenhouse mesh sitting on the wall tops.
+# - Keeps the no-sign look requested after the first material pass.
 
 from __future__ import annotations
 
@@ -39,7 +39,6 @@ def find_repo_root() -> Path:
         if (candidate / "FS25_GreenHorizonIndustries").exists() or (candidate / ".git").exists():
             return candidate
 
-    # Fallback avoids trying to write into Blender/Program Files if the script was copied elsewhere.
     return Path.home() / "Documents" / "GreenHorizonIndustries"
 
 
@@ -86,7 +85,6 @@ def make_mat(name: str, color, roughness: float = 0.55, metallic: float = 0.0, a
 
 
 def add_noise_color(mat, color_a, color_b, scale=22, detail=7, roughness=0.55):
-    """Add procedural color variation to a material."""
     nodes = mat.node_tree.nodes
     links = mat.node_tree.links
     bsdf = get_bsdf(mat)
@@ -112,7 +110,6 @@ def add_noise_color(mat, color_a, color_b, scale=22, detail=7, roughness=0.55):
 
 
 def add_bump(mat, strength=0.05, distance=0.08, scale=40, detail=8):
-    """Add procedural surface roughness/bump."""
     nodes = mat.node_tree.nodes
     links = mat.node_tree.links
     bsdf = get_bsdf(mat)
@@ -199,8 +196,75 @@ def cylinder(name: str, loc, radius: float, depth: float, mat=None, vertices: in
     return obj
 
 
+def make_arch_points(radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62, steps: int = 18):
+    """Roof arch points from left wall to right wall with the curve above the wall tops."""
+    points = []
+    for i in range(steps + 1):
+        t = math.pi * i / steps
+        y = math.cos(t) * radius
+        z = eave_z + math.sin(t) * rise
+        points.append(Vector((0.0, y, z)))
+    return points
+
+
+def add_curved_roof_panel(name: str, length: float = 8.2, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62):
+    """Create a curved polycarbonate roof mesh; no floating flat panel."""
+    x_values = [-length / 2, -2.7, -1.35, 0.0, 1.35, 2.7, length / 2]
+    arch = make_arch_points(radius=radius, eave_z=eave_z, rise=rise, steps=24)
+
+    verts = []
+    for x in x_values:
+        for p in arch:
+            verts.append((x, p.y, p.z))
+
+    faces = []
+    row = len(arch)
+    for ix in range(len(x_values) - 1):
+        for iy in range(row - 1):
+            a = ix * row + iy
+            b = (ix + 1) * row + iy
+            c = (ix + 1) * row + iy + 1
+            d = ix * row + iy + 1
+            faces.append((a, b, c, d))
+
+    mesh = bpy.data.meshes.new(f"{name}_mesh")
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    obj.data.materials.append(MAT_GLASS)
+
+    try:
+        for poly in obj.data.polygons:
+            poly.use_smooth = True
+    except Exception:
+        pass
+
+    return obj
+
+
+def add_roof_seams(prefix: str, length: float = 8.2, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62):
+    """Thin black strips on the curved roof so it reads like greenhouse panels."""
+    arch = make_arch_points(radius=radius, eave_z=eave_z + 0.012, rise=rise, steps=16)
+    for x in [-3.0, -1.5, 0.0, 1.5, 3.0]:
+        for idx, (p, q) in enumerate(zip(arch, arch[1:])):
+            a = Vector((x, p.y, p.z))
+            b = Vector((x, q.y, q.z))
+            mid = (a + b) * 0.5
+            length_seg = (b - a).length
+            angle = math.atan2((b - a).z, (b - a).y)
+            bar = cube(f"{prefix}_curved_seam_{x}_{idx:02d}", mid, (0.035, length_seg, 0.035), MAT_RUBBER)
+            bar.rotation_euler[0] = -angle
+
+    for t in [0.28, 0.50, 0.72]:
+        y = math.cos(math.pi * t) * radius
+        z = eave_z + math.sin(math.pi * t) * rise + 0.014
+        cube(f"{prefix}_longitudinal_seam_{t:.2f}", (0, y, z), (length, 0.035, 0.035), MAT_RUBBER)
+
+
 def add_panel_seams(prefix: str, x: float | None = None, y: float | None = None):
-    """Add thin black greenhouse panel seam strips."""
+    """Add thin black greenhouse wall panel seam strips."""
     if y is not None:
         for x_pos in [-3.0, -1.5, 0, 1.5, 3.0]:
             cube(f"{prefix}_vertical_seam_{x_pos}", (x_pos, y, 1.65), (0.035, 0.035, 2.35), MAT_RUBBER)
@@ -213,15 +277,13 @@ def add_panel_seams(prefix: str, x: float | None = None, y: float | None = None)
             cube(f"{prefix}_end_horizontal_seam_{z_pos}", (x, 0, z_pos), (0.035, 4.9, 0.035), MAT_RUBBER)
 
 
-def add_arch_rib(name: str, x: float, radius: float = 2.55, z_base: float = 1.15, width: float = 0.075):
-    points = []
-    for i in range(17):
-        t = math.pi * i / 16
-        y = math.cos(t) * radius
-        z = z_base + math.sin(t) * 1.65
-        points.append(Vector((x, y, z)))
+def add_arch_rib(name: str, x: float, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62, width: float = 0.075):
+    """Roof rib sitting on top of the side walls, not flipped down into the body."""
+    arch_points = make_arch_points(radius=radius, eave_z=eave_z, rise=rise, steps=18)
 
-    for idx, (a, b) in enumerate(zip(points, points[1:])):
+    for idx, (p, q) in enumerate(zip(arch_points, arch_points[1:])):
+        a = Vector((x, p.y, p.z))
+        b = Vector((x, q.y, q.z))
         mid = (a + b) * 0.5
         length = (b - a).length
         angle = math.atan2((b - a).z, (b - a).y)
@@ -256,17 +318,18 @@ def build_model() -> None:
     cube("left_curb_textured", (-4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
     cube("right_curb_textured", (4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
 
-    # Glass shell.
+    # Glass shell. The wall tops meet the new curved roof at z=2.55.
     cube("left_wall_polycarbonate_panels", (0, -2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("right_wall_polycarbonate_panels", (0, 2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("rear_wall_polycarbonate_panels", (-4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
     cube("front_wall_polycarbonate_panels", (4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
-    cube("roof_polycarbonate_panel", (0, 0, 3.0), (8.2, 5.0, 0.08), MAT_GLASS)
+    add_curved_roof_panel("curved_polycarbonate_roof")
 
     add_panel_seams("left_wall", y=-2.59)
     add_panel_seams("right_wall", y=2.59)
     add_panel_seams("front_wall", x=4.14)
     add_panel_seams("rear_wall", x=-4.14)
+    add_roof_seams("roof")
 
     # Frame ribs and rails.
     for x in [-4, -2.7, -1.35, 0, 1.35, 2.7, 4]:
