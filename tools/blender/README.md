@@ -30,6 +30,40 @@ It creates Industrial Hemp, Hemp Biomass, and Hemp Seed Input pallets with front
 assets/blender/green_horizon_product_pallets.blend
 ```
 
+### GIANTS Editor Helper Markers
+
+After the greenhouse model shape is approved, run this optional helper script:
+
+```text
+add_giants_editor_helpers.py
+```
+
+It adds a separate Blender collection named:
+
+```text
+GHI_GIANTS_EDITOR_HELPERS
+```
+
+That collection contains named placeholder objects for later GIANTS Editor/i3d work:
+
+```text
+GHI_ROOT_export_reference
+GHI_placeable_collision_placeholder
+GHI_player_interaction_trigger_placeholder
+GHI_unload_water_trigger_placeholder
+GHI_unload_seed_trigger_placeholder
+GHI_pallet_spawn_area_placeholder
+GHI_buy_marker_placeholder
+```
+
+It saves a helper copy here:
+
+```text
+assets/blender/green_horizon_hemp_greenhouse_giants_helpers.blend
+```
+
+These helper labels/placeholders are not final visible game signage. They are layout markers for the future i3d hookup.
+
 ## Blender Version
 
 Use Blender `4.2 LTS` for the current FS25/GIANTS workflow unless a newer exporter is confirmed working. The scripts avoid Blender 5.x-only assumptions.
@@ -48,6 +82,13 @@ The greenhouse script and pallet script are separate generators. They do not nee
 
 For greenhouse animation/detail scripts, run the greenhouse generator first. Most animation/detail scripts expect the greenhouse objects to already exist, so running them first can fail or create empty animation tracks.
 
+Safe script order for the current greenhouse workflow:
+
+1. `create_green_horizon_greenhouse.py`
+2. Review/fix the model shape.
+3. `add_giants_editor_helpers.py`
+4. Export to `.i3d` later only after the model and helper layout look right.
+
 ## Safe Greenhouse Workflow
 
 1. Open Blender 4.2 LTS.
@@ -56,7 +97,7 @@ For greenhouse animation/detail scripts, run the greenhouse generator first. Mos
 4. Confirm the roof is curved and sitting on the wall tops, not floating as a flat panel.
 5. Use Material Preview or Rendered view to check the procedural materials.
 6. Save the `.blend` if you make manual edits.
-7. Run any future animation/detail script.
+7. Run `add_giants_editor_helpers.py` only after the model shape looks right.
 8. Save another copy.
 9. Export to `.i3d` only after the model looks right in Blender.
 
