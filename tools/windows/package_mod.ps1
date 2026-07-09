@@ -33,6 +33,95 @@ function Get-ModVersion {
     return $modDesc.modDesc.version.Trim()
 }
 
+function Write-UInt32LE {
+    param(
+        [byte[]]$Buffer,
+        [int]$Offset,
+        [UInt32]$Value
+    )
+
+    $bytes = [BitConverter]::GetBytes($Value)
+    [Array]::Copy($bytes, 0, $Buffer, $Offset, 4)
+}
+
+function New-PlaceholderDdsIcon {
+    param([string]$IconPath)
+
+    # Minimal uncompressed 256x256 A8R8G8B8 DDS placeholder.
+    # This is only for alpha testing. Replace with a real GIANTS-generated icon_mod.dds later.
+    $width = 256
+    $height = 256
+    $headerSize = 128
+    $bytesPerPixel = 4
+    $dataSize = $width * $height * $bytesPerPixel
+    $buffer = New-Object byte[] ($headerSize + $dataSize)
+
+    # Magic: DDS
+    $buffer[0] = [byte][char]'D'
+    $buffer[1] = [byte][char]'D'
+    $buffer[2] = [byte][char]'S'
+    $buffer[3] = 32
+
+    # DDS_HEADER
+    Write-UInt32LE $buffer 4 124                  # dwSize
+    Write-UInt32LE $buffer 8 0x0000100F           # dwFlags: CAPS | HEIGHT | WIDTH | PITCH | PIXELFORMAT
+    Write-UInt32LE $buffer 12 $height             # dwHeight
+    Write-UInt32LE $buffer 16 $width              # dwWidth
+    Write-UInt32LE $buffer 20 ($width * 4)        # dwPitchOrLinearSize
+
+    # DDS_PIXELFORMAT at offset 76
+    Write-UInt32LE $buffer 76 32                  # dwSize
+    Write-UInt32LE $buffer 80 0x00000041          # dwFlags: ALPHAPIXELS | RGB
+    Write-UInt32LE $buffer 88 32                  # dwRGBBitCount
+    Write-UInt32LE $buffer 92 0x00FF0000          # R mask
+    Write-UInt32LE $buffer 96 0x0000FF00          # G mask
+    Write-UInt32LE $buffer 100 0x000000FF         # B mask
+    Write-UInt32LE $buffer 104 0xFF000000         # A mask
+    Write-UInt32LE $buffer 108 0x00001000         # dwCaps: TEXTURE
+
+    # Pixel data: simple dark green icon with lighter center mark.
+    for ($y = 0; $y -lt $height; $y++) {
+        for ($x = 0; $x -lt $width; $x++) {
+            $offset = $headerSize + (($y * $width + $x) * $bytesPerPixel)
+
+            $border = ($x -lt 10 -or $x -gt ($width - 11) -or $y -lt 10 -or $y -gt ($height - 11))
+            $center = ($x -gt 72 -and $x -lt 184 -and $y -gt 72 -and $y -lt 184)
+            $stripe = ([Math]::Abs($x - $y) -lt 10)
+
+            if ($border) {
+                $r = 26; $g = 82; $b = 38
+            }
+            elseif ($center -or $stripe) {
+                $r = 74; $g = 168; $b = 84
+            }
+            else {
+                $r = 12; $g = 42; $b = 24
+            }
+
+            # Byte order for A8R8G8B8 in little-endian storage: B G R A
+            $buffer[$offset + 0] = [byte]$b
+            $buffer[$offset + 1] = [byte]$g
+            $buffer[$offset + 2] = [byte]$r
+            $buffer[$offset + 3] = 255
+        }
+    }
+
+    [System.IO.File]::WriteAllBytes($IconPath, $buffer)
+}
+
+function Ensure-ModIcon {
+    param([string]$ModFolder)
+
+    $iconPath = Join-Path $ModFolder "icon_mod.dds"
+    if (-not (Test-Path $iconPath)) {
+        New-PlaceholderDdsIcon -IconPath $iconPath
+        Write-Host "Generated alpha placeholder icon: $iconPath" -ForegroundColor Yellow
+    }
+    else {
+        Write-Host "Icon exists: $iconPath" -ForegroundColor Green
+    }
+}
+
 function Test-ZipRoot {
     param([string]$ZipPath)
 
@@ -90,6 +179,8 @@ if (-not (Test-Path $modFolder)) {
 if (-not (Test-Path $modDescPath)) {
     throw "Missing modDesc.xml: $modDescPath"
 }
+
+Ensure-ModIcon -ModFolder $modFolder
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
