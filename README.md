@@ -8,7 +8,7 @@
 
 ## Current Build
 
-**Phase 2.3 / Alpha 0.2 greenhouse store visibility test is active.**
+**Phase 2.4 / Alpha 0.2 greenhouse store visibility and Blender roof test is active.**
 
 The active mod folder is:
 
@@ -26,20 +26,22 @@ Phase 1 fill type loading has been confirmed by FS25 log output:
 Info: Loaded 3 fill types from mod
 ```
 
-## Phase 2.3 Scope
+## Phase 2.4 Scope
 
-Phase 2.3 focuses on getting the Hemp Greenhouse visible in the FS25 construction menu after FS25 rejected the test category `greenhouses`.
+Phase 2.4 focuses on keeping the Hemp Greenhouse visible in the FS25 construction menu while correcting the Blender greenhouse concept model.
 
 Included now:
 
-- `modDesc.xml` updated to mod version `0.2.3.0`
-- `modDesc.xml` descriptor version kept at `109` for FS25 1.19
+- `modDesc.xml` updated to mod version `0.2.4.0`
+- `modDesc.xml` descriptor version returned to `91` for the current local FS25 test setup
 - Store item wiring for a Hemp Greenhouse
-- Hemp Greenhouse category changed back to the valid `productionPoints` category
+- Hemp Greenhouse category kept as the valid `productionPoints` category
 - Greenhouse production placeable XML
 - Recipe balance notes XML
 - Blender greenhouse generator output-path fix
 - Blender pallet generator output-path fix
+- Greenhouse Blender script marked for Blender 4.2 LTS workflow
+- Curved greenhouse roof restored as a real mesh, with no floating flat roof panel
 - Early top/front greenhouse signs removed from the Blender model
 - Top pallet signs removed; pallets keep front labels only
 - Production input/output loop:
@@ -54,7 +56,7 @@ Check the construction menu, not the normal vehicle/equipment store:
 Construction > Production > Factories / Production Points
 ```
 
-If FS25 still shows the mod as version `0.2.2.0` or older, the old zip/folder is still installed.
+If FS25 still shows the mod as version `0.2.3.0` or older, the old zip/folder is still installed.
 
 Still pending:
 
