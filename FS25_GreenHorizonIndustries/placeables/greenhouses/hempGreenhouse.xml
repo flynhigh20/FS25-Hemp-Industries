@@ -2,7 +2,12 @@
 <placeable type="productionPoint">
 
     <!-- Green Horizon Industries
-         Phase 2.2 / Alpha 0.2 — hemp greenhouse construction-menu test shell -->
+         Phase 2.3 / Alpha 0.2 — hemp greenhouse production-point test shell.
+
+         FS25 1.19 rejected category="greenhouses" with:
+         Invalid category 'greenhouses' in store data.
+         Keep the item in a known production store category until the full custom greenhouse
+         placeable schema is ready. -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
@@ -16,7 +21,7 @@
         <rotation>0</rotation>
         <brand>NONE</brand>
         <species>placeable</species>
-        <category>greenhouses</category>
+        <category>productionPoints</category>
         <canBeSold>true</canBeSold>
         <showInStore>true</showInStore>
     </storeData>
