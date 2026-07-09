@@ -39,17 +39,35 @@ function Test-ZipRoot {
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $zip = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
     try {
-        $hasModDescAtRoot = $false
         foreach ($entry in $zip.Entries) {
             if ($entry.FullName -eq "modDesc.xml") {
-                $hasModDescAtRoot = $true
-                break
+                return $true
             }
         }
-        return $hasModDescAtRoot
+        return $false
     }
     finally {
         $zip.Dispose()
+    }
+}
+
+function Remove-OldModInstall {
+    param(
+        [string]$ModsDir,
+        [string]$Name
+    )
+
+    $target = Join-Path $ModsDir $Name
+    if (Test-Path $target) {
+        $item = Get-Item $target
+        if ($item.PSIsContainer) {
+            Remove-Item $target -Recurse -Force
+            Write-Host "Removed old loose mod folder: $target" -ForegroundColor Yellow
+        }
+        else {
+            Remove-Item $target -Force
+            Write-Host "Removed old mod file: $target" -ForegroundColor Yellow
+        }
     }
 }
 
@@ -73,11 +91,7 @@ if (-not (Test-Path $modDescPath)) {
     throw "Missing modDesc.xml: $modDescPath"
 }
 
-if (Test-Path $distDir) {
-    New-Item -ItemType Directory -Force -Path $distDir | Out-Null
-} else {
-    New-Item -ItemType Directory -Path $distDir | Out-Null
-}
+New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
 if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force
@@ -98,17 +112,15 @@ if ($Install) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
 
     if ($CleanOldZips) {
-        $oldZipNames = @(
+        $oldNames = @(
             "FS25_GreenHorizonIndustries.zip",
-            "FS25_Hemp_Industries.zip"
+            "FS25_GreenHorizonIndustries",
+            "FS25_Hemp_Industries.zip",
+            "FS25_Hemp_Industries"
         )
 
-        foreach ($name in $oldZipNames) {
-            $oldPath = Join-Path $ModsDir $name
-            if (Test-Path $oldPath) {
-                Remove-Item $oldPath -Force
-                Write-Host "Removed old zip: $oldPath" -ForegroundColor Yellow
-            }
+        foreach ($name in $oldNames) {
+            Remove-OldModInstall -ModsDir $ModsDir -Name $name
         }
     }
 
