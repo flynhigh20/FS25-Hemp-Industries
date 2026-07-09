@@ -1,5 +1,6 @@
 param(
     [switch]$Install,
+    [switch]$InstallLoose,
     [switch]$CleanOldZips,
     [string]$ModsDir = "$env:USERPROFILE\Documents\My Games\FarmingSimulator2025\mods"
 )
@@ -133,7 +134,6 @@ function New-PlaceholderStorePng {
     $graphics.FillRectangle($brushPanel, 52, 102, 408, 290)
     $graphics.DrawRectangle($penAccent, 52, 102, 408, 290)
 
-    # Simple greenhouse roof and frame.
     $points = @(
         [System.Drawing.Point]::new(52, 102),
         [System.Drawing.Point]::new(256, 36),
@@ -145,7 +145,6 @@ function New-PlaceholderStorePng {
     $graphics.DrawLine($penWhite, 358, 102, 358, 392)
     $graphics.DrawLine($penWhite, 52, 242, 460, 242)
 
-    # Grow beds.
     $graphics.FillRectangle($brushDark, 115, 330, 282, 44)
     $graphics.FillEllipse($brushAccent, 150, 285, 34, 34)
     $graphics.FillEllipse($brushAccent, 215, 276, 34, 34)
@@ -267,7 +266,6 @@ if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force
 }
 
-# Important: zip the CONTENTS of FS25_GreenHorizonIndustries, not the parent folder.
 $items = Get-ChildItem -Path $modFolder -Force
 Compress-Archive -Path $items.FullName -DestinationPath $zipPath -CompressionLevel Optimal
 
@@ -278,24 +276,35 @@ if (-not (Test-ZipRoot -ZipPath $zipPath)) {
 Write-Host "Created: $zipPath" -ForegroundColor Cyan
 Write-Host "Zip root check: PASS - modDesc.xml is at the top of the zip." -ForegroundColor Green
 
+if ($CleanOldZips) {
+    New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
+    $oldNames = @(
+        "FS25_GreenHorizonIndustries.zip",
+        "FS25_GreenHorizonIndustries",
+        "FS25_Hemp_Industries.zip",
+        "FS25_Hemp_Industries"
+    )
+
+    foreach ($name in $oldNames) {
+        Remove-OldModInstall -ModsDir $ModsDir -Name $name
+    }
+}
+
 if ($Install) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
-
-    if ($CleanOldZips) {
-        $oldNames = @(
-            "FS25_GreenHorizonIndustries.zip",
-            "FS25_GreenHorizonIndustries",
-            "FS25_Hemp_Industries.zip",
-            "FS25_Hemp_Industries"
-        )
-
-        foreach ($name in $oldNames) {
-            Remove-OldModInstall -ModsDir $ModsDir -Name $name
-        }
-    }
-
     Copy-Item -Path $zipPath -Destination (Join-Path $ModsDir "FS25_GreenHorizonIndustries.zip") -Force
-    Write-Host "Installed to: $ModsDir" -ForegroundColor Cyan
+    Write-Host "Installed zip to: $ModsDir" -ForegroundColor Cyan
+}
+
+if ($InstallLoose) {
+    New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
+    $looseTarget = Join-Path $ModsDir "FS25_GreenHorizonIndustries"
+    if (Test-Path $looseTarget) {
+        Remove-Item $looseTarget -Recurse -Force
+    }
+    Copy-Item -Path $modFolder -Destination $ModsDir -Recurse -Force
+    Write-Host "Installed loose folder to: $looseTarget" -ForegroundColor Cyan
+    Write-Host "Use the loose folder for GIANTS Icon Generator testing." -ForegroundColor Cyan
 }
 
 Write-Host "Done. In FS25, confirm the mod list shows version $version." -ForegroundColor Green
