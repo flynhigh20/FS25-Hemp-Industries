@@ -5,11 +5,11 @@
 # Original Green Horizon greenhouse concept shape with the material pass added.
 # This creates a Blender concept scene, not final game-ready DDS/i3d assets yet.
 #
-# Phase 2.4:
+# Phase 2.5:
 # - Keeps Blender 4.2-friendly Python/API usage.
 # - Saves to the repository assets/blender folder instead of Blender's launch folder.
-# - Removes the floating flat roof panel.
-# - Rebuilds the roof as a real curved greenhouse mesh sitting on the wall tops.
+# - Restores the first/original tall greenhouse roof arch shape the user liked.
+# - Makes the roof ribs adjustable from constants near the top of this file.
 # - Keeps the no-sign look requested after the first material pass.
 
 from __future__ import annotations
@@ -23,6 +23,19 @@ from mathutils import Vector
 
 
 random.seed(42025)
+
+# Roof controls: tweak these first if the roof needs another pass.
+# The first model used z_base=1.15 and rise=1.65; that gave the taller arch/rib look.
+ROOF_RADIUS = 2.55
+ROOF_BASE_Z = 1.15
+ROOF_RISE = 1.65
+ROOF_STEPS = 16
+ROOF_RIB_WIDTH = 0.075
+ROOF_RIB_X_VALUES = [-4.0, -2.7, -1.35, 0.0, 1.35, 2.7, 4.0]
+ROOF_PANEL_X_VALUES = ROOF_RIB_X_VALUES
+ROOF_SEAM_X_VALUES = [-3.0, -1.5, 0.0, 1.5, 3.0]
+ROOF_LONGITUDINAL_SEAM_T_VALUES = [0.28, 0.50, 0.72]
+ROOF_PANEL_SOLIDIFY_THICKNESS = 0.035
 
 
 def find_repo_root() -> Path:
@@ -196,26 +209,28 @@ def cylinder(name: str, loc, radius: float, depth: float, mat=None, vertices: in
     return obj
 
 
-def make_arch_points(radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62, steps: int = 18):
-    """Roof arch points from left wall to right wall with the curve above the wall tops."""
+def make_arch_points(radius: float = ROOF_RADIUS, z_base: float = ROOF_BASE_Z, rise: float = ROOF_RISE, steps: int = ROOF_STEPS):
+    """Original tall roof arch points from the first approved greenhouse model."""
     points = []
     for i in range(steps + 1):
         t = math.pi * i / steps
         y = math.cos(t) * radius
-        z = eave_z + math.sin(t) * rise
+        z = z_base + math.sin(t) * rise
         points.append(Vector((0.0, y, z)))
     return points
 
 
-def add_curved_roof_panel(name: str, length: float = 8.2, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62):
-    """Create a curved polycarbonate roof mesh; no floating flat panel."""
-    x_values = [-length / 2, -2.7, -1.35, 0.0, 1.35, 2.7, length / 2]
-    arch = make_arch_points(radius=radius, eave_z=eave_z, rise=rise, steps=24)
+def add_curved_roof_panel(name: str, x_values=None, z_offset: float = 0.018):
+    """Curved translucent panel following the same original-style arch as the ribs."""
+    if x_values is None:
+        x_values = ROOF_PANEL_X_VALUES
+
+    arch = make_arch_points(steps=ROOF_STEPS)
 
     verts = []
     for x in x_values:
         for p in arch:
-            verts.append((x, p.y, p.z))
+            verts.append((x, p.y, p.z + z_offset))
 
     faces = []
     row = len(arch)
@@ -238,29 +253,44 @@ def add_curved_roof_panel(name: str, length: float = 8.2, radius: float = 2.55, 
     try:
         for poly in obj.data.polygons:
             poly.use_smooth = True
+        bpy.context.view_layer.objects.active = obj
+        obj.select_set(True)
+        bpy.ops.object.mode_set(mode="EDIT")
+        bpy.ops.mesh.select_all(action="SELECT")
+        bpy.ops.mesh.normals_make_consistent(inside=False)
+        bpy.ops.object.mode_set(mode="OBJECT")
+        obj.select_set(False)
+    except Exception:
+        pass
+
+    try:
+        solid = obj.modifiers.new("thin_polycarbonate_thickness", "SOLIDIFY")
+        solid.thickness = ROOF_PANEL_SOLIDIFY_THICKNESS
+        solid.offset = 0
     except Exception:
         pass
 
     return obj
 
 
-def add_roof_seams(prefix: str, length: float = 8.2, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62):
-    """Thin black strips on the curved roof so it reads like greenhouse panels."""
-    arch = make_arch_points(radius=radius, eave_z=eave_z + 0.012, rise=rise, steps=16)
-    for x in [-3.0, -1.5, 0.0, 1.5, 3.0]:
+def add_roof_seams(prefix: str):
+    """Thin black strips following the restored original roof arch."""
+    arch = make_arch_points(steps=ROOF_STEPS)
+    for x in ROOF_SEAM_X_VALUES:
         for idx, (p, q) in enumerate(zip(arch, arch[1:])):
-            a = Vector((x, p.y, p.z))
-            b = Vector((x, q.y, q.z))
+            a = Vector((x, p.y, p.z + 0.04))
+            b = Vector((x, q.y, q.z + 0.04))
             mid = (a + b) * 0.5
             length_seg = (b - a).length
             angle = math.atan2((b - a).z, (b - a).y)
-            bar = cube(f"{prefix}_curved_seam_{x}_{idx:02d}", mid, (0.035, length_seg, 0.035), MAT_RUBBER)
+            bar = cube(f"{prefix}_original_arch_seam_{x}_{idx:02d}", mid, (0.035, length_seg, 0.035), MAT_RUBBER)
             bar.rotation_euler[0] = -angle
 
-    for t in [0.28, 0.50, 0.72]:
-        y = math.cos(math.pi * t) * radius
-        z = eave_z + math.sin(math.pi * t) * rise + 0.014
-        cube(f"{prefix}_longitudinal_seam_{t:.2f}", (0, y, z), (length, 0.035, 0.035), MAT_RUBBER)
+    span_length = max(ROOF_RIB_X_VALUES) - min(ROOF_RIB_X_VALUES)
+    for t in ROOF_LONGITUDINAL_SEAM_T_VALUES:
+        y = math.cos(math.pi * t) * ROOF_RADIUS
+        z = ROOF_BASE_Z + math.sin(math.pi * t) * ROOF_RISE + 0.05
+        cube(f"{prefix}_original_longitudinal_seam_{t:.2f}", (0, y, z), (span_length, 0.035, 0.035), MAT_RUBBER)
 
 
 def add_panel_seams(prefix: str, x: float | None = None, y: float | None = None):
@@ -277,9 +307,9 @@ def add_panel_seams(prefix: str, x: float | None = None, y: float | None = None)
             cube(f"{prefix}_end_horizontal_seam_{z_pos}", (x, 0, z_pos), (0.035, 4.9, 0.035), MAT_RUBBER)
 
 
-def add_arch_rib(name: str, x: float, radius: float = 2.55, eave_z: float = 2.55, rise: float = 0.62, width: float = 0.075):
-    """Roof rib sitting on top of the side walls, not flipped down into the body."""
-    arch_points = make_arch_points(radius=radius, eave_z=eave_z, rise=rise, steps=18)
+def add_arch_rib(name: str, x: float, width: float = ROOF_RIB_WIDTH):
+    """Adjustable original-style roof rib from the first greenhouse shape."""
+    arch_points = make_arch_points(steps=ROOF_STEPS)
 
     for idx, (p, q) in enumerate(zip(arch_points, arch_points[1:])):
         a = Vector((x, p.y, p.z))
@@ -318,12 +348,12 @@ def build_model() -> None:
     cube("left_curb_textured", (-4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
     cube("right_curb_textured", (4.38, 0, 0.28), (0.18, 5.6, 0.36), MAT_CONCRETE)
 
-    # Glass shell. The wall tops meet the new curved roof at z=2.55.
+    # Glass shell. The roof now follows the first approved tall arch/rib shape.
     cube("left_wall_polycarbonate_panels", (0, -2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("right_wall_polycarbonate_panels", (0, 2.55, 1.55), (8.2, 0.06, 2.5), MAT_GLASS)
     cube("rear_wall_polycarbonate_panels", (-4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
     cube("front_wall_polycarbonate_panels", (4.1, 0, 1.55), (0.06, 5.0, 2.5), MAT_GLASS)
-    add_curved_roof_panel("curved_polycarbonate_roof")
+    add_curved_roof_panel("original_style_curved_polycarbonate_roof")
 
     add_panel_seams("left_wall", y=-2.59)
     add_panel_seams("right_wall", y=2.59)
@@ -332,7 +362,7 @@ def build_model() -> None:
     add_roof_seams("roof")
 
     # Frame ribs and rails.
-    for x in [-4, -2.7, -1.35, 0, 1.35, 2.7, 4]:
+    for x in ROOF_RIB_X_VALUES:
         add_arch_rib("arched_steel_roof_rib", x)
         cube("vertical_wall_post_left", (x, -2.55, 1.45), (0.08, 0.08, 2.2), MAT_FRAME)
         cube("vertical_wall_post_right", (x, 2.55, 1.45), (0.08, 0.08, 2.2), MAT_FRAME)
