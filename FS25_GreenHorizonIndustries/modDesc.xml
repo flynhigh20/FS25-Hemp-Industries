@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.5.0</version>
+    <version>0.2.6.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,11 +13,11 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.5 test build: restores the original tall adjustable Blender greenhouse roof ribs for retesting, keeps descriptor version 91 for the current local FS25 setup, and keeps the Hemp Greenhouse store item wired for the next category/schema test.
+Phase 2.6 test build: adds a packaged icon filename, uses the safe rebuilt Blender greenhouse generator, keeps descriptor version 91 for the current local FS25 setup, and keeps the Hemp Greenhouse store item wired for the next visibility test.
         ]]></en>
     </description>
 
-    <!-- iconFilename intentionally omitted until icon_mod.dds is packaged. -->
+    <iconFilename>icon_mod.dds</iconFilename>
 
     <multiplayer supported="true"/>
 
