@@ -55,6 +55,22 @@ greenhouse top/front signs removed
 pallet top signs removed; front labels kept
 ```
 
+## Phase 2.4 Blender Roof / Local Descriptor Test
+
+The Blender model generated successfully, but the material pass made the roof issue obvious: the roof read like a flipped/floating flat panel instead of the earlier greenhouse roof shape.
+
+Fix applied:
+
+```text
+mod version updated to 0.2.4.0
+modDesc descVersion returned to 91 for the current local FS25 test setup
+Blender greenhouse script marked for Blender 4.2 LTS
+flat floating roof panel removed
+curved polycarbonate roof mesh added
+roof ribs moved up to sit on the wall tops
+no-sign greenhouse look kept
+```
+
 ## Active Files
 
 ```text
@@ -75,7 +91,7 @@ Check:
 Construction > Production > Factories / Production Points
 ```
 
-If the mod list still shows version `0.2.2.0` or older, the old zip/folder is still installed and the new test is not active.
+If the mod list still shows version `0.2.3.0` or older, the old zip/folder is still installed and the new test is not active.
 
 ## Production Loop
 
@@ -99,7 +115,7 @@ GHI_HEMP_BIOMASS output: 6
 1. Delete the old `FS25_Hemp_Industries.zip` or `FS25_GreenHorizonIndustries.zip` from the FS25 mods folder.
 2. Re-zip the current active folder as `FS25_GreenHorizonIndustries.zip`.
 3. Start FS25.
-4. Confirm the mod list shows version `0.2.3.0`.
+4. Confirm the mod list shows version `0.2.4.0`.
 5. Confirm the missing `icon_mod.dds` error is gone.
 6. Confirm the mod still loads the 3 fill types.
 7. Check Construction > Production > Factories / Production Points.
@@ -117,8 +133,8 @@ Can't load resource
 
 ## Blender Test Steps
 
-1. Pull/download the current repo.
-2. Open Blender.
+1. Install/open Blender 4.2 LTS for the current FS25/GIANTS workflow.
+2. Pull/download the current repo.
 3. Run the script from the repo `tools/blender/` folder.
 4. Confirm the script saves into:
 
@@ -127,6 +143,7 @@ assets/blender/
 ```
 
 5. Use Material Preview or Rendered view to see the procedural materials.
+6. Confirm the roof is curved and sitting on the wall tops, not floating as a flat panel.
 
 ## Expected Risk Areas
 
