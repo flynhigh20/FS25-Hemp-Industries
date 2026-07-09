@@ -3,8 +3,9 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.5.0"
+$expectedVersion = "0.2.6.0"
 $expectedStoreCategory = "productionPoints"
+$expectedIconFilename = "icon_mod.dds"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -71,17 +72,35 @@ function Test-ZipRoot([string]$zipPath) {
     }
 }
 
+function Test-ZipEntry([string]$zipPath, [string]$entryName) {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+    try {
+        foreach ($entry in $zip.Entries) {
+            if ($entry.FullName -eq $entryName) {
+                return $true
+            }
+        }
+        return $false
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
 $root = Find-RepoRoot
 $modFolder = Join-Path $root "FS25_GreenHorizonIndustries"
 $modDescPath = Join-Path $modFolder "modDesc.xml"
 $greenhouseXmlPath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
 $fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
+$iconPath = Join-Path $modFolder $expectedIconFilename
 $distZipPath = Join-Path $root "dist\FS25_GreenHorizonIndustries.zip"
 
 Write-Host "Green Horizon Industries - Preflight Check" -ForegroundColor Cyan
 Write-Host "Repo: $root"
 Write-Host "Expected mod version: $expectedVersion"
 Write-Host "Expected store category: $expectedStoreCategory"
+Write-Host "Expected icon: $expectedIconFilename"
 Write-Host ""
 
 if (Test-Path $modFolder) { Add-Pass "Mod folder exists: FS25_GreenHorizonIndustries" } else { Add-Failure "Missing mod folder: FS25_GreenHorizonIndustries" }
@@ -97,9 +116,24 @@ if (Test-Path $modDescPath) {
 if ($null -ne $modDesc) {
     $descVersion = $modDesc.modDesc.descVersion
     $version = $modDesc.modDesc.version
+    $iconFilename = $modDesc.modDesc.iconFilename
 
     if ($descVersion -eq "91") { Add-Pass "modDesc descVersion is 91" } else { Add-Warning "modDesc descVersion is '$descVersion' instead of current local test value 91" }
     if ($version -eq $expectedVersion) { Add-Pass "mod version is $expectedVersion" } else { Add-Warning "mod version is '$version' instead of expected $expectedVersion" }
+
+    if ($iconFilename -eq $expectedIconFilename) {
+        Add-Pass "modDesc iconFilename is $expectedIconFilename"
+    }
+    else {
+        Add-Failure "modDesc iconFilename is '$iconFilename' instead of $expectedIconFilename"
+    }
+
+    if (Test-Path $iconPath) {
+        Add-Pass "icon file exists: $expectedIconFilename"
+    }
+    else {
+        Add-Warning "icon file not found yet: $expectedIconFilename. Run package_and_install_mod.bat to generate the alpha placeholder icon."
+    }
 
     $storeItems = $modDesc.modDesc.storeItems.storeItem
     if ($null -eq $storeItems) {
@@ -151,6 +185,7 @@ if ($null -ne $greenhouseXml) {
 
 if (Test-Path $distZipPath) {
     if (Test-ZipRoot $distZipPath) { Add-Pass "dist zip root is correct: modDesc.xml is at top" } else { Add-Failure "dist zip root is wrong: modDesc.xml is not at top" }
+    if (Test-ZipEntry $distZipPath $expectedIconFilename) { Add-Pass "dist zip contains $expectedIconFilename" } else { Add-Warning "dist zip missing $expectedIconFilename. Re-run package_and_install_mod.bat." }
 }
 else {
     Add-Warning "No dist zip found yet. Run package_mod.bat or package_and_install_mod.bat."
