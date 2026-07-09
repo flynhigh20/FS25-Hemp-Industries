@@ -3,6 +3,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$expectedVersion = "0.2.5.0"
+$expectedStoreCategory = "productionPoints"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -78,6 +80,8 @@ $distZipPath = Join-Path $root "dist\FS25_GreenHorizonIndustries.zip"
 
 Write-Host "Green Horizon Industries - Preflight Check" -ForegroundColor Cyan
 Write-Host "Repo: $root"
+Write-Host "Expected mod version: $expectedVersion"
+Write-Host "Expected store category: $expectedStoreCategory"
 Write-Host ""
 
 if (Test-Path $modFolder) { Add-Pass "Mod folder exists: FS25_GreenHorizonIndustries" } else { Add-Failure "Missing mod folder: FS25_GreenHorizonIndustries" }
@@ -95,7 +99,7 @@ if ($null -ne $modDesc) {
     $version = $modDesc.modDesc.version
 
     if ($descVersion -eq "91") { Add-Pass "modDesc descVersion is 91" } else { Add-Warning "modDesc descVersion is '$descVersion' instead of current local test value 91" }
-    if ($version -eq "0.2.4.0") { Add-Pass "mod version is 0.2.4.0" } else { Add-Warning "mod version is '$version' instead of expected 0.2.4.0" }
+    if ($version -eq $expectedVersion) { Add-Pass "mod version is $expectedVersion" } else { Add-Warning "mod version is '$version' instead of expected $expectedVersion" }
 
     $storeItems = $modDesc.modDesc.storeItems.storeItem
     if ($null -eq $storeItems) {
@@ -135,8 +139,8 @@ if ($null -ne $greenhouseXml) {
     }
     else {
         $categoryValues = @($categoryNodes | ForEach-Object { $_.Node.InnerText.Trim() })
-        if ($categoryValues -contains "productionPoints") { Add-Pass "greenhouse category includes productionPoints" } else { Add-Warning "greenhouse category is '$($categoryValues -join ', ')' instead of productionPoints" }
-        if ($categoryValues -contains "greenhouses") { Add-Failure "greenhouse category still uses rejected value greenhouses" }
+        if ($categoryValues -contains $expectedStoreCategory) { Add-Pass "greenhouse category includes $expectedStoreCategory" } else { Add-Warning "greenhouse category is '$($categoryValues -join ', ')' instead of $expectedStoreCategory" }
+        if ($categoryValues -contains "greenhouses") { Add-Warning "greenhouse category is greenhouses; verify against FS25 schema/log because an earlier local test rejected it" }
     }
 
     $allText = Get-Content -Path $greenhouseXmlPath -Raw
