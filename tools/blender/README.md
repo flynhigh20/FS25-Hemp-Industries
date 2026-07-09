@@ -4,13 +4,13 @@
 
 ### Greenhouse
 
-Run the greenhouse generator when you want the main Green Horizon greenhouse model:
+Run the greenhouse generator in Blender 4.2 LTS when you want the main Green Horizon greenhouse model:
 
 ```text
 create_green_horizon_greenhouse.py
 ```
 
-It creates the greenhouse model scene from scratch, assigns procedural Blender materials, removes the early top/front branding signs, and saves:
+It creates the greenhouse model scene from scratch, assigns procedural Blender materials, removes the early top/front branding signs, restores the curved greenhouse roof shape, removes the floating flat roof panel, and saves:
 
 ```text
 assets/blender/green_horizon_hemp_greenhouse.blend
@@ -30,6 +30,10 @@ It creates Industrial Hemp, Hemp Biomass, and Hemp Seed Input pallets with front
 assets/blender/green_horizon_product_pallets.blend
 ```
 
+## Blender Version
+
+Use Blender `4.2 LTS` for the current FS25/GIANTS workflow unless a newer exporter is confirmed working. The scripts avoid Blender 5.x-only assumptions.
+
 ## Important Texture Note
 
 The current scripts use Blender procedural materials, not external image texture files. In Blender, use Material Preview or Rendered view to see them. Final game-ready DDS textures still need a later pass before the assets are exported for FS25.
@@ -46,18 +50,19 @@ For greenhouse animation/detail scripts, run the greenhouse generator first. Mos
 
 ## Safe Greenhouse Workflow
 
-1. Open Blender.
+1. Open Blender 4.2 LTS.
 2. Run `create_green_horizon_greenhouse.py` from the `tools/blender/` folder.
 3. Confirm the greenhouse slab is flat on the Blender grid.
-4. Use Material Preview or Rendered view to check the procedural materials.
-5. Save the `.blend` if you make manual edits.
-6. Run any future animation/detail script.
-7. Save another copy.
-8. Export to `.i3d` only after the model looks right in Blender.
+4. Confirm the roof is curved and sitting on the wall tops, not floating as a flat panel.
+5. Use Material Preview or Rendered view to check the procedural materials.
+6. Save the `.blend` if you make manual edits.
+7. Run any future animation/detail script.
+8. Save another copy.
+9. Export to `.i3d` only after the model looks right in Blender.
 
 ## Safe Pallet Workflow
 
-1. Open Blender.
+1. Open Blender 4.2 LTS.
 2. Run `create_green_horizon_pallets.py` from the `tools/blender/` folder.
 3. Confirm the front pallet labels are readable.
 4. Use Material Preview or Rendered view to check the procedural materials.
