@@ -26,6 +26,28 @@ low-poly model pieces
 minimal custom scripting
 ```
 
+## Final Direction: Option B + Option C Combo
+
+Use a combo of:
+
+```text
+Option B: small add-on upgrade modules
+Option C: higher-tier greenhouse recipes
+```
+
+The modules give the player a visual reason to believe the greenhouse has been upgraded.
+
+The recipes give the upgrade real gameplay value.
+
+In plain English:
+
+```text
+The upgrade module shows what changed.
+The upgraded recipe is what makes the greenhouse perform better.
+```
+
+This is the best balance for the project because it feels like a real upgrade system while staying safer for console optimization than a custom scripted upgrade menu.
+
 ## Best Console-Safe Options
 
 ### Option A: Same-Footprint Upgrade Tiers
@@ -98,8 +120,8 @@ console-friendly if kept simple
 Cons:
 
 ```text
-true interaction between main greenhouse and module may be limited without scripts
-modules may need their own small production or selling/trigger behavior
+true automatic interaction between main greenhouse and module may be limited without scripts
+modules may need to work as visual placeables or as small supporting production points
 ```
 
 ### Option C: Recipe-Based Upgrades
@@ -139,9 +161,32 @@ Cons:
 less visual upgrade feeling unless combined with small add-on props
 ```
 
+## How The B + C Combo Works
+
+The main greenhouse stays as the primary production point.
+
+Upgrade modules are small placeables that sit near the greenhouse and visually represent improvements.
+
+The greenhouse gets multiple production recipes. The player chooses the recipe that matches the upgrade level they have built.
+
+Example flow:
+
+```text
+Build Hemp Greenhouse.
+Run Basic Hemp Growth recipe.
+Buy/place Irrigation Upgrade Module.
+Switch greenhouse to Irrigated Hemp Growth recipe.
+Buy/place Grow Light Upgrade Module.
+Switch greenhouse to LED Hemp Growth recipe.
+Buy/place Climate Control Upgrade Module.
+Switch greenhouse to Climate-Controlled Hemp Growth recipe.
+```
+
+This does not require the module to automatically unlock the recipe at first. The store description and recipe names can guide the player until we know what FS25 allows cleanly without scripts.
+
 ## Recommended Direction
 
-Use a hybrid of Option B and Option C:
+Use the B + C hybrid:
 
 ```text
 One main Hemp Greenhouse
@@ -271,6 +316,34 @@ heavy animations
 many separate visible objects
 ```
 
+## Store / Player Guidance
+
+Because the first version may not automatically lock recipes behind modules, store names and descriptions need to clearly explain the intended progression.
+
+Example store names:
+
+```text
+Hemp Greenhouse
+Irrigation Upgrade Module
+Grow Light Upgrade Module
+Climate Control Upgrade Module
+```
+
+Example greenhouse recipe names:
+
+```text
+Basic Hemp Growth
+Irrigated Hemp Growth
+LED Hemp Growth
+Climate-Controlled Hemp Growth
+```
+
+Example store description idea:
+
+```text
+Place this module beside your Hemp Greenhouse, then use the matching greenhouse recipe for improved output.
+```
+
 ## How To Make It Feel Like A Real Upgrade
 
 Even without true scripted upgrades, the player can feel progression through:
@@ -285,15 +358,6 @@ same footprint
 same greenhouse family
 ```
 
-Example store names:
-
-```text
-Hemp Greenhouse
-Irrigation Upgrade Module
-Grow Light Upgrade Module
-Climate Control Upgrade Module
-```
-
 ## First Implementation After Current Testing
 
 Do not add this before the current greenhouse test passes.
@@ -303,19 +367,22 @@ After the greenhouse appears correctly in FS25, the first upgrade test should be
 ```text
 Add one small Irrigation Upgrade Module as a simple placeable.
 Keep it visual-only first.
-Confirm it appears in Construction.
+Add an Irrigated Hemp Growth recipe to the greenhouse.
+Confirm the module appears in Construction.
+Confirm the greenhouse recipe appears/loads.
 Confirm no log errors.
-Then decide whether to connect it to recipes or make upgraded recipes inside the main greenhouse.
+Then decide whether the module should stay visual-only, work as a supporting mini-production, or later become a true scripted upgrade if needed.
 ```
 
 ## Preferred Long-Term Plan
 
 1. Get main greenhouse working.
 2. Add real greenhouse i3d.
-3. Add one small visual upgrade module.
-4. Add upgraded recipes to the greenhouse.
-5. Add grow light/climate visual details later.
-6. Only consider custom scripted upgrades if XML-only progression feels too limited.
+3. Add one small visual Irrigation Upgrade Module.
+4. Add Irrigated Hemp Growth recipe to the greenhouse.
+5. Add grow light module and LED Hemp Growth recipe.
+6. Add climate control module and Climate-Controlled Hemp Growth recipe.
+7. Only consider custom scripted upgrades if XML-only progression feels too limited.
 
 ## Current Recommendation
 
