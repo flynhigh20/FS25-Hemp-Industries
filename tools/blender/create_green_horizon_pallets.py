@@ -2,9 +2,14 @@
 # Run in Blender with:
 # blender --background --python tools/blender/create_green_horizon_pallets.py
 #
-# Creates original concept pallets for Green Horizon products with readable text
+# Creates original concept pallets for Green Horizon products with readable front
 # labels and procedural Blender materials. These are concept/export assets, not
 # final game-ready DDS/i3d assets yet.
+#
+# Phase 2.3:
+# - Saves to the repository assets/blender folder instead of Blender's launch folder.
+# - Avoids Windows permission errors when Blender is launched from Program Files.
+# - Removes top pallet signs/labels because they were too busy and did not look right.
 
 from __future__ import annotations
 
@@ -14,10 +19,31 @@ from pathlib import Path
 
 import bpy
 
-OUTPUT_DIR = Path("assets/blender")
-OUTPUT_FILE = OUTPUT_DIR / "green_horizon_product_pallets.blend"
 
 random.seed(2525)
+
+
+def find_repo_root() -> Path:
+    """Find the project root from this script location, with a safe fallback."""
+    try:
+        script_path = Path(__file__).resolve()
+    except NameError:
+        script_path = Path.cwd()
+
+    candidates = [script_path if script_path.is_dir() else script_path.parent]
+    candidates.extend(candidates[0].parents)
+
+    for candidate in candidates:
+        if (candidate / "FS25_GreenHorizonIndustries").exists() or (candidate / ".git").exists():
+            return candidate
+
+    # Fallback avoids trying to write into Blender/Program Files if the script was copied elsewhere.
+    return Path.home() / "Documents" / "GreenHorizonIndustries"
+
+
+REPO_ROOT = find_repo_root()
+OUTPUT_DIR = REPO_ROOT / "assets" / "blender"
+OUTPUT_FILE = OUTPUT_DIR / "green_horizon_product_pallets.blend"
 
 
 def clear_scene() -> None:
@@ -51,7 +77,8 @@ def make_mat(name: str, color, roughness: float = 0.55, metallic: float = 0.0, a
     if alpha < 1.0:
         mat.blend_method = "BLEND"
         mat.show_transparent_back = True
-        mat.use_screen_refraction = True
+        if hasattr(mat, "use_screen_refraction"):
+            mat.use_screen_refraction = True
     return mat
 
 
@@ -102,6 +129,7 @@ def add_bump(mat, strength=0.05, distance=0.08, scale=40, detail=8):
     return mat
 
 
+# Procedural material set. These are Blender procedural materials, not external image textures.
 MAT_WOOD = make_mat("rough_reused_pallet_wood", (0.56, 0.39, 0.22, 1.0), 0.86, 0.0)
 add_noise_color(MAT_WOOD, (0.32, 0.20, 0.10, 1.0), (0.72, 0.52, 0.30, 1.0), scale=28, detail=10)
 add_bump(MAT_WOOD, strength=0.10, distance=0.08, scale=65, detail=10)
@@ -132,8 +160,6 @@ add_noise_color(MAT_SEED_BAG, (0.48, 0.40, 0.25, 1.0), (0.86, 0.78, 0.54, 1.0), 
 add_bump(MAT_SEED_BAG, strength=0.09, distance=0.08, scale=90, detail=10)
 
 MAT_STRAP = make_mat("black_plastic_pallet_strap", (0.006, 0.006, 0.005, 1.0), 0.48, 0.0)
-MAT_SIGN_GREEN = make_mat("green_horizon_pallet_brand_panel", (0.015, 0.18, 0.07, 1.0), 0.52, 0.0)
-add_noise_color(MAT_SIGN_GREEN, (0.01, 0.10, 0.04, 1.0), (0.04, 0.30, 0.12, 1.0), scale=18, detail=6)
 
 
 def cube(name: str, loc, scale, mat=None, rot=(0, 0, 0)):
@@ -185,18 +211,6 @@ def make_front_label(cx: float, cy: float, z: float, product_title: str, product
     add_text(f"label_code_{product_code}", f"LOT GH-{product_code}  |  FS25", (cx, label_y - 0.020, z - 0.105), 0.035, MAT_BLACK_TEXT)
 
 
-def make_top_label(cx: float, cy: float, z: float, product_title: str, product_code: str):
-    cube(f"top_brand_panel_{product_code}", (cx, cy, z), (0.82, 0.42, 0.018), MAT_SIGN_GREEN)
-    add_text(
-        f"top_label_{product_code}",
-        product_title,
-        (cx, cy, z + 0.018),
-        0.07,
-        MAT_LABEL,
-        rot=(0, 0, 0),
-    )
-
-
 def add_wrap(cx: float, cy: float, z: float, height: float, product_code: str):
     # Thin transparent shell around the stacked product.
     cube(f"clear_wrap_front_{product_code}", (cx, cy - 0.62, z), (1.18, 0.018, height), MAT_WRAP)
@@ -228,7 +242,6 @@ def make_hemp_pallet(cx: float, cy: float):
     add_wrap(cx, cy, 0.62, 0.78, code)
     add_straps(cx, cy, 0.62, 0.78, code)
     make_front_label(cx, cy, 0.62, "INDUSTRIAL HEMP", code)
-    make_top_label(cx, cy, 1.02, "INDUSTRIAL HEMP", code)
 
 
 def make_biomass_pallet(cx: float, cy: float):
@@ -243,7 +256,6 @@ def make_biomass_pallet(cx: float, cy: float):
     add_wrap(cx, cy, 0.58, 0.82, code)
     add_straps(cx, cy, 0.58, 0.82, code)
     make_front_label(cx, cy, 0.60, "HEMP BIOMASS", code)
-    make_top_label(cx, cy, 0.96, "HEMP BIOMASS", code)
 
 
 def make_seed_input_pallet(cx: float, cy: float):
@@ -264,7 +276,6 @@ def make_seed_input_pallet(cx: float, cy: float):
     add_wrap(cx, cy, 0.58, 0.72, code)
     add_straps(cx, cy, 0.58, 0.72, code)
     make_front_label(cx, cy, 0.60, "HEMP SEED INPUT", code)
-    make_top_label(cx, cy, 0.94, "INPUT SEED", code)
 
 
 def add_scene_lighting_and_camera():
