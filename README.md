@@ -8,7 +8,7 @@
 
 ## Current Build
 
-**Phase 2.5 / Alpha 0.2 greenhouse install, store visibility, and restored Blender roof retest is active.**
+**Phase 2.6 / Alpha 0.2 safe Blender greenhouse rebuild and store visibility retest is active.**
 
 The active mod folder is:
 
@@ -67,15 +67,15 @@ Phase 1 fill type loading has been confirmed by FS25 log output:
 Info: Loaded 3 fill types from mod
 ```
 
-## Phase 2.5 Scope
+## Phase 2.6 Scope
 
-Phase 2.5 focuses on making sure the latest package is actually installed, restoring the first/taller Blender roof style, and improving the greenhouse production store metadata.
+Phase 2.6 starts the Blender greenhouse model over with a safe rebuild while keeping the current FS25 store visibility retest path.
 
 Included now:
 
-- `modDesc.xml` updated to mod version `0.2.5.0`
+- `modDesc.xml` remains mod version `0.2.5.0` for the current FS25 package retest
 - `modDesc.xml` descriptor version remains `91` for the current local FS25 test setup
-- Windows package/install helper now removes old loose mod folders as well as old zips
+- Windows package/install helper removes old loose mod folders as well as old zips
 - Store item wiring for a Hemp Greenhouse
 - Hemp Greenhouse category kept as `productionPoints` for the production-point shell
 - Production brush metadata added: `production` / `factories`
@@ -84,7 +84,9 @@ Included now:
 - Blender greenhouse generator output-path fix
 - Blender pallet generator output-path fix
 - Greenhouse Blender script marked for Blender 4.2 LTS workflow
-- Original tall greenhouse roof arch/rib style restored with adjustable roof constants
+- Greenhouse Blender script rebuilt from scratch with segmented roof panels
+- Single curved roof mesh and solidify/thickness modifier removed
+- Adjustable arched ribs retained
 - Early top/front greenhouse signs removed from the Blender model
 - Top pallet signs removed; pallets keep front labels only
 - Windows test menu added
@@ -120,6 +122,7 @@ Still pending:
 - Verify the greenhouse appears in the FS25 construction menu under Production/Factories
 - Decide whether the later true greenhouse system should use `PlaceableGreenhouse` / greenhouse plant schema instead of the current productionPoint shell
 - Confirm the temporary base-game greenhouse visual path loads
+- Approve the safe rebuilt Blender greenhouse shape
 - Add original Green Horizon greenhouse model/assets to the placeable XML after i3d export
 - Add real DDS store image and icon files
 - Add pallets/storage triggers after first placeable test
