@@ -80,28 +80,6 @@ function Copy-IconFromZip {
     }
 }
 
-function Decode-IconFromBase64Backup {
-    param(
-        [string]$BackupPath,
-        [string]$DestinationPath
-    )
-
-    if (-not (Test-Path $BackupPath)) {
-        return $false
-    }
-
-    try {
-        $base64 = (Get-Content -Path $BackupPath -Raw).Trim()
-        $bytes = [Convert]::FromBase64String($base64)
-        [System.IO.File]::WriteAllBytes($DestinationPath, $bytes)
-        return $true
-    }
-    catch {
-        Write-Host "WARN: Found icon_mod.dds.b64 but could not decode it: $($_.Exception.Message)" -ForegroundColor Yellow
-        return $false
-    }
-}
-
 function Restore-ExistingIcon {
     param(
         [string]$ModFolder,
@@ -111,12 +89,6 @@ function Restore-ExistingIcon {
     $iconPath = Join-Path $ModFolder "icon_mod.dds"
     if (Test-Path $iconPath) {
         Write-Host "Icon exists in repo mod folder: $iconPath" -ForegroundColor Green
-        return
-    }
-
-    $backupPath = Join-Path $ModFolder "icon_mod.dds.b64"
-    if (Decode-IconFromBase64Backup -BackupPath $backupPath -DestinationPath $iconPath) {
-        Write-Host "Restored icon_mod.dds from checked-in base64 backup." -ForegroundColor Green
         return
     }
 
@@ -146,7 +118,7 @@ function Restore-ExistingIcon {
         return
     }
 
-    Write-Host "WARN: icon_mod.dds is missing. Put your known-good icon_mod.dds into FS25_GreenHorizonIndustries once, or keep an older installed zip/folder available so this script can recover it." -ForegroundColor Yellow
+    Write-Host "WARN: icon_mod.dds is missing. Put your known-good icon_mod.dds into FS25_GreenHorizonIndustries once." -ForegroundColor Yellow
 }
 
 function Remove-OldModInstall {
@@ -189,7 +161,7 @@ if (-not (Test-Path $modDescPath)) {
     throw "Missing modDesc.xml: $modDescPath"
 }
 
-# Important: recover the working icon before old installs are deleted.
+# Simple path only: use icon_mod.dds if present, otherwise recover it from an installed mod copy.
 Restore-ExistingIcon -ModFolder $modFolder -ModsDir $ModsDir
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
