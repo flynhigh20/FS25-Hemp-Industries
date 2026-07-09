@@ -4,12 +4,35 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.3 - Phase 2 Category Rejection Fix
+
+### Changed
+- Updated mod version to `0.2.3.0`.
+- Kept `modDesc.xml` descriptor version at `109` for FS25 1.19.
+- Changed Hemp Greenhouse store category from rejected `greenhouses` back to valid `productionPoints`.
+- Updated Blender greenhouse generator to save relative to the repository instead of Blender's launch folder.
+- Updated Blender pallet generator to save relative to the repository instead of Blender's launch folder.
+- Removed the early top/front greenhouse signs from the Blender greenhouse concept.
+- Removed top signs from the pallet concept models while keeping front labels.
+
+### Test Focus
+- Delete the old zip/folder before testing.
+- Confirm the mod list shows version `0.2.3.0`.
+- Check Construction > Production > Factories / Production Points.
+- Confirm no `Invalid category 'greenhouses'` warning appears.
+- Confirm Blender scripts save into `assets/blender/` without the Windows `PermissionError`.
+
+---
+
 ## Version 0.2.2 - Phase 2 Store Visibility Test
 
 ### Changed
 - Updated `modDesc.xml` descriptor version from `91` to `109` for FS25 1.19.
 - Updated mod version to `0.2.2.0`.
 - Changed Hemp Greenhouse store category from `productionPoints` to `greenhouses` for the next construction-menu test.
+
+### Test Result
+- FS25 rejected `greenhouses` as an invalid store category and fell back to `misc`.
 
 ### Test Focus
 - Delete the old zip before testing.
