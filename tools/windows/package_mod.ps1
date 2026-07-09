@@ -52,6 +52,75 @@ function Test-ZipRoot {
     }
 }
 
+function Copy-IconFromZip {
+    param(
+        [string]$ZipPath,
+        [string]$DestinationPath
+    )
+
+    if (-not (Test-Path $ZipPath)) {
+        return $false
+    }
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
+    try {
+        foreach ($entry in $zip.Entries) {
+            if ($entry.FullName -eq "icon_mod.dds") {
+                $dir = Split-Path -Parent $DestinationPath
+                New-Item -ItemType Directory -Force -Path $dir | Out-Null
+                [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $DestinationPath, $true)
+                return $true
+            }
+        }
+        return $false
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
+function Restore-ExistingIcon {
+    param(
+        [string]$ModFolder,
+        [string]$ModsDir
+    )
+
+    $iconPath = Join-Path $ModFolder "icon_mod.dds"
+    if (Test-Path $iconPath) {
+        Write-Host "Icon exists in repo mod folder: $iconPath" -ForegroundColor Green
+        return
+    }
+
+    $looseIcon = Join-Path $ModsDir "FS25_GreenHorizonIndustries\icon_mod.dds"
+    if (Test-Path $looseIcon) {
+        Copy-Item -Path $looseIcon -Destination $iconPath -Force
+        Write-Host "Recovered icon_mod.dds from installed loose mod folder." -ForegroundColor Green
+        return
+    }
+
+    $zipIconSource = Join-Path $ModsDir "FS25_GreenHorizonIndustries.zip"
+    if (Copy-IconFromZip -ZipPath $zipIconSource -DestinationPath $iconPath) {
+        Write-Host "Recovered icon_mod.dds from installed mod zip." -ForegroundColor Green
+        return
+    }
+
+    $legacyLooseIcon = Join-Path $ModsDir "FS25_Hemp_Industries\icon_mod.dds"
+    if (Test-Path $legacyLooseIcon) {
+        Copy-Item -Path $legacyLooseIcon -Destination $iconPath -Force
+        Write-Host "Recovered icon_mod.dds from legacy loose Hemp Industries folder." -ForegroundColor Green
+        return
+    }
+
+    $legacyZipIconSource = Join-Path $ModsDir "FS25_Hemp_Industries.zip"
+    if (Copy-IconFromZip -ZipPath $legacyZipIconSource -DestinationPath $iconPath) {
+        Write-Host "Recovered icon_mod.dds from legacy Hemp Industries zip." -ForegroundColor Green
+        return
+    }
+
+    Write-Host "WARN: icon_mod.dds is missing. Put your known-good icon_mod.dds into FS25_GreenHorizonIndustries once, or keep an older installed zip/folder available so this script can recover it." -ForegroundColor Yellow
+}
+
 function Remove-OldModInstall {
     param(
         [string]$ModsDir,
@@ -69,21 +138,6 @@ function Remove-OldModInstall {
             Remove-Item $target -Force
             Write-Host "Removed old mod file: $target" -ForegroundColor Yellow
         }
-    }
-}
-
-function Show-AssetWarnings {
-    param([string]$ModFolder)
-
-    $iconPath = Join-Path $ModFolder "icon_mod.dds"
-    $storeImagePath = Join-Path $ModFolder "store\store_hempGreenhouse.png"
-
-    if (-not (Test-Path $iconPath)) {
-        Write-Host "WARN: icon_mod.dds is missing. Run GIANTS Icon Generator later; packaging will continue." -ForegroundColor Yellow
-    }
-
-    if (-not (Test-Path $storeImagePath)) {
-        Write-Host "WARN: store/store_hempGreenhouse.png is missing. Add a store image later; packaging will continue." -ForegroundColor Yellow
     }
 }
 
@@ -107,7 +161,8 @@ if (-not (Test-Path $modDescPath)) {
     throw "Missing modDesc.xml: $modDescPath"
 }
 
-Show-AssetWarnings -ModFolder $modFolder
+# Important: recover the working icon before old installs are deleted.
+Restore-ExistingIcon -ModFolder $modFolder -ModsDir $ModsDir
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
