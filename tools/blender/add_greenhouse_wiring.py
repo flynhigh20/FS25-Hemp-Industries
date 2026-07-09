@@ -13,7 +13,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
 
 
 def find_repo_root() -> Path:
@@ -37,6 +36,7 @@ BLEND_FILE = REPO_ROOT / "assets" / "blender" / "green_horizon_hemp_greenhouse.b
 
 
 def make_mat(name: str, color, roughness: float = 0.75):
+    """Create/reuse material after the target .blend is already open."""
     mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     mat.use_nodes = True
     bsdf = mat.node_tree.nodes.get("Principled BSDF")
@@ -48,9 +48,13 @@ def make_mat(name: str, color, roughness: float = 0.75):
     return mat
 
 
-MAT_CABLE = make_mat("black_electrical_cable_detail", (0.004, 0.004, 0.003, 1.0), 0.82)
-MAT_HOSE = make_mat("matte_black_irrigation_hose_detail", (0.006, 0.007, 0.005, 1.0), 0.88)
-MAT_BOX = make_mat("dark_connector_box_detail", (0.015, 0.015, 0.012, 1.0), 0.70)
+def get_detail_materials():
+    """Do not store material globals before open_mainfile; Blender invalidates them."""
+    return {
+        "cable": make_mat("black_electrical_cable_detail", (0.004, 0.004, 0.003, 1.0), 0.82),
+        "hose": make_mat("matte_black_irrigation_hose_detail", (0.006, 0.007, 0.005, 1.0), 0.88),
+        "box": make_mat("dark_connector_box_detail", (0.015, 0.015, 0.012, 1.0), 0.70),
+    }
 
 
 def clear_old_wiring() -> None:
@@ -89,6 +93,10 @@ def cube(name: str, loc, scale, mat):
 
 def add_wiring() -> None:
     clear_old_wiring()
+    materials = get_detail_materials()
+    mat_cable = materials["cable"]
+    mat_hose = materials["hose"]
+    mat_box = materials["box"]
 
     # Main conduit: up from the side control box, then along the left wall/eave.
     cable_curve(
@@ -104,7 +112,7 @@ def add_wiring() -> None:
             (2.60, -2.28, 2.36),
         ],
         0.018,
-        MAT_CABLE,
+        mat_cable,
     )
 
     # Feeder wires across to the three light strips.
@@ -117,7 +125,7 @@ def add_wiring() -> None:
                 (-2.20, y, 2.46),
             ],
             0.012,
-            MAT_CABLE,
+            mat_cable,
         )
         cable_curve(
             f"GHI_wire_light_drop_{idx}",
@@ -126,9 +134,9 @@ def add_wiring() -> None:
                 (-2.20, y, 2.34),
             ],
             0.011,
-            MAT_CABLE,
+            mat_cable,
         )
-        cube(f"GHI_connector_light_junction_{idx}", (-2.20, y, 2.36), (0.16, 0.10, 0.08), MAT_BOX)
+        cube(f"GHI_connector_light_junction_{idx}", (-2.20, y, 2.36), (0.16, 0.10, 0.08), mat_box)
 
     # Small cross jumpers so the light strips do not look like floating bars.
     for y in [-1.45, 0.0, 1.45]:
@@ -136,7 +144,7 @@ def add_wiring() -> None:
             f"GHI_wire_light_backbone_y{y:.2f}",
             [(-3.10, y, 2.47), (-1.20, y, 2.47), (1.20, y, 2.47), (3.10, y, 2.47)],
             0.010,
-            MAT_CABLE,
+            mat_cable,
         )
 
     # Irrigation hoses tucked low beside the grow beds.
@@ -145,7 +153,7 @@ def add_wiring() -> None:
             f"GHI_hose_irrigation_bed_{idx}",
             [(-3.25, y - 0.32, 0.73), (-1.40, y - 0.32, 0.73), (0.0, y - 0.32, 0.73), (1.40, y - 0.32, 0.73), (3.25, y - 0.32, 0.73)],
             0.014,
-            MAT_HOSE,
+            mat_hose,
         )
 
     # Water feed from tank to first hose run.
@@ -158,7 +166,7 @@ def add_wiring() -> None:
             (-3.45, -1.77, 0.73),
         ],
         0.020,
-        MAT_HOSE,
+        mat_hose,
     )
 
 
