@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<i3D name="greenHorizonHempGreenhousePlaceholder" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Asset>
+        <Export program="Green Horizon Industries placeholder" version="0.2.6.0"/>
+    </Asset>
+
+    <Files/>
+    <Materials/>
+    <Shapes/>
+    <Dynamics/>
+
+    <Scene>
+        <!-- Temporary empty transform so Phase 2.6 can test store/placeable XML without depending on a missing base-game greenhouse path.
+             Replace this file with the real exported Green Horizon greenhouse i3d after Blender/GIANTS export. -->
+        <TransformGroup name="greenHorizonHempGreenhouse_placeholderRoot" nodeId="1" translation="0 0 0" rotation="0 0 0" scale="1 1 1"/>
+    </Scene>
+</i3D>
