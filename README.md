@@ -8,7 +8,7 @@
 
 ## Current Build
 
-**Phase 2.2 / Alpha 0.2 greenhouse store visibility test is active.**
+**Phase 2.3 / Alpha 0.2 greenhouse store visibility test is active.**
 
 The active mod folder is:
 
@@ -26,18 +26,22 @@ Phase 1 fill type loading has been confirmed by FS25 log output:
 Info: Loaded 3 fill types from mod
 ```
 
-## Phase 2.2 Scope
+## Phase 2.3 Scope
 
-Phase 2.2 focuses on getting the Hemp Greenhouse visible in the FS25 construction menu.
+Phase 2.3 focuses on getting the Hemp Greenhouse visible in the FS25 construction menu after FS25 rejected the test category `greenhouses`.
 
 Included now:
 
-- `modDesc.xml` updated to mod version `0.2.2.0`
-- `modDesc.xml` descriptor version updated to `109` for FS25 1.19
+- `modDesc.xml` updated to mod version `0.2.3.0`
+- `modDesc.xml` descriptor version kept at `109` for FS25 1.19
 - Store item wiring for a Hemp Greenhouse
-- Hemp Greenhouse category test changed to `greenhouses`
+- Hemp Greenhouse category changed back to the valid `productionPoints` category
 - Greenhouse production placeable XML
 - Recipe balance notes XML
+- Blender greenhouse generator output-path fix
+- Blender pallet generator output-path fix
+- Early top/front greenhouse signs removed from the Blender model
+- Top pallet signs removed; pallets keep front labels only
 - Production input/output loop:
   - Inputs: `WATER`, `GHI_HEMP_SEED`
   - Outputs: `HEMP`, `GHI_HEMP_BIOMASS`
@@ -47,17 +51,16 @@ Included now:
 Check the construction menu, not the normal vehicle/equipment store:
 
 ```text
-Construction > Production > Greenhouses
 Construction > Production > Factories / Production Points
 ```
 
-If FS25 still shows the mod as version `0.2.0.0`, the old zip is still installed.
+If FS25 still shows the mod as version `0.2.2.0` or older, the old zip/folder is still installed.
 
 Still pending:
 
-- Verify the greenhouse appears in the FS25 construction menu
+- Verify the greenhouse appears in the FS25 construction menu under Production Points
 - Confirm the temporary base-game greenhouse visual path loads
-- Add original Green Horizon greenhouse model/assets
+- Add original Green Horizon greenhouse model/assets to the placeable XML after i3d export
 - Add real DDS store image and icon files
 - Add pallets/storage triggers after first placeable test
 - Add sell points and economy balancing
