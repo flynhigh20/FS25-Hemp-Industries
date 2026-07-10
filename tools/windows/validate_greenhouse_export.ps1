@@ -44,8 +44,9 @@ function Fail([string]$Message) {
 $root = Find-RepoRoot
 $i3dPath = Join-Path $root "FS25_GreenHorizonIndustries\placeables\greenhouses\i3d\greenHorizonHempGreenhouse.i3d"
 $shapesPath = "$i3dPath.shapes"
+$normalizer = Join-Path $root "tools\windows\normalize_greenhouse_texture_paths.ps1"
 
-Write-Host "Green Horizon Industries - Greenhouse Export Validator" -ForegroundColor Cyan
+Write-Host "Green Horizon Industries - Greenhouse Export Repair and Validator" -ForegroundColor Cyan
 Write-Host "I3D:    $i3dPath"
 Write-Host "Shapes: $shapesPath"
 Write-Host ""
@@ -59,8 +60,22 @@ if (-not (Test-Path $shapesPath)) {
 
 if ($failures.Count -gt 0) {
     Write-Host ""
-    Write-Host "Export the Blender root greenHorizonHempGreenhouse and save both files into the i3d folder." -ForegroundColor Yellow
+    Write-Host "Export the Blender root greenHorizonHempGreenhouse directly into the mod i3d folder." -ForegroundColor Yellow
     exit 1
+}
+
+if (-not (Test-Path $normalizer)) {
+    Fail "Texture-path normalizer is missing: $normalizer"
+}
+else {
+    Write-Host "Normalizing known greenhouse texture references..." -ForegroundColor Cyan
+    & $normalizer -RepoRoot $root
+    if ($LASTEXITCODE -ne 0) {
+        Fail "Texture-path normalization failed"
+    }
+    else {
+        Pass "Texture-path normalization completed"
+    }
 }
 
 $i3dItem = Get-Item $i3dPath
@@ -88,17 +103,24 @@ else {
 }
 
 if ($raw -match 'filename="[A-Za-z]:[\\/]') {
-    Fail "An absolute Windows filename is embedded in the i3d; export with relative paths"
+    Fail "An absolute Windows filename is embedded in the i3d"
 }
 else {
     Pass "no absolute Windows file paths were found"
 }
 
 if ($raw -match 'filename="file:///') {
-    Fail "A file:// path is embedded in the i3d; export with relative paths"
+    Fail "A file:// path is embedded in the i3d"
 }
 else {
     Pass "no file:// paths were found"
+}
+
+if ($raw -match 'filename="[^"]*FS25_GreenHorizonIndustries[^"]*greenhouse_[^"]+_diffuse\.png"') {
+    Fail "A duplicated repository path remains in a greenhouse texture filename"
+}
+else {
+    Pass "no duplicated repository folder is embedded in greenhouse texture paths"
 }
 
 $requiredNodeNames = @(
@@ -150,28 +172,32 @@ $textureNames = @(
 
 $referencedTextures = 0
 foreach ($textureName in $textureNames) {
-    if ($raw -match [regex]::Escape($textureName)) {
+    $expectedReference = 'filename="../textures/' + [regex]::Escape($textureName) + '"'
+    if ($raw -match $expectedReference) {
         $referencedTextures += 1
-        Pass "texture reference found: $textureName"
+        Pass "normalized texture reference found: $textureName"
+    }
+    elseif ($raw -match [regex]::Escape($textureName)) {
+        Fail "texture is referenced with a nonstandard path: $textureName"
     }
 }
 
 if ($referencedTextures -lt 6) {
-    Fail "only $referencedTextures of $($textureNames.Count) expected greenhouse textures are referenced"
+    Fail "only $referencedTextures of $($textureNames.Count) expected greenhouse textures use the normalized path"
 }
 elseif ($referencedTextures -lt $textureNames.Count) {
     Warn "$referencedTextures of $($textureNames.Count) expected textures are referenced; inspect merged or omitted materials in GIANTS Editor"
 }
 else {
-    Pass "all expected greenhouse texture names are referenced"
+    Pass "all expected greenhouse texture names use ../textures/<filename>"
 }
 
 if ($raw -match '\$data/') {
-    Warn "The i3d contains one or more game-data references. Confirm they are intentional shader references, not Save game paths."
+    Warn "The i3d contains one or more game-data references. Confirm they are intentional shader references."
 }
 
 Write-Host ""
-Write-Host "Export validation summary" -ForegroundColor Cyan
+Write-Host "Export repair and validation summary" -ForegroundColor Cyan
 Write-Host "Failures: $($failures.Count)"
 Write-Host "Warnings: $($warnings.Count)"
 
@@ -180,5 +206,5 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-Write-Host "Greenhouse export is ready for XML preflight and packaging." -ForegroundColor Green
+Write-Host "Greenhouse export is ready for GIANTS Editor, XML preflight, and packaging." -ForegroundColor Green
 exit 0
