@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.14.0"
+$expectedVersion = "0.2.15.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -58,6 +58,8 @@ $requiredFiles = @(
     "icon_mod.dds",
     "xml/fillTypes.xml",
     "xml/fruitTypes.xml",
+    "xml/growth/hempGrowth.xml",
+    "foliage/hemp/hempFoliagePlan.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
@@ -83,22 +85,23 @@ foreach ($relativePath in $requiredFiles) {
         Pass "Found $relativePath"
     }
     else {
-        if ($relativePath -eq "xml/fruitTypes.xml") {
-            Warn "Missing inactive draft file: $relativePath"
-        }
-        else {
-            Fail "Missing required file: $relativePath"
-        }
+        Fail "Missing required file: $relativePath"
     }
 }
 
 $modDescPath = Join-Path $modFolder "modDesc.xml"
 $greenhousePath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
 $fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
+$fruitTypesPath = Join-Path $modFolder "xml\fruitTypes.xml"
+$growthPath = Join-Path $modFolder "xml\growth\hempGrowth.xml"
+$foliagePlanPath = Join-Path $modFolder "foliage\hemp\hempFoliagePlan.xml"
 
 $modDesc = if (Test-Path $modDescPath) { Read-Xml $modDescPath } else { $null }
 $greenhouse = if (Test-Path $greenhousePath) { Read-Xml $greenhousePath } else { $null }
 $fillTypes = if (Test-Path $fillTypesPath) { Read-Xml $fillTypesPath } else { $null }
+$fruitTypes = if (Test-Path $fruitTypesPath) { Read-Xml $fruitTypesPath } else { $null }
+$growth = if (Test-Path $growthPath) { Read-Xml $growthPath } else { $null }
+$foliagePlan = if (Test-Path $foliagePlanPath) { Read-Xml $foliagePlanPath } else { $null }
 
 if ($null -ne $modDesc) {
     if ($modDesc.modDesc.descVersion -eq "91") { Pass "modDesc descVersion is 91" } else { Warn "modDesc descVersion is $($modDesc.modDesc.descVersion)" }
@@ -112,6 +115,13 @@ if ($null -ne $modDesc) {
     else {
         Fail "greenhouse store item path is incorrect"
     }
+
+    if ($null -eq $modDesc.modDesc.fruitTypes) {
+        Pass "field fruit type remains safely inactive"
+    }
+    else {
+        Fail "fruitTypes was activated before map foliage integration is ready"
+    }
 }
 
 if ($null -ne $fillTypes) {
@@ -119,6 +129,45 @@ if ($null -ne $fillTypes) {
     foreach ($requiredFillType in @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")) {
         if ($names -contains $requiredFillType) { Pass "fill type registered: $requiredFillType" } else { Fail "missing fill type: $requiredFillType" }
     }
+}
+
+if ($null -ne $fruitTypes) {
+    $hempFruit = @($fruitTypes.map.fruitTypes.fruitType | Where-Object { $_.name -eq "HEMP" }) | Select-Object -First 1
+    if ($null -eq $hempFruit) {
+        Fail "fruitTypes.xml has no HEMP fruitType"
+    }
+    else {
+        if ($hempFruit.general.numStateChannels -eq "4") { Pass "HEMP uses four state channels" } else { Fail "HEMP numStateChannels is not 4" }
+        if ($hempFruit.growth.numGrowthStates -eq "7") { Pass "HEMP has seven live growth states" } else { Fail "HEMP numGrowthStates is not 7" }
+        if ($hempFruit.growth.witheredState -eq "8") { Pass "HEMP withered state is 8" } else { Fail "HEMP withered state is not 8" }
+        if ($hempFruit.harvest.cutState -eq "9") { Pass "HEMP cut state is 9" } else { Fail "HEMP cut state is not 9" }
+        if ($hempFruit.harvest.minHarvestingGrowthState -eq "7") { Pass "HEMP harvest-ready state is 7" } else { Fail "HEMP harvest-ready state is not 7" }
+    }
+}
+
+if ($null -ne $growth) {
+    $hempGrowth = @($growth.growth.fruit | Where-Object { $_.name -eq "HEMP" }) | Select-Object -First 1
+    if ($null -eq $hempGrowth) {
+        Fail "hempGrowth.xml has no HEMP fruit"
+    }
+    else {
+        $periods = @($hempGrowth.period)
+        if ($periods.Count -eq 12) { Pass "HEMP growth calendar has 12 periods" } else { Fail "HEMP growth calendar has $($periods.Count) periods instead of 12" }
+        $plantingPeriods = @($periods | Where-Object { $_.plantingAllowed -eq "true" })
+        if ($plantingPeriods.Count -ge 2) { Pass "HEMP has a defined planting window" } else { Warn "HEMP planting window is very narrow" }
+    }
+}
+
+if ($null -ne $foliagePlan) {
+    $rootNode = $foliagePlan.greenHorizonFoliagePlan
+    if ($rootNode.fruitType -eq "HEMP") { Pass "foliage plan targets HEMP" } else { Fail "foliage plan does not target HEMP" }
+
+    $states = @($rootNode.growthStates.state)
+    if ($states.Count -eq 9) { Pass "foliage plan covers states 1 through 9" } else { Fail "foliage plan has $($states.Count) states instead of 9" }
+
+    $gates = @($rootNode.activationGates.gate)
+    $premature = @($gates | Where-Object { $_.complete -eq "true" })
+    if ($premature.Count -eq 0) { Pass "foliage activation gates remain closed" } else { Warn "$($premature.Count) foliage activation gates are marked complete" }
 }
 
 if ($null -ne $greenhouse) {
