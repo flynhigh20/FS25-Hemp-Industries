@@ -2,9 +2,10 @@
 <placeable type="greenhouse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
 
     <!-- Green Horizon Industries
-         Phase 2.12 active greenhouse test configuration.
+         Phase 2.19 active greenhouse test configuration.
 
-         The model generator creates the helper hierarchy used by the mappings below.
+         The Blender generator creates the helpers and GIANTS exports sibling
+         nodes alphabetically. The mappings below match that exported order.
          Hemp plant meshes are currently part of the i3d itself. Dynamic greenhouse
          growth XML will be added after the foliage/growth assets are ready. -->
 
@@ -148,44 +149,45 @@
         <playerTrigger node="playerTrigger"/>
     </productionPoint>
 
-    <!-- These paths match the deterministic hierarchy built by
-         tools/blender/create_green_horizon_greenhouse.py. -->
+    <!-- GIANTS Blender export sorts siblings alphabetically. Root child order:
+         clearAreas, collisions, greenhouseGameNodes, indoorAreas, infoTrigger,
+         levelAreas, testAreas, tipOcclusionUpdateAreas, visuals, warningStripes. -->
     <i3dMappings>
         <i3dMapping id="clearAreaStart01" node="0>0|0|0"/>
         <i3dMapping id="clearAreaHeight01" node="0>0|0|0|0"/>
         <i3dMapping id="clearAreaWidth01" node="0>0|0|0|1"/>
 
-        <i3dMapping id="levelAreaStart01" node="0>0|1|0"/>
-        <i3dMapping id="levelAreaWidth01" node="0>0|1|0|0"/>
-        <i3dMapping id="levelAreaHeight01" node="0>0|1|0|1"/>
+        <i3dMapping id="levelAreaStart01" node="0>0|5|0"/>
+        <i3dMapping id="levelAreaWidth01" node="0>0|5|0|1"/>
+        <i3dMapping id="levelAreaHeight01" node="0>0|5|0|0"/>
 
-        <i3dMapping id="indoorArea01Start" node="0>0|2|0"/>
-        <i3dMapping id="indoorAreaWidth01" node="0>0|2|0|0"/>
-        <i3dMapping id="indoorArea1Height" node="0>0|2|0|1"/>
+        <i3dMapping id="indoorArea01Start" node="0>0|3|0"/>
+        <i3dMapping id="indoorAreaWidth01" node="0>0|3|0|1"/>
+        <i3dMapping id="indoorArea1Height" node="0>0|3|0|0"/>
 
-        <i3dMapping id="testAreaStart01" node="0>0|3|0"/>
-        <i3dMapping id="testAreaEnd01" node="0>0|3|0|0"/>
+        <i3dMapping id="testAreaStart01" node="0>0|6|0"/>
+        <i3dMapping id="testAreaEnd01" node="0>0|6|0|0"/>
 
-        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>0|4|0"/>
-        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>0|4|0|0"/>
+        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>0|7|0"/>
+        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>0|7|0|0"/>
 
-        <i3dMapping id="plantNodes" node="0>0|5|0"/>
-        <i3dMapping id="palletSpawner" node="0>0|5|1"/>
-        <i3dMapping id="spawnPlaceStart01" node="0>0|5|1|0"/>
-        <i3dMapping id="spawnPlaceEnd01" node="0>0|5|1|0|0"/>
+        <i3dMapping id="plantNodes" node="0>0|2|1"/>
+        <i3dMapping id="palletSpawner" node="0>0|2|0"/>
+        <i3dMapping id="spawnPlaceStart01" node="0>0|2|0|0"/>
+        <i3dMapping id="spawnPlaceEnd01" node="0>0|2|0|0|0"/>
 
-        <i3dMapping id="sellingStation" node="0>0|5|2"/>
-        <i3dMapping id="exactFillRootNode" node="0>0|5|2|0"/>
-        <i3dMapping id="unloadTriggerMarker" node="0>0|5|2|1"/>
-        <i3dMapping id="unloadTriggerAINode" node="0>0|5|2|2"/>
+        <i3dMapping id="sellingStation" node="0>0|2|4"/>
+        <i3dMapping id="exactFillRootNode" node="0>0|2|4|0"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>0|2|4|2"/>
+        <i3dMapping id="unloadTriggerAINode" node="0>0|2|4|1"/>
 
-        <i3dMapping id="storage" node="0>0|5|3"/>
-        <i3dMapping id="playerTrigger" node="0>0|5|4"/>
-        <i3dMapping id="playerTriggerMarker" node="0>0|5|5"/>
-        <i3dMapping id="teleportNode" node="0>0|5|6"/>
+        <i3dMapping id="storage" node="0>0|2|5"/>
+        <i3dMapping id="playerTrigger" node="0>0|2|2"/>
+        <i3dMapping id="playerTriggerMarker" node="0>0|2|3"/>
+        <i3dMapping id="teleportNode" node="0>0|2|6"/>
 
-        <i3dMapping id="infoTrigger" node="0>0|6"/>
-        <i3dMapping id="warningStripes" node="0>0|7"/>
+        <i3dMapping id="infoTrigger" node="0>0|4"/>
+        <i3dMapping id="warningStripes" node="0>0|9"/>
     </i3dMappings>
 
 </placeable>
