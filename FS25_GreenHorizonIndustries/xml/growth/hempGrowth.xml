@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<growth>
+
+    <!-- Green Horizon Industries
+         Phase 2.15 seasonal growth draft for field-grown Industrial Hemp.
+
+         This file is not active yet. It is prepared for later map integration
+         after the foliage layer and fruit type are registered successfully. -->
+
+    <fruit name="HEMP" initialState="7">
+
+        <!-- Period 1: winter dormancy / no planting. -->
+        <period index="1">
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 2: early spring planting opens. -->
+        <period index="2" plantingAllowed="true">
+            <update range="1" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 3: main planting period. -->
+        <period index="3" plantingAllowed="true">
+            <update range="1-2" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 4: late planting and early vegetative growth. -->
+        <period index="4" plantingAllowed="true">
+            <update range="2-3" add="1" />
+            <update range="1" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 5: vegetative growth. -->
+        <period index="5">
+            <update range="3-4" add="1" />
+            <update range="2" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 6: pre-flower and flowering. -->
+        <period index="6">
+            <update range="4-5" add="1" />
+            <update range="3" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 7: flowering moves toward maturity. -->
+        <period index="7">
+            <update range="5-6" add="1" />
+            <update range="4" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 8: mature and harvest ready. State 7 is intentionally held. -->
+        <period index="8">
+            <update range="6" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 9: second harvest window. Mature state remains available. -->
+        <period index="9">
+            <update range="5-6" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <!-- Period 10: unharvested mature crop withers. -->
+        <period index="10">
+            <update range="7" add="1" />
+            <update range="8" set="8" />
+        </period>
+
+        <period index="11">
+            <update range="8" set="8" />
+        </period>
+
+        <period index="12">
+            <update range="8" set="8" />
+        </period>
+
+    </fruit>
+
+</growth>
