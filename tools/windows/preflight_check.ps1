@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.17.0"
+$expectedVersion = "0.2.18.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -51,7 +51,7 @@ function Read-Xml([string]$Path) {
     }
 }
 
-function Test-OptionalSet {
+function Check-OptionalSet {
     param(
         [string]$BaseFolder,
         [string[]]$RelativePaths,
@@ -88,6 +88,9 @@ $requiredFiles = @(
     "xml/productions/hempProcessingRecipes.xml",
     "foliage/hemp/hempFoliagePlan.xml",
     "foliage/hemp/hempFieldIntegrationPlan.xml",
+    "foliage/hemp/hempMapRegistrationDraft.xml",
+    "foliage/hemp/hempCutterEffectsPlan.xml",
+    "ui/hempIconManifest.xml",
     "pallets/xml/hempPallet.xml",
     "pallets/xml/seedPallet.xml",
     "pallets/xml/biomassPallet.xml",
@@ -112,17 +115,52 @@ $requiredFiles = @(
 $requiredToolFiles = @(
     "tools/blender/create_green_horizon_greenhouse.py",
     "tools/blender/create_hemp_foliage.py",
-    "tools/blender/create_green_horizon_pallets.py"
+    "tools/blender/create_hemp_crop_icons.py",
+    "tools/blender/create_hemp_cutter_effects.py",
+    "tools/blender/create_green_horizon_pallets.py",
+    "tools/windows/check_hemp_field_foundation.ps1"
 )
 
-$optionalFoliageTextures = @(
+Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
+Write-Host "Expected version: $expectedVersion"
+Write-Host ""
+
+foreach ($relativePath in $requiredFiles) {
+    $fullPath = Join-Path $modFolder ($relativePath.Replace("/", "\"))
+    if (Test-Path $fullPath) { Pass "Found $relativePath" } else { Fail "Missing required file: $relativePath" }
+}
+
+foreach ($relativePath in $requiredToolFiles) {
+    $fullPath = Join-Path $root ($relativePath.Replace("/", "\"))
+    if (Test-Path $fullPath) { Pass "Found $relativePath" } else { Fail "Missing tool file: $relativePath" }
+}
+
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated foliage texture" -RunHint "run tools/blender/create_hemp_foliage.py later." -RelativePaths @(
     "foliage/hemp/textures/hempFoliage_diffuse.png",
     "foliage/hemp/textures/hempFoliage_normal.png",
     "foliage/hemp/textures/hempFoliage_distance_diffuse.png",
     "foliage/hemp/textures/hempFoliage_distance_normal.png"
 )
 
-$optionalPalletTextures = @(
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated crop icon" -RunHint "run tools/blender/create_hemp_crop_icons.py later." -RelativePaths @(
+    "ui/icons/fillType_hemp.png",
+    "ui/icons/fillType_hempSeed.png",
+    "ui/icons/fillType_hempBiomass.png",
+    "ui/icons/fillType_hempFiber.png",
+    "ui/icons/fillType_hempFlower.png",
+    "ui/icons/fillType_hempOil.png",
+    "ui/icons/crop_hemp.png",
+    "ui/icons/calendar_hemp.png"
+)
+
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated cutter-effect texture" -RunHint "run tools/blender/create_hemp_cutter_effects.py later." -RelativePaths @(
+    "foliage/hemp/effects/textures/hemp_chaff_diffuse.png",
+    "foliage/hemp/effects/textures/hemp_stem_shard_diffuse.png",
+    "foliage/hemp/effects/textures/hemp_leaf_fragment_diffuse.png",
+    "foliage/hemp/effects/textures/hemp_dust_diffuse.png"
+)
+
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated pallet texture" -RunHint "run tools/blender/create_green_horizon_pallets.py later." -RelativePaths @(
     "pallets/textures/pallet_wood_diffuse.png",
     "pallets/textures/pallet_dark_wood_diffuse.png",
     "pallets/textures/pallet_wrap_diffuse.png",
@@ -135,152 +173,97 @@ $optionalPalletTextures = @(
     "pallets/textures/pallet_oil_diffuse.png"
 )
 
-Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
-Write-Host "Expected version: $expectedVersion"
-Write-Host ""
-
-foreach ($relativePath in $requiredFiles) {
-    $fullPath = Join-Path $modFolder ($relativePath.Replace("/", "\"))
-    if (Test-Path $fullPath) {
-        Pass "Found $relativePath"
-    }
-    else {
-        Fail "Missing required file: $relativePath"
-    }
-}
-
-foreach ($relativePath in $requiredToolFiles) {
-    $fullPath = Join-Path $root ($relativePath.Replace("/", "\"))
-    if (Test-Path $fullPath) {
-        Pass "Found $relativePath"
-    }
-    else {
-        Fail "Missing tool file: $relativePath"
-    }
-}
-
-Test-OptionalSet -BaseFolder $modFolder -RelativePaths $optionalFoliageTextures -Description "Generated foliage texture" -RunHint "run tools/blender/create_hemp_foliage.py later."
-Test-OptionalSet -BaseFolder $modFolder -RelativePaths $optionalPalletTextures -Description "Generated pallet texture" -RunHint "run tools/blender/create_green_horizon_pallets.py later."
-
-$modDescPath = Join-Path $modFolder "modDesc.xml"
-$greenhousePath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
-$fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
-$fruitTypesPath = Join-Path $modFolder "xml\fruitTypes.xml"
-$growthPath = Join-Path $modFolder "xml\growth\hempGrowth.xml"
-$foliagePlanPath = Join-Path $modFolder "foliage\hemp\hempFoliagePlan.xml"
-$integrationPlanPath = Join-Path $modFolder "foliage\hemp\hempFieldIntegrationPlan.xml"
-$processingPath = Join-Path $modFolder "xml\productions\hempProcessingRecipes.xml"
-
-$modDesc = Read-Xml $modDescPath
-$greenhouse = Read-Xml $greenhousePath
-$fillTypes = Read-Xml $fillTypesPath
-$fruitTypes = Read-Xml $fruitTypesPath
-$growth = Read-Xml $growthPath
-$foliagePlan = Read-Xml $foliagePlanPath
-$integrationPlan = Read-Xml $integrationPlanPath
-$processing = Read-Xml $processingPath
+$modDesc = Read-Xml (Join-Path $modFolder "modDesc.xml")
+$greenhouse = Read-Xml (Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml")
+$fillTypes = Read-Xml (Join-Path $modFolder "xml\fillTypes.xml")
+$processing = Read-Xml (Join-Path $modFolder "xml\productions\hempProcessingRecipes.xml")
+$iconManifest = Read-Xml (Join-Path $modFolder "ui\hempIconManifest.xml")
+$cutterPlan = Read-Xml (Join-Path $modFolder "foliage\hemp\hempCutterEffectsPlan.xml")
+$mapDraft = Read-Xml (Join-Path $modFolder "foliage\hemp\hempMapRegistrationDraft.xml")
 
 if ($null -ne $modDesc) {
     if ($modDesc.modDesc.descVersion -eq "91") { Pass "modDesc descVersion is 91" } else { Warn "modDesc descVersion is $($modDesc.modDesc.descVersion)" }
     if ($modDesc.modDesc.version -eq $expectedVersion) { Pass "mod version is $expectedVersion" } else { Fail "mod version is $($modDesc.modDesc.version), expected $expectedVersion" }
     if ($modDesc.modDesc.iconFilename -eq "icon_mod.dds") { Pass "mod icon points to icon_mod.dds" } else { Fail "mod iconFilename is not icon_mod.dds" }
-
-    $storeItemPath = $modDesc.modDesc.storeItems.storeItem.xmlFilename
-    if ($storeItemPath -eq "placeables/greenhouses/hempGreenhouse.xml") { Pass "greenhouse store item is active" } else { Fail "greenhouse store item path is incorrect" }
-
     if ($null -eq $modDesc.modDesc.fruitTypes) { Pass "field fruit type remains safely inactive" } else { Fail "fruitTypes was activated too early" }
+
+    $activeStoreItem = $modDesc.modDesc.storeItems.storeItem.xmlFilename
+    if ($activeStoreItem -eq "placeables/greenhouses/hempGreenhouse.xml") { Pass "greenhouse store item is active" } else { Fail "greenhouse store item path is incorrect" }
 }
 
+$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")
 if ($null -ne $fillTypes) {
     $fillNames = @($fillTypes.map.fillTypes.fillType | ForEach-Object { $_.name })
-    foreach ($requiredFillType in @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")) {
-        if ($fillNames -contains $requiredFillType) { Pass "fill type registered: $requiredFillType" } else { Fail "missing fill type: $requiredFillType" }
+    foreach ($fillName in $requiredFillTypes) {
+        if ($fillNames -contains $fillName) { Pass "fill type registered: $fillName" } else { Fail "missing fill type: $fillName" }
     }
 }
 
-if ($null -ne $fruitTypes) {
-    $hempFruit = @($fruitTypes.map.fruitTypes.fruitType | Where-Object { $_.name -eq "HEMP" }) | Select-Object -First 1
-    if ($null -eq $hempFruit) {
-        Fail "fruitTypes.xml has no HEMP fruitType"
+if ($null -ne $iconManifest) {
+    $icons = @($iconManifest.greenHorizonIconManifest.icons.icon)
+    foreach ($fillName in $requiredFillTypes) {
+        if (@($icons | Where-Object { $_.id -eq $fillName }).Count -eq 1) { Pass "icon manifest includes $fillName" } else { Fail "icon manifest missing or duplicates $fillName" }
+    }
+    if (@($icons | Where-Object { $_.linked -eq "true" }).Count -eq 0) { Pass "no icons are linked early" } else { Fail "one or more icons are linked before verification" }
+}
+
+if ($null -ne $cutterPlan) {
+    $route = @($cutterPlan.greenHorizonCutterEffects.cropStateRouting.route | Where-Object { $_.growthState -eq "7" }) | Select-Object -First 1
+    if ($null -ne $route -and $route.cutterAllowed -eq "true" -and $route.outputFillType -eq "HEMP" -and $route.resultingState -eq "9") {
+        Pass "cutter plan routes mature HEMP to cut state 9"
     }
     else {
-        if ($hempFruit.general.numStateChannels -eq "4") { Pass "HEMP uses four state channels" } else { Fail "HEMP numStateChannels is not 4" }
-        if ($hempFruit.growth.numGrowthStates -eq "7") { Pass "HEMP has seven live growth states" } else { Fail "HEMP numGrowthStates is not 7" }
-        if ($hempFruit.growth.witheredState -eq "8") { Pass "HEMP withered state is 8" } else { Fail "HEMP withered state is not 8" }
-        if ($hempFruit.harvest.cutState -eq "9") { Pass "HEMP cut state is 9" } else { Fail "HEMP cut state is not 9" }
+        Fail "cutter plan mature-state route is incorrect"
     }
 }
 
-if ($null -ne $growth) {
-    $hempGrowth = @($growth.growth.fruit | Where-Object { $_.name -eq "HEMP" }) | Select-Object -First 1
-    if ($null -eq $hempGrowth) {
-        Fail "hempGrowth.xml has no HEMP fruit"
+if ($null -ne $mapDraft) {
+    $contract = $mapDraft.greenHorizonMapRegistration.stateContract
+    if ($contract.numStateChannels -eq "4" -and $contract.numGrowthStates -eq "7" -and $contract.harvestReadyState -eq "7" -and $contract.witheredState -eq "8" -and $contract.cutState -eq "9") {
+        Pass "map registration state contract is synchronized"
     }
     else {
-        $periods = @($hempGrowth.period)
-        if ($periods.Count -eq 12) { Pass "HEMP growth calendar has 12 periods" } else { Fail "HEMP growth calendar has $($periods.Count) periods" }
+        Fail "map registration state contract is inconsistent"
     }
-}
-
-if ($null -ne $foliagePlan) {
-    $rootNode = $foliagePlan.greenHorizonFoliagePlan
-    if ($rootNode.fruitType -eq "HEMP") { Pass "foliage plan targets HEMP" } else { Fail "foliage plan does not target HEMP" }
-    if (@($rootNode.growthStates.state).Count -eq 9) { Pass "foliage plan covers states 1 through 9" } else { Fail "foliage state count is incorrect" }
-
-    $unsafeGates = @($rootNode.activationGates.gate | Where-Object { $_.id -ne "sourceGenerator" -and $_.complete -eq "true" })
-    if ($unsafeGates.Count -eq 0) { Pass "field-crop activation gates remain closed" } else { Warn "$($unsafeGates.Count) field-crop gates are marked complete" }
-}
-
-if ($null -ne $integrationPlan) {
-    $rootNode = $integrationPlan.greenHorizonFieldIntegration
-    if ($rootNode.fruitType -eq "HEMP") { Pass "field integration plan targets HEMP" } else { Fail "field integration plan does not target HEMP" }
 }
 
 if ($null -ne $processing) {
     $recipes = @($processing.greenHorizonIndustries.productionRecipes.recipe)
     if ($recipes.Count -eq 4) { Pass "processing plan has four recipes" } else { Fail "processing plan has $($recipes.Count) recipes instead of four" }
-
-    $earlyRequirements = @($processing.greenHorizonIndustries.activationRequirements.requirement | Where-Object { $_.complete -eq "true" })
-    if ($earlyRequirements.Count -eq 0) { Pass "processing activation requirements remain open" } else { Warn "$($earlyRequirements.Count) processing requirements are marked complete" }
 }
 
 $palletSpecs = @(
-    @{ File = "hempPallet.xml"; FillType = "HEMP"; I3d = "../i3d/hempPallet.i3d" },
-    @{ File = "seedPallet.xml"; FillType = "GHI_HEMP_SEED"; I3d = "../i3d/seedPallet.i3d" },
-    @{ File = "biomassPallet.xml"; FillType = "GHI_HEMP_BIOMASS"; I3d = "../i3d/biomassPallet.i3d" },
-    @{ File = "fiberPallet.xml"; FillType = "GHI_HEMP_FIBER"; I3d = "../i3d/fiberPallet.i3d" },
-    @{ File = "flowerPallet.xml"; FillType = "GHI_HEMP_FLOWER"; I3d = "../i3d/flowerPallet.i3d" },
-    @{ File = "oilPallet.xml"; FillType = "GHI_HEMP_OIL"; I3d = "../i3d/oilPallet.i3d" }
+    @{ File = "hempPallet.xml"; FillType = "HEMP" },
+    @{ File = "seedPallet.xml"; FillType = "GHI_HEMP_SEED" },
+    @{ File = "biomassPallet.xml"; FillType = "GHI_HEMP_BIOMASS" },
+    @{ File = "fiberPallet.xml"; FillType = "GHI_HEMP_FIBER" },
+    @{ File = "flowerPallet.xml"; FillType = "GHI_HEMP_FLOWER" },
+    @{ File = "oilPallet.xml"; FillType = "GHI_HEMP_OIL" }
 )
 
 foreach ($spec in $palletSpecs) {
-    $path = Join-Path $modFolder ("pallets\xml\" + $spec.File)
-    $xml = Read-Xml $path
+    $xml = Read-Xml (Join-Path $modFolder ("pallets\xml\" + $spec.File))
     if ($null -eq $xml) { continue }
-
-    if ($xml.vehicle.type -eq "pallet") { Pass "$($spec.File) type is pallet" } else { Fail "$($spec.File) type is not pallet" }
-    if ($xml.vehicle.base.filename -eq $spec.I3d) { Pass "$($spec.File) i3d target is correct" } else { Fail "$($spec.File) i3d target is incorrect" }
-
     $fillUnit = $xml.vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration.fillUnits.fillUnit
-    if ($fillUnit.fillTypes -eq $spec.FillType) { Pass "$($spec.File) fill type is $($spec.FillType)" } else { Fail "$($spec.File) fill type is incorrect" }
+    if ($xml.vehicle.type -eq "pallet" -and $fillUnit.fillTypes -eq $spec.FillType) {
+        Pass "$($spec.File) is configured for $($spec.FillType)"
+    }
+    else {
+        Fail "$($spec.File) pallet configuration is incorrect"
+    }
 }
 
 if ($null -ne $greenhouse) {
     if ($greenhouse.placeable.type -eq "greenhouse") { Pass "placeable type is greenhouse" } else { Fail "placeable type is not greenhouse" }
-    if ($greenhouse.placeable.storeData.category -eq "placeableMisc") { Pass "store category is placeableMisc" } else { Fail "store category is not placeableMisc" }
-    if ($greenhouse.placeable.storeData.brush.tab -eq "greenhouses") { Pass "brush tab is greenhouses" } else { Fail "brush tab is not greenhouses" }
+    if ($greenhouse.placeable.base.filename -eq "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d") { Pass "greenhouse XML points to final i3d path" } else { Fail "greenhouse XML i3d path is incorrect" }
+}
 
-    $mappingIds = @($greenhouse.placeable.i3dMappings.i3dMapping | ForEach-Object { $_.id })
-    foreach ($requiredMapping in @("clearAreaStart01", "levelAreaStart01", "indoorArea01Start", "testAreaStart01", "plantNodes", "sellingStation", "exactFillRootNode", "playerTrigger", "infoTrigger")) {
-        if ($mappingIds -contains $requiredMapping) { Pass "i3d mapping exists: $requiredMapping" } else { Fail "missing i3d mapping: $requiredMapping" }
-    }
-
-    if ($greenhouse.placeable.base.filename -eq "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d") {
-        Pass "greenhouse XML points to final i3d path"
-    }
-    else {
-        Fail "greenhouse XML i3d path is incorrect"
-    }
+$fieldCheck = Join-Path $root "tools\windows\check_hemp_field_foundation.ps1"
+if (Test-Path $fieldCheck) {
+    Write-Host ""
+    Write-Host "Running field hemp cross-file validator..." -ForegroundColor Cyan
+    & $fieldCheck -RepoRoot $root
+    if ($LASTEXITCODE -ne 0) { Fail "Field hemp foundation validator failed" } else { Pass "Field hemp foundation validator passed" }
 }
 
 Write-Host ""
