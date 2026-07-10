@@ -2,7 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-    <version>0.2.17.0</version>
+    <version>0.2.18.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -12,9 +12,9 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.17 test build: peaked glass greenhouse foundation, expanded field-hemp
-crop and foliage source work, six inactive product-pallet templates, an all-product
-pallet generator, and future hemp-processing recipe foundations.
+Phase 2.18 test build: peaked glass greenhouse foundation, expanded field-hemp
+foliage and map-integration planning, crop/product icon generation, cutter-effect
+source generation, six product-pallet templates, and hemp-processing foundations.
         ]]></en>
     </description>
 
@@ -43,15 +43,21 @@ pallet generator, and future hemp-processing recipe foundations.
          xml/growth/hempGrowth.xml
          foliage/hemp/hempFoliagePlan.xml
          foliage/hemp/hempFieldIntegrationPlan.xml
+         foliage/hemp/hempMapRegistrationDraft.xml
+         foliage/hemp/hempCutterEffectsPlan.xml
+         ui/hempIconManifest.xml
          xml/productions/hempProcessingRecipes.xml
          pallets/xml/*.xml
 
          Source generators:
          tools/blender/create_hemp_foliage.py
+         tools/blender/create_hemp_crop_icons.py
+         tools/blender/create_hemp_cutter_effects.py
          tools/blender/create_green_horizon_pallets.py
 
-         Do not activate field crops, processing recipes, or custom pallets until
-         their generated assets and i3d mappings have been inspected and tested. -->
+         Do not activate field crops, crop icons, cutter effects, processing
+         recipes, or custom pallets until their generated assets, exact FS25 XML
+         keys, model nodes, and i3d mappings have been inspected and tested. -->
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
