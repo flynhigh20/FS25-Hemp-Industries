@@ -21,6 +21,7 @@ echo 11. Generate product pallet source assets
 echo 12. Generate ALL Blender source assets
 echo 13. Validate exported greenhouse i3d
 echo 14. Open asset generation workflow
+echo 15. Show project status and next action
 echo  0. Exit
 echo.
 set /p choice=Pick an option: 
@@ -39,6 +40,7 @@ if "%choice%"=="11" goto GENERATE_PALLETS
 if "%choice%"=="12" goto GENERATE_ALL
 if "%choice%"=="13" goto VALIDATE_EXPORT
 if "%choice%"=="14" goto OPEN_ASSET_WORKFLOW
+if "%choice%"=="15" goto PROJECT_STATUS
 if "%choice%"=="0" goto END
 
 echo.
@@ -100,6 +102,10 @@ goto MENU
 
 :OPEN_ASSET_WORKFLOW
 start "" "%~dp0..\..\docs\Asset-Generation-Workflow.md"
+goto MENU
+
+:PROJECT_STATUS
+call "%~dp0show_project_status.bat"
 goto MENU
 
 :END
