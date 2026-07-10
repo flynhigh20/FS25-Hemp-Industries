@@ -28,9 +28,30 @@ WALL_FRAME_X_VALUES = [-4.20, -2.80, -1.40, 0.0, 1.40, 2.80, 4.20]
 ROOF_OVERHANG = 0.35
 DOOR_HALF_WIDTH = 0.95
 DOOR_BOTTOM_Z = 0.38
-DOOR_TOP_Z = 2.45
+DOOR_TOP_Z = 2.53
 DOOR_HEIGHT = DOOR_TOP_Z - DOOR_BOTTOM_Z
 DOOR_CENTER_Z = (DOOR_TOP_Z + DOOR_BOTTOM_Z) / 2.0
+
+
+def normalize_blender_texture_paths() -> None:
+    """Store generated texture paths relative to the saved blend file.
+
+    The GIANTS exporter can otherwise combine an absolute source path with its
+    export folder and create duplicated paths. The post-export validator still
+    performs a final i3d normalization to ../textures/<filename>.
+    """
+    for image in bpy.data.images:
+        if not image.name.startswith("GHI_") or not image.filepath_raw:
+            continue
+
+        absolute_path = Path(bpy.path.abspath(image.filepath_raw)).resolve()
+        if not absolute_path.exists():
+            continue
+
+        image.filepath_raw = bpy.path.relpath(
+            str(absolute_path),
+            start=str(core.OUTPUT_DIR),
+        )
 
 
 def add_walls_and_frame(visuals, glass_material, frame_material):
@@ -114,7 +135,7 @@ def add_walls_and_frame(visuals, glass_material, frame_material):
             core.cylinder_between(
                 f"windowMullion_{x:.2f}_{y:.2f}",
                 (x, y, 0.38),
-                (x, y, 2.45),
+                (x, y, core.EAVE_Z),
                 0.020,
                 frame_material,
                 visuals,
@@ -350,14 +371,16 @@ def build_model() -> None:
 
     bpy.context.scene.unit_settings.system = "METRIC"
     core.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    normalize_blender_texture_paths()
     bpy.ops.wm.save_as_mainfile(filepath=str(core.OUTPUT_FILE))
 
     print(f"Saved Green Horizon refined greenhouse: {core.OUTPUT_FILE}")
     print(f"Generated image textures: {core.TEXTURE_DIR}")
     print(f"Roof extends {ROOF_OVERHANG:.2f} m beyond both end walls.")
+    print(f"Door top is {DOOR_TOP_Z:.2f} m above the model origin.")
     print("Visible amber and green pads mark the gameplay trigger locations.")
-    print("Export root greenHorizonHempGreenhouse to the mod i3d folder.")
-    print("Use relative paths: YES. Save game paths: NO.")
+    print("Export root greenHorizonHempGreenhouse directly to the mod i3d folder.")
+    print("Run menu option 13 immediately after export to normalize and validate texture paths.")
 
 
 if __name__ == "__main__":
