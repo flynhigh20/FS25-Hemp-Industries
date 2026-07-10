@@ -3,9 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.6.0"
-$expectedStoreCategory = "productionPoints"
-$expectedIconFilename = "icon_mod.dds"
+$expectedVersion = "0.2.12.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -14,181 +12,132 @@ function Find-RepoRoot {
         return (Resolve-Path $RepoRoot).Path
     }
 
-    $scriptDir = Split-Path -Parent $PSCommandPath
-    $current = Resolve-Path $scriptDir
-
+    $current = Resolve-Path (Split-Path -Parent $PSCommandPath)
     while ($null -ne $current) {
         if (Test-Path (Join-Path $current "FS25_GreenHorizonIndustries\modDesc.xml")) {
             return $current.Path
         }
-
         $parent = Split-Path -Parent $current
         if ([string]::IsNullOrWhiteSpace($parent) -or $parent -eq $current.Path) {
             break
         }
         $current = Resolve-Path $parent
     }
-
-    throw "Could not find repo root. Run this from inside the FS25-Hemp-Industries repo."
+    throw "Could not find repository root."
 }
 
-function Add-Failure([string]$message) {
-    $failures.Add($message) | Out-Null
-    Write-Host "FAIL: $message" -ForegroundColor Red
+function Pass([string]$Message) {
+    Write-Host "PASS: $Message" -ForegroundColor Green
 }
 
-function Add-Warning([string]$message) {
-    $warnings.Add($message) | Out-Null
-    Write-Host "WARN: $message" -ForegroundColor Yellow
+function Warn([string]$Message) {
+    $warnings.Add($Message) | Out-Null
+    Write-Host "WARN: $Message" -ForegroundColor Yellow
 }
 
-function Add-Pass([string]$message) {
-    Write-Host "PASS: $message" -ForegroundColor Green
+function Fail([string]$Message) {
+    $failures.Add($Message) | Out-Null
+    Write-Host "FAIL: $Message" -ForegroundColor Red
 }
 
-function Read-XmlFile([string]$path) {
+function Read-Xml([string]$Path) {
     try {
-        [xml](Get-Content -Path $path -Raw)
+        return [xml](Get-Content -Path $Path -Raw)
     }
     catch {
-        Add-Failure "XML parse failed: $path -- $($_.Exception.Message)"
+        Fail "XML parse failed: $Path -- $($_.Exception.Message)"
         return $null
-    }
-}
-
-function Test-ZipRoot([string]$zipPath) {
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
-    try {
-        foreach ($entry in $zip.Entries) {
-            if ($entry.FullName -eq "modDesc.xml") {
-                return $true
-            }
-        }
-        return $false
-    }
-    finally {
-        $zip.Dispose()
-    }
-}
-
-function Test-ZipEntry([string]$zipPath, [string]$entryName) {
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
-    try {
-        foreach ($entry in $zip.Entries) {
-            if ($entry.FullName -eq $entryName) {
-                return $true
-            }
-        }
-        return $false
-    }
-    finally {
-        $zip.Dispose()
     }
 }
 
 $root = Find-RepoRoot
 $modFolder = Join-Path $root "FS25_GreenHorizonIndustries"
-$modDescPath = Join-Path $modFolder "modDesc.xml"
-$greenhouseXmlPath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
-$fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
-$iconPath = Join-Path $modFolder $expectedIconFilename
-$distZipPath = Join-Path $root "dist\FS25_GreenHorizonIndustries.zip"
 
-Write-Host "Green Horizon Industries - Preflight Check" -ForegroundColor Cyan
-Write-Host "Repo: $root"
-Write-Host "Expected mod version: $expectedVersion"
-Write-Host "Expected store category: $expectedStoreCategory"
-Write-Host "Expected icon: $expectedIconFilename"
+$requiredFiles = @(
+    "modDesc.xml",
+    "icon_mod.dds",
+    "xml/fillTypes.xml",
+    "xml/fruitTypes.xml",
+    "placeables/greenhouses/hempGreenhouse.xml",
+    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
+    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes"
+)
+
+Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
+Write-Host "Expected version: $expectedVersion"
 Write-Host ""
 
-if (Test-Path $modFolder) { Add-Pass "Mod folder exists: FS25_GreenHorizonIndustries" } else { Add-Failure "Missing mod folder: FS25_GreenHorizonIndustries" }
-if (Test-Path $modDescPath) { Add-Pass "modDesc.xml exists at mod root" } else { Add-Failure "Missing modDesc.xml at mod root" }
-if (Test-Path $greenhouseXmlPath) { Add-Pass "Hemp greenhouse XML exists" } else { Add-Failure "Missing hempGreenhouse.xml" }
-if (Test-Path $fillTypesPath) { Add-Pass "fillTypes.xml exists" } else { Add-Failure "Missing fillTypes.xml" }
-
-$modDesc = $null
-if (Test-Path $modDescPath) {
-    $modDesc = Read-XmlFile $modDescPath
-}
-
-if ($null -ne $modDesc) {
-    $descVersion = $modDesc.modDesc.descVersion
-    $version = $modDesc.modDesc.version
-    $iconFilename = $modDesc.modDesc.iconFilename
-
-    if ($descVersion -eq "91") { Add-Pass "modDesc descVersion is 91" } else { Add-Warning "modDesc descVersion is '$descVersion' instead of current local test value 91" }
-    if ($version -eq $expectedVersion) { Add-Pass "mod version is $expectedVersion" } else { Add-Warning "mod version is '$version' instead of expected $expectedVersion" }
-
-    if ($iconFilename -eq $expectedIconFilename) {
-        Add-Pass "modDesc iconFilename is $expectedIconFilename"
+foreach ($relativePath in $requiredFiles) {
+    $fullPath = Join-Path $modFolder ($relativePath.Replace("/", "\"))
+    if (Test-Path $fullPath) {
+        Pass "Found $relativePath"
     }
     else {
-        Add-Failure "modDesc iconFilename is '$iconFilename' instead of $expectedIconFilename"
-    }
-
-    if (Test-Path $iconPath) {
-        Add-Pass "icon file exists: $expectedIconFilename"
-    }
-    else {
-        Add-Warning "icon file not found yet: $expectedIconFilename. Run package_and_install_mod.bat to generate the alpha placeholder icon."
-    }
-
-    $storeItems = $modDesc.modDesc.storeItems.storeItem
-    if ($null -eq $storeItems) {
-        Add-Failure "No storeItems/storeItem entries found in modDesc.xml"
-    }
-    else {
-        foreach ($item in @($storeItems)) {
-            $xmlFilename = $item.xmlFilename
-            if ([string]::IsNullOrWhiteSpace($xmlFilename)) {
-                Add-Failure "storeItem missing xmlFilename"
-                continue
-            }
-            $target = Join-Path $modFolder ($xmlFilename -replace '/', '\')
-            if (Test-Path $target) { Add-Pass "storeItem target exists: $xmlFilename" } else { Add-Failure "storeItem target missing: $xmlFilename" }
+        if ($relativePath -eq "xml/fruitTypes.xml") {
+            Warn "Missing inactive draft file: $relativePath"
+        }
+        else {
+            Fail "Missing required file: $relativePath"
         }
     }
+}
 
-    $fillTypesFilename = $modDesc.modDesc.fillTypes.filename
-    if ([string]::IsNullOrWhiteSpace($fillTypesFilename)) {
-        Add-Failure "modDesc.xml missing fillTypes filename"
+$modDescPath = Join-Path $modFolder "modDesc.xml"
+$greenhousePath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
+$fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
+
+$modDesc = if (Test-Path $modDescPath) { Read-Xml $modDescPath } else { $null }
+$greenhouse = if (Test-Path $greenhousePath) { Read-Xml $greenhousePath } else { $null }
+$fillTypes = if (Test-Path $fillTypesPath) { Read-Xml $fillTypesPath } else { $null }
+
+if ($null -ne $modDesc) {
+    if ($modDesc.modDesc.descVersion -eq "91") { Pass "modDesc descVersion is 91" } else { Warn "modDesc descVersion is $($modDesc.modDesc.descVersion)" }
+    if ($modDesc.modDesc.version -eq $expectedVersion) { Pass "mod version is $expectedVersion" } else { Fail "mod version is $($modDesc.modDesc.version), expected $expectedVersion" }
+    if ($modDesc.modDesc.iconFilename -eq "icon_mod.dds") { Pass "mod icon points to icon_mod.dds" } else { Fail "mod iconFilename is not icon_mod.dds" }
+
+    $storeItemPath = $modDesc.modDesc.storeItems.storeItem.xmlFilename
+    if ($storeItemPath -eq "placeables/greenhouses/hempGreenhouse.xml") {
+        Pass "greenhouse store item is active"
     }
     else {
-        $target = Join-Path $modFolder ($fillTypesFilename -replace '/', '\')
-        if (Test-Path $target) { Add-Pass "fillTypes target exists: $fillTypesFilename" } else { Add-Failure "fillTypes target missing: $fillTypesFilename" }
+        Fail "greenhouse store item path is incorrect"
     }
 }
 
-$greenhouseXml = $null
-if (Test-Path $greenhouseXmlPath) {
-    $greenhouseXml = Read-XmlFile $greenhouseXmlPath
+if ($null -ne $fillTypes) {
+    $names = @($fillTypes.map.fillTypes.fillType | ForEach-Object { $_.name })
+    foreach ($requiredFillType in @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")) {
+        if ($names -contains $requiredFillType) { Pass "fill type registered: $requiredFillType" } else { Fail "missing fill type: $requiredFillType" }
+    }
 }
 
-if ($null -ne $greenhouseXml) {
-    $categoryNodes = Select-Xml -Xml $greenhouseXml -XPath "//*[local-name()='category']"
-    if ($categoryNodes.Count -eq 0) {
-        Add-Failure "No <category> tag found in hempGreenhouse.xml"
+if ($null -ne $greenhouse) {
+    if ($greenhouse.placeable.type -eq "greenhouse") { Pass "placeable type is greenhouse" } else { Fail "placeable type is not greenhouse" }
+    if ($greenhouse.placeable.storeData.category -eq "placeableMisc") { Pass "store category is placeableMisc" } else { Fail "store category is not placeableMisc" }
+    if ($greenhouse.placeable.storeData.brush.tab -eq "greenhouses") { Pass "brush tab is greenhouses" } else { Fail "brush tab is not greenhouses" }
+
+    $mappingIds = @($greenhouse.placeable.i3dMappings.i3dMapping | ForEach-Object { $_.id })
+    foreach ($requiredMapping in @(
+        "clearAreaStart01",
+        "levelAreaStart01",
+        "indoorArea01Start",
+        "testAreaStart01",
+        "plantNodes",
+        "sellingStation",
+        "exactFillRootNode",
+        "playerTrigger",
+        "infoTrigger"
+    )) {
+        if ($mappingIds -contains $requiredMapping) { Pass "i3d mapping exists: $requiredMapping" } else { Fail "missing i3d mapping: $requiredMapping" }
+    }
+
+    $i3dFilename = $greenhouse.placeable.base.filename
+    if ($i3dFilename -eq "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d") {
+        Pass "greenhouse XML points to final i3d path"
     }
     else {
-        $categoryValues = @($categoryNodes | ForEach-Object { $_.Node.InnerText.Trim() })
-        if ($categoryValues -contains $expectedStoreCategory) { Add-Pass "greenhouse category includes $expectedStoreCategory" } else { Add-Warning "greenhouse category is '$($categoryValues -join ', ')' instead of $expectedStoreCategory" }
-        if ($categoryValues -contains "greenhouses") { Add-Warning "greenhouse category is greenhouses; verify against FS25 schema/log because an earlier local test rejected it" }
+        Fail "greenhouse XML i3d path is incorrect: $i3dFilename"
     }
-
-    $allText = Get-Content -Path $greenhouseXmlPath -Raw
-    foreach ($needle in @("storeItem_ghi_hempGreenhouse", "production_ghi_hempGreenhouseBasic", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS")) {
-        if ($allText -like "*$needle*") { Add-Pass "greenhouse XML contains $needle" } else { Add-Warning "greenhouse XML missing expected text: $needle" }
-    }
-}
-
-if (Test-Path $distZipPath) {
-    if (Test-ZipRoot $distZipPath) { Add-Pass "dist zip root is correct: modDesc.xml is at top" } else { Add-Failure "dist zip root is wrong: modDesc.xml is not at top" }
-    if (Test-ZipEntry $distZipPath $expectedIconFilename) { Add-Pass "dist zip contains $expectedIconFilename" } else { Add-Warning "dist zip missing $expectedIconFilename. Re-run package_and_install_mod.bat." }
-}
-else {
-    Add-Warning "No dist zip found yet. Run package_mod.bat or package_and_install_mod.bat."
 }
 
 Write-Host ""
@@ -197,11 +146,8 @@ Write-Host "Failures: $($failures.Count)"
 Write-Host "Warnings: $($warnings.Count)"
 
 if ($failures.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Fix failures before testing in FS25." -ForegroundColor Red
     exit 1
 }
 
-Write-Host ""
-Write-Host "Preflight passed. Warnings may still be okay for an alpha test." -ForegroundColor Green
+Write-Host "Preflight passed." -ForegroundColor Green
 exit 0
