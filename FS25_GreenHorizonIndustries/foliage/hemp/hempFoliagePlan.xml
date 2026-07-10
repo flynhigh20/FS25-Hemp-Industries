@@ -1,61 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<greenHorizonFoliagePlan fruitType="HEMP" version="2">
+<greenHorizonFoliagePlan fruitType="HEMP" version="3">
 
     <!-- Project-owned build plan. FS25 does not load this file directly.
-         It defines the asset names and state coverage we need before activating
-         xml/fruitTypes.xml and xml/growth/hempGrowth.xml. -->
+         It keeps foliage, crop icons, cutter effects, and eventual map
+         registration synchronized while fruitTypes.xml remains inactive. -->
 
-    <sourceGenerator>
-        <script>tools/blender/create_hemp_foliage.py</script>
-        <blendOutput>assets/blender/green_horizon_hemp_foliage.blend</blendOutput>
-        <status complete="true" note="Generator script is committed; generated assets still require a Blender run and inspection." />
-    </sourceGenerator>
+    <sourceGenerators>
+        <generator role="foliage">
+            <script>tools/blender/create_hemp_foliage.py</script>
+            <blendOutput>assets/blender/green_horizon_hemp_foliage.blend</blendOutput>
+            <status complete="true" note="Generator script is committed; generated assets still require a Blender run and inspection."/>
+        </generator>
+        <generator role="icons">
+            <script>tools/blender/create_hemp_crop_icons.py</script>
+            <outputRoot>ui/icons</outputRoot>
+            <status complete="true" note="Generator script is committed; icons are not linked to gameplay XML."/>
+        </generator>
+        <generator role="cutterEffects">
+            <script>tools/blender/create_hemp_cutter_effects.py</script>
+            <blendOutput>assets/blender/green_horizon_hemp_cutter_effects.blend</blendOutput>
+            <status complete="true" note="Generator script is committed; effect textures are not linked to vehicles."/>
+        </generator>
+    </sourceGenerators>
+
+    <linkedPlans>
+        <plan role="icons">ui/hempIconManifest.xml</plan>
+        <plan role="cutterEffects">foliage/hemp/hempCutterEffectsPlan.xml</plan>
+        <plan role="mapRegistration">foliage/hemp/hempMapRegistrationDraft.xml</plan>
+        <plan role="fieldIntegration">foliage/hemp/hempFieldIntegrationPlan.xml</plan>
+    </linkedPlans>
 
     <densityMap
         numStateChannels="4"
         numGrowthStates="7"
+        harvestReadyState="7"
         witheredState="8"
-        cutState="9" />
+        cutState="9"/>
 
     <assetRoot>foliage/hemp</assetRoot>
 
     <textureTargets>
-        <texture role="diffuseAlpha" filename="textures/hempFoliage_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py" />
-        <texture role="normal" filename="textures/hempFoliage_normal.png" generatedBy="tools/blender/create_hemp_foliage.py" />
-        <texture role="distanceDiffuse" filename="textures/hempFoliage_distance_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py" />
-        <texture role="distanceNormal" filename="textures/hempFoliage_distance_normal.png" generatedBy="tools/blender/create_hemp_foliage.py" />
+        <texture role="diffuseAlpha" filename="textures/hempFoliage_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py"/>
+        <texture role="normal" filename="textures/hempFoliage_normal.png" generatedBy="tools/blender/create_hemp_foliage.py"/>
+        <texture role="distanceDiffuse" filename="textures/hempFoliage_distance_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py"/>
+        <texture role="distanceNormal" filename="textures/hempFoliage_distance_normal.png" generatedBy="tools/blender/create_hemp_foliage.py"/>
     </textureTargets>
 
     <growthStates>
-        <state index="1" name="emerged" heightMeters="0.08" density="low" atlasTile="0" />
-        <state index="2" name="sprout" heightMeters="0.18" density="low" atlasTile="1" />
-        <state index="3" name="juvenile" heightMeters="0.45" density="medium" atlasTile="2" />
-        <state index="4" name="vegetative" heightMeters="0.90" density="medium" atlasTile="3" />
-        <state index="5" name="preFlower" heightMeters="1.35" density="high" atlasTile="4" />
-        <state index="6" name="flowering" heightMeters="1.70" density="high" forageReady="true" atlasTile="5" />
-        <state index="7" name="mature" heightMeters="2.00" density="high" harvestReady="true" atlasTile="6" />
-        <state index="8" name="withered" heightMeters="1.85" density="medium" atlasTile="7" />
-        <state index="9" name="cut" heightMeters="0.20" density="low" atlasTile="6" />
+        <state index="1" name="emerged" heightMeters="0.08" density="low" atlasTile="0" harvestable="false"/>
+        <state index="2" name="sprout" heightMeters="0.18" density="low" atlasTile="1" harvestable="false"/>
+        <state index="3" name="juvenile" heightMeters="0.45" density="medium" atlasTile="2" harvestable="false"/>
+        <state index="4" name="vegetative" heightMeters="0.90" density="medium" atlasTile="3" harvestable="false"/>
+        <state index="5" name="preFlower" heightMeters="1.35" density="high" atlasTile="4" harvestable="false"/>
+        <state index="6" name="flowering" heightMeters="1.70" density="high" atlasTile="5" harvestable="false" reservedForFutureSpecializedHarvest="true"/>
+        <state index="7" name="mature" heightMeters="2.00" density="high" atlasTile="6" harvestable="true" resultingState="9"/>
+        <state index="8" name="withered" heightMeters="1.85" density="medium" atlasTile="7" harvestable="false"/>
+        <state index="9" name="cut" heightMeters="0.20" density="low" atlasTile="6" harvestable="false"/>
     </growthStates>
 
     <meshTargets>
-        <mesh stateRange="1-2" cardCount="2" lod="near" />
-        <mesh stateRange="3-4" cardCount="3" lod="near" />
-        <mesh stateRange="5-7" cardCount="4" lod="near" />
-        <mesh stateRange="8" cardCount="3" lod="near" />
-        <mesh stateRange="9" cardCount="2" lod="near" />
-        <mesh stateRange="1-9" cardCount="1" lod="distance" />
+        <mesh stateRange="1-2" cardCount="2" lod="near"/>
+        <mesh stateRange="3-4" cardCount="3" lod="near"/>
+        <mesh stateRange="5-7" cardCount="4" lod="near"/>
+        <mesh stateRange="8" cardCount="3" lod="near"/>
+        <mesh stateRange="9" cardCount="2" lod="near"/>
+        <mesh stateRange="1-9" cardCount="1" lod="distance"/>
     </meshTargets>
 
     <activationGates>
-        <gate id="sourceGenerator" complete="true" />
-        <gate id="foliageTexturesGenerated" complete="false" />
-        <gate id="growthStateMeshesInspected" complete="false" />
-        <gate id="mapDensityChannels" complete="false" />
-        <gate id="cutterEffects" complete="false" />
-        <gate id="destructionMasks" complete="false" />
-        <gate id="vehicleCategories" complete="false" />
-        <gate id="growthCalendarTest" complete="false" />
+        <gate id="sourceGenerators" complete="true"/>
+        <gate id="foliageTexturesGenerated" complete="false"/>
+        <gate id="growthStateMeshesInspected" complete="false"/>
+        <gate id="iconsGeneratedAndInspected" complete="false"/>
+        <gate id="cutterEffectTexturesGeneratedAndInspected" complete="false"/>
+        <gate id="mapDensityChannels" complete="false"/>
+        <gate id="cutterEffectSchemaVerified" complete="false"/>
+        <gate id="destructionMasks" complete="false"/>
+        <gate id="vehicleCategories" complete="false"/>
+        <gate id="growthCalendarTest" complete="false"/>
+        <gate id="saveReloadTest" complete="false"/>
     </activationGates>
+
+    <activationRule>
+        Keep fruitTypes.xml excluded from modDesc.xml until every gameplay gate above is complete on a dedicated test map.
+    </activationRule>
 
 </greenHorizonFoliagePlan>
