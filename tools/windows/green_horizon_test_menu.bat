@@ -15,6 +15,12 @@ echo  5. Open Windows packaging guide
 echo  6. Open test checklist
 echo  7. Install LOOSE folder for GIANTS Icon Generator
 echo  8. Check field hemp foundation drafts
+echo  9. Generate greenhouse model and materials
+echo 10. Generate field foliage, icons, and cutter assets
+echo 11. Generate product pallet source assets
+echo 12. Generate ALL Blender source assets
+echo 13. Validate exported greenhouse i3d
+echo 14. Open asset generation workflow
 echo  0. Exit
 echo.
 set /p choice=Pick an option: 
@@ -27,6 +33,12 @@ if "%choice%"=="5" goto OPEN_PACKAGING_DOC
 if "%choice%"=="6" goto OPEN_CHECKLIST
 if "%choice%"=="7" goto INSTALL_LOOSE
 if "%choice%"=="8" goto FIELD_CHECK
+if "%choice%"=="9" goto GENERATE_GREENHOUSE
+if "%choice%"=="10" goto GENERATE_FIELD
+if "%choice%"=="11" goto GENERATE_PALLETS
+if "%choice%"=="12" goto GENERATE_ALL
+if "%choice%"=="13" goto VALIDATE_EXPORT
+if "%choice%"=="14" goto OPEN_ASSET_WORKFLOW
 if "%choice%"=="0" goto END
 
 echo.
@@ -64,6 +76,30 @@ goto MENU
 
 :FIELD_CHECK
 call "%~dp0check_hemp_field_foundation.bat"
+goto MENU
+
+:GENERATE_GREENHOUSE
+call "%~dp0generate_project_assets.bat" greenhouse
+goto MENU
+
+:GENERATE_FIELD
+call "%~dp0generate_project_assets.bat" field
+goto MENU
+
+:GENERATE_PALLETS
+call "%~dp0generate_project_assets.bat" pallets
+goto MENU
+
+:GENERATE_ALL
+call "%~dp0generate_project_assets.bat" all
+goto MENU
+
+:VALIDATE_EXPORT
+call "%~dp0validate_greenhouse_export.bat"
+goto MENU
+
+:OPEN_ASSET_WORKFLOW
+start "" "%~dp0..\..\docs\Asset-Generation-Workflow.md"
 goto MENU
 
 :END
