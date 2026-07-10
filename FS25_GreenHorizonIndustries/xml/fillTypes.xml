@@ -2,48 +2,71 @@
 <map>
 
     <!-- Green Horizon Industries
-         Phase 1 / Alpha 0.1 — initial fill type registration -->
+         Phase 2.11 — active hemp fill type set for greenhouse/production testing.
+
+         Keep these as fill types. The separate fruitTypes.xml is a draft crop-growth file and is
+         intentionally not wired in modDesc until the field crop growth states are ready. -->
 
     <fillTypes>
 
-        <!-- Main field-crop harvest material.
-             Future hemp foliage/fruit type should also use HEMP for consistency. -->
         <fillType
             name="HEMP"
             title="Industrial Hemp"
             showOnPriceTable="true"
             isBulkType="true"
             unitShort="$l10n_unit_literShort">
-
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
-
         </fillType>
 
-        <!-- Future greenhouse / planting material -->
         <fillType
             name="GHI_HEMP_SEED"
             title="Hemp Seed"
             showOnPriceTable="true"
             isBulkType="true"
             unitShort="$l10n_unit_literShort">
-
             <economy pricePerLiter="0.85"/>
             <physics massPerLiter="0.62"/>
-
         </fillType>
 
-        <!-- Future fiber-mill / biofuel by-product -->
         <fillType
             name="GHI_HEMP_BIOMASS"
             title="Hemp Biomass"
             showOnPriceTable="true"
             isBulkType="true"
             unitShort="$l10n_unit_literShort">
-
             <economy pricePerLiter="0.18"/>
             <physics massPerLiter="0.08"/>
+        </fillType>
 
+        <fillType
+            name="GHI_HEMP_FIBER"
+            title="Hemp Fiber"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+            <economy pricePerLiter="0.72"/>
+            <physics massPerLiter="0.10"/>
+        </fillType>
+
+        <fillType
+            name="GHI_HEMP_FLOWER"
+            title="Hemp Flower"
+            showOnPriceTable="true"
+            isBulkType="true"
+            unitShort="$l10n_unit_literShort">
+            <economy pricePerLiter="1.20"/>
+            <physics massPerLiter="0.06"/>
+        </fillType>
+
+        <fillType
+            name="GHI_HEMP_OIL"
+            title="Hemp Oil"
+            showOnPriceTable="true"
+            isBulkType="false"
+            unitShort="$l10n_unit_literShort">
+            <economy pricePerLiter="1.65"/>
+            <physics massPerLiter="0.91"/>
         </fillType>
 
     </fillTypes>
