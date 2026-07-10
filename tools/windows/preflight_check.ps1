@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.12.0"
+$expectedVersion = "0.2.13.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -60,7 +60,17 @@ $requiredFiles = @(
     "xml/fruitTypes.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
-    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes"
+    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
+    "placeables/greenhouses/textures/greenhouse_glass_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_frame_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_concrete_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_soil_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_hemp_leaf_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_stem_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_water_tank_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_rubber_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_wire_diffuse.png",
+    "placeables/greenhouses/textures/greenhouse_light_diffuse.png"
 )
 
 Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
