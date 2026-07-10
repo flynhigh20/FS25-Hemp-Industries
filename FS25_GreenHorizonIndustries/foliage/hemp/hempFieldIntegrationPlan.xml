@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonFieldIntegration fruitType="HEMP" version="1">
+
+    <!-- Project-owned integration plan. FS25 does not load this file directly.
+         It records the remaining map and vehicle work before field hemp can be activated. -->
+
+    <sourceAssets>
+        <generator>tools/blender/create_hemp_foliage.py</generator>
+        <blendFile>assets/blender/green_horizon_hemp_foliage.blend</blendFile>
+        <diffuse>foliage/hemp/textures/hempFoliage_diffuse.png</diffuse>
+        <normal>foliage/hemp/textures/hempFoliage_normal.png</normal>
+        <distanceDiffuse>foliage/hemp/textures/hempFoliage_distance_diffuse.png</distanceDiffuse>
+        <distanceNormal>foliage/hemp/textures/hempFoliage_distance_normal.png</distanceNormal>
+    </sourceAssets>
+
+    <mapLayer targetName="HEMP" numStateChannels="4">
+        <requirement id="densityMapLayer" complete="false" />
+        <requirement id="foliageTypeRegistration" complete="false" />
+        <requirement id="growthCalendarRegistration" complete="false" />
+        <requirement id="savegameCompatibilityTest" complete="false" />
+    </mapLayer>
+
+    <vehicleIntegration>
+        <requirement id="seederCategory" complete="false" note="Add HEMP to a tested planter or seeder category." />
+        <requirement id="harvesterCategory" complete="false" note="Choose the first supported hemp harvesting workflow." />
+        <requirement id="cutterCategory" complete="false" note="Add HEMP only to compatible headers or cutters." />
+        <requirement id="fillTypeSounds" complete="false" note="Map HEMP to a compatible bulk crop fill sound." />
+    </vehicleIntegration>
+
+    <effectsIntegration>
+        <effect state="7" role="harvestReady" complete="false" />
+        <effect state="9" role="cut" complete="false" />
+        <effect state="8" role="withered" complete="false" />
+        <effect role="destruction" complete="false" />
+    </effectsIntegration>
+
+    <firstReleaseScope>
+        <output fillType="HEMP" enabled="true" />
+        <output fillType="GHI_HEMP_FIBER" enabled="false" reason="Dedicated windrow and pickup route not finished." />
+        <output fillType="GHI_HEMP_FLOWER" enabled="false" reason="Field separation and harvesting route not finished." />
+    </firstReleaseScope>
+
+    <activationRule>
+        Do not register the field crop until every mapLayer requirement is complete and the crop survives a new-game, save, reload, harvest, and wither test.
+    </activationRule>
+
+</greenHorizonFieldIntegration>
