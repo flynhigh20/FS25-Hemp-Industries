@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonCutterEffects fruitType="HEMP" version="1">
+
+    <!-- Project-owned effect plan. FS25 does not load this file directly.
+         The exact GIANTS cutter/effect XML nodes must be copied from locally
+         installed FS25 references before activation. -->
+
+    <sourceGenerator>
+        <script>tools/blender/create_hemp_cutter_effects.py</script>
+        <blendOutput>assets/blender/green_horizon_hemp_cutter_effects.blend</blendOutput>
+    </sourceGenerator>
+
+    <sourceTextures>
+        <texture id="chaff" filename="effects/textures/hemp_chaff_diffuse.png" generated="false"/>
+        <texture id="stemShard" filename="effects/textures/hemp_stem_shard_diffuse.png" generated="false"/>
+        <texture id="leafFragment" filename="effects/textures/hemp_leaf_fragment_diffuse.png" generated="false"/>
+        <texture id="dust" filename="effects/textures/hemp_dust_diffuse.png" generated="false"/>
+    </sourceTextures>
+
+    <cropStateRouting>
+        <route growthState="1-5" cutterAllowed="false" reason="Crop is not mature enough for the first harvesting workflow."/>
+        <route growthState="6" cutterAllowed="false" reason="Flowering state is reserved for future specialized harvesting."/>
+        <route growthState="7" cutterAllowed="true" outputFillType="HEMP" resultingState="9"/>
+        <route growthState="8" cutterAllowed="false" reason="Withered crop is not part of the first release."/>
+        <route growthState="9" cutterAllowed="false" reason="Already cut."/>
+    </cropStateRouting>
+
+    <effectProfiles>
+        <profile id="combineHeader" targetWorkflow="grainStyle">
+            <effect texture="chaff" rate="0.62" sizeMin="0.035" sizeMax="0.095" lifetime="0.75"/>
+            <effect texture="stemShard" rate="0.24" sizeMin="0.055" sizeMax="0.140" lifetime="0.90"/>
+            <effect texture="leafFragment" rate="0.20" sizeMin="0.040" sizeMax="0.120" lifetime="0.82"/>
+            <effect texture="dust" rate="0.18" sizeMin="0.18" sizeMax="0.48" lifetime="1.15"/>
+        </profile>
+
+        <profile id="forageHeader" targetWorkflow="futureBiomass">
+            <effect texture="chaff" rate="0.85" sizeMin="0.030" sizeMax="0.085" lifetime="0.70"/>
+            <effect texture="stemShard" rate="0.48" sizeMin="0.050" sizeMax="0.150" lifetime="0.88"/>
+            <effect texture="leafFragment" rate="0.35" sizeMin="0.040" sizeMax="0.105" lifetime="0.78"/>
+            <effect texture="dust" rate="0.20" sizeMin="0.20" sizeMax="0.52" lifetime="1.20"/>
+        </profile>
+    </effectProfiles>
+
+    <soundTargets>
+        <target id="cutterLoop" referenceStrategy="compatibleBaseGameCrop" verified="false"/>
+        <target id="cropImpact" referenceStrategy="compatibleBaseGameCrop" verified="false"/>
+        <target id="discharge" referenceStrategy="bulkCrop" verified="false"/>
+    </soundTargets>
+
+    <lodAndPerformance>
+        <nearDistance meters="22"/>
+        <mediumDistance meters="45"/>
+        <disableDistance meters="70"/>
+        <maximumCombinedParticles target="180"/>
+        <consoleProfile particleMultiplier="0.65"/>
+    </lodAndPerformance>
+
+    <activationRequirements>
+        <requirement id="sourceTexturesGenerated" complete="false"/>
+        <requirement id="sourceTexturesInspected" complete="false"/>
+        <requirement id="baseGameEffectSchemaVerified" complete="false"/>
+        <requirement id="supportedCutterSelected" complete="false"/>
+        <requirement id="supportedHarvesterSelected" complete="false"/>
+        <requirement id="effectNodesAddedToVehicle" complete="false"/>
+        <requirement id="consoleParticleBudgetTested" complete="false"/>
+    </activationRequirements>
+
+    <activationRule>
+        Do not copy this plan into active vehicle or fruit XML until a locally installed FS25 cutter effect is used as the schema reference and the HEMP field crop is active on a test map.
+    </activationRule>
+
+</greenHorizonCutterEffects>
