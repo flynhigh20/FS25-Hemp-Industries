@@ -2,10 +2,11 @@
 <map>
 
     <!-- Green Horizon Industries
-         Phase 2.11 — active hemp fill type set for greenhouse/production testing.
+         Phase 2.18 active hemp fill type set for greenhouse/production testing.
 
-         Keep these as fill types. The separate fruitTypes.xml is a draft crop-growth file and is
-         intentionally not wired in modDesc until the field crop growth states are ready. -->
+         Keep these as fill types. The separate fruitTypes.xml, crop icons,
+         cutter effects, custom pallet links, and map registration remain inactive
+         until their source assets and exact FS25 XML keys are verified. -->
 
     <fillTypes>
 
