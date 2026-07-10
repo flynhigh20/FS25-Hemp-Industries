@@ -52,6 +52,40 @@ function Test-ZipRoot {
     }
 }
 
+function Test-ZipRequiredEntries {
+    param(
+        [string]$ZipPath,
+        [string[]]$RequiredEntries
+    )
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
+    try {
+        $entryNames = @{}
+        foreach ($entry in $zip.Entries) {
+            $entryNames[$entry.FullName.Replace("\", "/")] = $true
+        }
+
+        $missing = @()
+        foreach ($required in $RequiredEntries) {
+            if (-not $entryNames.ContainsKey($required)) {
+                $missing += $required
+            }
+        }
+
+        if ($missing.Count -gt 0) {
+            throw "Package is missing required active file(s): $($missing -join ', ')"
+        }
+
+        foreach ($required in $RequiredEntries) {
+            Write-Host "Zip contains required file: $required" -ForegroundColor Green
+        }
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
 function Copy-IconFromZip {
     param(
         [string]$ZipPath,
@@ -161,6 +195,12 @@ Compress-Archive -Path $items.FullName -DestinationPath $zipPath -CompressionLev
 if (-not (Test-ZipRoot -ZipPath $zipPath)) {
     throw "Bad zip root. modDesc.xml is not at the top of the zip. Do not use this zip."
 }
+
+Test-ZipRequiredEntries -ZipPath $zipPath -RequiredEntries @(
+    "modDesc.xml",
+    "xml/fillTypes.xml",
+    "placeables/greenhouses/hempGreenhouse.xml"
+)
 
 Write-Host "Created: $zipPath" -ForegroundColor Cyan
 Write-Host "Zip root check: PASS - modDesc.xml is at the top of the zip." -ForegroundColor Green
