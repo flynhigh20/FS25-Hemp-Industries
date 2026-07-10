@@ -18,6 +18,7 @@ The main script now creates the complete working model source in one pass:
 - grow lights and wiring
 - FS25-style placement, trigger, storage, spawn, plant, and collision nodes
 - perimeter wall collision with an open doorway instead of one solid collision box
+- generated image textures and assigned Blender materials
 
 It saves:
 
@@ -25,38 +26,63 @@ It saves:
 assets/blender/green_horizon_hemp_greenhouse.blend
 ```
 
-No greenhouse panel, wiring, helper-marker, or post-export patch script is required.
+It also creates test-ready PNG material textures here:
+
+```text
+FS25_GreenHorizonIndustries/placeables/greenhouses/textures/
+```
+
+Generated materials cover:
+
+```text
+polycarbonate glass
+black powder-coated frame
+concrete
+soil
+hemp leaves and stems
+water tank
+rubber seals
+wiring
+grow lights
+```
+
+No greenhouse panel, wiring, material, helper-marker, or post-export patch script is required.
 
 ## Export to GIANTS
 
-1. Run `create_green_horizon_greenhouse.py`.
-2. Open the generated `.blend` and inspect the model.
-3. Export/select the root object named:
+1. Pull the latest repository files.
+2. Run `create_green_horizon_greenhouse.py` again so the model and textures are regenerated together.
+3. Open the generated `.blend` and use Material Preview to inspect it.
+4. Export/select the root object named:
 
 ```text
 greenHorizonHempGreenhouse
 ```
 
-4. Save the exported game model directly into:
+5. Save the game model directly into:
 
 ```text
 FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d
 ```
 
-5. When asked by GIANTS:
+6. When asked by GIANTS:
 
 ```text
 Save relative paths: Yes
 Save game paths: No
 ```
 
-6. Keep the generated shapes file beside the i3d:
+7. Keep the generated shapes file beside the i3d:
 
 ```text
 greenHorizonHempGreenhouse.i3d.shapes
 ```
 
-The active placeable XML already contains mappings for the deterministic helper hierarchy produced by the main script.
+The texture files must remain under the mod's `placeables/greenhouses/textures/` folder. Option 3 now checks that the model, shapes file, and material textures are all present before packaging.
+
+## Material Scope
+
+The current scripted textures are the first functional material pass. They are image-based rather than Blender-only procedural colors, which gives the exporter real files to reference. Final release quality can later replace these PNG files with optimized DDS diffuse, normal, and specular maps without rebuilding the model hierarchy.
 
 ## Product Pallets
 
@@ -73,10 +99,6 @@ assets/blender/green_horizon_product_pallets.blend
 ```
 
 The current greenhouse recipes sell outputs directly during early testing, so custom product pallets are not required for the first in-game model load.
-
-## Materials and Textures
-
-The generator currently uses Blender materials. Use Material Preview or Rendered view to inspect them. Final optimized FS25 DDS texture work remains a later art pass.
 
 ## Fruit-Type Reminder
 
