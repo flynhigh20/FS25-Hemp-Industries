@@ -14,6 +14,7 @@ echo  4. Check FS25 log after running game
 echo  5. Open Windows packaging guide
 echo  6. Open test checklist
 echo  7. Install LOOSE folder for GIANTS Icon Generator
+echo  8. Check field hemp foundation drafts
 echo  0. Exit
 echo.
 set /p choice=Pick an option: 
@@ -25,6 +26,7 @@ if "%choice%"=="4" goto LOG_CHECK
 if "%choice%"=="5" goto OPEN_PACKAGING_DOC
 if "%choice%"=="6" goto OPEN_CHECKLIST
 if "%choice%"=="7" goto INSTALL_LOOSE
+if "%choice%"=="8" goto FIELD_CHECK
 if "%choice%"=="0" goto END
 
 echo.
@@ -58,6 +60,10 @@ goto MENU
 
 :INSTALL_LOOSE
 call "%~dp0install_loose_mod_for_icon_generator.bat"
+goto MENU
+
+:FIELD_CHECK
+call "%~dp0check_hemp_field_foundation.bat"
 goto MENU
 
 :END
