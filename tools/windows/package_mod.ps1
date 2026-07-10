@@ -92,6 +92,7 @@ $modFolder = Join-Path $repoRoot "FS25_GreenHorizonIndustries"
 $modDescPath = Join-Path $modFolder "modDesc.xml"
 $distDir = Join-Path $repoRoot "dist"
 $zipPath = Join-Path $distDir "FS25_GreenHorizonIndustries.zip"
+$exportValidator = Join-Path $repoRoot "tools\windows\validate_greenhouse_export.ps1"
 
 [xml]$modDesc = Get-Content -Path $modDescPath -Raw
 $version = $modDesc.modDesc.version.Trim()
@@ -134,6 +135,17 @@ Write-Host "Repo: $repoRoot"
 Write-Host "Version: $version"
 
 Assert-RequiredFiles -ModFolder $modFolder -RelativePaths $requiredEntries
+
+if (-not (Test-Path $exportValidator)) {
+    throw "Missing greenhouse export validator: $exportValidator"
+}
+
+Write-Host ""
+Write-Host "Validating the exported greenhouse before packaging..." -ForegroundColor Cyan
+& $exportValidator -RepoRoot $repoRoot
+if ($LASTEXITCODE -ne 0) {
+    throw "Greenhouse export validation failed. The placeholder or incomplete export will not be packaged."
+}
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 if (Test-Path $zipPath) {
