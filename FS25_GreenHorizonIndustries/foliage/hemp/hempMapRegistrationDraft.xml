@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonMapRegistration fruitType="HEMP" version="1">
+
+    <!-- Project-owned map-integration contract. FS25 does not load this file.
+         It keeps all planned references synchronized while fruit registration
+         remains excluded from modDesc.xml. -->
+
+    <sourceFiles>
+        <fillTypes>xml/fillTypes.xml</fillTypes>
+        <fruitTypes>xml/fruitTypes.xml</fruitTypes>
+        <growthCalendar>xml/growth/hempGrowth.xml</growthCalendar>
+        <foliagePlan>foliage/hemp/hempFoliagePlan.xml</foliagePlan>
+        <cutterEffects>foliage/hemp/hempCutterEffectsPlan.xml</cutterEffects>
+        <iconManifest>ui/hempIconManifest.xml</iconManifest>
+    </sourceFiles>
+
+    <stateContract
+        startStateChannel="0"
+        numStateChannels="4"
+        numGrowthStates="7"
+        harvestReadyState="7"
+        witheredState="8"
+        cutState="9" />
+
+    <foliageAssets>
+        <nearDiffuse>foliage/hemp/textures/hempFoliage_diffuse.png</nearDiffuse>
+        <nearNormal>foliage/hemp/textures/hempFoliage_normal.png</nearNormal>
+        <distanceDiffuse>foliage/hemp/textures/hempFoliage_distance_diffuse.png</distanceDiffuse>
+        <distanceNormal>foliage/hemp/textures/hempFoliage_distance_normal.png</distanceNormal>
+    </foliageAssets>
+
+    <mapLayer targetName="HEMP" stateChannels="4">
+        <state index="1" name="emerged" harvestable="false"/>
+        <state index="2" name="sprout" harvestable="false"/>
+        <state index="3" name="juvenile" harvestable="false"/>
+        <state index="4" name="vegetative" harvestable="false"/>
+        <state index="5" name="preFlower" harvestable="false"/>
+        <state index="6" name="flowering" harvestable="false" reservedForFutureSpecializedHarvest="true"/>
+        <state index="7" name="mature" harvestable="true" resultingState="9"/>
+        <state index="8" name="withered" harvestable="false"/>
+        <state index="9" name="cut" harvestable="false"/>
+    </mapLayer>
+
+    <firstVehicleWorkflow>
+        <seeding targetCategory="standardSeederOrPlanter" selected="false"/>
+        <harvesting targetCategory="grainStyleCombine" selected="false"/>
+        <header targetCategory="compatibleGrainHeader" selected="false"/>
+        <output fillType="HEMP"/>
+        <cutState value="9"/>
+        <windrow enabled="false" reason="Dedicated hemp stalk/fiber windrow is deferred."/>
+    </firstVehicleWorkflow>
+
+    <futureVehicleWorkflows>
+        <workflow id="biomassForage" enabled="false" outputFillType="GHI_HEMP_BIOMASS"/>
+        <workflow id="flowerHarvest" enabled="false" outputFillType="GHI_HEMP_FLOWER"/>
+        <workflow id="fiberWindrow" enabled="false" outputFillType="GHI_HEMP_FIBER"/>
+    </futureVehicleWorkflows>
+
+    <mapIntegrationChecklist>
+        <requirement id="testMapSelected" complete="false"/>
+        <requirement id="foliageLayerCreated" complete="false"/>
+        <requirement id="densityChannelsReserved" complete="false"/>
+        <requirement id="fruitTypeRegisteredInMap" complete="false"/>
+        <requirement id="growthCalendarRegistered" complete="false"/>
+        <requirement id="terrainPaintingVerified" complete="false"/>
+        <requirement id="seedingVerified" complete="false"/>
+        <requirement id="growthTransitionsVerified" complete="false"/>
+        <requirement id="harvestVerified" complete="false"/>
+        <requirement id="cutStateVerified" complete="false"/>
+        <requirement id="witheredStateVerified" complete="false"/>
+        <requirement id="cropDestructionVerified" complete="false"/>
+        <requirement id="saveReloadVerified" complete="false"/>
+        <requirement id="multiplayerVerified" complete="false"/>
+    </mapIntegrationChecklist>
+
+    <activationRule>
+        Keep fruitTypes.xml excluded from modDesc.xml until foliage assets exist, a test map owns the required density channels, at least one complete seeding/harvesting workflow works, and save/reload testing passes.
+    </activationRule>
+
+</greenHorizonMapRegistration>
