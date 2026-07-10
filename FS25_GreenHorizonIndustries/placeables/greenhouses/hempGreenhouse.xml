@@ -2,14 +2,11 @@
 <placeable type="greenhouse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
 
     <!-- Green Horizon Industries
-         Phase 2.9 — inactive draft greenhouse XML.
+         Phase 2.12 active greenhouse test configuration.
 
-         This file is intentionally NOT active in modDesc.xml yet.
-         It uses the FS25 greenhouse-style store values from the base glass greenhouse reference:
-         species PLACEABLE, category placeableMisc, and brush tab greenhouses.
-
-         Re-enable only after the original Green Horizon greenhouse .i3d export has matching helper nodes
-         for placement, clear/level areas, triggers, storage, plant nodes, and spawn places. -->
+         The model generator creates the helper hierarchy used by the mappings below.
+         Hemp plant meshes are currently part of the i3d itself. Dynamic greenhouse
+         growth XML will be added after the foliage/growth assets are ready. -->
 
     <storeData>
         <name>$l10n_storeItem_ghi_hempGreenhouse</name>
@@ -34,63 +31,161 @@
     </storeData>
 
     <base>
-        <!-- Replace with original Green Horizon Industries .i3d after Blender -> GIANTS export. -->
         <filename>placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d</filename>
         <canBeRenamed>true</canBeRenamed>
     </base>
 
+    <placement useRandomYRotation="false" useManualYRotation="true">
+        <testAreas>
+            <testArea startNode="testAreaStart01" endNode="testAreaEnd01"/>
+        </testAreas>
+        <sounds>
+            <place template="largeImp"/>
+        </sounds>
+    </placement>
+
+    <clearAreas>
+        <clearArea startNode="clearAreaStart01" widthNode="clearAreaWidth01" heightNode="clearAreaHeight01"/>
+    </clearAreas>
+
+    <leveling requireLeveling="true" maxSmoothDistance="1" maxSlope="75" maxEdgeAngle="30">
+        <levelAreas>
+            <levelArea startNode="levelAreaStart01" widthNode="levelAreaWidth01" heightNode="levelAreaHeight01" groundType="asphalt"/>
+        </levelAreas>
+    </leveling>
+
+    <indoorAreas>
+        <indoorArea startNode="indoorArea01Start" widthNode="indoorAreaWidth01" heightNode="indoorArea1Height"/>
+    </indoorAreas>
+
+    <tipOcclusionUpdateAreas>
+        <tipOcclusionUpdateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01"/>
+    </tipOcclusionUpdateAreas>
+
+    <ai>
+        <updateAreas>
+            <updateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01"/>
+        </updateAreas>
+    </ai>
+
+    <infoTrigger triggerNode="infoTrigger"/>
+
+    <hotspots>
+        <hotspot type="PRODUCTION_POINT" linkNode="unloadTriggerMarker" teleportNode="teleportNode"/>
+    </hotspots>
+
+    <triggerMarkers>
+        <triggerMarker node="warningStripes"/>
+        <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
+        <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconWater.i3d" adjustToGround="true"/>
+    </triggerMarkers>
+
     <greenhouse>
         <plants>
-            <!-- Draft placeholder. Replace with our hemp plant XML after the plant node layout is exported. -->
-            <plant fillType="HEMP" xmlFilename="placeables/greenhouses/plants/hemp/hemp.xml" />
+            <!-- Temporary FS25-safe growth visual for the first model test.
+                 Replace this base-game visual with the custom hemp plant XML later. -->
+            <plant fillType="HEMP" xmlFilename="$data/placeables/brandless/greenhouses/vegetables/lettuce/lettuce.xml"/>
         </plants>
         <plantSpaces>
-            <spacesParent node="plantNodes" useRandomYRot="true" />
+            <spacesParent node="plantNodes" useRandomYRot="true"/>
         </plantSpaces>
     </greenhouse>
 
     <productionPoint>
         <productions>
-            <production
-                id="ghi_hemp_greenhouse_basic"
-                name="$l10n_production_ghi_hempGreenhouseBasic"
-                cyclesPerHour="24"
-                costsPerActiveHour="18">
-
+            <production id="ghi_hemp_greenhouse_basic"
+                        name="$l10n_production_ghi_hempGreenhouseBasic"
+                        cyclesPerHour="20"
+                        costsPerActiveHour="12">
                 <inputs>
                     <input fillType="WATER" amount="20"/>
                 </inputs>
-
                 <outputs>
-                    <output fillType="HEMP" amount="18" sellDirectly="false"/>
+                    <output fillType="HEMP" amount="16" sellDirectly="true"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="4" sellDirectly="true"/>
                 </outputs>
+            </production>
 
+            <production id="ghi_hemp_greenhouse_seeded"
+                        name="$l10n_production_ghi_hempGreenhouseSeeded"
+                        cyclesPerHour="24"
+                        costsPerActiveHour="18">
+                <inputs>
+                    <input fillType="WATER" amount="20"/>
+                    <input fillType="GHI_HEMP_SEED" amount="4"/>
+                </inputs>
+                <outputs>
+                    <output fillType="HEMP" amount="24" sellDirectly="true"/>
+                    <output fillType="GHI_HEMP_FLOWER" amount="2" sellDirectly="true"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="5" sellDirectly="true"/>
+                </outputs>
             </production>
         </productions>
 
-        <!-- Draft placeholders; require matching i3dMappings after export. -->
-        <!--
         <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
-            <unloadTrigger exactFillRootNode="exactFillRootNode" fillTypes="WATER" aiNode="unloadTriggerAINode"/>
+            <unloadTrigger exactFillRootNode="exactFillRootNode"
+                           fillTypes="WATER GHI_HEMP_SEED"
+                           aiNode="unloadTriggerAINode"/>
         </sellingStation>
-
-        <loadingStation fillTypes="WATER" supportsExtension="true" />
 
         <palletSpawner>
             <spawnPlaces>
-                <spawnPlace startNode="spawnPlaceStart01" endNode="spawnPlaceEnd01" />
+                <spawnPlace startNode="spawnPlaceStart01" endNode="spawnPlaceEnd01"/>
             </spawnPlaces>
         </palletSpawner>
 
-        <storage node="storage" isExtension="false" fillTypes="WATER" fillLevelSyncThreshold="10">
-            <capacity fillType="WATER" capacity="40000" />
-            <capacity fillType="HEMP" capacity="28000" />
+        <storage node="storage"
+                 isExtension="false"
+                 fillTypes="WATER GHI_HEMP_SEED HEMP GHI_HEMP_BIOMASS GHI_HEMP_FLOWER"
+                 fillLevelSyncThreshold="10">
+            <capacity fillType="WATER" capacity="40000"/>
+            <capacity fillType="GHI_HEMP_SEED" capacity="12000"/>
+            <capacity fillType="HEMP" capacity="28000"/>
+            <capacity fillType="GHI_HEMP_BIOMASS" capacity="18000"/>
+            <capacity fillType="GHI_HEMP_FLOWER" capacity="8000"/>
         </storage>
 
-        <playerTrigger node="playerTrigger" />
-        -->
+        <playerTrigger node="playerTrigger"/>
     </productionPoint>
 
-    <!-- Add i3dMappings after the helper nodes exist in the exported .i3d. -->
+    <!-- These paths match the deterministic hierarchy built by
+         tools/blender/create_green_horizon_greenhouse.py. -->
+    <i3dMappings>
+        <i3dMapping id="clearAreaStart01" node="0>0|0|0"/>
+        <i3dMapping id="clearAreaHeight01" node="0>0|0|0|0"/>
+        <i3dMapping id="clearAreaWidth01" node="0>0|0|0|1"/>
+
+        <i3dMapping id="levelAreaStart01" node="0>0|1|0"/>
+        <i3dMapping id="levelAreaWidth01" node="0>0|1|0|0"/>
+        <i3dMapping id="levelAreaHeight01" node="0>0|1|0|1"/>
+
+        <i3dMapping id="indoorArea01Start" node="0>0|2|0"/>
+        <i3dMapping id="indoorAreaWidth01" node="0>0|2|0|0"/>
+        <i3dMapping id="indoorArea1Height" node="0>0|2|0|1"/>
+
+        <i3dMapping id="testAreaStart01" node="0>0|3|0"/>
+        <i3dMapping id="testAreaEnd01" node="0>0|3|0|0"/>
+
+        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>0|4|0"/>
+        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>0|4|0|0"/>
+
+        <i3dMapping id="plantNodes" node="0>0|5|0"/>
+        <i3dMapping id="palletSpawner" node="0>0|5|1"/>
+        <i3dMapping id="spawnPlaceStart01" node="0>0|5|1|0"/>
+        <i3dMapping id="spawnPlaceEnd01" node="0>0|5|1|0|0"/>
+
+        <i3dMapping id="sellingStation" node="0>0|5|2"/>
+        <i3dMapping id="exactFillRootNode" node="0>0|5|2|0"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>0|5|2|1"/>
+        <i3dMapping id="unloadTriggerAINode" node="0>0|5|2|2"/>
+
+        <i3dMapping id="storage" node="0>0|5|3"/>
+        <i3dMapping id="playerTrigger" node="0>0|5|4"/>
+        <i3dMapping id="playerTriggerMarker" node="0>0|5|5"/>
+        <i3dMapping id="teleportNode" node="0>0|5|6"/>
+
+        <i3dMapping id="infoTrigger" node="0>0|6"/>
+        <i3dMapping id="warningStripes" node="0>0|7"/>
+    </i3dMappings>
 
 </placeable>
