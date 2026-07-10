@@ -151,43 +151,47 @@
 
     <!-- GIANTS Blender export sorts siblings alphabetically. Root child order:
          clearAreas, collisions, greenhouseGameNodes, indoorAreas, infoTrigger,
-         levelAreas, testAreas, tipOcclusionUpdateAreas, visuals, warningStripes. -->
+         levelAreas, testAreas, tipOcclusionUpdateAreas, visuals, warningStripes.
+
+         Mapping syntax begins at the exported model root (0>). Therefore the
+         first path component is already the root's direct child; do not add an
+         extra leading |0 or FS25 walks one child too deep. -->
     <i3dMappings>
-        <i3dMapping id="clearAreaStart01" node="0>0|0|0"/>
-        <i3dMapping id="clearAreaHeight01" node="0>0|0|0|0"/>
-        <i3dMapping id="clearAreaWidth01" node="0>0|0|0|1"/>
+        <i3dMapping id="clearAreaStart01" node="0>0|0"/>
+        <i3dMapping id="clearAreaHeight01" node="0>0|0|0"/>
+        <i3dMapping id="clearAreaWidth01" node="0>0|0|1"/>
 
-        <i3dMapping id="levelAreaStart01" node="0>0|5|0"/>
-        <i3dMapping id="levelAreaWidth01" node="0>0|5|0|1"/>
-        <i3dMapping id="levelAreaHeight01" node="0>0|5|0|0"/>
+        <i3dMapping id="levelAreaStart01" node="0>5|0"/>
+        <i3dMapping id="levelAreaWidth01" node="0>5|0|1"/>
+        <i3dMapping id="levelAreaHeight01" node="0>5|0|0"/>
 
-        <i3dMapping id="indoorArea01Start" node="0>0|3|0"/>
-        <i3dMapping id="indoorAreaWidth01" node="0>0|3|0|1"/>
-        <i3dMapping id="indoorArea1Height" node="0>0|3|0|0"/>
+        <i3dMapping id="indoorArea01Start" node="0>3|0"/>
+        <i3dMapping id="indoorAreaWidth01" node="0>3|0|1"/>
+        <i3dMapping id="indoorArea1Height" node="0>3|0|0"/>
 
-        <i3dMapping id="testAreaStart01" node="0>0|6|0"/>
-        <i3dMapping id="testAreaEnd01" node="0>0|6|0|0"/>
+        <i3dMapping id="testAreaStart01" node="0>6|0"/>
+        <i3dMapping id="testAreaEnd01" node="0>6|0|0"/>
 
-        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>0|7|0"/>
-        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>0|7|0|0"/>
+        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>7|0"/>
+        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>7|0|0"/>
 
-        <i3dMapping id="plantNodes" node="0>0|2|1"/>
-        <i3dMapping id="palletSpawner" node="0>0|2|0"/>
-        <i3dMapping id="spawnPlaceStart01" node="0>0|2|0|0"/>
-        <i3dMapping id="spawnPlaceEnd01" node="0>0|2|0|0|0"/>
+        <i3dMapping id="plantNodes" node="0>2|1"/>
+        <i3dMapping id="palletSpawner" node="0>2|0"/>
+        <i3dMapping id="spawnPlaceStart01" node="0>2|0|0"/>
+        <i3dMapping id="spawnPlaceEnd01" node="0>2|0|0|0"/>
 
-        <i3dMapping id="sellingStation" node="0>0|2|4"/>
-        <i3dMapping id="exactFillRootNode" node="0>0|2|4|0"/>
-        <i3dMapping id="unloadTriggerMarker" node="0>0|2|4|2"/>
-        <i3dMapping id="unloadTriggerAINode" node="0>0|2|4|1"/>
+        <i3dMapping id="sellingStation" node="0>2|4"/>
+        <i3dMapping id="exactFillRootNode" node="0>2|4|0"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>2|4|2"/>
+        <i3dMapping id="unloadTriggerAINode" node="0>2|4|1"/>
 
-        <i3dMapping id="storage" node="0>0|2|5"/>
-        <i3dMapping id="playerTrigger" node="0>0|2|2"/>
-        <i3dMapping id="playerTriggerMarker" node="0>0|2|3"/>
-        <i3dMapping id="teleportNode" node="0>0|2|6"/>
+        <i3dMapping id="storage" node="0>2|5"/>
+        <i3dMapping id="playerTrigger" node="0>2|2"/>
+        <i3dMapping id="playerTriggerMarker" node="0>2|3"/>
+        <i3dMapping id="teleportNode" node="0>2|6"/>
 
-        <i3dMapping id="infoTrigger" node="0>0|4"/>
-        <i3dMapping id="warningStripes" node="0>0|9"/>
+        <i3dMapping id="infoTrigger" node="0>4"/>
+        <i3dMapping id="warningStripes" node="0>9"/>
     </i3dMappings>
 
 </placeable>
