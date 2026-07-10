@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="greenHorizonHempGreenhouse.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.13"/>
+  </Asset>
+
+  <Files>
+  </Files>
+
+
+  <Materials>
+    <Material name="blackPowderCoatedFrame" materialId="5" emissiveColor="1 1 1 1" specularColor="0.580392 1 0.34902">
+    </Material>
+    <Material name="blackRubberGasket" materialId="6" emissiveColor="1 1 1 1" specularColor="0.219608 1 0">
+    </Material>
+    <Material name="blueWaterTank" materialId="7" emissiveColor="1 1 1 1" specularColor="0.639216 1 0">
+    </Material>
+    <Material name="clearPolycarbonate" materialId="8" emissiveColor="1 1 1 1" specularColor="0.85098 1 0">
+    </Material>
+    <Material name="darkGrowBedSoil" materialId="9" emissiveColor="1 1 1 1" specularColor="0.0392157 1 0">
+    </Material>
+    <Material name="helperNonRenderable" materialId="10" diffuseColor="1 0.14902 0.0196078 1" emissiveColor="1 1 1 1" specularColor="0.101961 1 0">
+    </Material>
+    <Material name="hempStemGreenBrown" materialId="11" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    </Material>
+    <Material name="industrialHempLeaf" materialId="12" emissiveColor="1 1 1 1" specularColor="0.380392 1 0">
+    </Material>
+    <Material name="pouredConcrete" materialId="13" emissiveColor="1 1 1 1" specularColor="0.121569 1 0">
+    </Material>
+    <Material name="warmAmberGrowLight" materialId="14" emissiveColor="1 1 1 1" specularColor="0.780392 1 0">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="greenHorizonHempGreenhouse.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="greenHorizonHempGreenhouse" nodeId="201">
+      <TransformGroup name="clearAreas" nodeId="202">
+        <TransformGroup name="clearAreaStart01" translation="-4.7 0 3.1" nodeId="203">
+          <TransformGroup name="clearAreaHeight01" translation="0 0 -6.2" nodeId="204"/>
+          <TransformGroup name="clearAreaWidth01" translation="9.4 0 0" nodeId="205"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="collisions" nodeId="206">
+        <Shape name="collisionFrontLeft" translation="4.22 1.35 1.72" shapeId="1" nodeId="207" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="collisionFrontRight" translation="4.22 1.35 -1.72" shapeId="1" nodeId="208" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="collisionRear" translation="-4.22 1.35 0" shapeId="2" nodeId="209" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="collisionSideLeft" translation="0 1.35 2.62" shapeId="3" nodeId="210" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="collisionSideRight" translation="0 1.35 -2.62" shapeId="3" nodeId="211" castsShadows="true" receiveShadows="true" materialIds="10"/>
+      </TransformGroup>
+      <TransformGroup name="greenhouseGameNodes" nodeId="212">
+        <TransformGroup name="palletSpawner" translation="3.15 0.05 -2.25" nodeId="213">
+          <TransformGroup name="spawnPlaceStart01" translation="-0.55 0 0.35" nodeId="214">
+            <TransformGroup name="spawnPlaceEnd01" translation="1.1 0 -0.7" nodeId="215"/>
+          </TransformGroup>
+        </TransformGroup>
+        <TransformGroup name="plantNodes" translation="0 0.75 0" nodeId="216">
+          <TransformGroup name="plantNode1" translation="-2.8 0 1.45" nodeId="217"/>
+          <TransformGroup name="plantNode10" translation="2.8 0 0" nodeId="218"/>
+          <TransformGroup name="plantNode11" translation="-2.8 0 -1.45" nodeId="219"/>
+          <TransformGroup name="plantNode12" translation="-1.4 0 -1.45" nodeId="220"/>
+          <TransformGroup name="plantNode13" translation="0 0 -1.45" nodeId="221"/>
+          <TransformGroup name="plantNode14" translation="1.4 0 -1.45" nodeId="222"/>
+          <TransformGroup name="plantNode15" translation="2.8 0 -1.45" nodeId="223"/>
+          <TransformGroup name="plantNode2" translation="-1.4 0 1.45" nodeId="224"/>
+          <TransformGroup name="plantNode3" translation="0 0 1.45" nodeId="225"/>
+          <TransformGroup name="plantNode4" translation="1.4 0 1.45" nodeId="226"/>
+          <TransformGroup name="plantNode5" translation="2.8 0 1.45" nodeId="227"/>
+          <TransformGroup name="plantNode6" translation="-2.8 0 0" nodeId="228"/>
+          <TransformGroup name="plantNode7" translation="-1.4 0 0" nodeId="229"/>
+          <TransformGroup name="plantNode8" nodeId="230"/>
+          <TransformGroup name="plantNode9" translation="1.4 0 0" nodeId="231"/>
+        </TransformGroup>
+        <Shape name="playerTrigger" translation="3.55 1 2.2" shapeId="4" nodeId="232" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <TransformGroup name="playerTriggerMarker" translation="3.55 0.05 2.2" nodeId="233"/>
+        <TransformGroup name="sellingStation" nodeId="234">
+          <Shape name="exactFillRootNode" translation="-3.75 0.65 -2.55" shapeId="5" nodeId="235" castsShadows="true" receiveShadows="true" materialIds="10"/>
+          <TransformGroup name="unloadTriggerAINode" translation="-3.75 0.05 -3.25" nodeId="236"/>
+          <TransformGroup name="unloadTriggerMarker" translation="-3.75 0.05 -2.55" nodeId="237"/>
+        </TransformGroup>
+        <TransformGroup name="storage" nodeId="238"/>
+        <TransformGroup name="teleportNode" translation="3.15 0.05 1.55" nodeId="239"/>
+      </TransformGroup>
+      <TransformGroup name="indoorAreas" nodeId="240">
+        <TransformGroup name="indoorArea01Start" translation="-4.1 0 2.4" nodeId="241">
+          <TransformGroup name="indoorArea1Height" translation="0 0 -4.8" nodeId="242"/>
+          <TransformGroup name="indoorAreaWidth01" translation="8.2 0 0" nodeId="243"/>
+        </TransformGroup>
+      </TransformGroup>
+      <Shape name="infoTrigger" translation="3.25 1 2.1" shapeId="6" nodeId="244" castsShadows="true" receiveShadows="true" materialIds="10"/>
+      <TransformGroup name="levelAreas" nodeId="245">
+        <TransformGroup name="levelAreaStart01" translation="-4.7 0 3.1" nodeId="246">
+          <TransformGroup name="levelAreaHeight01" translation="0 0 -6.2" nodeId="247"/>
+          <TransformGroup name="levelAreaWidth01" translation="9.4 0 0" nodeId="248"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="testAreas" nodeId="249">
+        <TransformGroup name="testAreaStart01" translation="-4.7 0 3.1" nodeId="250">
+          <TransformGroup name="testAreaEnd01" translation="9.4 4.2 -6.2" nodeId="251"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="tipOcclusionUpdateAreas" nodeId="252">
+        <TransformGroup name="tipOcclusionUpdateAreaStart01" translation="-4.7 0 3.1" nodeId="253">
+          <TransformGroup name="tipOcclusionUpdateAreaEnd01" translation="9.4 4.2 -6.2" nodeId="254"/>
+        </TransformGroup>
+      </TransformGroup>
+      <TransformGroup name="visuals" nodeId="255">
+        <Shape name="concreteSlab" translation="0 0.05 0" shapeId="7" nodeId="256" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="curbFront" translation="0 0.28 2.95" shapeId="8" nodeId="257" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="curbLeft" translation="-4.5 0.28 0" shapeId="9" nodeId="258" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="curbRear" translation="0 0.28 -2.95" shapeId="8" nodeId="259" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="curbRight" translation="4.5 0.28 0" shapeId="9" nodeId="260" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="frontDoorLeftGlass" translation="4.24 1.24 0.34" shapeId="10" nodeId="261" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="frontDoorLeftPost" translation="4.24 1.3 0.66" rotation="-0 -180 -0" shapeId="11" nodeId="262" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="frontDoorRightGlass" translation="4.24 1.24 -0.34" shapeId="10" nodeId="263" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="frontDoorRightPost" translation="4.24 1.3 -0.66" rotation="-0 -180 -0" shapeId="11" nodeId="264" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="frontDoorTopRail" translation="4.24 2.2 0" rotation="-90 -0 180" shapeId="12" nodeId="265" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="frontGlazingLeft" translation="4.2 1.43 1.65" shapeId="13" nodeId="266" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="frontGlazingRight" translation="4.2 1.43 -1.65" shapeId="13" nodeId="267" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="gableBeamLeft_front" translation="4.2 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="268" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableBeamLeft_rear" translation="-4.2 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="269" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableBeamRight_front" translation="4.2 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="270" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableBeamRight_rear" translation="-4.2 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="271" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableCenterPost_front" translation="4.2 3.16 0" rotation="-0 -180 -0" shapeId="15" nodeId="272" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableCenterPost_rear" translation="-4.2 3.16 0" rotation="-0 -180 -0" shapeId="15" nodeId="273" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableGlass_front" shapeId="16" nodeId="274" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="gableGlass_rear" shapeId="17" nodeId="275" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="gableRafterLeft_x-1.35" translation="-1.35 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="276" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x-2.70" translation="-2.7 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="277" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x-4.05" translation="-4.05 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="278" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x0.00" translation="0 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="279" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x1.35" translation="1.35 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="280" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x2.70" translation="2.7 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="281" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterLeft_x4.05" translation="4.05 3.16 1.3" rotation="64.8626 -180 -4.53457e-06" shapeId="14" nodeId="282" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x-1.35" translation="-1.35 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="283" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x-2.70" translation="-2.7 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="284" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x-4.05" translation="-4.05 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="285" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x0.00" translation="0 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x1.35" translation="1.35 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x2.70" translation="2.7 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="gableRafterRight_x4.05" translation="4.05 3.16 -1.3" rotation="-64.8626 2.12776e-06 180" shapeId="14" nodeId="289" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="growBedSoil" translation="0 0.64 1.45" shapeId="18" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="growBedSoil.001" translation="0 0.64 0" shapeId="18" nodeId="291" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="growBedSoil.002" translation="0 0.64 -1.45" shapeId="18" nodeId="292" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="growLightStrip1" translation="0 2.42 1.45" shapeId="19" nodeId="293" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="growLightStrip2" translation="0 2.42 0" shapeId="19" nodeId="294" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="growLightStrip3" translation="0 2.42 -1.45" shapeId="19" nodeId="295" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="hempLeaf" translation="-2.74 1.03 1.45" rotation="65 -0 0" shapeId="20" nodeId="296" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.001" translation="-2.77 1.03 1.39804" rotation="65 60 0" shapeId="21" nodeId="297" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.002" translation="-2.83 1.03 1.39804" rotation="65 120 -0" shapeId="22" nodeId="298" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.003" translation="-2.86 1.03 1.45" rotation="65 -180 -0" shapeId="23" nodeId="299" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.004" translation="-2.83 1.03 1.50196" rotation="65 -120 -0" shapeId="24" nodeId="300" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.005" translation="-2.77 1.03 1.50196" rotation="65 -60 0" shapeId="25" nodeId="301" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.006" translation="-1.94 1.03 1.45" rotation="65 -0 0" shapeId="26" nodeId="302" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.007" translation="-1.97 1.03 1.39804" rotation="65 60 0" shapeId="27" nodeId="303" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.008" translation="-2.03 1.03 1.39804" rotation="65 120 -0" shapeId="28" nodeId="304" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.009" translation="-2.06 1.03 1.45" rotation="65 -180 -0" shapeId="29" nodeId="305" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.010" translation="-2.03 1.03 1.50196" rotation="65 -120 -0" shapeId="30" nodeId="306" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.011" translation="-1.97 1.03 1.50196" rotation="65 -60 0" shapeId="31" nodeId="307" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.012" translation="-1.14 1.03 1.45" rotation="65 -0 0" shapeId="32" nodeId="308" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.013" translation="-1.17 1.03 1.39804" rotation="65 60 0" shapeId="33" nodeId="309" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.014" translation="-1.23 1.03 1.39804" rotation="65 120 -0" shapeId="34" nodeId="310" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.015" translation="-1.26 1.03 1.45" rotation="65 -180 -0" shapeId="35" nodeId="311" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.016" translation="-1.23 1.03 1.50196" rotation="65 -120 -0" shapeId="36" nodeId="312" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.017" translation="-1.17 1.03 1.50196" rotation="65 -60 0" shapeId="37" nodeId="313" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.018" translation="-0.34 1.03 1.45" rotation="65 -0 0" shapeId="38" nodeId="314" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.019" translation="-0.37 1.03 1.39804" rotation="65 60 0" shapeId="39" nodeId="315" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.020" translation="-0.43 1.03 1.39804" rotation="65 120 -0" shapeId="40" nodeId="316" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.021" translation="-0.46 1.03 1.45" rotation="65 -180 -0" shapeId="41" nodeId="317" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.022" translation="-0.43 1.03 1.50196" rotation="65 -120 -0" shapeId="42" nodeId="318" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.023" translation="-0.37 1.03 1.50196" rotation="65 -60 0" shapeId="43" nodeId="319" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.024" translation="0.46 1.03 1.45" rotation="65 -0 0" shapeId="44" nodeId="320" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.025" translation="0.43 1.03 1.39804" rotation="65 60 0" shapeId="45" nodeId="321" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.026" translation="0.37 1.03 1.39804" rotation="65 120 -0" shapeId="46" nodeId="322" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.027" translation="0.34 1.03 1.45" rotation="65 -180 -0" shapeId="47" nodeId="323" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.028" translation="0.37 1.03 1.50196" rotation="65 -120 -0" shapeId="48" nodeId="324" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.029" translation="0.43 1.03 1.50196" rotation="65 -60 0" shapeId="49" nodeId="325" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.030" translation="1.26 1.03 1.45" rotation="65 -0 0" shapeId="50" nodeId="326" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.031" translation="1.23 1.03 1.39804" rotation="65 60 0" shapeId="51" nodeId="327" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.032" translation="1.17 1.03 1.39804" rotation="65 120 -0" shapeId="52" nodeId="328" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.033" translation="1.14 1.03 1.45" rotation="65 -180 -0" shapeId="53" nodeId="329" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.034" translation="1.17 1.03 1.50196" rotation="65 -120 -0" shapeId="54" nodeId="330" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.035" translation="1.23 1.03 1.50196" rotation="65 -60 0" shapeId="55" nodeId="331" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.036" translation="2.06 1.03 1.45" rotation="65 -0 0" shapeId="56" nodeId="332" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.037" translation="2.03 1.03 1.39804" rotation="65 60 0" shapeId="57" nodeId="333" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.038" translation="1.97 1.03 1.39804" rotation="65 120 -0" shapeId="58" nodeId="334" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.039" translation="1.94 1.03 1.45" rotation="65 -180 -0" shapeId="59" nodeId="335" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.040" translation="1.97 1.03 1.50196" rotation="65 -120 -0" shapeId="60" nodeId="336" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.041" translation="2.03 1.03 1.50196" rotation="65 -60 0" shapeId="61" nodeId="337" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.042" translation="2.86 1.03 1.45" rotation="65 -0 0" shapeId="62" nodeId="338" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.043" translation="2.83 1.03 1.39804" rotation="65 60 0" shapeId="63" nodeId="339" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.044" translation="2.77 1.03 1.39804" rotation="65 120 -0" shapeId="64" nodeId="340" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.045" translation="2.74 1.03 1.45" rotation="65 -180 -0" shapeId="65" nodeId="341" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.046" translation="2.77 1.03 1.50196" rotation="65 -120 -0" shapeId="66" nodeId="342" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.047" translation="2.83 1.03 1.50196" rotation="65 -60 0" shapeId="67" nodeId="343" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.048" translation="-2.74 1.03 0" rotation="65 -0 0" shapeId="68" nodeId="344" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.049" translation="-2.77 1.03 -0.0519615" rotation="65 60 0" shapeId="69" nodeId="345" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.050" translation="-2.83 1.03 -0.0519615" rotation="65 120 -0" shapeId="70" nodeId="346" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.051" translation="-2.86 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="71" nodeId="347" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.052" translation="-2.83 1.03 0.0519615" rotation="65 -120 -0" shapeId="72" nodeId="348" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.053" translation="-2.77 1.03 0.0519615" rotation="65 -60 0" shapeId="73" nodeId="349" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.054" translation="-1.94 1.03 0" rotation="65 -0 0" shapeId="74" nodeId="350" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.055" translation="-1.97 1.03 -0.0519615" rotation="65 60 0" shapeId="75" nodeId="351" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.056" translation="-2.03 1.03 -0.0519615" rotation="65 120 -0" shapeId="76" nodeId="352" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.057" translation="-2.06 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="77" nodeId="353" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.058" translation="-2.03 1.03 0.0519615" rotation="65 -120 -0" shapeId="78" nodeId="354" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.059" translation="-1.97 1.03 0.0519615" rotation="65 -60 0" shapeId="79" nodeId="355" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.060" translation="-1.14 1.03 0" rotation="65 -0 0" shapeId="80" nodeId="356" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.061" translation="-1.17 1.03 -0.0519615" rotation="65 60 0" shapeId="81" nodeId="357" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.062" translation="-1.23 1.03 -0.0519615" rotation="65 120 -0" shapeId="82" nodeId="358" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.063" translation="-1.26 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="83" nodeId="359" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.064" translation="-1.23 1.03 0.0519615" rotation="65 -120 -0" shapeId="84" nodeId="360" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.065" translation="-1.17 1.03 0.0519615" rotation="65 -60 0" shapeId="85" nodeId="361" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.066" translation="-0.34 1.03 0" rotation="65 -0 0" shapeId="86" nodeId="362" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.067" translation="-0.37 1.03 -0.0519615" rotation="65 60 0" shapeId="87" nodeId="363" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.068" translation="-0.43 1.03 -0.0519615" rotation="65 120 -0" shapeId="88" nodeId="364" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.069" translation="-0.46 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="89" nodeId="365" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.070" translation="-0.43 1.03 0.0519615" rotation="65 -120 -0" shapeId="90" nodeId="366" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.071" translation="-0.37 1.03 0.0519615" rotation="65 -60 0" shapeId="91" nodeId="367" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.072" translation="0.46 1.03 0" rotation="65 -0 0" shapeId="92" nodeId="368" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.073" translation="0.43 1.03 -0.0519615" rotation="65 60 0" shapeId="93" nodeId="369" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.074" translation="0.37 1.03 -0.0519615" rotation="65 120 -0" shapeId="94" nodeId="370" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.075" translation="0.34 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="95" nodeId="371" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.076" translation="0.37 1.03 0.0519615" rotation="65 -120 -0" shapeId="96" nodeId="372" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.077" translation="0.43 1.03 0.0519615" rotation="65 -60 0" shapeId="97" nodeId="373" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.078" translation="1.26 1.03 0" rotation="65 -0 0" shapeId="98" nodeId="374" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.079" translation="1.23 1.03 -0.0519615" rotation="65 60 0" shapeId="99" nodeId="375" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.080" translation="1.17 1.03 -0.0519615" rotation="65 120 -0" shapeId="100" nodeId="376" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.081" translation="1.14 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="101" nodeId="377" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.082" translation="1.17 1.03 0.0519615" rotation="65 -120 -0" shapeId="102" nodeId="378" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.083" translation="1.23 1.03 0.0519615" rotation="65 -60 0" shapeId="103" nodeId="379" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.084" translation="2.06 1.03 0" rotation="65 -0 0" shapeId="104" nodeId="380" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.085" translation="2.03 1.03 -0.0519615" rotation="65 60 0" shapeId="105" nodeId="381" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.086" translation="1.97 1.03 -0.0519615" rotation="65 120 -0" shapeId="106" nodeId="382" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.087" translation="1.94 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="107" nodeId="383" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.088" translation="1.97 1.03 0.0519615" rotation="65 -120 -0" shapeId="108" nodeId="384" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.089" translation="2.03 1.03 0.0519615" rotation="65 -60 0" shapeId="109" nodeId="385" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.090" translation="2.86 1.03 0" rotation="65 -0 0" shapeId="110" nodeId="386" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.091" translation="2.83 1.03 -0.0519615" rotation="65 60 0" shapeId="111" nodeId="387" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.092" translation="2.77 1.03 -0.0519615" rotation="65 120 -0" shapeId="112" nodeId="388" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.093" translation="2.74 1.03 -7.34788e-18" rotation="65 -180 -0" shapeId="113" nodeId="389" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.094" translation="2.77 1.03 0.0519615" rotation="65 -120 -0" shapeId="114" nodeId="390" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.095" translation="2.83 1.03 0.0519615" rotation="65 -60 0" shapeId="115" nodeId="391" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.096" translation="-2.74 1.03 -1.45" rotation="65 -0 0" shapeId="116" nodeId="392" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.097" translation="-2.77 1.03 -1.50196" rotation="65 60 0" shapeId="117" nodeId="393" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.098" translation="-2.83 1.03 -1.50196" rotation="65 120 -0" shapeId="118" nodeId="394" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.099" translation="-2.86 1.03 -1.45" rotation="65 -180 -0" shapeId="119" nodeId="395" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.100" translation="-2.83 1.03 -1.39804" rotation="65 -120 -0" shapeId="120" nodeId="396" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.101" translation="-2.77 1.03 -1.39804" rotation="65 -60 0" shapeId="121" nodeId="397" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.102" translation="-1.94 1.03 -1.45" rotation="65 -0 0" shapeId="122" nodeId="398" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.103" translation="-1.97 1.03 -1.50196" rotation="65 60 0" shapeId="123" nodeId="399" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.104" translation="-2.03 1.03 -1.50196" rotation="65 120 -0" shapeId="124" nodeId="400" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.105" translation="-2.06 1.03 -1.45" rotation="65 -180 -0" shapeId="125" nodeId="401" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.106" translation="-2.03 1.03 -1.39804" rotation="65 -120 -0" shapeId="126" nodeId="402" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.107" translation="-1.97 1.03 -1.39804" rotation="65 -60 0" shapeId="127" nodeId="403" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.108" translation="-1.14 1.03 -1.45" rotation="65 -0 0" shapeId="128" nodeId="404" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.109" translation="-1.17 1.03 -1.50196" rotation="65 60 0" shapeId="129" nodeId="405" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.110" translation="-1.23 1.03 -1.50196" rotation="65 120 -0" shapeId="130" nodeId="406" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.111" translation="-1.26 1.03 -1.45" rotation="65 -180 -0" shapeId="131" nodeId="407" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.112" translation="-1.23 1.03 -1.39804" rotation="65 -120 -0" shapeId="132" nodeId="408" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.113" translation="-1.17 1.03 -1.39804" rotation="65 -60 0" shapeId="133" nodeId="409" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.114" translation="-0.34 1.03 -1.45" rotation="65 -0 0" shapeId="134" nodeId="410" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.115" translation="-0.37 1.03 -1.50196" rotation="65 60 0" shapeId="135" nodeId="411" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.116" translation="-0.43 1.03 -1.50196" rotation="65 120 -0" shapeId="136" nodeId="412" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.117" translation="-0.46 1.03 -1.45" rotation="65 -180 -0" shapeId="137" nodeId="413" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.118" translation="-0.43 1.03 -1.39804" rotation="65 -120 -0" shapeId="138" nodeId="414" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.119" translation="-0.37 1.03 -1.39804" rotation="65 -60 0" shapeId="139" nodeId="415" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.120" translation="0.46 1.03 -1.45" rotation="65 -0 0" shapeId="140" nodeId="416" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.121" translation="0.43 1.03 -1.50196" rotation="65 60 0" shapeId="141" nodeId="417" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.122" translation="0.37 1.03 -1.50196" rotation="65 120 -0" shapeId="142" nodeId="418" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.123" translation="0.34 1.03 -1.45" rotation="65 -180 -0" shapeId="143" nodeId="419" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.124" translation="0.37 1.03 -1.39804" rotation="65 -120 -0" shapeId="144" nodeId="420" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.125" translation="0.43 1.03 -1.39804" rotation="65 -60 0" shapeId="145" nodeId="421" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.126" translation="1.26 1.03 -1.45" rotation="65 -0 0" shapeId="146" nodeId="422" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.127" translation="1.23 1.03 -1.50196" rotation="65 60 0" shapeId="147" nodeId="423" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.128" translation="1.17 1.03 -1.50196" rotation="65 120 -0" shapeId="148" nodeId="424" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.129" translation="1.14 1.03 -1.45" rotation="65 -180 -0" shapeId="149" nodeId="425" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.130" translation="1.17 1.03 -1.39804" rotation="65 -120 -0" shapeId="150" nodeId="426" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.131" translation="1.23 1.03 -1.39804" rotation="65 -60 0" shapeId="151" nodeId="427" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.132" translation="2.06 1.03 -1.45" rotation="65 -0 0" shapeId="152" nodeId="428" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.133" translation="2.03 1.03 -1.50196" rotation="65 60 0" shapeId="153" nodeId="429" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.134" translation="1.97 1.03 -1.50196" rotation="65 120 -0" shapeId="154" nodeId="430" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.135" translation="1.94 1.03 -1.45" rotation="65 -180 -0" shapeId="155" nodeId="431" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.136" translation="1.97 1.03 -1.39804" rotation="65 -120 -0" shapeId="156" nodeId="432" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.137" translation="2.03 1.03 -1.39804" rotation="65 -60 0" shapeId="157" nodeId="433" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.138" translation="2.86 1.03 -1.45" rotation="65 -0 0" shapeId="158" nodeId="434" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.139" translation="2.83 1.03 -1.50196" rotation="65 60 0" shapeId="159" nodeId="435" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.140" translation="2.77 1.03 -1.50196" rotation="65 120 -0" shapeId="160" nodeId="436" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.141" translation="2.74 1.03 -1.45" rotation="65 -180 -0" shapeId="161" nodeId="437" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.142" translation="2.77 1.03 -1.39804" rotation="65 -120 -0" shapeId="162" nodeId="438" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempLeaf.143" translation="2.83 1.03 -1.39804" rotation="65 -60 0" shapeId="163" nodeId="439" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="hempStem" translation="-2.8 0.78 1.45" shapeId="164" nodeId="440" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.001" translation="-2 0.78 1.45" shapeId="164" nodeId="441" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.002" translation="-1.2 0.78 1.45" shapeId="164" nodeId="442" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.003" translation="-0.4 0.78 1.45" shapeId="164" nodeId="443" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.004" translation="0.4 0.78 1.45" shapeId="164" nodeId="444" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.005" translation="1.2 0.78 1.45" shapeId="164" nodeId="445" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.006" translation="2 0.78 1.45" shapeId="164" nodeId="446" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.007" translation="2.8 0.78 1.45" shapeId="164" nodeId="447" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.008" translation="-2.8 0.78 0" shapeId="164" nodeId="448" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.009" translation="-2 0.78 0" shapeId="164" nodeId="449" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.010" translation="-1.2 0.78 0" shapeId="164" nodeId="450" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.011" translation="-0.4 0.78 0" shapeId="164" nodeId="451" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.012" translation="0.4 0.78 0" shapeId="164" nodeId="452" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.013" translation="1.2 0.78 0" shapeId="164" nodeId="453" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.014" translation="2 0.78 0" shapeId="164" nodeId="454" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.015" translation="2.8 0.78 0" shapeId="164" nodeId="455" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.016" translation="-2.8 0.78 -1.45" shapeId="164" nodeId="456" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.017" translation="-2 0.78 -1.45" shapeId="164" nodeId="457" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.018" translation="-1.2 0.78 -1.45" shapeId="164" nodeId="458" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.019" translation="-0.4 0.78 -1.45" shapeId="164" nodeId="459" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.020" translation="0.4 0.78 -1.45" shapeId="164" nodeId="460" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.021" translation="1.2 0.78 -1.45" shapeId="164" nodeId="461" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.022" translation="2 0.78 -1.45" shapeId="164" nodeId="462" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="hempStem.023" translation="2.8 0.78 -1.45" shapeId="164" nodeId="463" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="leftEaveBeam" translation="0 2.55 2.6" rotation="90 90 0" shapeId="165" nodeId="464" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <TransformGroup name="lightBackbone1" nodeId="465"/>
+        <TransformGroup name="lightBackbone2" nodeId="466"/>
+        <TransformGroup name="lightBackbone3" nodeId="467"/>
+        <TransformGroup name="lightFeedDrop1" nodeId="468"/>
+        <TransformGroup name="lightFeedDrop2" nodeId="469"/>
+        <TransformGroup name="lightFeedDrop3" nodeId="470"/>
+        <TransformGroup name="mainLightPowerRun" nodeId="471"/>
+        <Shape name="nutrientControlBox" translation="-3.2 1.15 2.45" shapeId="166" nodeId="472" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x-1.35" translation="-1.35 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="473" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x-2.70" translation="-2.7 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="474" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x-4.05" translation="-4.05 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="475" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x0.00" translation="0 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="476" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x1.35" translation="1.35 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="477" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x2.70" translation="2.7 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="478" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postLeft_x4.05" translation="4.05 1.465 2.6" rotation="-0 -180 -0" shapeId="167" nodeId="479" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x-1.35" translation="-1.35 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="480" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x-2.70" translation="-2.7 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="481" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x-4.05" translation="-4.05 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="482" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x0.00" translation="0 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="483" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x1.35" translation="1.35 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="484" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x2.70" translation="2.7 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="485" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="postRight_x4.05" translation="4.05 1.465 -2.6" rotation="-0 -180 -0" shapeId="167" nodeId="486" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="raisedGrowBed" translation="0 0.45 1.45" shapeId="168" nodeId="487" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="raisedGrowBed.001" translation="0 0.45 0" shapeId="168" nodeId="488" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="raisedGrowBed.002" translation="0 0.45 -1.45" shapeId="168" nodeId="489" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="ridgeBeam" translation="0 3.77 0" rotation="90 90 0" shapeId="169" nodeId="490" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rightEaveBeam" translation="0 2.55 -2.6" rotation="90 90 0" shapeId="165" nodeId="491" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="roofGlass_left_bay01" shapeId="170" nodeId="492" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_left_bay02" shapeId="171" nodeId="493" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_left_bay03" shapeId="172" nodeId="494" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_left_bay04" shapeId="173" nodeId="495" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_left_bay05" shapeId="174" nodeId="496" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_left_bay06" shapeId="175" nodeId="497" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay01" shapeId="176" nodeId="498" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay02" shapeId="177" nodeId="499" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay03" shapeId="178" nodeId="500" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay04" shapeId="179" nodeId="501" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay05" shapeId="180" nodeId="502" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofGlass_right_bay06" shapeId="181" nodeId="503" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofPurlinLeft_0.25" translation="0 2.855 1.95" rotation="90 90 0" shapeId="165" nodeId="504" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="roofPurlinLeft_0.50" translation="0 3.16 1.3" rotation="90 90 0" shapeId="165" nodeId="505" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="roofPurlinLeft_0.75" translation="0 3.465 0.65" rotation="90 90 0" shapeId="165" nodeId="506" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="roofPurlinRight_0.25" translation="0 2.855 -1.95" rotation="90 90 0" shapeId="165" nodeId="507" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="roofPurlinRight_0.50" translation="0 3.16 -1.3" rotation="90 90 0" shapeId="165" nodeId="508" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="roofPurlinRight_0.75" translation="0 3.465 -0.65" rotation="90 90 0" shapeId="165" nodeId="509" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="sideRailLower_y-2.60" translation="0 0.75 2.6" rotation="90 90 0" shapeId="165" nodeId="510" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="sideRailLower_y2.60" translation="0 0.75 -2.6" rotation="90 90 0" shapeId="165" nodeId="511" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="sideRailMiddle_y-2.60" translation="0 1.6 2.6" rotation="90 90 0" shapeId="165" nodeId="512" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="sideRailMiddle_y2.60" translation="0 1.6 -2.6" rotation="90 90 0" shapeId="165" nodeId="513" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="sideRailUpper_y-2.60" translation="0 2.55 2.6" rotation="90 90 0" shapeId="165" nodeId="514" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="sideRailUpper_y2.60" translation="0 2.55 -2.6" rotation="90 90 0" shapeId="165" nodeId="515" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="wallPanelLeft" translation="0 1.43 2.6" shapeId="182" nodeId="516" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wallPanelRear" translation="-4.2 1.43 0" shapeId="183" nodeId="517" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wallPanelRight" translation="0 1.43 -2.6" shapeId="182" nodeId="518" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="waterStorageTank" translation="-3.35 1.05 -2.05" shapeId="184" nodeId="519" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="windowMullion_-1.35_-2.61" translation="-1.35 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="520" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_-1.35_2.61" translation="-1.35 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="521" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_-2.70_-2.61" translation="-2.7 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="522" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_-2.70_2.61" translation="-2.7 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="523" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_-4.05_-2.61" translation="-4.05 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="524" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_-4.05_2.61" translation="-4.05 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="525" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_0.00_-2.61" translation="0 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="526" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_0.00_2.61" translation="0 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="527" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_1.35_-2.61" translation="1.35 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="528" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_1.35_2.61" translation="1.35 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="529" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_2.70_-2.61" translation="2.7 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="530" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_2.70_2.61" translation="2.7 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="531" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_4.05_-2.61" translation="4.05 1.415 2.612" rotation="-0 -180 -0" shapeId="185" nodeId="532" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="windowMullion_4.05_2.61" translation="4.05 1.415 -2.612" rotation="-0 -180 -0" shapeId="185" nodeId="533" castsShadows="true" receiveShadows="true" materialIds="5"/>
+      </TransformGroup>
+      <TransformGroup name="warningStripes" translation="-3.75 0.02 -2.55" nodeId="534"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>
