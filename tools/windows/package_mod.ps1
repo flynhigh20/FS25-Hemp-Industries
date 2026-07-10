@@ -199,7 +199,8 @@ if (-not (Test-ZipRoot -ZipPath $zipPath)) {
 Test-ZipRequiredEntries -ZipPath $zipPath -RequiredEntries @(
     "modDesc.xml",
     "xml/fillTypes.xml",
-    "placeables/greenhouses/hempGreenhouse.xml"
+    "placeables/greenhouses/hempGreenhouse.xml",
+    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d"
 )
 
 Write-Host "Created: $zipPath" -ForegroundColor Cyan
@@ -221,6 +222,8 @@ if ($CleanOldZips) {
 
 if ($Install) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
+    # FS25 will load a loose folder if it exists. Remove stale loose installs before installing the zip.
+    Remove-OldModInstall -ModsDir $ModsDir -Name "FS25_GreenHorizonIndustries"
     Copy-Item -Path $zipPath -Destination (Join-Path $ModsDir "FS25_GreenHorizonIndustries.zip") -Force
     Write-Host "Installed zip to: $ModsDir" -ForegroundColor Cyan
 }
