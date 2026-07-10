@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.15.0"
+$expectedVersion = "0.2.16.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -52,6 +52,7 @@ function Read-Xml([string]$Path) {
 
 $root = Find-RepoRoot
 $modFolder = Join-Path $root "FS25_GreenHorizonIndustries"
+$generatorPath = Join-Path $root "tools\blender\create_hemp_foliage.py"
 
 $requiredFiles = @(
     "modDesc.xml",
@@ -60,6 +61,7 @@ $requiredFiles = @(
     "xml/fruitTypes.xml",
     "xml/growth/hempGrowth.xml",
     "foliage/hemp/hempFoliagePlan.xml",
+    "foliage/hemp/hempFieldIntegrationPlan.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
@@ -73,6 +75,13 @@ $requiredFiles = @(
     "placeables/greenhouses/textures/greenhouse_rubber_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_wire_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_light_diffuse.png"
+)
+
+$optionalFoliageTextures = @(
+    "foliage/hemp/textures/hempFoliage_diffuse.png",
+    "foliage/hemp/textures/hempFoliage_normal.png",
+    "foliage/hemp/textures/hempFoliage_distance_diffuse.png",
+    "foliage/hemp/textures/hempFoliage_distance_normal.png"
 )
 
 Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
@@ -89,12 +98,36 @@ foreach ($relativePath in $requiredFiles) {
     }
 }
 
+if (Test-Path $generatorPath) {
+    Pass "Found tools/blender/create_hemp_foliage.py"
+}
+else {
+    Fail "Missing tools/blender/create_hemp_foliage.py"
+}
+
+$generatedTextureCount = 0
+foreach ($relativePath in $optionalFoliageTextures) {
+    $fullPath = Join-Path $modFolder ($relativePath.Replace("/", "\"))
+    if (Test-Path $fullPath) {
+        $generatedTextureCount += 1
+        Pass "Generated foliage texture exists: $relativePath"
+    }
+}
+
+if ($generatedTextureCount -eq 0) {
+    Warn "Hemp foliage textures have not been generated yet; run tools/blender/create_hemp_foliage.py later."
+}
+elseif ($generatedTextureCount -ne $optionalFoliageTextures.Count) {
+    Fail "Only $generatedTextureCount of $($optionalFoliageTextures.Count) hemp foliage textures exist."
+}
+
 $modDescPath = Join-Path $modFolder "modDesc.xml"
 $greenhousePath = Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml"
 $fillTypesPath = Join-Path $modFolder "xml\fillTypes.xml"
 $fruitTypesPath = Join-Path $modFolder "xml\fruitTypes.xml"
 $growthPath = Join-Path $modFolder "xml\growth\hempGrowth.xml"
 $foliagePlanPath = Join-Path $modFolder "foliage\hemp\hempFoliagePlan.xml"
+$integrationPlanPath = Join-Path $modFolder "foliage\hemp\hempFieldIntegrationPlan.xml"
 
 $modDesc = if (Test-Path $modDescPath) { Read-Xml $modDescPath } else { $null }
 $greenhouse = if (Test-Path $greenhousePath) { Read-Xml $greenhousePath } else { $null }
@@ -102,6 +135,7 @@ $fillTypes = if (Test-Path $fillTypesPath) { Read-Xml $fillTypesPath } else { $n
 $fruitTypes = if (Test-Path $fruitTypesPath) { Read-Xml $fruitTypesPath } else { $null }
 $growth = if (Test-Path $growthPath) { Read-Xml $growthPath } else { $null }
 $foliagePlan = if (Test-Path $foliagePlanPath) { Read-Xml $foliagePlanPath } else { $null }
+$integrationPlan = if (Test-Path $integrationPlanPath) { Read-Xml $integrationPlanPath } else { $null }
 
 if ($null -ne $modDesc) {
     if ($modDesc.modDesc.descVersion -eq "91") { Pass "modDesc descVersion is 91" } else { Warn "modDesc descVersion is $($modDesc.modDesc.descVersion)" }
@@ -161,13 +195,43 @@ if ($null -ne $growth) {
 if ($null -ne $foliagePlan) {
     $rootNode = $foliagePlan.greenHorizonFoliagePlan
     if ($rootNode.fruitType -eq "HEMP") { Pass "foliage plan targets HEMP" } else { Fail "foliage plan does not target HEMP" }
+    if ($rootNode.version -eq "2") { Pass "foliage plan version is 2" } else { Warn "foliage plan version is $($rootNode.version)" }
 
     $states = @($rootNode.growthStates.state)
     if ($states.Count -eq 9) { Pass "foliage plan covers states 1 through 9" } else { Fail "foliage plan has $($states.Count) states instead of 9" }
 
-    $gates = @($rootNode.activationGates.gate)
-    $premature = @($gates | Where-Object { $_.complete -eq "true" })
-    if ($premature.Count -eq 0) { Pass "foliage activation gates remain closed" } else { Warn "$($premature.Count) foliage activation gates are marked complete" }
+    $generatorGate = @($rootNode.activationGates.gate | Where-Object { $_.id -eq "sourceGenerator" }) | Select-Object -First 1
+    if ($null -ne $generatorGate -and $generatorGate.complete -eq "true") {
+        Pass "foliage source-generator gate is complete"
+    }
+    else {
+        Fail "foliage source-generator gate is not complete"
+    }
+
+    $unsafeGates = @($rootNode.activationGates.gate | Where-Object { $_.id -ne "sourceGenerator" -and $_.complete -eq "true" })
+    if ($unsafeGates.Count -eq 0) { Pass "field-crop activation gates remain closed" } else { Warn "$($unsafeGates.Count) field-crop activation gates are marked complete" }
+}
+
+if ($null -ne $integrationPlan) {
+    $rootNode = $integrationPlan.greenHorizonFieldIntegration
+    if ($rootNode.fruitType -eq "HEMP") { Pass "field integration plan targets HEMP" } else { Fail "field integration plan does not target HEMP" }
+
+    $mapRequirements = @($rootNode.mapLayer.requirement)
+    $openMapRequirements = @($mapRequirements | Where-Object { $_.complete -ne "true" })
+    if ($openMapRequirements.Count -eq $mapRequirements.Count) {
+        Pass "map integration requirements remain safely open"
+    }
+    else {
+        Warn "Some map integration requirements are marked complete"
+    }
+
+    $firstOutput = @($rootNode.firstReleaseScope.output | Where-Object { $_.fillType -eq "HEMP" }) | Select-Object -First 1
+    if ($null -ne $firstOutput -and $firstOutput.enabled -eq "true") {
+        Pass "first field release targets HEMP output"
+    }
+    else {
+        Fail "first field release has no enabled HEMP output"
+    }
 }
 
 if ($null -ne $greenhouse) {
