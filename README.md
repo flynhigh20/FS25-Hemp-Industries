@@ -33,7 +33,7 @@ The **Hemp Greenhouse** remains the only active placeable under test. Field-crop
 - Peaked glass gable-roof greenhouse Blender generator.
 - Script-generated greenhouse material textures.
 - Deterministic helper hierarchy for placement, storage, triggers, plant nodes, and collisions.
-- Windows preflight, package/install, log, and field-foundation check tools.
+- Windows preflight, package/install, log, field-foundation, source-generation, export-validation, and project-status tools.
 
 ## Prepared but Inactive Expansion Work
 
@@ -82,24 +82,66 @@ tools/blender/create_hemp_cutter_effects.py
 tools/blender/create_green_horizon_pallets.py
 ```
 
-Detailed instructions:
+Detailed Blender instructions:
 
 ```text
 tools/blender/README.md
 ```
 
-## Windows Checks
+## One-Command Windows Workflow
 
-Main test menu:
+Open:
 
 ```text
 tools/windows/green_horizon_test_menu.bat
 ```
 
+Useful workflow options:
+
+```text
+ 9  Generate greenhouse model and materials
+10  Generate field foliage, icons, and cutter assets
+11  Generate product pallet source assets
+12  Generate ALL Blender source assets
+13  Validate exported greenhouse i3d
+14  Open asset generation workflow
+15  Show project status and next action
+```
+
+The generator pipeline automatically finds Blender, runs the selected scripts in background mode, verifies their expected outputs, and stores logs under:
+
+```text
+build/logs/blender/
+```
+
+Full workflow guide:
+
+```text
+docs/Asset-Generation-Workflow.md
+```
+
+## Export Protection
+
+The repository can still contain the old tiny placeholder i3d until the real greenhouse is exported. Packaging now calls a strict validator and refuses to create/install the ZIP when:
+
+- The i3d or shapes file is missing.
+- Placeholder markers remain.
+- Required helper nodes are absent.
+- Absolute Windows paths were embedded.
+- The export contains too few shapes, materials, or texture references.
+
+Validator:
+
+```text
+tools/windows/validate_greenhouse_export.bat
+```
+
+## Other Windows Checks
+
 Field-hemp cross-file validator:
 
 ```text
-tools/windows/check_hemp_field_foundation.ps1
+tools/windows/check_hemp_field_foundation.bat
 ```
 
 Direct package/install helper:
@@ -112,6 +154,23 @@ Filtered log helper:
 
 ```text
 tools/windows/check_fs25_log.bat
+```
+
+## Recommended Test Order
+
+```text
+1. Pull latest repository files.
+2. Run menu option 15 to see the next action.
+3. Run option 12 to generate all current source assets.
+4. Open and inspect the generated greenhouse blend.
+5. Export greenHorizonHempGreenhouse to the mod i3d folder.
+6. Use relative paths Yes and game paths No.
+7. Open/save the export in GIANTS Editor.
+8. Run option 13 to validate the export.
+9. Run option 1 for full preflight.
+10. Run option 3 to package and install.
+11. Start FS25 and test the greenhouse.
+12. Run option 4 to inspect the filtered game log.
 ```
 
 ## Immediate Test Goal
