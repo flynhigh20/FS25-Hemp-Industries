@@ -2,7 +2,7 @@
 
 ## Goal
 
-This workflow lets one Windows menu generate every project-owned Blender source asset, keep inactive expansion work separated from gameplay XML, validate the manually exported greenhouse, and block packaging when the old placeholder model is still present.
+This workflow lets one Windows menu generate every project-owned Blender source asset, keep inactive expansion work separated from gameplay XML, repair malformed texture paths after export, validate the greenhouse, and block packaging when the old placeholder or an incomplete model is still present.
 
 ## Start Here
 
@@ -12,14 +12,14 @@ Open:
 tools/windows/green_horizon_test_menu.bat
 ```
 
-The most useful new options are:
+The most useful options are:
 
 ```text
  9  Generate greenhouse model and materials
 10  Generate field foliage, icons, and cutter assets
 11  Generate product pallet source assets
 12  Generate ALL Blender source assets
-13  Validate exported greenhouse i3d
+13  Repair texture paths and validate greenhouse i3d
 14  Open this workflow
 15  Show project status and next action
 ```
@@ -59,7 +59,7 @@ Menu option `9` runs:
 tools/blender/create_green_horizon_greenhouse.py
 ```
 
-It verifies the generated blend file and all greenhouse material textures.
+It verifies the generated blend file and all greenhouse material textures. The current entrance top is `2.53 m`, and the generated blend stores texture paths relative to its own location.
 
 ### Field Assets
 
@@ -116,18 +116,20 @@ After option `9` or `12` succeeds:
 assets/blender/green_horizon_hemp_greenhouse.blend
 ```
 
-2. Use Material Preview and confirm the peaked glass roof, frame, slab, grow beds, plants, tank, control box, lights, and doorway look correct.
+2. Use Material Preview and confirm the peaked glass roof, frame, slab, grow beds, plants, tank, control box, lights, doorway, and trigger pads look correct.
 3. Select/export the root:
 
 ```text
 greenHorizonHempGreenhouse
 ```
 
-4. Save directly to:
+4. Save **directly** to this exact path:
 
 ```text
 FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d
 ```
+
+Do not export into `assets/blender` and move the files afterward.
 
 5. Choose:
 
@@ -136,43 +138,81 @@ Save relative paths: Yes
 Save game paths: No
 ```
 
-6. Open that i3d in GIANTS Editor.
-7. Inspect the scene, materials, collisions, and helper nodes.
-8. Save over the same i3d.
-9. Confirm this file sits beside it:
+6. Confirm this file sits beside the i3d:
 
 ```text
 greenHorizonHempGreenhouse.i3d.shapes
 ```
 
+7. Before opening GIANTS Editor, run menu option `13`.
+8. Option `13` normalizes every known greenhouse texture path to:
+
+```text
+../textures/<texture filename>
+```
+
+For example:
+
+```xml
+<File fileId="14" filename="../textures/greenhouse_light_diffuse.png"/>
+```
+
+9. After option `13` passes, open that exact i3d in GIANTS Editor.
+10. Inspect the scene, materials, collisions, trigger nodes, and helper hierarchy.
+11. Save over the same i3d.
+12. Run option `13` again to confirm GIANTS Editor did not alter or remove the corrected references.
+
+## Texture-Path Recovery
+
+A malformed path such as:
+
+```text
+../placeables/greenhouses/i3d/../FS25_GreenHorizonIndustries/placeables/greenhouses/textures/greenhouse_light_diffuse.png
+```
+
+is automatically rewritten by option `13` to:
+
+```text
+../textures/greenhouse_light_diffuse.png
+```
+
+The repair tool creates this backup before changing the i3d:
+
+```text
+greenHorizonHempGreenhouse.i3d.pathfix.bak
+```
+
+When an i3d has already been saved in GIANTS Editor after all texture references were lost, re-export from the corrected Blender file. A path repair cannot restore `<File>` entries that no longer exist.
+
 ## Strict Export Validation
 
-Run menu option `13` after the manual export.
-
-The validator checks:
+Option `13` repairs known greenhouse texture paths first, then checks:
 
 - The i3d and shapes files exist and contain real data.
-- The old Phase 2.6 placeholder markers are gone.
+- The old placeholder markers are gone.
 - No absolute Windows or `file:///` paths are embedded.
+- No duplicated `FS25_GreenHorizonIndustries` path remains.
 - The expected greenhouse root and gameplay helper nodes were exported.
 - The export contains a reasonable number of shapes, materials, and file references.
-- Most or all generated greenhouse textures are referenced.
+- Most or all generated greenhouse textures use `../textures/<filename>`.
 
-Packaging is now blocked automatically when this validator fails. This prevents accidentally installing the empty placeholder greenhouse.
+Packaging is blocked automatically when this validator fails.
 
 ## Recommended Working Order
 
 ```text
 1. Pull latest repository files.
 2. Run menu option 15 to see the current next action.
-3. Run option 12 once to generate all source assets.
-4. Inspect and manually export the greenhouse.
-5. Run option 13 to validate the export.
-6. Run option 1 for the full repository preflight.
-7. Run option 3 to package and install the clean ZIP.
-8. Start FS25 and test the greenhouse.
-9. Run option 4 to inspect the filtered game log.
-10. Run option 15 again to see what remains.
+3. Run option 9 for the greenhouse, or option 12 for all source assets.
+4. Inspect the generated greenhouse blend.
+5. Export directly into the mod's greenhouse i3d folder.
+6. Run option 13 to repair paths and validate before GIANTS Editor.
+7. Open/save the same i3d in GIANTS Editor.
+8. Run option 13 again.
+9. Run option 1 for the full repository preflight.
+10. Run option 3 to package and install the clean ZIP.
+11. Start FS25 and test the greenhouse.
+12. Run option 4 to inspect the filtered game log.
 ```
 
 ## What Remains Inactive
