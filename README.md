@@ -1,26 +1,93 @@
-# FS25 Hemp Industries
+# Green Horizon Industries — FS25 Hemp Expansion
 
 🚧 Alpha Development  
-🖥️ PC Compatible  
-🎮 Console Goal  
-🌱 Industrial Hemp Expansion  
-🚜 Green Horizon Industries
+🖥️ PC test target  
+🎮 Console/crossplay design goal  
+🌱 Industrial hemp greenhouse, field crop, products, and processing
 
 ## Current Build
 
-**Phase 2.6 / Alpha 0.2 safe Blender greenhouse rebuild, generated icon, and store visibility retest is active.**
+```text
+0.2.17.0
+```
 
-The active mod folder is:
+The active mod folder and final zip root are:
 
 ```text
 FS25_GreenHorizonIndustries/
 ```
 
-This folder is intended to become the final FS25 mod folder/zip root for in-game testing.
+The **Hemp Greenhouse** remains the only active placeable under test. Field-crop registration, custom product pallets, and the processing facility are prepared but intentionally inactive.
+
+## Active Test Scope
+
+- Six registered fill types:
+  - `HEMP`
+  - `GHI_HEMP_SEED`
+  - `GHI_HEMP_BIOMASS`
+  - `GHI_HEMP_FIBER`
+  - `GHI_HEMP_FLOWER`
+  - `GHI_HEMP_OIL`
+- Hemp Greenhouse placeable XML.
+- Two greenhouse recipes:
+  - Water-only basic production.
+  - Water and hemp-seed higher-yield production.
+- Peaked glass gable-roof greenhouse Blender generator.
+- Script-generated greenhouse material textures.
+- Deterministic helper hierarchy for placement, storage, triggers, plant nodes, and collisions.
+- Windows preflight, package/install, and log-check tools.
+
+## Prepared but Inactive Expansion Work
+
+### Field Hemp
+
+- Expanded `fruitTypes.xml` draft.
+- Twelve-period seasonal growth calendar.
+- Nine foliage states from emerged through cut.
+- Blender foliage source generator with near and distance cards.
+- Map, density-channel, cutter, destruction, and vehicle-integration gates.
+
+### Product Pallets
+
+- Six inactive pallet XML templates.
+- One Blender generator that creates:
+  - Industrial hemp pallet.
+  - Hemp seed pallet.
+  - Hemp biomass pallet.
+  - Hemp fiber pallet.
+  - Hemp flower pallet.
+  - Hemp oil pallet.
+- Export-oriented helper nodes for fill units, discharge, dynamic mounting, collisions, and tension belts.
+- Script-generated pallet material textures.
+
+### Hemp Processing
+
+Inactive recipe foundations are prepared for:
+
+- Hemp decortication into fiber and biomass.
+- Flower sorting.
+- Seed cleaning.
+- Cold-pressed hemp oil.
+
+Nothing in these inactive sections is registered through `modDesc.xml` yet.
+
+## Blender Scripts
+
+```text
+tools/blender/create_green_horizon_greenhouse.py
+tools/blender/create_hemp_foliage.py
+tools/blender/create_green_horizon_pallets.py
+```
+
+Detailed instructions:
+
+```text
+tools/blender/README.md
+```
 
 ## Quick Windows Testing
 
-Start with the helper menu:
+Start with:
 
 ```text
 tools/windows/green_horizon_test_menu.bat
@@ -29,112 +96,69 @@ tools/windows/green_horizon_test_menu.bat
 Recommended order:
 
 ```text
-1. Preflight check repo files
-3. Package and install to FS25 mods folder
-4. Check FS25 log after running game
+1. Pull the latest repository files.
+2. Run the greenhouse Blender generator.
+3. Export and save the greenhouse i3d into the mod folder.
+4. Run the preflight check.
+5. Package and install the clean zip.
+6. Start FS25 and test the placeable.
+7. Run the filtered FS25 log checker.
 ```
 
-You can also package/install directly with:
+Direct package/install helper:
 
 ```text
 tools/windows/package_and_install_mod.bat
 ```
 
-After running FS25 once, check the filtered log report with:
+Filtered log helper:
 
 ```text
 tools/windows/check_fs25_log.bat
 ```
 
-Helpful docs:
+## Immediate Test Goal
+
+Confirm FS25 shows:
 
 ```text
-docs/Next-Test-Plan.md
-docs/Windows-Packaging.md
-docs/Test-Checklist.md
-docs/GIANTS-Editor-Prep.md
-docs/Phase-3-Upgradeable-Greenhouse.md
-docs/Phase-3-Upgradeable-CBD-Plant.md
-docs/Console-Optimization.md
-tools/blender/README.md
+Green Horizon Industries 0.2.17.0
 ```
 
-## Phase 1 Result
+Then confirm:
 
-Phase 1 fill type loading has been confirmed by FS25 log output:
+- The mod loads without a stale loose-folder conflict.
+- The greenhouse appears in the construction menu.
+- The peaked-roof model and materials load.
+- The model can be placed.
+- The interior remains walkable.
+- The player and unloading triggers work.
+- The two greenhouse recipes appear.
+- No missing i3d, shapes, texture, mapping, or fill-type errors appear in the log.
+
+## Important Inactive Files
 
 ```text
-Info: Loaded 3 fill types from mod
+FS25_GreenHorizonIndustries/xml/fruitTypes.xml
+FS25_GreenHorizonIndustries/xml/growth/hempGrowth.xml
+FS25_GreenHorizonIndustries/xml/productions/hempProcessingRecipes.xml
+FS25_GreenHorizonIndustries/foliage/hemp/hempFoliagePlan.xml
+FS25_GreenHorizonIndustries/foliage/hemp/hempFieldIntegrationPlan.xml
+FS25_GreenHorizonIndustries/pallets/xml/*.xml
 ```
 
-## Phase 2.6 Scope
+These files are packaged as development foundations but are not loaded by the active mod descriptor.
 
-Phase 2.6 starts the Blender greenhouse model over with a safe rebuild, adds a packaged icon filename, and keeps the current FS25 store visibility retest path.
+## Future Mod Concept Saved
 
-Included now:
-
-- `modDesc.xml` updated to mod version `0.2.6.0`
-- `modDesc.xml` descriptor version remains `91` for the current local FS25 test setup
-- `modDesc.xml` now includes `<iconFilename>icon_mod.dds</iconFilename>`
-- Windows package/install helper generates an alpha placeholder `icon_mod.dds` before zipping if it is missing
-- Windows package/install helper removes old loose mod folders as well as old zips
-- Store item wiring for a Hemp Greenhouse
-- Hemp Greenhouse category kept as `productionPoints` for the production-point shell
-- Production brush metadata added: `production` / `factories`
-- Greenhouse production placeable XML
-- Recipe balance notes XML
-- Blender greenhouse generator output-path fix
-- Blender pallet generator output-path fix
-- Greenhouse Blender script marked for Blender 4.2 LTS workflow
-- Greenhouse Blender script rebuilt from scratch with segmented roof panels
-- Single curved roof mesh and solidify/thickness modifier removed
-- Adjustable arched ribs retained
-- Early top/front greenhouse signs removed from the Blender model
-- Top pallet signs removed; pallets keep front labels only
-- Windows test menu added
-- Windows preflight checker added
-- Windows FS25 log checker added
-- Optional Blender GIANTS Editor helper markers added
-- Console optimization planning added
-- Upgradeable-style greenhouse progression plan added
-- Upgradeable-style CBD plant / selling point progression plan added
-- Production input/output loop:
-  - Inputs: `WATER`, `GHI_HEMP_SEED`
-  - Outputs: `HEMP`, `GHI_HEMP_BIOMASS`
-
-## Where To Look In Game
-
-First confirm FS25 shows the mod version as:
+The separate **Contractor Equipment Rental Yard** concept is documented in:
 
 ```text
-0.2.6.0
+docs/Future-Mods.md
 ```
 
-If FS25 still shows the mod as version `0.2.2.0`, `0.2.3.0`, `0.2.4.0`, or `0.2.5.0`, the old zip or loose folder is still installed.
-
-Then check the construction menu:
-
-```text
-Construction > Production > Factories / Production Points
-```
-
-Still pending:
-
-- Verify FS25 loads version `0.2.6.0`
-- Verify the missing icon filename error is gone
-- Verify the greenhouse appears in the FS25 construction menu under Production/Factories
-- Decide whether the later true greenhouse system should use `PlaceableGreenhouse` / greenhouse plant schema instead of the current productionPoint shell
-- Confirm the temporary base-game greenhouse visual path loads
-- Approve the safe rebuilt Blender greenhouse shape
-- Replace the alpha placeholder icon with a real GIANTS-generated DDS icon
-- Add original Green Horizon greenhouse model/assets to the placeable XML after i3d export
-- Add real DDS store image files
-- Add pallets/storage triggers after first placeable test
-- Add sell points and economy balancing
-- Add upgradeable-style greenhouse modules after greenhouse test passes
-- Add upgradeable-style CBD plant progression after greenhouse test passes
-- Add fruit/crop registration after FS25 map file references are verified
+It remains a future standalone project and is not part of Green Horizon Industries.
 
 ## Development Rule
 
-Do not upload GIANTS base-game files or extracted game assets to this repository. Use them locally as references only.
+Do not upload GIANTS base-game files or extracted game assets to this repository. Base-game files may be used locally as references only.
