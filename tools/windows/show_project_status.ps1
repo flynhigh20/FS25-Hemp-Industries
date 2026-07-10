@@ -116,24 +116,24 @@ Write-Host ("  Installed ZIP           : {0}" -f (Mark (Test-Path $installedZip)
 Write-Host ""
 
 Write-Host "INACTIVE EXPANSION ASSETS" -ForegroundColor Cyan
-Write-Host "  Foliage:       $foliageCount / $($foliageAssets.Count)"
-Write-Host "  Icons:         $iconCount / $($iconAssets.Count)"
-Write-Host "  Cutter effects:$cutterCount / $($cutterAssets.Count)"
-Write-Host "  Pallet sources:$palletCount / $($palletAssets.Count)"
+Write-Host "  Foliage:        $foliageCount / $($foliageAssets.Count)"
+Write-Host "  Icons:          $iconCount / $($iconAssets.Count)"
+Write-Host "  Cutter effects: $cutterCount / $($cutterAssets.Count)"
+Write-Host "  Pallet sources: $palletCount / $($palletAssets.Count)"
 Write-Host ""
 
 Write-Host "NEXT ACTION" -ForegroundColor Yellow
 if (-not $greenhouseGenerated) {
     Write-Host "Run menu option 9 to generate the greenhouse, or option 12 to generate everything."
 }
-elif (-not $realExport -or -not $shapesExists) {
+elseif (-not $realExport -or -not $shapesExists) {
     Write-Host "Open the generated greenhouse blend and export greenHorizonHempGreenhouse to the mod i3d folder."
     Write-Host "Use relative paths Yes and game paths No, then save it in GIANTS Editor."
 }
-elif (-not (Test-Path $zip)) {
+elseif (-not (Test-Path $zip)) {
     Write-Host "Run menu option 13 to validate the export, then option 3 to package and install."
 }
-elif (-not (Test-Path $installedZip)) {
+elseif (-not (Test-Path $installedZip)) {
     Write-Host "Run menu option 3 to install the clean ZIP into the FS25 mods folder."
 }
 else {
