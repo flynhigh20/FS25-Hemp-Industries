@@ -2,29 +2,82 @@
 <map>
 
     <!-- Green Horizon Industries
-         Draft hemp fruit type / crop-growth config.
+         Phase 2.15 field-hemp fruit type draft.
 
-         IMPORTANT:
-         This is a planning file for the future field-crop side.
-         It is intentionally NOT active in modDesc.xml yet because fruit types require the full crop stack:
-         foliage textures, growth states, cutter effects, destruction settings, density map setup,
-         and harvester/cutter compatibility.
-
-         Greenhouse production can move forward with xml/fillTypes.xml and hempGreenhouse.xml first. -->
+         This file is intentionally NOT active in modDesc.xml yet.
+         Activation still requires the map foliage layer, density-map channels,
+         growth textures, cutter effects, destruction masks, and vehicle-category
+         integration. Keeping it inactive lets the greenhouse test remain safe. -->
 
     <fruitTypes>
 
-        <!-- Draft target name. Keep aligned with active fillType name="HEMP". -->
+        <!-- Initial field-crop target for Industrial Hemp.
+             State plan:
+               1 seeded / just emerged
+               2 sprout
+               3 juvenile
+               4 vegetative
+               5 pre-flower
+               6 flowering
+               7 mature / harvest ready
+               8 withered
+               9 cut state -->
         <fruitType name="HEMP" shownOnMap="true" useForFieldJob="true">
+            <general
+                startStateChannel="0"
+                numStateChannels="4" />
 
-            <!-- Placeholder values. Final FS25 crop tuning should be copied from a similar base crop
-                 once foliage/growth textures are ready and tested in GIANTS Editor. -->
-            <general startStateChannel="0" numStateChannels="4" />
-            <harvest minHarvestingGrowthState="5" maxHarvestingGrowthState="7" cutState="8" allowsPartialGrowthState="false" />
-            <cultivation needsSeeding="true" allowsSeeding="true" directionSnapAngle="0" />
+            <cultivation
+                needsSeeding="true"
+                needsRolling="true"
+                allowsSeeding="true"
+                directionSnapAngle="0"
+                alignsToSun="false"
+                seedUsagePerSqm="0.045" />
 
+            <harvest
+                minHarvestingGrowthState="7"
+                maxHarvestingGrowthState="7"
+                cutState="9"
+                allowsPartialGrowthState="false"
+                literPerSqm="0.92"
+                cutHeight="0.20" />
+
+            <growth
+                witheredState="8"
+                numGrowthStates="7"
+                growthStateTime="24000000"
+                resetsSpray="true"
+                growthRequiresLime="true" />
+
+            <growthGroundTypeChange
+                state="7"
+                groundType="HARVEST_READY" />
+
+            <cropCare
+                maxWeederState="4"
+                maxWeederHoeState="3" />
+
+            <options
+                lowSoilDensityRequired="true"
+                increasesSoilDensity="false"
+                consumesLime="true"
+                startSprayState="0" />
+
+            <destruction
+                canBeDestroyed="true"
+                filterStart="4"
+                filterEnd="8" />
+
+            <mapColors
+                default="0.16 0.43 0.12 1"
+                colorBlind="0.24 0.55 0.72 1" />
         </fruitType>
 
     </fruitTypes>
+
+    <!-- Windrow output is intentionally omitted from the first draft.
+         We will add a dedicated hemp-stalk or hemp-fiber windrow only after its
+         fill type, textures, pickup behavior, and processing route are complete. -->
 
 </map>
