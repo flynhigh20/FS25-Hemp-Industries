@@ -40,26 +40,34 @@ function Resolve-BlenderExecutable {
         return $command.Source
     }
 
-    $preferred = @(
-        (Join-Path $env:ProgramFiles "Blender Foundation\Blender 4.2\blender.exe"),
-        (Join-Path ${env:ProgramFiles(x86)} "Blender Foundation\Blender 4.2\blender.exe"),
-        (Join-Path $env:LOCALAPPDATA "Programs\Blender Foundation\Blender 4.2\blender.exe")
-    ) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    $candidatePaths = New-Object System.Collections.Generic.List[string]
+    $searchRoots = New-Object System.Collections.Generic.List[string]
 
-    foreach ($candidate in $preferred) {
+    if (-not [string]::IsNullOrWhiteSpace($env:ProgramFiles)) {
+        $candidatePaths.Add((Join-Path $env:ProgramFiles "Blender Foundation\Blender 4.2\blender.exe")) | Out-Null
+        $searchRoots.Add((Join-Path $env:ProgramFiles "Blender Foundation")) | Out-Null
+    }
+    if (-not [string]::IsNullOrWhiteSpace(${env:ProgramFiles(x86)})) {
+        $candidatePaths.Add((Join-Path ${env:ProgramFiles(x86)} "Blender Foundation\Blender 4.2\blender.exe")) | Out-Null
+        $searchRoots.Add((Join-Path ${env:ProgramFiles(x86)} "Blender Foundation")) | Out-Null
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:LOCALAPPDATA)) {
+        $candidatePaths.Add((Join-Path $env:LOCALAPPDATA "Programs\Blender Foundation\Blender 4.2\blender.exe")) | Out-Null
+        $searchRoots.Add((Join-Path $env:LOCALAPPDATA "Programs\Blender Foundation")) | Out-Null
+    }
+
+    foreach ($candidate in $candidatePaths) {
         if (Test-Path $candidate) {
             return (Resolve-Path $candidate).Path
         }
     }
 
-    $searchRoots = @(
-        (Join-Path $env:ProgramFiles "Blender Foundation"),
-        (Join-Path ${env:ProgramFiles(x86)} "Blender Foundation"),
-        (Join-Path $env:LOCALAPPDATA "Programs\Blender Foundation")
-    ) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and (Test-Path $_) }
-
     $matches = New-Object System.Collections.Generic.List[object]
     foreach ($searchRoot in $searchRoots) {
+        if (-not (Test-Path $searchRoot)) {
+            continue
+        }
+
         Get-ChildItem -Path $searchRoot -Directory -ErrorAction SilentlyContinue |
             Where-Object { $_.Name -like "Blender *" } |
             ForEach-Object {
@@ -131,13 +139,14 @@ function Invoke-BlenderGenerator {
     $safeName = $Name.ToLowerInvariant().Replace(" ", "_")
     $logPath = Join-Path $LogDirectory ("$safeName.log")
 
-    Write-Host "" 
+    Write-Host ""
     Write-Host "==================================================" -ForegroundColor Cyan
     Write-Host "Running: $Name" -ForegroundColor Cyan
     Write-Host "Script:  $ScriptRelativePath"
     Write-Host "Log:     $logPath"
     Write-Host "==================================================" -ForegroundColor Cyan
 
+    $exitCode = 1
     Push-Location $RepoRoot
     try {
         & $BlenderPath --background --factory-startup --python $scriptPath 2>&1 |
@@ -264,13 +273,15 @@ if ($Target -in @("pallets", "all")) {
 
 foreach ($step in $steps) {
     try {
-        Invoke-BlenderGenerator \
-            -Name $step.Name \
-            -ScriptRelativePath $step.Script \
-            -ExpectedOutputs $step.Outputs \
-            -BlenderPath $blenderPath \
-            -RepoRoot $repoRoot \
-            -LogDirectory $logsDir
+        $invokeArgs = @{
+            Name = $step.Name
+            ScriptRelativePath = $step.Script
+            ExpectedOutputs = $step.Outputs
+            BlenderPath = $blenderPath
+            RepoRoot = $repoRoot
+            LogDirectory = $logsDir
+        }
+        Invoke-BlenderGenerator @invokeArgs
     }
     catch {
         $failures.Add("$($step.Name): $($_.Exception.Message)") | Out-Null
