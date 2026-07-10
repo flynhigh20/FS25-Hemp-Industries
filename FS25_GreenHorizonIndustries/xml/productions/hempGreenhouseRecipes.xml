@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <greenHorizonIndustries>
 
-    <!-- Phase 2 recipe notes.
-         This helper file is documentation-style XML for balancing.
-         The active production recipe is currently wired inside:
+    <!-- Phase 2.12 balancing reference.
+         The active recipes are defined inside:
          placeables/greenhouses/hempGreenhouse.xml -->
 
     <productionRecipes>
@@ -11,11 +10,23 @@
         <recipe id="ghi_hemp_greenhouse_basic">
             <inputs>
                 <input fillType="WATER" amount="20"/>
+            </inputs>
+            <outputs>
+                <output fillType="HEMP" amount="16" sellDirectly="true"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="4" sellDirectly="true"/>
+            </outputs>
+            <balance cyclesPerHour="20" costsPerActiveHour="12"/>
+        </recipe>
+
+        <recipe id="ghi_hemp_greenhouse_seeded">
+            <inputs>
+                <input fillType="WATER" amount="20"/>
                 <input fillType="GHI_HEMP_SEED" amount="4"/>
             </inputs>
             <outputs>
-                <output fillType="HEMP" amount="18"/>
-                <output fillType="GHI_HEMP_BIOMASS" amount="6"/>
+                <output fillType="HEMP" amount="24" sellDirectly="true"/>
+                <output fillType="GHI_HEMP_FLOWER" amount="2" sellDirectly="true"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="5" sellDirectly="true"/>
             </outputs>
             <balance cyclesPerHour="24" costsPerActiveHour="18"/>
         </recipe>
