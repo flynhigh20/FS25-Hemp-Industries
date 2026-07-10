@@ -8,7 +8,7 @@
 ## Current Build
 
 ```text
-0.2.17.0
+0.2.18.0
 ```
 
 The active mod folder and final zip root are:
@@ -17,7 +17,7 @@ The active mod folder and final zip root are:
 FS25_GreenHorizonIndustries/
 ```
 
-The **Hemp Greenhouse** remains the only active placeable under test. Field-crop registration, custom product pallets, and the processing facility are prepared but intentionally inactive.
+The **Hemp Greenhouse** remains the only active placeable under test. Field-crop registration, crop icons, cutter effects, custom product pallets, and the processing facility are prepared but intentionally inactive.
 
 ## Active Test Scope
 
@@ -29,45 +29,46 @@ The **Hemp Greenhouse** remains the only active placeable under test. Field-crop
   - `GHI_HEMP_FLOWER`
   - `GHI_HEMP_OIL`
 - Hemp Greenhouse placeable XML.
-- Two greenhouse recipes:
-  - Water-only basic production.
-  - Water and hemp-seed higher-yield production.
+- Water-only and water-plus-seed greenhouse recipes.
 - Peaked glass gable-roof greenhouse Blender generator.
 - Script-generated greenhouse material textures.
 - Deterministic helper hierarchy for placement, storage, triggers, plant nodes, and collisions.
-- Windows preflight, package/install, and log-check tools.
+- Windows preflight, package/install, log, and field-foundation check tools.
 
 ## Prepared but Inactive Expansion Work
 
-### Field Hemp
+### Field Hemp and Foliage
 
 - Expanded `fruitTypes.xml` draft.
 - Twelve-period seasonal growth calendar.
 - Nine foliage states from emerged through cut.
 - Blender foliage source generator with near and distance cards.
-- Map, density-channel, cutter, destruction, and vehicle-integration gates.
+- Map-registration contract synchronizing four channels and states 7, 8, and 9.
+- Map, density-channel, destruction, vehicle, save/reload, and multiplayer gates.
+
+### Crop and Product Icons
+
+- Transparent source-icon generator for all six fill types.
+- Dedicated crop-menu and crop-calendar icons.
+- An icon manifest that keeps every icon unlinked until the exact FS25 XML keys and final image formats are verified.
+
+### Cutter Effects
+
+- Source generator for hemp chaff, stem shards, leaf fragments, and dust.
+- Mature-state harvesting route from state 7 to cut state 9.
+- Initial combine-style profile and future forage/biomass profile.
+- Particle budgets and console-performance targets.
 
 ### Product Pallets
 
 - Six inactive pallet XML templates.
-- One Blender generator that creates:
-  - Industrial hemp pallet.
-  - Hemp seed pallet.
-  - Hemp biomass pallet.
-  - Hemp fiber pallet.
-  - Hemp flower pallet.
-  - Hemp oil pallet.
+- One Blender generator for hemp, seed, biomass, fiber, flower, and oil pallets.
 - Export-oriented helper nodes for fill units, discharge, dynamic mounting, collisions, and tension belts.
 - Script-generated pallet material textures.
 
 ### Hemp Processing
 
-Inactive recipe foundations are prepared for:
-
-- Hemp decortication into fiber and biomass.
-- Flower sorting.
-- Seed cleaning.
-- Cold-pressed hemp oil.
+Inactive recipe foundations are prepared for decortication, flower sorting, seed cleaning, and cold-pressed hemp oil.
 
 Nothing in these inactive sections is registered through `modDesc.xml` yet.
 
@@ -76,6 +77,8 @@ Nothing in these inactive sections is registered through `modDesc.xml` yet.
 ```text
 tools/blender/create_green_horizon_greenhouse.py
 tools/blender/create_hemp_foliage.py
+tools/blender/create_hemp_crop_icons.py
+tools/blender/create_hemp_cutter_effects.py
 tools/blender/create_green_horizon_pallets.py
 ```
 
@@ -85,24 +88,18 @@ Detailed instructions:
 tools/blender/README.md
 ```
 
-## Quick Windows Testing
+## Windows Checks
 
-Start with:
+Main test menu:
 
 ```text
 tools/windows/green_horizon_test_menu.bat
 ```
 
-Recommended order:
+Field-hemp cross-file validator:
 
 ```text
-1. Pull the latest repository files.
-2. Run the greenhouse Blender generator.
-3. Export and save the greenhouse i3d into the mod folder.
-4. Run the preflight check.
-5. Package and install the clean zip.
-6. Start FS25 and test the placeable.
-7. Run the filtered FS25 log checker.
+tools/windows/check_hemp_field_foundation.ps1
 ```
 
 Direct package/install helper:
@@ -122,19 +119,10 @@ tools/windows/check_fs25_log.bat
 Confirm FS25 shows:
 
 ```text
-Green Horizon Industries 0.2.17.0
+Green Horizon Industries 0.2.18.0
 ```
 
-Then confirm:
-
-- The mod loads without a stale loose-folder conflict.
-- The greenhouse appears in the construction menu.
-- The peaked-roof model and materials load.
-- The model can be placed.
-- The interior remains walkable.
-- The player and unloading triggers work.
-- The two greenhouse recipes appear.
-- No missing i3d, shapes, texture, mapping, or fill-type errors appear in the log.
+Then confirm the greenhouse appears, places correctly, remains walkable, loads its materials, exposes its triggers and recipes, and produces no missing i3d, shapes, texture, mapping, or fill-type errors.
 
 ## Important Inactive Files
 
@@ -144,6 +132,9 @@ FS25_GreenHorizonIndustries/xml/growth/hempGrowth.xml
 FS25_GreenHorizonIndustries/xml/productions/hempProcessingRecipes.xml
 FS25_GreenHorizonIndustries/foliage/hemp/hempFoliagePlan.xml
 FS25_GreenHorizonIndustries/foliage/hemp/hempFieldIntegrationPlan.xml
+FS25_GreenHorizonIndustries/foliage/hemp/hempMapRegistrationDraft.xml
+FS25_GreenHorizonIndustries/foliage/hemp/hempCutterEffectsPlan.xml
+FS25_GreenHorizonIndustries/ui/hempIconManifest.xml
 FS25_GreenHorizonIndustries/pallets/xml/*.xml
 ```
 
@@ -156,8 +147,6 @@ The separate **Contractor Equipment Rental Yard** concept is documented in:
 ```text
 docs/Future-Mods.md
 ```
-
-It remains a future standalone project and is not part of Green Horizon Industries.
 
 ## Development Rule
 
