@@ -19,6 +19,46 @@ FS25_GreenHorizonIndustries/
 
 The **Hemp Greenhouse** remains the only active placeable under test. Field-crop registration, crop icons, cutter effects, custom product pallets, and the processing facility are prepared but intentionally inactive.
 
+## Expected Greenhouse Look
+
+The generated model is intended to look close to the earlier Green Horizon visual concept, with the final Blender model using:
+
+- A straight peaked glass gable roof rather than a rounded arch roof.
+- Black powder-coated metal framing.
+- Clear glass/polycarbonate wall and roof panels.
+- A concrete foundation slab and perimeter curbs.
+- Three long interior grow beds.
+- Static industrial-hemp plants for the first visual test.
+- A water-storage tank and nutrient-control box.
+- Warm overhead grow-light strips with visible wiring.
+- A centered front doorway that remains open and walkable.
+
+The Blender result should be close to the concept image, but GIANTS Editor and in-game shaders may make the glass, lighting, transparency, and material brightness look slightly different. The first export test is where those final visual settings will be adjusted.
+
+## When You Get Home — Quick Start
+
+```text
+1. Pull the latest repository files.
+2. Open tools/windows/green_horizon_test_menu.bat.
+3. Pick option 15 to see the current project status and next action.
+4. Pick option 12 to generate every current Blender source asset.
+5. Open assets/blender/green_horizon_hemp_greenhouse.blend.
+6. Inspect the greenhouse in Material Preview.
+7. Export the root greenHorizonHempGreenhouse.
+8. Save it as:
+   FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/
+   greenHorizonHempGreenhouse.i3d
+9. Choose relative paths Yes and game paths No.
+10. Open and save that i3d in GIANTS Editor.
+11. Pick menu option 13 to validate the export.
+12. Pick option 1 for the full preflight check.
+13. Pick option 3 to package and install the clean ZIP.
+14. Start FS25 and test the greenhouse.
+15. Pick option 4 afterward to inspect the filtered game log.
+```
+
+Do not manually link field hemp, crop icons, cutter effects, processing recipes, or pallet XML during this first greenhouse test.
+
 ## Active Test Scope
 
 - Six registered fill types:
