@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonIconManifest version="1">
+
+    <!-- Project-owned UI asset manifest. FS25 does not load this file directly.
+         The generated PNG icons remain inactive until final image format, size,
+         and XML keys are verified against the target game build. -->
+
+    <generator>tools/blender/create_hemp_crop_icons.py</generator>
+    <outputRoot>ui/icons</outputRoot>
+
+    <icons>
+        <icon id="HEMP" role="fillType" filename="fillType_hemp.png" linked="false"/>
+        <icon id="GHI_HEMP_SEED" role="fillType" filename="fillType_hempSeed.png" linked="false"/>
+        <icon id="GHI_HEMP_BIOMASS" role="fillType" filename="fillType_hempBiomass.png" linked="false"/>
+        <icon id="GHI_HEMP_FIBER" role="fillType" filename="fillType_hempFiber.png" linked="false"/>
+        <icon id="GHI_HEMP_FLOWER" role="fillType" filename="fillType_hempFlower.png" linked="false"/>
+        <icon id="GHI_HEMP_OIL" role="fillType" filename="fillType_hempOil.png" linked="false"/>
+        <icon id="HEMP_CROP" role="crop" filename="crop_hemp.png" linked="false"/>
+        <icon id="HEMP_CALENDAR" role="growthCalendar" filename="calendar_hemp.png" linked="false"/>
+    </icons>
+
+    <activationRequirements>
+        <requirement id="iconsGenerated" complete="false"/>
+        <requirement id="iconsVisuallyInspected" complete="false"/>
+        <requirement id="finalFormatConfirmed" complete="false"/>
+        <requirement id="fillTypeIconKeysConfirmed" complete="false"/>
+        <requirement id="cropIconKeysConfirmed" complete="false"/>
+        <requirement id="consoleMemoryCheck" complete="false"/>
+    </activationRequirements>
+
+    <activationRule>
+        Do not add icon paths to fillTypes.xml, fruitTypes.xml, or modDesc.xml until the icons exist and the exact FS25 XML keys are verified.
+    </activationRule>
+
+</greenHorizonIconManifest>
