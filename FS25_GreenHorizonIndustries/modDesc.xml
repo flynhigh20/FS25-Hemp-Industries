@@ -2,7 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-    <version>0.2.14.0</version>
+    <version>0.2.15.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -12,10 +12,9 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.14 test build: complete greenhouse placeable XML, deterministic FS25
-helper-node hierarchy, straight glass gable roof with center ridge, triangular
-glass end panels, grow-light wiring, perimeter collision, and script-generated
-image materials.
+Phase 2.15 test build: peaked glass greenhouse model foundation, complete
+placeable XML, scripted material textures, and an inactive but expanded field-hemp
+crop foundation covering fruit-type behavior, seasonal growth, and foliage states.
         ]]></en>
     </description>
 
@@ -39,8 +38,13 @@ image materials.
 
     <fillTypes filename="xml/fillTypes.xml"/>
 
-    <!-- xml/fruitTypes.xml is prepared for future field-crop work but remains
-         inactive until foliage textures, growth states, and map density channels exist. -->
+    <!-- Field crop files prepared but deliberately inactive:
+         xml/fruitTypes.xml
+         xml/growth/hempGrowth.xml
+         foliage/hemp/hempFoliagePlan.xml
+
+         They must not be activated until a test map has the required foliage
+         layer, density-map channels, cutter effects, and vehicle integration. -->
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
