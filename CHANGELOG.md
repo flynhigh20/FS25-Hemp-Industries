@@ -4,6 +4,26 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.16 - Hemp Foliage Source Generator
+
+### Added
+- Blender source generator for the inactive Industrial Hemp field crop.
+- Procedural diffuse-alpha and normal foliage atlases.
+- Near and distance card meshes for states 1 through 9.
+- Field integration plan covering map layers, vehicle categories, cutter effects, and first-release outputs.
+
+### Changed
+- Updated mod version to `0.2.16.0`.
+- Linked the foliage plan to the new generator and atlas tiles.
+- Updated preflight checks to validate the generator and integration plan while warning, rather than failing, before the foliage textures are generated.
+- Corrected Blender documentation to describe the new peaked glass greenhouse roof.
+
+### Safety
+- Field hemp remains inactive.
+- Running the foliage generator creates source assets only; it does not edit `modDesc.xml` or register a map foliage layer.
+
+---
+
 ## Version 0.2.15 - Field Hemp Crop Foundation
 
 ### Added
