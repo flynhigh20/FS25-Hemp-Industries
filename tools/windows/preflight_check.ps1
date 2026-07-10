@@ -118,7 +118,10 @@ $requiredToolFiles = @(
     "tools/blender/create_hemp_crop_icons.py",
     "tools/blender/create_hemp_cutter_effects.py",
     "tools/blender/create_green_horizon_pallets.py",
-    "tools/windows/check_hemp_field_foundation.ps1"
+    "tools/windows/generate_project_assets.ps1",
+    "tools/windows/validate_greenhouse_export.ps1",
+    "tools/windows/check_hemp_field_foundation.ps1",
+    "tools/windows/show_project_status.ps1"
 )
 
 Write-Host "Green Horizon Industries - Preflight" -ForegroundColor Cyan
@@ -135,14 +138,14 @@ foreach ($relativePath in $requiredToolFiles) {
     if (Test-Path $fullPath) { Pass "Found $relativePath" } else { Fail "Missing tool file: $relativePath" }
 }
 
-Check-OptionalSet -BaseFolder $modFolder -Description "Generated foliage texture" -RunHint "run tools/blender/create_hemp_foliage.py later." -RelativePaths @(
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated foliage texture" -RunHint "run menu option 10 or 12 later." -RelativePaths @(
     "foliage/hemp/textures/hempFoliage_diffuse.png",
     "foliage/hemp/textures/hempFoliage_normal.png",
     "foliage/hemp/textures/hempFoliage_distance_diffuse.png",
     "foliage/hemp/textures/hempFoliage_distance_normal.png"
 )
 
-Check-OptionalSet -BaseFolder $modFolder -Description "Generated crop icon" -RunHint "run tools/blender/create_hemp_crop_icons.py later." -RelativePaths @(
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated crop icon" -RunHint "run menu option 10 or 12 later." -RelativePaths @(
     "ui/icons/fillType_hemp.png",
     "ui/icons/fillType_hempSeed.png",
     "ui/icons/fillType_hempBiomass.png",
@@ -153,14 +156,14 @@ Check-OptionalSet -BaseFolder $modFolder -Description "Generated crop icon" -Run
     "ui/icons/calendar_hemp.png"
 )
 
-Check-OptionalSet -BaseFolder $modFolder -Description "Generated cutter-effect texture" -RunHint "run tools/blender/create_hemp_cutter_effects.py later." -RelativePaths @(
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated cutter-effect texture" -RunHint "run menu option 10 or 12 later." -RelativePaths @(
     "foliage/hemp/effects/textures/hemp_chaff_diffuse.png",
     "foliage/hemp/effects/textures/hemp_stem_shard_diffuse.png",
     "foliage/hemp/effects/textures/hemp_leaf_fragment_diffuse.png",
     "foliage/hemp/effects/textures/hemp_dust_diffuse.png"
 )
 
-Check-OptionalSet -BaseFolder $modFolder -Description "Generated pallet texture" -RunHint "run tools/blender/create_green_horizon_pallets.py later." -RelativePaths @(
+Check-OptionalSet -BaseFolder $modFolder -Description "Generated pallet texture" -RunHint "run menu option 11 or 12 later." -RelativePaths @(
     "pallets/textures/pallet_wood_diffuse.png",
     "pallets/textures/pallet_dark_wood_diffuse.png",
     "pallets/textures/pallet_wrap_diffuse.png",
@@ -264,6 +267,16 @@ if (Test-Path $fieldCheck) {
     Write-Host "Running field hemp cross-file validator..." -ForegroundColor Cyan
     & $fieldCheck -RepoRoot $root
     if ($LASTEXITCODE -ne 0) { Fail "Field hemp foundation validator failed" } else { Pass "Field hemp foundation validator passed" }
+}
+
+$exportCheck = Join-Path $root "tools\windows\validate_greenhouse_export.ps1"
+$i3dPath = Join-Path $modFolder "placeables\greenhouses\i3d\greenHorizonHempGreenhouse.i3d"
+$shapesPath = "$i3dPath.shapes"
+if ((Test-Path $exportCheck) -and (Test-Path $i3dPath) -and (Test-Path $shapesPath)) {
+    Write-Host ""
+    Write-Host "Running strict greenhouse export validator..." -ForegroundColor Cyan
+    & $exportCheck -RepoRoot $root
+    if ($LASTEXITCODE -ne 0) { Fail "Greenhouse export validator failed" } else { Pass "Greenhouse export validator passed" }
 }
 
 Write-Host ""
