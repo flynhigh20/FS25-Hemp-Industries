@@ -2,7 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-    <version>0.2.12.0</version>
+    <version>0.2.13.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -12,9 +12,10 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.12 test build: complete greenhouse placeable XML, active hemp fill types,
-deterministic FS25 helper-node hierarchy, roof and wall panels, grow-light wiring,
-and perimeter collision that keeps the greenhouse interior walkable.
+Phase 2.13 test build: complete greenhouse placeable XML, deterministic FS25
+helper-node hierarchy, roof and wall panels, grow-light wiring, perimeter collision,
+and script-generated image materials for the frame, glass, concrete, soil, plants,
+water tank, wiring, rubber seals, and grow lights.
         ]]></en>
     </description>
 
