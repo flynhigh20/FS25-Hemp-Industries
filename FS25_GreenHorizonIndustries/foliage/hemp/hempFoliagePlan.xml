@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<greenHorizonFoliagePlan fruitType="HEMP" version="1">
+<greenHorizonFoliagePlan fruitType="HEMP" version="2">
 
     <!-- Project-owned build plan. FS25 does not load this file directly.
          It defines the asset names and state coverage we need before activating
          xml/fruitTypes.xml and xml/growth/hempGrowth.xml. -->
+
+    <sourceGenerator>
+        <script>tools/blender/create_hemp_foliage.py</script>
+        <blendOutput>assets/blender/green_horizon_hemp_foliage.blend</blendOutput>
+        <status complete="true" note="Generator script is committed; generated assets still require a Blender run and inspection." />
+    </sourceGenerator>
 
     <densityMap
         numStateChannels="4"
@@ -14,22 +20,22 @@
     <assetRoot>foliage/hemp</assetRoot>
 
     <textureTargets>
-        <texture role="diffuseAlpha" filename="hempFoliage_diffuse.png" />
-        <texture role="normal" filename="hempFoliage_normal.png" />
-        <texture role="distanceDiffuse" filename="hempFoliage_distance_diffuse.png" />
-        <texture role="distanceNormal" filename="hempFoliage_distance_normal.png" />
+        <texture role="diffuseAlpha" filename="textures/hempFoliage_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py" />
+        <texture role="normal" filename="textures/hempFoliage_normal.png" generatedBy="tools/blender/create_hemp_foliage.py" />
+        <texture role="distanceDiffuse" filename="textures/hempFoliage_distance_diffuse.png" generatedBy="tools/blender/create_hemp_foliage.py" />
+        <texture role="distanceNormal" filename="textures/hempFoliage_distance_normal.png" generatedBy="tools/blender/create_hemp_foliage.py" />
     </textureTargets>
 
     <growthStates>
-        <state index="1" name="emerged" heightMeters="0.08" density="low" />
-        <state index="2" name="sprout" heightMeters="0.18" density="low" />
-        <state index="3" name="juvenile" heightMeters="0.45" density="medium" />
-        <state index="4" name="vegetative" heightMeters="0.90" density="medium" />
-        <state index="5" name="preFlower" heightMeters="1.35" density="high" />
-        <state index="6" name="flowering" heightMeters="1.70" density="high" forageReady="true" />
-        <state index="7" name="mature" heightMeters="2.00" density="high" harvestReady="true" />
-        <state index="8" name="withered" heightMeters="1.85" density="medium" />
-        <state index="9" name="cut" heightMeters="0.20" density="low" />
+        <state index="1" name="emerged" heightMeters="0.08" density="low" atlasTile="0" />
+        <state index="2" name="sprout" heightMeters="0.18" density="low" atlasTile="1" />
+        <state index="3" name="juvenile" heightMeters="0.45" density="medium" atlasTile="2" />
+        <state index="4" name="vegetative" heightMeters="0.90" density="medium" atlasTile="3" />
+        <state index="5" name="preFlower" heightMeters="1.35" density="high" atlasTile="4" />
+        <state index="6" name="flowering" heightMeters="1.70" density="high" forageReady="true" atlasTile="5" />
+        <state index="7" name="mature" heightMeters="2.00" density="high" harvestReady="true" atlasTile="6" />
+        <state index="8" name="withered" heightMeters="1.85" density="medium" atlasTile="7" />
+        <state index="9" name="cut" heightMeters="0.20" density="low" atlasTile="6" />
     </growthStates>
 
     <meshTargets>
@@ -42,8 +48,9 @@
     </meshTargets>
 
     <activationGates>
-        <gate id="foliageTextures" complete="false" />
-        <gate id="growthStateMeshes" complete="false" />
+        <gate id="sourceGenerator" complete="true" />
+        <gate id="foliageTexturesGenerated" complete="false" />
+        <gate id="growthStateMeshesInspected" complete="false" />
         <gate id="mapDensityChannels" complete="false" />
         <gate id="cutterEffects" complete="false" />
         <gate id="destructionMasks" complete="false" />
