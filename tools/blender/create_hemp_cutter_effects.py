@@ -122,8 +122,10 @@ def point_in_polygon(x: float, y: float, points) -> bool:
     for i in range(len(points)):
         xi, yi = points[i]
         xj, yj = points[j]
-        if ((yi > y) != (yj > y)) and (x < (xj - xi) * (y - yi) / max(yj - yi, 1e-9) + xi):
-            inside = not inside
+        if (yi > y) != (yj > y):
+            intersection_x = (xj - xi) * (y - yi) / (yj - yi) + xi
+            if x < intersection_x:
+                inside = not inside
         j = i
     return inside
 
@@ -149,9 +151,15 @@ def create_chaff_texture():
         angle = random.uniform(0, math.tau)
         length = random.uniform(10, 28)
         width = random.uniform(1.5, 4.0)
-        draw_line(pixels, cx - math.cos(angle) * length / 2, cy - math.sin(angle) * length / 2,
-                  cx + math.cos(angle) * length / 2, cy + math.sin(angle) * length / 2,
-                  width, random.choice(colors))
+        draw_line(
+            pixels,
+            cx - math.cos(angle) * length / 2,
+            cy - math.sin(angle) * length / 2,
+            cx + math.cos(angle) * length / 2,
+            cy + math.sin(angle) * length / 2,
+            width,
+            random.choice(colors),
+        )
     return pixels
 
 
@@ -163,10 +171,18 @@ def create_stem_texture():
         angle = random.uniform(0, math.tau)
         length = random.uniform(34, 76)
         width = random.uniform(3.0, 7.0)
-        color = random.choice([(0.42, 0.34, 0.12, 0.98), (0.30, 0.39, 0.12, 0.96), (0.58, 0.49, 0.20, 0.94)])
-        draw_line(pixels, cx - math.cos(angle) * length / 2, cy - math.sin(angle) * length / 2,
-                  cx + math.cos(angle) * length / 2, cy + math.sin(angle) * length / 2,
-                  width, color)
+        color = random.choice(
+            [(0.42, 0.34, 0.12, 0.98), (0.30, 0.39, 0.12, 0.96), (0.58, 0.49, 0.20, 0.94)]
+        )
+        draw_line(
+            pixels,
+            cx - math.cos(angle) * length / 2,
+            cy - math.sin(angle) * length / 2,
+            cx + math.cos(angle) * length / 2,
+            cy + math.sin(angle) * length / 2,
+            width,
+            color,
+        )
     return pixels
 
 
@@ -182,9 +198,15 @@ def create_leaf_texture():
         perpendicular = (-direction[1], direction[0])
         tip = (cx + direction[0] * length / 2, cy + direction[1] * length / 2)
         tail = (cx - direction[0] * length / 2, cy - direction[1] * length / 2)
-        points = [tail, (cx + perpendicular[0] * width, cy + perpendicular[1] * width), tip,
-                  (cx - perpendicular[0] * width, cy - perpendicular[1] * width)]
-        color = random.choice([(0.10, 0.40, 0.10, 0.95), (0.18, 0.50, 0.14, 0.92), (0.29, 0.46, 0.12, 0.90)])
+        points = [
+            tail,
+            (cx + perpendicular[0] * width, cy + perpendicular[1] * width),
+            tip,
+            (cx - perpendicular[0] * width, cy - perpendicular[1] * width),
+        ]
+        color = random.choice(
+            [(0.10, 0.40, 0.10, 0.95), (0.18, 0.50, 0.14, 0.92), (0.29, 0.46, 0.12, 0.90)]
+        )
         draw_polygon(pixels, points, color)
         draw_line(pixels, tail[0], tail[1], tip[0], tip[1], 1.5, (0.04, 0.18, 0.04, 0.85))
     return pixels
@@ -206,7 +228,13 @@ def create_dust_texture():
                 blend_pixel(pixels, x, y, (0.64, 0.56, 0.34, alpha))
 
     for _ in range(26):
-        draw_circle(pixels, random.uniform(45, 211), random.uniform(45, 211), random.uniform(4, 11), (0.76, 0.68, 0.42, random.uniform(0.08, 0.20)))
+        draw_circle(
+            pixels,
+            random.uniform(45, 211),
+            random.uniform(45, 211),
+            random.uniform(4, 11),
+            (0.76, 0.68, 0.42, random.uniform(0.08, 0.20)),
+        )
     return pixels
 
 
