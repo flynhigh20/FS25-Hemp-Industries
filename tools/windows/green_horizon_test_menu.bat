@@ -19,7 +19,7 @@ echo  9. Generate greenhouse model and materials
 echo 10. Generate field foliage, icons, and cutter assets
 echo 11. Generate product pallet source assets
 echo 12. Generate ALL Blender source assets
-echo 13. Validate exported greenhouse i3d
+echo 13. Repair texture paths and validate greenhouse i3d
 echo 14. Open asset generation workflow
 echo 15. Show project status and next action
 echo  0. Exit
