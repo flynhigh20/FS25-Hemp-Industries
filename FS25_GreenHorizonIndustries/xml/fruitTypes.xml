@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+
+    <!-- Green Horizon Industries
+         Draft hemp fruit type / crop-growth config.
+
+         IMPORTANT:
+         This is a planning file for the future field-crop side.
+         It is intentionally NOT active in modDesc.xml yet because fruit types require the full crop stack:
+         foliage textures, growth states, cutter effects, destruction settings, density map setup,
+         and harvester/cutter compatibility.
+
+         Greenhouse production can move forward with xml/fillTypes.xml and hempGreenhouse.xml first. -->
+
+    <fruitTypes>
+
+        <!-- Draft target name. Keep aligned with active fillType name="HEMP". -->
+        <fruitType name="HEMP" shownOnMap="true" useForFieldJob="true">
+
+            <!-- Placeholder values. Final FS25 crop tuning should be copied from a similar base crop
+                 once foliage/growth textures are ready and tested in GIANTS Editor. -->
+            <general startStateChannel="0" numStateChannels="4" />
+            <harvest minHarvestingGrowthState="5" maxHarvestingGrowthState="7" cutState="8" allowsPartialGrowthState="false" />
+            <cultivation needsSeeding="true" allowsSeeding="true" directionSnapAngle="0" />
+
+        </fruitType>
+
+    </fruitTypes>
+
+</map>
