@@ -4,6 +4,25 @@ All notable changes to this project will be documented here.
 
 ---
 
+## Version 0.2.15 - Field Hemp Crop Foundation
+
+### Added
+- Expanded inactive Industrial Hemp fruit type with cultivation, harvest, growth, crop-care, destruction, and map-color targets.
+- Added a 12-period seasonal hemp growth calendar draft.
+- Added a nine-state foliage asset plan covering emerged through cut states.
+- Added field-crop activation documentation and safety gates.
+
+### Changed
+- Updated mod version to `0.2.15.0`.
+- Updated preflight checks to validate the fruit type, growth calendar, and foliage-state plan.
+- Updated packaging checks so the crop draft files are included in every test zip.
+
+### Safety
+- Field hemp remains inactive in `modDesc.xml` until foliage textures, map density channels, cutter effects, destruction masks, and vehicle categories are ready.
+- The greenhouse remains the active test feature.
+
+---
+
 ## Version 0.2.4 - Phase 2 Blender Roof / Local Descriptor Test
 
 ### Changed
