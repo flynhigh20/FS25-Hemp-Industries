@@ -42,9 +42,12 @@ function Fail([string]$Message) {
 }
 
 $root = Find-RepoRoot
-$i3dPath = Join-Path $root "FS25_GreenHorizonIndustries\placeables\greenhouses\i3d\greenHorizonHempGreenhouse.i3d"
-$shapesPath = "$i3dPath.shapes"
-$normalizer = Join-Path $root "tools\windows\normalize_greenhouse_texture_paths.ps1"
+$i3dFolder = Join-Path $root "FS25_GreenHorizonIndustries\placeables\greenhouses\i3d"
+$i3dPath = Join-Path $i3dFolder "greenHorizonHempGreenhouse.i3d"
+$canonicalShapesName = "greenhorizonhempgreenhouse.i3d.shapes"
+$shapesPath = Join-Path $i3dFolder $canonicalShapesName
+$shapeNormalizer = Join-Path $root "tools\windows\normalize_greenhouse_shapes.ps1"
+$textureNormalizer = Join-Path $root "tools\windows\normalize_greenhouse_texture_paths.ps1"
 
 Write-Host "Green Horizon Industries - Greenhouse Export Repair and Validator" -ForegroundColor Cyan
 Write-Host "I3D:    $i3dPath"
@@ -53,29 +56,47 @@ Write-Host ""
 
 if (-not (Test-Path $i3dPath)) {
     Fail "The greenhouse i3d does not exist."
-}
-if (-not (Test-Path $shapesPath)) {
-    Fail "The greenhouse i3d.shapes file does not exist."
-}
-
-if ($failures.Count -gt 0) {
     Write-Host ""
     Write-Host "Export the Blender root greenHorizonHempGreenhouse directly into the mod i3d folder." -ForegroundColor Yellow
     exit 1
 }
 
-if (-not (Test-Path $normalizer)) {
-    Fail "Texture-path normalizer is missing: $normalizer"
+if (-not (Test-Path $shapeNormalizer)) {
+    Fail "Shapes normalizer is missing: $shapeNormalizer"
+}
+else {
+    Write-Host "Normalizing greenhouse shapes filename and i3d reference..." -ForegroundColor Cyan
+    & $shapeNormalizer -RepoRoot $root
+    if ($LASTEXITCODE -ne 0) {
+        Fail "Shapes filename/reference normalization failed"
+    }
+    else {
+        Pass "Shapes filename/reference normalization completed"
+    }
+}
+
+if (-not (Test-Path $shapesPath)) {
+    Fail "The canonical greenhouse shapes file does not exist: $canonicalShapesName"
+}
+
+if (-not (Test-Path $textureNormalizer)) {
+    Fail "Texture-path normalizer is missing: $textureNormalizer"
 }
 else {
     Write-Host "Normalizing known greenhouse texture references..." -ForegroundColor Cyan
-    & $normalizer -RepoRoot $root
+    & $textureNormalizer -RepoRoot $root
     if ($LASTEXITCODE -ne 0) {
         Fail "Texture-path normalization failed"
     }
     else {
         Pass "Texture-path normalization completed"
     }
+}
+
+if ($failures.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Export repair failed before validation." -ForegroundColor Red
+    exit 1
 }
 
 $i3dItem = Get-Item $i3dPath
@@ -121,6 +142,13 @@ if ($raw -match 'filename="[^"]*FS25_GreenHorizonIndustries[^"]*greenhouse_[^"]+
 }
 else {
     Pass "no duplicated repository folder is embedded in greenhouse texture paths"
+}
+
+if ($raw -match ('externalShapesFile="' + [regex]::Escape($canonicalShapesName) + '"')) {
+    Pass "i3d references the canonical lowercase shapes filename"
+}
+else {
+    Fail "i3d externalShapesFile does not exactly match $canonicalShapesName"
 }
 
 $requiredNodeNames = @(
