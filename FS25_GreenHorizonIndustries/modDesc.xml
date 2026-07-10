@@ -2,8 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-
-    <version>0.2.11.0</version>
+    <version>0.2.12.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,12 +12,13 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.11 test build: fill types and Hemp Greenhouse store item are active. The main Blender generator now builds panels, grow-light wiring, and FS25-style helper nodes directly so GIANTS Editor export work can continue from one clean model script.
+Phase 2.12 test build: complete greenhouse placeable XML, active hemp fill types,
+deterministic FS25 helper-node hierarchy, roof and wall panels, grow-light wiring,
+and perimeter collision that keeps the greenhouse interior walkable.
         ]]></en>
     </description>
 
     <iconFilename>icon_mod.dds</iconFilename>
-
     <multiplayer supported="true"/>
 
     <l10n>
@@ -26,16 +26,20 @@ Phase 2.11 test build: fill types and Hemp Greenhouse store item are active. The
             <en>Hemp Greenhouse</en>
         </text>
         <text name="function_ghi_hempGreenhouse">
-            <en>Grows industrial hemp from water and hemp seed.</en>
+            <en>Grows industrial hemp using water, with an optional seeded high-yield recipe.</en>
         </text>
         <text name="production_ghi_hempGreenhouseBasic">
             <en>Grow Industrial Hemp</en>
+        </text>
+        <text name="production_ghi_hempGreenhouseSeeded">
+            <en>Grow Seeded Industrial Hemp</en>
         </text>
     </l10n>
 
     <fillTypes filename="xml/fillTypes.xml"/>
 
-    <!-- Draft only: xml/fruitTypes.xml exists for future field-crop work but is not active yet. -->
+    <!-- xml/fruitTypes.xml is prepared for future field-crop work but remains
+         inactive until foliage textures, growth states, and map density channels exist. -->
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
