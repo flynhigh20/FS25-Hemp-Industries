@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonIndustries>
+
+    <!-- Phase 2.17 inactive processing recipes.
+         These values are balancing targets for a future Hemp Processing Facility.
+         They are not loaded by modDesc.xml and do not affect the greenhouse test. -->
+
+    <productionRecipes>
+
+        <recipe id="ghi_hemp_decortication" name="Hemp Decortication">
+            <inputs>
+                <input fillType="HEMP" amount="100"/>
+            </inputs>
+            <outputs>
+                <output fillType="GHI_HEMP_FIBER" amount="45"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="45"/>
+            </outputs>
+            <balance cyclesPerHour="12" costsPerActiveHour="42" massLossPercent="10"/>
+        </recipe>
+
+        <recipe id="ghi_hemp_flower_sorting" name="Hemp Flower Sorting">
+            <inputs>
+                <input fillType="HEMP" amount="100"/>
+            </inputs>
+            <outputs>
+                <output fillType="GHI_HEMP_FLOWER" amount="18"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="70"/>
+            </outputs>
+            <balance cyclesPerHour="8" costsPerActiveHour="55" massLossPercent="12"/>
+        </recipe>
+
+        <recipe id="ghi_hemp_seed_cleaning" name="Hemp Seed Cleaning">
+            <inputs>
+                <input fillType="HEMP" amount="100"/>
+            </inputs>
+            <outputs>
+                <output fillType="GHI_HEMP_SEED" amount="20"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="65"/>
+            </outputs>
+            <balance cyclesPerHour="10" costsPerActiveHour="36" massLossPercent="15"/>
+        </recipe>
+
+        <recipe id="ghi_hemp_oil_pressing" name="Cold-Pressed Hemp Oil">
+            <inputs>
+                <input fillType="GHI_HEMP_SEED" amount="100"/>
+            </inputs>
+            <outputs>
+                <output fillType="GHI_HEMP_OIL" amount="32"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="58"/>
+            </outputs>
+            <balance cyclesPerHour="7" costsPerActiveHour="68" massLossPercent="10"/>
+        </recipe>
+
+    </productionRecipes>
+
+    <storageTargets>
+        <capacity fillType="HEMP" liters="120000"/>
+        <capacity fillType="GHI_HEMP_SEED" liters="40000"/>
+        <capacity fillType="GHI_HEMP_BIOMASS" liters="90000"/>
+        <capacity fillType="GHI_HEMP_FIBER" liters="50000"/>
+        <capacity fillType="GHI_HEMP_FLOWER" liters="30000"/>
+        <capacity fillType="GHI_HEMP_OIL" liters="30000"/>
+    </storageTargets>
+
+    <activationRequirements>
+        <requirement id="processorPlaceableModel" complete="false"/>
+        <requirement id="processorI3dHelpers" complete="false"/>
+        <requirement id="productPalletI3ds" complete="false"/>
+        <requirement id="productPalletXmlVerified" complete="false"/>
+        <requirement id="recipeEconomyTest" complete="false"/>
+    </activationRequirements>
+
+</greenHorizonIndustries>
