@@ -2,9 +2,9 @@
 # Run in Blender 4.2 LTS:
 #   blender --background --python tools/blender/create_green_horizon_greenhouse.py
 #
-# Phase 2.12 all-in-one game model source.
-# Builds the greenhouse visuals, polycarbonate panels, light wiring, and a
-# deterministic FS25 helper hierarchy in one script. No follow-up patch scripts.
+# Phase 2.13 all-in-one game model source.
+# Builds visuals, image-based materials, polycarbonate panels, light wiring,
+# and a deterministic FS25 helper hierarchy. No follow-up patch scripts.
 
 from __future__ import annotations
 
@@ -36,6 +36,7 @@ ROOF_RIB_X_VALUES = [-4.05, -2.7, -1.35, 0.0, 1.35, 2.7, 4.05]
 ROOF_LONG_RAIL_T_VALUES = [0.18, 0.36, 0.50, 0.64, 0.82]
 
 ADD_PREVIEW_CAMERA = False
+TEXTURE_SIZE = 128
 
 
 def find_repo_root() -> Path:
@@ -55,21 +56,132 @@ def find_repo_root() -> Path:
 REPO_ROOT = find_repo_root()
 OUTPUT_DIR = REPO_ROOT / "assets" / "blender"
 OUTPUT_FILE = OUTPUT_DIR / "green_horizon_hemp_greenhouse.blend"
+TEXTURE_DIR = (
+    REPO_ROOT
+    / "FS25_GreenHorizonIndustries"
+    / "placeables"
+    / "greenhouses"
+    / "textures"
+)
 
 
 def clear_scene() -> None:
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete()
-    for datablocks in (bpy.data.meshes, bpy.data.curves, bpy.data.materials, bpy.data.cameras, bpy.data.lights):
+
+    for datablocks in (
+        bpy.data.meshes,
+        bpy.data.curves,
+        bpy.data.materials,
+        bpy.data.cameras,
+        bpy.data.lights,
+    ):
         for block in list(datablocks):
             if block.users == 0:
                 datablocks.remove(block)
 
 
-def get_bsdf(mat):
-    if not mat.use_nodes:
-        mat.use_nodes = True
-    return mat.node_tree.nodes.get("Principled BSDF")
+def clamp01(value: float) -> float:
+    return max(0.0, min(1.0, value))
+
+
+def texture_pixels(kind: str, size: int) -> list[float]:
+    pixels: list[float] = []
+    kind_seed = sum((index + 1) * ord(char) for index, char in enumerate(kind))
+
+    for y in range(size):
+        for x in range(size):
+            u = x / max(size - 1, 1)
+            v = y / max(size - 1, 1)
+            noise = random.Random((x * 73856093) ^ (y * 19349663) ^ kind_seed).random()
+
+            if kind == "frame":
+                stripe = 0.018 if (x // 6) % 2 == 0 else -0.006
+                base = 0.045 + stripe + (noise - 0.5) * 0.015
+                rgba = (base, base * 1.04, base * 1.01, 1.0)
+
+            elif kind == "concrete":
+                speck = (noise - 0.5) * 0.18
+                joint = -0.12 if x % 64 < 2 or y % 64 < 2 else 0.0
+                base = 0.48 + speck + joint
+                rgba = (base, base * 0.99, base * 0.93, 1.0)
+
+            elif kind == "soil":
+                grain = (noise - 0.5) * 0.20
+                rgba = (0.12 + grain, 0.070 + grain * 0.55, 0.030 + grain * 0.30, 1.0)
+
+            elif kind == "stem":
+                band = 0.035 * math.sin(v * math.pi * 18.0)
+                rgba = (0.16 + band, 0.30 + band, 0.10 + band * 0.5, 1.0)
+
+            elif kind == "water":
+                band = 0.03 * math.sin(v * math.pi * 10.0)
+                rgba = (0.035, 0.18 + band, 0.50 + band, 1.0)
+
+            elif kind == "rubber":
+                base = 0.015 + (noise - 0.5) * 0.008
+                rgba = (base, base, base, 1.0)
+
+            elif kind == "wire":
+                base = 0.025 + (noise - 0.5) * 0.012
+                rgba = (base, base, base * 1.05, 1.0)
+
+            elif kind == "light":
+                center = 1.0 - abs(v - 0.5) * 2.0
+                glow = 0.72 + center * 0.28
+                rgba = (1.0, 0.48 + glow * 0.32, 0.05 + glow * 0.10, 1.0)
+
+            elif kind == "glass":
+                grid = 0.15 if x % 32 < 2 or y % 32 < 2 else 0.0
+                highlight = 0.10 if (x + y) % 47 < 2 else 0.0
+                rgba = (
+                    0.42 + highlight,
+                    0.72 + highlight,
+                    0.66 + highlight,
+                    0.20 + grid,
+                )
+
+            elif kind == "leaf":
+                px = (u - 0.5) * 2.0
+                py = (v - 0.5) * 2.0
+                width = max(0.08, 0.58 * (1.0 - abs(py) ** 1.3))
+                inside = abs(px) <= width and abs(py) <= 0.96
+                vein = 0.18 if abs(px) < 0.035 else 0.0
+                serration = 0.05 * math.sin((abs(py) + 0.03) * math.pi * 16.0)
+                edge = abs(px) / max(width, 0.001)
+                green = 0.34 + (1.0 - edge) * 0.18 + vein + serration
+                alpha = 1.0 if inside else 0.0
+                rgba = (0.035, green, 0.075, alpha)
+
+            else:
+                rgba = (0.5, 0.5, 0.5, 1.0)
+
+            pixels.extend(clamp01(channel) for channel in rgba)
+
+    return pixels
+
+
+def create_texture(kind: str, filename: str) -> Path:
+    TEXTURE_DIR.mkdir(parents=True, exist_ok=True)
+    path = TEXTURE_DIR / filename
+
+    image_name = f"GHI_{kind}_texture"
+    old = bpy.data.images.get(image_name)
+    if old is not None:
+        bpy.data.images.remove(old)
+
+    image = bpy.data.images.new(image_name, width=TEXTURE_SIZE, height=TEXTURE_SIZE, alpha=True)
+    image.pixels = texture_pixels(kind, TEXTURE_SIZE)
+    image.filepath_raw = str(path)
+    image.file_format = "PNG"
+    image.save()
+    image.pack()
+    return path
+
+
+def get_bsdf(material):
+    material.use_nodes = True
+    return material.node_tree.nodes.get("Principled BSDF")
 
 
 def set_input(node, names, value) -> None:
@@ -81,30 +193,69 @@ def set_input(node, names, value) -> None:
             return
 
 
-def make_mat(name: str, color, roughness: float = 0.55, metallic: float = 0.0, alpha: float = 1.0):
-    mat = bpy.data.materials.new(name)
-    mat.use_nodes = True
-    bsdf = get_bsdf(mat)
-    set_input(bsdf, "Base Color", color)
+def make_image_material(
+    name: str,
+    texture_kind: str,
+    texture_filename: str,
+    roughness: float,
+    metallic: float = 0.0,
+    alpha_mode: str = "OPAQUE",
+    emission_strength: float = 0.0,
+):
+    texture_path = create_texture(texture_kind, texture_filename)
+
+    material = bpy.data.materials.new(name)
+    material.use_nodes = True
+    material.diffuse_color = (1.0, 1.0, 1.0, 1.0)
+
+    nodes = material.node_tree.nodes
+    links = material.node_tree.links
+    bsdf = nodes.get("Principled BSDF")
+    tex = nodes.new("ShaderNodeTexImage")
+    tex.name = f"{name}_DiffuseTexture"
+    tex.label = texture_filename
+    tex.image = bpy.data.images.load(str(texture_path), check_existing=True)
+    tex.interpolation = "Linear"
+
+    links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
     set_input(bsdf, "Roughness", roughness)
     set_input(bsdf, "Metallic", metallic)
-    set_input(bsdf, "Alpha", alpha)
-    if alpha < 1.0:
-        if hasattr(mat, "surface_render_method"):
-            mat.surface_render_method = "DITHERED"
-        elif hasattr(mat, "blend_method"):
-            mat.blend_method = "BLEND"
-        if hasattr(mat, "show_transparent_back"):
-            mat.show_transparent_back = True
-    return mat
+
+    if alpha_mode != "OPAQUE":
+        links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+        if hasattr(material, "surface_render_method"):
+            material.surface_render_method = "DITHERED"
+        elif hasattr(material, "blend_method"):
+            material.blend_method = "CLIP" if alpha_mode == "CLIP" else "BLEND"
+        if hasattr(material, "alpha_threshold"):
+            material.alpha_threshold = 0.3
+        if hasattr(material, "show_transparent_back"):
+            material.show_transparent_back = True
+
+    if emission_strength > 0.0:
+        emission_input = bsdf.inputs.get("Emission Color") or bsdf.inputs.get("Emission")
+        if emission_input is not None:
+            links.new(tex.outputs["Color"], emission_input)
+        set_input(bsdf, "Emission Strength", emission_strength)
+
+    material["ghiTexturePath"] = str(texture_path)
+    material["ghiMaterialRole"] = texture_kind
+    return material
 
 
-def make_emission_mat(name: str, color, strength: float = 1.2):
-    mat = make_mat(name, color, roughness=0.25)
-    bsdf = get_bsdf(mat)
-    set_input(bsdf, ["Emission Color", "Emission"], color)
-    set_input(bsdf, "Emission Strength", strength)
-    return mat
+def make_helper_material():
+    material = bpy.data.materials.new("helperNonRenderable")
+    material.diffuse_color = (1.0, 0.15, 0.02, 0.12)
+    material.use_nodes = True
+    bsdf = get_bsdf(material)
+    set_input(bsdf, "Base Color", (1.0, 0.15, 0.02, 1.0))
+    set_input(bsdf, "Alpha", 0.12)
+    set_input(bsdf, "Roughness", 0.9)
+    if hasattr(material, "surface_render_method"):
+        material.surface_render_method = "DITHERED"
+    elif hasattr(material, "blend_method"):
+        material.blend_method = "BLEND"
+    return material
 
 
 def add_empty(name: str, loc=(0, 0, 0), parent=None, display_type="PLAIN_AXES", size=0.20):
@@ -117,79 +268,85 @@ def add_empty(name: str, loc=(0, 0, 0), parent=None, display_type="PLAIN_AXES", 
     return obj
 
 
-def cube(name: str, loc, scale, mat=None, parent=None):
+def cube(name: str, loc, scale, material=None, parent=None):
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=loc)
     obj = bpy.context.object
     obj.name = name
     obj.dimensions = scale
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    if mat is not None:
-        obj.data.materials.append(mat)
+    if material is not None:
+        obj.data.materials.append(material)
     if parent is not None:
         obj.parent = parent
     return obj
 
 
-def cylinder(name: str, loc, radius: float, depth: float, mat=None, parent=None, vertices: int = 24, rotation=(0, 0, 0)):
-    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth, location=loc, rotation=rotation)
+def cylinder(name: str, loc, radius: float, depth: float, material=None, parent=None, vertices: int = 24):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth, location=loc)
     obj = bpy.context.object
     obj.name = name
-    if mat is not None:
-        obj.data.materials.append(mat)
+    if material is not None:
+        obj.data.materials.append(material)
     if parent is not None:
         obj.parent = parent
-    try:
-        for polygon in obj.data.polygons:
-            polygon.use_smooth = True
-    except Exception:
-        pass
+    for polygon in obj.data.polygons:
+        polygon.use_smooth = True
     return obj
 
 
-def cylinder_between(name: str, start, end, radius: float, mat=None, parent=None, vertices: int = 16):
+def cylinder_between(name: str, start, end, radius: float, material=None, parent=None, vertices: int = 16):
     start_v = Vector(start)
     end_v = Vector(end)
     direction = end_v - start_v
     length = direction.length
     if length <= 0.0001:
         return None
-    obj = cylinder(name, (start_v + end_v) * 0.5, radius, length, mat, parent, vertices)
+
+    obj = cylinder(name, (start_v + end_v) * 0.5, radius, length, material, parent, vertices)
     obj.rotation_euler = direction.to_track_quat("Z", "Y").to_euler()
     return obj
 
 
-def cable_curve(name: str, points, bevel_depth: float, mat, parent=None):
+def cable_curve(name: str, points, bevel_depth: float, material, parent=None):
     curve_data = bpy.data.curves.new(name + "Curve", type="CURVE")
     curve_data.dimensions = "3D"
     curve_data.resolution_u = 1
     curve_data.bevel_depth = bevel_depth
     curve_data.bevel_resolution = 2
+
     spline = curve_data.splines.new("POLY")
     spline.points.add(len(points) - 1)
     for point, co in zip(spline.points, points):
         point.co = (*co, 1.0)
+
     obj = bpy.data.objects.new(name, curve_data)
     bpy.context.collection.objects.link(obj)
-    obj.data.materials.append(mat)
+    obj.data.materials.append(material)
     if parent is not None:
         obj.parent = parent
     return obj
 
 
-def mesh_panel(name: str, verts, mat, parent=None):
+def mesh_panel(name: str, verts, material, parent=None):
     mesh = bpy.data.meshes.new(name + "Mesh")
     mesh.from_pydata([(v.x, v.y, v.z) for v in verts], [], [(0, 1, 2, 3)])
     mesh.update()
+
+    uv_layer = mesh.uv_layers.new(name="UVMap")
+    uv_values = ((0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0))
+    for loop, uv in zip(mesh.loops, uv_values):
+        uv_layer.data[loop.index].uv = uv
+
     obj = bpy.data.objects.new(name, mesh)
     bpy.context.collection.objects.link(obj)
-    obj.data.materials.append(mat)
+    obj.data.materials.append(material)
     if parent is not None:
         obj.parent = parent
     return obj
 
 
-def make_trigger_box(name: str, loc, scale, helper_mat, parent):
-    obj = cube(name, loc, scale, helper_mat, parent)
+def make_trigger_box(name: str, loc, scale, helper_material, parent):
+    obj = cube(name, loc, scale, helper_material, parent)
     obj.display_type = "WIRE"
     obj.hide_render = True
     obj["static"] = True
@@ -202,8 +359,8 @@ def make_trigger_box(name: str, loc, scale, helper_mat, parent):
     return obj
 
 
-def make_exact_fill_root(name: str, loc, scale, helper_mat, parent):
-    obj = cube(name, loc, scale, helper_mat, parent)
+def make_exact_fill_root(name: str, loc, scale, helper_material, parent):
+    obj = cube(name, loc, scale, helper_material, parent)
     obj.display_type = "WIRE"
     obj.hide_render = True
     obj["kinematic"] = True
@@ -216,8 +373,8 @@ def make_exact_fill_root(name: str, loc, scale, helper_mat, parent):
     return obj
 
 
-def make_static_collision(name: str, loc, scale, helper_mat, parent):
-    obj = cube(name, loc, scale, helper_mat, parent)
+def make_static_collision(name: str, loc, scale, helper_material, parent):
+    obj = cube(name, loc, scale, helper_material, parent)
     obj.display_type = "WIRE"
     obj.hide_render = True
     obj["static"] = True
@@ -264,7 +421,7 @@ def create_area_helpers(root):
     add_empty("tipOcclusionUpdateAreaEnd01", (9.4, 6.2, 4.2), tip_start)
 
 
-def create_gameplay_helpers(root, helper_mat):
+def create_gameplay_helpers(root, helper_material):
     game_nodes = add_empty("greenhouseGameNodes", parent=root)
 
     plant_parent = add_empty("plantNodes", (0.0, 0.0, 0.75), game_nodes, size=0.3)
@@ -279,175 +436,457 @@ def create_gameplay_helpers(root, helper_mat):
     add_empty("spawnPlaceEnd01", (1.10, 0.70, 0.0), spawn_start, size=0.12)
 
     selling = add_empty("sellingStation", parent=game_nodes)
-    make_exact_fill_root("exactFillRootNode", (-3.75, 2.55, 0.65), (1.6, 1.15, 1.25), helper_mat, selling)
+    make_exact_fill_root(
+        "exactFillRootNode",
+        (-3.75, 2.55, 0.65),
+        (1.6, 1.15, 1.25),
+        helper_material,
+        selling,
+    )
     add_empty("unloadTriggerMarker", (-3.75, 2.55, 0.05), selling, size=0.22)
     add_empty("unloadTriggerAINode", (-3.75, 3.25, 0.05), selling, size=0.22)
 
     add_empty("storage", parent=game_nodes)
-    make_trigger_box("playerTrigger", (3.55, -2.20, 1.0), (1.35, 1.0, 1.9), helper_mat, game_nodes)
+    make_trigger_box(
+        "playerTrigger",
+        (3.55, -2.20, 1.0),
+        (1.35, 1.0, 1.9),
+        helper_material,
+        game_nodes,
+    )
     add_empty("playerTriggerMarker", (3.55, -2.20, 0.05), game_nodes, size=0.18)
     add_empty("teleportNode", (3.15, -1.55, 0.05), game_nodes, size=0.18)
 
-    make_trigger_box("infoTrigger", (3.25, -2.10, 1.0), (1.0, 0.8, 1.8), helper_mat, root)
+    make_trigger_box(
+        "infoTrigger",
+        (3.25, -2.10, 1.0),
+        (1.0, 0.8, 1.8),
+        helper_material,
+        root,
+    )
     add_empty("warningStripes", (-3.75, 2.55, 0.02), root, size=0.22)
 
     collisions = add_empty("collisions", parent=root)
     wall_height = 2.70
-    make_static_collision("collisionSideLeft", (0.0, -2.62, 1.35), (8.45, 0.12, wall_height), helper_mat, collisions)
-    make_static_collision("collisionSideRight", (0.0, 2.62, 1.35), (8.45, 0.12, wall_height), helper_mat, collisions)
-    make_static_collision("collisionRear", (-4.22, 0.0, 1.35), (0.12, 5.25, wall_height), helper_mat, collisions)
-    make_static_collision("collisionFrontLeft", (4.22, -1.72, 1.35), (0.12, 1.80, wall_height), helper_mat, collisions)
-    make_static_collision("collisionFrontRight", (4.22, 1.72, 1.35), (0.12, 1.80, wall_height), helper_mat, collisions)
+    make_static_collision(
+        "collisionSideLeft",
+        (0.0, -2.62, 1.35),
+        (8.45, 0.12, wall_height),
+        helper_material,
+        collisions,
+    )
+    make_static_collision(
+        "collisionSideRight",
+        (0.0, 2.62, 1.35),
+        (8.45, 0.12, wall_height),
+        helper_material,
+        collisions,
+    )
+    make_static_collision(
+        "collisionRear",
+        (-4.22, 0.0, 1.35),
+        (0.12, 5.25, wall_height),
+        helper_material,
+        collisions,
+    )
+    make_static_collision(
+        "collisionFrontLeft",
+        (4.22, -1.72, 1.35),
+        (0.12, 1.80, wall_height),
+        helper_material,
+        collisions,
+    )
+    make_static_collision(
+        "collisionFrontRight",
+        (4.22, 1.72, 1.35),
+        (0.12, 1.80, wall_height),
+        helper_material,
+        collisions,
+    )
 
     return add_empty("visuals", parent=root)
 
 
-def add_roof_frame(visuals, frame_mat, rubber_mat):
-    pts = roof_points()
+def add_roof_frame(visuals, frame_material, rubber_material):
+    points = roof_points()
     for x in ROOF_RIB_X_VALUES:
-        for idx, (p, q) in enumerate(zip(pts, pts[1:])):
-            cylinder_between(f"roofHoop_x{x:.2f}_{idx:02d}", (x, p.y, p.z), (x, q.y, q.z), HOOP_RADIUS, frame_mat, visuals, vertices=12)
+        for idx, (p, q) in enumerate(zip(points, points[1:])):
+            cylinder_between(
+                f"roofHoop_x{x:.2f}_{idx:02d}",
+                (x, p.y, p.z),
+                (x, q.y, q.z),
+                HOOP_RADIUS,
+                frame_material,
+                visuals,
+                vertices=12,
+            )
 
     x_min = min(ROOF_RIB_X_VALUES)
     x_max = max(ROOF_RIB_X_VALUES)
     for t in ROOF_LONG_RAIL_T_VALUES:
         y = math.cos(math.pi * t) * ROOF_HALF_WIDTH
         z = EAVE_Z + math.sin(math.pi * t) * ROOF_RISE
-        cylinder_between(f"roofLongRail_t{t:.2f}", (x_min, y, z), (x_max, y, z), RAIL_RADIUS, rubber_mat, visuals, vertices=12)
+        cylinder_between(
+            f"roofLongRail_t{t:.2f}",
+            (x_min, y, z),
+            (x_max, y, z),
+            RAIL_RADIUS,
+            rubber_material,
+            visuals,
+            vertices=12,
+        )
 
     for y in [-ROOF_HALF_WIDTH, ROOF_HALF_WIDTH]:
-        cylinder_between(f"roofEaveRail_y{y:.2f}", (x_min, y, EAVE_Z), (x_max, y, EAVE_Z), RAIL_RADIUS, frame_mat, visuals, vertices=12)
+        cylinder_between(
+            f"roofEaveRail_y{y:.2f}",
+            (x_min, y, EAVE_Z),
+            (x_max, y, EAVE_Z),
+            RAIL_RADIUS,
+            frame_material,
+            visuals,
+            vertices=12,
+        )
 
 
-def add_roof_panels(visuals, glass_mat):
-    pts = roof_points()
-    for bay_index, (x0, x1) in enumerate(zip(ROOF_RIB_X_VALUES, ROOF_RIB_X_VALUES[1:]), start=1):
-        for panel_index in range(0, len(pts) - 1, 2):
-            p0 = pts[panel_index]
-            p1 = pts[min(panel_index + 2, len(pts) - 1)]
-            verts = [Vector((x0, p0.y, p0.z)), Vector((x1, p0.y, p0.z)), Vector((x1, p1.y, p1.z)), Vector((x0, p1.y, p1.z))]
-            mesh_panel(f"roofPolycarbonate_bay{bay_index:02d}_{panel_index:02d}", verts, glass_mat, visuals)
+def add_roof_panels(visuals, glass_material):
+    points = roof_points()
+    for bay_index, (x0, x1) in enumerate(
+        zip(ROOF_RIB_X_VALUES, ROOF_RIB_X_VALUES[1:]),
+        start=1,
+    ):
+        for panel_index in range(0, len(points) - 1, 2):
+            p0 = points[panel_index]
+            p1 = points[min(panel_index + 2, len(points) - 1)]
+            verts = [
+                Vector((x0, p0.y, p0.z)),
+                Vector((x1, p0.y, p0.z)),
+                Vector((x1, p1.y, p1.z)),
+                Vector((x0, p1.y, p1.z)),
+            ]
+            mesh_panel(
+                f"roofPolycarbonate_bay{bay_index:02d}_{panel_index:02d}",
+                verts,
+                glass_material,
+                visuals,
+            )
 
 
-def add_walls_and_frame(visuals, glass_mat, frame_mat):
-    cube("wallPanelLeft", (0, -GREENHOUSE_WIDTH / 2, WALL_CENTER_Z), (GREENHOUSE_LENGTH, 0.035, WALL_HEIGHT), glass_mat, visuals)
-    cube("wallPanelRight", (0, GREENHOUSE_WIDTH / 2, WALL_CENTER_Z), (GREENHOUSE_LENGTH, 0.035, WALL_HEIGHT), glass_mat, visuals)
-    cube("wallPanelRear", (-GREENHOUSE_LENGTH / 2, 0, WALL_CENTER_Z), (0.035, GREENHOUSE_WIDTH, WALL_HEIGHT), glass_mat, visuals)
+def add_walls_and_frame(visuals, glass_material, frame_material):
+    cube(
+        "wallPanelLeft",
+        (0, -GREENHOUSE_WIDTH / 2, WALL_CENTER_Z),
+        (GREENHOUSE_LENGTH, 0.035, WALL_HEIGHT),
+        glass_material,
+        visuals,
+    )
+    cube(
+        "wallPanelRight",
+        (0, GREENHOUSE_WIDTH / 2, WALL_CENTER_Z),
+        (GREENHOUSE_LENGTH, 0.035, WALL_HEIGHT),
+        glass_material,
+        visuals,
+    )
+    cube(
+        "wallPanelRear",
+        (-GREENHOUSE_LENGTH / 2, 0, WALL_CENTER_Z),
+        (0.035, GREENHOUSE_WIDTH, WALL_HEIGHT),
+        glass_material,
+        visuals,
+    )
 
     front_x = GREENHOUSE_LENGTH / 2
-    cube("frontGlazingLeft", (front_x, -1.65, WALL_CENTER_Z), (0.035, 1.90, WALL_HEIGHT), glass_mat, visuals)
-    cube("frontGlazingRight", (front_x, 1.65, WALL_CENTER_Z), (0.035, 1.90, WALL_HEIGHT), glass_mat, visuals)
+    cube(
+        "frontGlazingLeft",
+        (front_x, -1.65, WALL_CENTER_Z),
+        (0.035, 1.90, WALL_HEIGHT),
+        glass_material,
+        visuals,
+    )
+    cube(
+        "frontGlazingRight",
+        (front_x, 1.65, WALL_CENTER_Z),
+        (0.035, 1.90, WALL_HEIGHT),
+        glass_material,
+        visuals,
+    )
 
     for x in ROOF_RIB_X_VALUES:
-        cylinder_between(f"postLeft_x{x:.2f}", (x, -ROOF_HALF_WIDTH, 0.38), (x, -ROOF_HALF_WIDTH, EAVE_Z), POST_RADIUS, frame_mat, visuals, vertices=12)
-        cylinder_between(f"postRight_x{x:.2f}", (x, ROOF_HALF_WIDTH, 0.38), (x, ROOF_HALF_WIDTH, EAVE_Z), POST_RADIUS, frame_mat, visuals, vertices=12)
+        cylinder_between(
+            f"postLeft_x{x:.2f}",
+            (x, -ROOF_HALF_WIDTH, 0.38),
+            (x, -ROOF_HALF_WIDTH, EAVE_Z),
+            POST_RADIUS,
+            frame_material,
+            visuals,
+            vertices=12,
+        )
+        cylinder_between(
+            f"postRight_x{x:.2f}",
+            (x, ROOF_HALF_WIDTH, 0.38),
+            (x, ROOF_HALF_WIDTH, EAVE_Z),
+            POST_RADIUS,
+            frame_material,
+            visuals,
+            vertices=12,
+        )
 
     for y in [-ROOF_HALF_WIDTH, ROOF_HALF_WIDTH]:
-        cylinder_between(f"sideRailLower_y{y:.2f}", (min(ROOF_RIB_X_VALUES), y, 0.75), (max(ROOF_RIB_X_VALUES), y, 0.75), RAIL_RADIUS, frame_mat, visuals, vertices=12)
-        cylinder_between(f"sideRailMiddle_y{y:.2f}", (min(ROOF_RIB_X_VALUES), y, 1.60), (max(ROOF_RIB_X_VALUES), y, 1.60), RAIL_RADIUS, frame_mat, visuals, vertices=12)
-        cylinder_between(f"sideRailUpper_y{y:.2f}", (min(ROOF_RIB_X_VALUES), y, EAVE_Z), (max(ROOF_RIB_X_VALUES), y, EAVE_Z), RAIL_RADIUS, frame_mat, visuals, vertices=12)
+        for label, z in (("Lower", 0.75), ("Middle", 1.60), ("Upper", EAVE_Z)):
+            cylinder_between(
+                f"sideRail{label}_y{y:.2f}",
+                (min(ROOF_RIB_X_VALUES), y, z),
+                (max(ROOF_RIB_X_VALUES), y, z),
+                RAIL_RADIUS,
+                frame_material,
+                visuals,
+                vertices=12,
+            )
 
     for y in [-GREENHOUSE_WIDTH / 2 - 0.012, GREENHOUSE_WIDTH / 2 + 0.012]:
         for x in ROOF_RIB_X_VALUES:
-            cylinder_between(f"windowMullion_{x:.2f}_{y:.2f}", (x, y, 0.38), (x, y, 2.45), 0.020, frame_mat, visuals, vertices=8)
+            cylinder_between(
+                f"windowMullion_{x:.2f}_{y:.2f}",
+                (x, y, 0.38),
+                (x, y, 2.45),
+                0.020,
+                frame_material,
+                visuals,
+                vertices=8,
+            )
 
 
-def add_foundation(visuals, concrete_mat):
-    cube("concreteSlab", (0, 0, 0.05), (SLAB_LENGTH, SLAB_WIDTH, 0.10), concrete_mat, visuals)
-    cube("curbFront", (0, -SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_mat, visuals)
-    cube("curbRear", (0, SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_mat, visuals)
-    cube("curbLeft", (-SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_mat, visuals)
-    cube("curbRight", (SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_mat, visuals)
+def add_foundation(visuals, concrete_material):
+    cube("concreteSlab", (0, 0, 0.05), (SLAB_LENGTH, SLAB_WIDTH, 0.10), concrete_material, visuals)
+    cube("curbFront", (0, -SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_material, visuals)
+    cube("curbRear", (0, SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_material, visuals)
+    cube("curbLeft", (-SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_material, visuals)
+    cube("curbRight", (SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_material, visuals)
 
 
-def add_leaf(name: str, loc, angle: float, scale: float, plant_mat, parent):
-    bpy.ops.mesh.primitive_plane_add(size=1.0, location=loc, rotation=(math.radians(65), 0, angle))
+def add_leaf(name: str, loc, angle: float, scale: float, plant_material, parent):
+    bpy.ops.mesh.primitive_plane_add(
+        size=1.0,
+        location=loc,
+        rotation=(math.radians(65), 0, angle),
+    )
     obj = bpy.context.object
     obj.name = name
     obj.scale = (0.10 * scale, 0.32 * scale, 1.0)
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    obj.data.materials.append(plant_mat)
+    obj.data.materials.append(plant_material)
     obj.parent = parent
     return obj
 
 
-def add_hemp_plant(x: float, y: float, stem_mat, plant_mat, parent):
-    cylinder("hempStem", (x, y, 0.78), 0.018, 0.62, stem_mat, parent, vertices=8)
+def add_hemp_plant(x: float, y: float, stem_material, plant_material, parent):
+    cylinder("hempStem", (x, y, 0.78), 0.018, 0.62, stem_material, parent, vertices=8)
     for i in range(6):
         angle = math.radians(i * 60)
-        add_leaf("hempLeaf", (x + math.cos(angle) * 0.06, y + math.sin(angle) * 0.06, 1.03), angle, random.uniform(0.65, 0.86), plant_mat, parent)
+        add_leaf(
+            "hempLeaf",
+            (
+                x + math.cos(angle) * 0.06,
+                y + math.sin(angle) * 0.06,
+                1.03,
+            ),
+            angle,
+            random.uniform(0.65, 0.86),
+            plant_material,
+            parent,
+        )
 
 
-def add_beds_and_details(visuals, frame_mat, soil_mat, stem_mat, plant_mat, glass_mat, water_mat, light_mat):
+def add_beds_and_details(
+    visuals,
+    frame_material,
+    soil_material,
+    stem_material,
+    plant_material,
+    glass_material,
+    water_material,
+    light_material,
+):
     for y in [-1.45, 0.0, 1.45]:
-        cube("raisedGrowBed", (0, y, 0.45), (6.8, 0.72, 0.32), frame_mat, visuals)
-        cube("growBedSoil", (0, y, 0.64), (6.55, 0.55, 0.06), soil_mat, visuals)
+        cube("raisedGrowBed", (0, y, 0.45), (6.8, 0.72, 0.32), frame_material, visuals)
+        cube("growBedSoil", (0, y, 0.64), (6.55, 0.55, 0.06), soil_material, visuals)
         for x in [-2.8, -2.0, -1.2, -0.4, 0.4, 1.2, 2.0, 2.8]:
-            add_hemp_plant(x, y, stem_mat, plant_mat, visuals)
+            add_hemp_plant(x, y, stem_material, plant_material, visuals)
 
     front_x = GREENHOUSE_LENGTH / 2 + 0.04
-    cube("frontDoorLeftGlass", (front_x, -0.34, 1.24), (0.04, 0.58, 1.65), glass_mat, visuals)
-    cube("frontDoorRightGlass", (front_x, 0.34, 1.24), (0.04, 0.58, 1.65), glass_mat, visuals)
-    cylinder_between("frontDoorLeftPost", (front_x, -0.66, 0.40), (front_x, -0.66, 2.20), POST_RADIUS, frame_mat, visuals, vertices=12)
-    cylinder_between("frontDoorRightPost", (front_x, 0.66, 0.40), (front_x, 0.66, 2.20), POST_RADIUS, frame_mat, visuals, vertices=12)
-    cylinder_between("frontDoorTopRail", (front_x, -0.70, 2.20), (front_x, 0.70, 2.20), RAIL_RADIUS, frame_mat, visuals, vertices=12)
+    cube("frontDoorLeftGlass", (front_x, -0.34, 1.24), (0.04, 0.58, 1.65), glass_material, visuals)
+    cube("frontDoorRightGlass", (front_x, 0.34, 1.24), (0.04, 0.58, 1.65), glass_material, visuals)
+    cylinder_between("frontDoorLeftPost", (front_x, -0.66, 0.40), (front_x, -0.66, 2.20), POST_RADIUS, frame_material, visuals, vertices=12)
+    cylinder_between("frontDoorRightPost", (front_x, 0.66, 0.40), (front_x, 0.66, 2.20), POST_RADIUS, frame_material, visuals, vertices=12)
+    cylinder_between("frontDoorTopRail", (front_x, -0.70, 2.20), (front_x, 0.70, 2.20), RAIL_RADIUS, frame_material, visuals, vertices=12)
 
-    cylinder("waterStorageTank", (-3.35, 2.05, 1.05), 0.42, 1.55, water_mat, visuals, vertices=40)
-    cube("nutrientControlBox", (-3.2, -2.45, 1.15), (0.62, 0.12, 0.82), frame_mat, visuals)
+    cylinder("waterStorageTank", (-3.35, 2.05, 1.05), 0.42, 1.55, water_material, visuals, vertices=40)
+    cube("nutrientControlBox", (-3.2, -2.45, 1.15), (0.62, 0.12, 0.82), frame_material, visuals)
 
     for idx, y in enumerate([-1.45, 0.0, 1.45], start=1):
-        cube(f"growLightStrip{idx}", (0, y, 2.42), (6.8, 0.08, 0.06), light_mat, visuals)
+        cube(f"growLightStrip{idx}", (0, y, 2.42), (6.8, 0.08, 0.06), light_material, visuals)
 
 
-def add_light_wires(visuals, wire_mat):
-    cable_curve("mainLightPowerRun", [(-3.20, -2.52, 1.55), (-3.20, -2.52, 2.24), (-3.20, -2.28, 2.36), (-1.40, -2.28, 2.36), (0.0, -2.28, 2.36), (1.40, -2.28, 2.36), (2.80, -2.28, 2.36)], 0.016, wire_mat, visuals)
+def add_light_wires(visuals, wire_material):
+    cable_curve(
+        "mainLightPowerRun",
+        [
+            (-3.20, -2.52, 1.55),
+            (-3.20, -2.52, 2.24),
+            (-3.20, -2.28, 2.36),
+            (-1.40, -2.28, 2.36),
+            (0.0, -2.28, 2.36),
+            (1.40, -2.28, 2.36),
+            (2.80, -2.28, 2.36),
+        ],
+        0.016,
+        wire_material,
+        visuals,
+    )
+
     for idx, y in enumerate([-1.45, 0.0, 1.45], start=1):
-        cable_curve(f"lightFeedDrop{idx}", [(-2.65, -2.28, 2.36), (-2.50, y, 2.38), (-2.20, y, 2.46), (-2.20, y, 2.34)], 0.011, wire_mat, visuals)
-        cable_curve(f"lightBackbone{idx}", [(-3.05, y, 2.47), (-1.00, y, 2.47), (1.00, y, 2.47), (3.05, y, 2.47)], 0.008, wire_mat, visuals)
+        cable_curve(
+            f"lightFeedDrop{idx}",
+            [
+                (-2.65, -2.28, 2.36),
+                (-2.50, y, 2.38),
+                (-2.20, y, 2.46),
+                (-2.20, y, 2.34),
+            ],
+            0.011,
+            wire_material,
+            visuals,
+        )
+        cable_curve(
+            f"lightBackbone{idx}",
+            [
+                (-3.05, y, 2.47),
+                (-1.00, y, 2.47),
+                (1.00, y, 2.47),
+                (3.05, y, 2.47),
+            ],
+            0.008,
+            wire_material,
+            visuals,
+        )
 
 
 def add_preview_camera():
     if not ADD_PREVIEW_CAMERA:
         return
+
     bpy.ops.object.light_add(type="AREA", location=(0, -7, 6))
     bpy.context.object.data.energy = 700
     bpy.context.object.data.size = 5
-    bpy.ops.object.camera_add(location=(8, -8, 5.2), rotation=(math.radians(62), 0, math.radians(44)))
+    bpy.ops.object.camera_add(
+        location=(8, -8, 5.2),
+        rotation=(math.radians(62), 0, math.radians(44)),
+    )
     bpy.context.scene.camera = bpy.context.object
+
+
+def build_materials():
+    return {
+        "glass": make_image_material(
+            "clearPolycarbonate",
+            "glass",
+            "greenhouse_glass_diffuse.png",
+            roughness=0.15,
+            alpha_mode="BLEND",
+        ),
+        "frame": make_image_material(
+            "blackPowderCoatedFrame",
+            "frame",
+            "greenhouse_frame_diffuse.png",
+            roughness=0.42,
+            metallic=0.35,
+        ),
+        "concrete": make_image_material(
+            "pouredConcrete",
+            "concrete",
+            "greenhouse_concrete_diffuse.png",
+            roughness=0.88,
+        ),
+        "soil": make_image_material(
+            "darkGrowBedSoil",
+            "soil",
+            "greenhouse_soil_diffuse.png",
+            roughness=0.96,
+        ),
+        "plant": make_image_material(
+            "industrialHempLeaf",
+            "leaf",
+            "greenhouse_hemp_leaf_diffuse.png",
+            roughness=0.62,
+            alpha_mode="CLIP",
+        ),
+        "stem": make_image_material(
+            "hempStemGreenBrown",
+            "stem",
+            "greenhouse_stem_diffuse.png",
+            roughness=0.72,
+        ),
+        "water": make_image_material(
+            "blueWaterTank",
+            "water",
+            "greenhouse_water_tank_diffuse.png",
+            roughness=0.36,
+        ),
+        "rubber": make_image_material(
+            "blackRubberGasket",
+            "rubber",
+            "greenhouse_rubber_diffuse.png",
+            roughness=0.78,
+        ),
+        "wire": make_image_material(
+            "blackElectricalCable",
+            "wire",
+            "greenhouse_wire_diffuse.png",
+            roughness=0.82,
+        ),
+        "light": make_image_material(
+            "warmAmberGrowLight",
+            "light",
+            "greenhouse_light_diffuse.png",
+            roughness=0.22,
+            emission_strength=2.0,
+        ),
+        "helper": make_helper_material(),
+    }
 
 
 def build_model() -> None:
     clear_scene()
-
-    mat_glass = make_mat("clearPolycarbonate", (0.55, 0.85, 0.70, 0.24), 0.18, alpha=0.24)
-    mat_frame = make_mat("blackPowderCoatedFrame", (0.025, 0.028, 0.025, 1.0), 0.45, 0.25)
-    mat_concrete = make_mat("pouredConcrete", (0.45, 0.45, 0.40, 1.0), 0.85)
-    mat_soil = make_mat("darkGrowBedSoil", (0.075, 0.045, 0.025, 1.0), 0.95)
-    mat_plant = make_mat("industrialHempGreen", (0.09, 0.42, 0.15, 1.0), 0.65)
-    mat_stem = make_mat("hempStemGreenBrown", (0.13, 0.30, 0.10, 1.0), 0.72)
-    mat_water = make_mat("blueWaterTank", (0.04, 0.20, 0.55, 1.0), 0.38)
-    mat_rubber = make_mat("blackRubberGasket", (0.008, 0.008, 0.007, 1.0), 0.72)
-    mat_wire = make_mat("blackElectricalCable", (0.012, 0.012, 0.012, 1.0), 0.80)
-    mat_light = make_emission_mat("warmAmberGrowLight", (1.0, 0.70, 0.22, 1.0), 1.6)
-    mat_helper = make_mat("helperNonRenderable", (1.0, 0.20, 0.05, 0.10), 0.9, alpha=0.10)
+    materials = build_materials()
 
     root = add_empty("greenHorizonHempGreenhouse", display_type="PLAIN_AXES", size=0.5)
     create_area_helpers(root)
-    visuals = create_gameplay_helpers(root, mat_helper)
+    visuals = create_gameplay_helpers(root, materials["helper"])
 
-    add_foundation(visuals, mat_concrete)
-    add_walls_and_frame(visuals, mat_glass, mat_frame)
-    add_roof_frame(visuals, mat_frame, mat_rubber)
-    add_roof_panels(visuals, mat_glass)
-    add_beds_and_details(visuals, mat_frame, mat_soil, mat_stem, mat_plant, mat_glass, mat_water, mat_light)
-    add_light_wires(visuals, mat_wire)
+    add_foundation(visuals, materials["concrete"])
+    add_walls_and_frame(visuals, materials["glass"], materials["frame"])
+    add_roof_frame(visuals, materials["frame"], materials["rubber"])
+    add_roof_panels(visuals, materials["glass"])
+    add_beds_and_details(
+        visuals,
+        materials["frame"],
+        materials["soil"],
+        materials["stem"],
+        materials["plant"],
+        materials["glass"],
+        materials["water"],
+        materials["light"],
+    )
+    add_light_wires(visuals, materials["wire"])
     add_preview_camera()
 
     bpy.context.scene.unit_settings.system = "METRIC"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_FILE))
-    print(f"Saved Green Horizon all-in-one game model: {OUTPUT_FILE}")
-    print("Export the root greenHorizonHempGreenhouse to the mod i3d folder with relative paths.")
+
+    print(f"Saved Green Horizon material-ready model: {OUTPUT_FILE}")
+    print(f"Generated image textures: {TEXTURE_DIR}")
+    print("Export root greenHorizonHempGreenhouse to the mod i3d folder.")
+    print("Use relative paths: YES. Save game paths: NO.")
 
 
 if __name__ == "__main__":
