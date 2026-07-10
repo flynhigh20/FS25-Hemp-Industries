@@ -2,7 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-    <version>0.2.15.0</version>
+    <version>0.2.16.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -12,9 +12,9 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.15 test build: peaked glass greenhouse model foundation, complete
-placeable XML, scripted material textures, and an inactive but expanded field-hemp
-crop foundation covering fruit-type behavior, seasonal growth, and foliage states.
+Phase 2.16 test build: peaked glass greenhouse foundation, complete placeable XML,
+scripted greenhouse materials, expanded field-hemp behavior and growth drafts, and
+a Blender foliage-source generator for the nine planned hemp crop states.
         ]]></en>
     </description>
 
@@ -42,8 +42,10 @@ crop foundation covering fruit-type behavior, seasonal growth, and foliage state
          xml/fruitTypes.xml
          xml/growth/hempGrowth.xml
          foliage/hemp/hempFoliagePlan.xml
+         foliage/hemp/hempFieldIntegrationPlan.xml
 
-         They must not be activated until a test map has the required foliage
+         The source generator is tools/blender/create_hemp_foliage.py.
+         Do not activate the fruit crop until a test map has the required foliage
          layer, density-map channels, cutter effects, and vehicle integration. -->
 
     <storeItems>
