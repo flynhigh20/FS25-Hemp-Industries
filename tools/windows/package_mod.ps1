@@ -117,7 +117,7 @@ $requiredEntries = @(
     "pallets/xml/oilPallet.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
-    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
+    "placeables/greenhouses/i3d/greenhorizonhempgreenhouse.i3d.shapes",
     "placeables/greenhouses/textures/greenhouse_glass_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_frame_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_concrete_diffuse.png",
@@ -134,18 +134,18 @@ Write-Host "Green Horizon Industries Windows Packager" -ForegroundColor Green
 Write-Host "Repo: $repoRoot"
 Write-Host "Version: $version"
 
-Assert-RequiredFiles -ModFolder $modFolder -RelativePaths $requiredEntries
-
 if (-not (Test-Path $exportValidator)) {
     throw "Missing greenhouse export validator: $exportValidator"
 }
 
 Write-Host ""
-Write-Host "Validating the exported greenhouse before packaging..." -ForegroundColor Cyan
+Write-Host "Repairing and validating the exported greenhouse before packaging..." -ForegroundColor Cyan
 & $exportValidator -RepoRoot $repoRoot
 if ($LASTEXITCODE -ne 0) {
-    throw "Greenhouse export validation failed. The placeholder or incomplete export will not be packaged."
+    throw "Greenhouse export validation failed. The incomplete export will not be packaged."
 }
+
+Assert-RequiredFiles -ModFolder $modFolder -RelativePaths $requiredEntries
 
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 if (Test-Path $zipPath) {
@@ -162,14 +162,18 @@ Assert-ZipEntries -ZipPath $zipPath -RelativePaths $requiredEntries
 Write-Host "Created: $zipPath" -ForegroundColor Cyan
 Write-Host "Zip root check: PASS" -ForegroundColor Green
 
+$legacyModNames = @(
+    "FS25_GreenHorizonIndustries.zip",
+    "FS25_GreenHorizonIndustries",
+    "FS25_Hemp_Industries.zip",
+    "FS25_Hemp_Industries",
+    "greenHorizonHempGreenhouse.zip",
+    "greenHorizonHempGreenhouse"
+)
+
 if ($CleanOldZips) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
-    foreach ($oldName in @(
-        "FS25_GreenHorizonIndustries.zip",
-        "FS25_GreenHorizonIndustries",
-        "FS25_Hemp_Industries.zip",
-        "FS25_Hemp_Industries"
-    )) {
+    foreach ($oldName in $legacyModNames) {
         Remove-OldModInstall -Directory $ModsDir -Name $oldName
     }
 }
@@ -177,9 +181,10 @@ if ($CleanOldZips) {
 if ($Install) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
 
-    # A loose folder can override or conflict with the zip. Always remove it.
-    Remove-OldModInstall -Directory $ModsDir -Name "FS25_GreenHorizonIndustries"
-    Remove-OldModInstall -Directory $ModsDir -Name "FS25_GreenHorizonIndustries.zip"
+    # Loose folders or old model-named packages can override the correct ZIP.
+    foreach ($oldName in $legacyModNames) {
+        Remove-OldModInstall -Directory $ModsDir -Name $oldName
+    }
 
     Copy-Item -Path $zipPath -Destination (Join-Path $ModsDir "FS25_GreenHorizonIndustries.zip") -Force
     Write-Host "Installed zip to: $ModsDir" -ForegroundColor Cyan
@@ -187,8 +192,9 @@ if ($Install) {
 
 if ($InstallLoose) {
     New-Item -ItemType Directory -Force -Path $ModsDir | Out-Null
-    Remove-OldModInstall -Directory $ModsDir -Name "FS25_GreenHorizonIndustries.zip"
-    Remove-OldModInstall -Directory $ModsDir -Name "FS25_GreenHorizonIndustries"
+    foreach ($oldName in $legacyModNames) {
+        Remove-OldModInstall -Directory $ModsDir -Name $oldName
+    }
 
     Copy-Item -Path $modFolder -Destination $ModsDir -Recurse -Force
     Write-Host "Installed loose folder to: $ModsDir\FS25_GreenHorizonIndustries" -ForegroundColor Cyan
