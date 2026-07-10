@@ -1,129 +1,148 @@
-# GIANTS Editor Prep Notes
-
-This is the next-stage plan after the Blender greenhouse model looks right.
+# GIANTS Editor Export and Validation
 
 ## Current Status
 
-The project currently has a Blender concept model and a temporary FS25 placeable XML.
-
-The model is not connected to the in-game placeable yet. The current in-game greenhouse XML still uses a temporary base-game visual reference until the original Green Horizon `.i3d` is exported and tested.
-
-## Blender 4.2 LTS Workflow
-
-Use Blender 4.2 LTS for the current export prep unless a newer working GIANTS exporter setup is confirmed.
-
-Recommended script order:
-
-```text
-1. tools/blender/create_green_horizon_greenhouse.py
-2. Review the model shape/materials in Blender
-3. tools/blender/add_giants_editor_helpers.py
-4. Review helper positions
-5. Export to .i3d later with the GIANTS Blender exporter
-```
-
-## Helper Marker Purpose
-
-The helper script adds a collection named:
-
-```text
-GHI_GIANTS_EDITOR_HELPERS
-```
-
-These are not final visible game objects. They are named layout markers to make the GIANTS Editor hookup less confusing.
-
-Current helper placeholders:
-
-```text
-GHI_ROOT_export_reference
-GHI_placeable_collision_placeholder
-GHI_player_interaction_trigger_placeholder
-GHI_unload_water_trigger_placeholder
-GHI_unload_seed_trigger_placeholder
-GHI_pallet_spawn_area_placeholder
-GHI_buy_marker_placeholder
-```
-
-## Suggested Future i3d / XML Mapping
-
-| Blender helper placeholder | Future GIANTS / XML purpose |
-| --- | --- |
-| `GHI_ROOT_export_reference` | Scene root / export orientation reference |
-| `GHI_placeable_collision_placeholder` | Main placeable collision sizing reference |
-| `GHI_player_interaction_trigger_placeholder` | Player interaction / production trigger area |
-| `GHI_unload_water_trigger_placeholder` | Water unload trigger reference |
-| `GHI_unload_seed_trigger_placeholder` | Hemp seed input unload trigger reference |
-| `GHI_pallet_spawn_area_placeholder` | Output pallet spawn reference |
-| `GHI_buy_marker_placeholder` | Store/buy/placement visual reference |
-
-## Do Not Upload Base Game Assets
-
-Do not upload GIANTS base-game files or extracted assets to this repository.
-
-Allowed:
-
-```text
-Original scripts
-Original Blender files
-Original XML
-Original DDS files we create
-Documentation
-```
-
-Not allowed:
-
-```text
-Copied GIANTS base-game i3d files
-Copied GIANTS base-game textures
-Extracted base-game meshes
-Extracted base-game XML used as a full replacement
-```
-
-Base-game files can be used locally as references only.
-
-## Before Exporting
-
-Confirm in Blender:
-
-- Slab sits flat on the grid.
-- Roof is curved and seated on the wall tops.
-- No unwanted signs are present.
-- Materials are visible in Material Preview or Rendered view.
-- Scale feels close to an FS greenhouse footprint.
-- Helper placeholders are not blocking the look of the model.
-
-## After Exporting
-
-Planned future file location:
+The active greenhouse XML already points to the project-owned model path:
 
 ```text
 FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d
 ```
 
-Planned future XML swap:
+The repository may still contain the small Phase 2.6 placeholder i3d until a fresh Blender/GIANTS export overwrites it. Packaging now refuses to continue when that placeholder or an incomplete export is detected.
 
-```xml
-<filename>placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d</filename>
-```
+## Source Model
 
-Only do this after the `.i3d` exists in the mod folder and loads cleanly in GIANTS Editor.
-
-## First In-Game i3d Test Goal
-
-The first goal is not full production function. The first goal is only:
+Use Blender 4.2 LTS and generate the latest source with either:
 
 ```text
-The original Green Horizon greenhouse visual loads in FS25 without missing-resource errors.
+tools/windows/green_horizon_test_menu.bat
+Option 9 - Generate greenhouse model and materials
 ```
 
-After that works, tune:
+or run:
 
 ```text
-collision
-placement areas
-clear areas
-trigger nodes
-pallet spawn nodes
-production storage
-store image/icon
+tools/blender/create_green_horizon_greenhouse.py
 ```
+
+The generated source file is:
+
+```text
+assets/blender/green_horizon_hemp_greenhouse.blend
+```
+
+The main script already creates the model, materials, placement areas, triggers, storage nodes, plant nodes, spawn area, collision objects, and visual hierarchy. No separate helper or post-export patch script is used.
+
+## Expected Root and Helper Nodes
+
+Export the sole root:
+
+```text
+greenHorizonHempGreenhouse
+```
+
+Important child nodes include:
+
+```text
+clearAreaStart01
+levelAreaStart01
+indoorArea01Start
+testAreaStart01
+plantNodes
+palletSpawner
+sellingStation
+exactFillRootNode
+storage
+playerTrigger
+infoTrigger
+collisions
+visuals
+```
+
+The placeable XML mappings depend on these names and the deterministic hierarchy created by the Blender script.
+
+## Before Exporting
+
+Confirm in Blender Material Preview:
+
+- The concrete slab sits flat on the grid.
+- The greenhouse has a straight peaked glass gable roof.
+- The ridge, rafters, purlins, and glazing are seated correctly.
+- The center front doorway remains open.
+- Grow beds, plants, water tank, control box, lights, and wiring are visible.
+- Transparent glass and leaf materials display correctly.
+- No preview camera or light is under the exported root.
+
+## Blender to i3d Export
+
+1. Select the root `greenHorizonHempGreenhouse`.
+2. Export that root and all of its children.
+3. Save directly to:
+
+```text
+FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d
+```
+
+4. Choose:
+
+```text
+Save relative paths: Yes
+Save game paths: No
+```
+
+5. Confirm the exporter also creates:
+
+```text
+greenHorizonHempGreenhouse.i3d.shapes
+```
+
+## GIANTS Editor Pass
+
+Open the exported i3d in GIANTS Editor and inspect:
+
+- Model orientation and scale.
+- Peaked roof and glass materials.
+- Texture paths.
+- Perimeter collisions.
+- Open front doorway.
+- Trigger and helper-node locations.
+- Scenegraph node names.
+
+Save over the same i3d after inspection.
+
+## Export Validator
+
+Run:
+
+```text
+tools/windows/validate_greenhouse_export.bat
+```
+
+or menu option `13`.
+
+The validator blocks the package when:
+
+- The i3d or shapes file is missing.
+- The file is still the placeholder.
+- Absolute Windows paths were embedded.
+- Required helper nodes are missing.
+- Too few shapes, materials, or file references were exported.
+- Generated greenhouse textures are not referenced.
+
+## Packaging and Game Test
+
+After validation passes:
+
+```text
+1. Run menu option 1 for full preflight.
+2. Run menu option 3 to package and install.
+3. Start FS25.
+4. Confirm Green Horizon Industries loads.
+5. Place the Hemp Greenhouse.
+6. Test walking, collisions, triggers, unloading, and recipes.
+7. Run menu option 4 to inspect the game log.
+```
+
+## Do Not Upload Base-Game Assets
+
+Original project scripts, XML, Blender sources, textures, and exports are allowed. Do not commit copied GIANTS base-game meshes, textures, i3d files, or full extracted XML files. Base-game content may be used locally as a schema and layout reference only.
