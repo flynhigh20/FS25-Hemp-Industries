@@ -103,6 +103,7 @@ $requiredEntries = @(
     "xml/fruitTypes.xml",
     "xml/growth/hempGrowth.xml",
     "foliage/hemp/hempFoliagePlan.xml",
+    "foliage/hemp/hempFieldIntegrationPlan.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
