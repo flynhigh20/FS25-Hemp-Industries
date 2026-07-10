@@ -3,7 +3,7 @@
 
     <author>TooBlastu &amp; ChatGPT</author>
 
-    <version>0.2.10.0</version>
+    <version>0.2.11.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -13,7 +13,7 @@
         <en><![CDATA[
 Green Horizon Industries introduces Industrial Hemp to Farming Simulator 25.
 
-Phase 2.10 test build: fill type loading and the Hemp Greenhouse store item are active again while Blender/GIANTS model work continues in parallel.
+Phase 2.11 test build: fill types and Hemp Greenhouse store item are active. The main Blender generator now builds panels, grow-light wiring, and FS25-style helper nodes directly so GIANTS Editor export work can continue from one clean model script.
         ]]></en>
     </description>
 
@@ -34,6 +34,8 @@ Phase 2.10 test build: fill type loading and the Hemp Greenhouse store item are 
     </l10n>
 
     <fillTypes filename="xml/fillTypes.xml"/>
+
+    <!-- Draft only: xml/fruitTypes.xml exists for future field-crop work but is not active yet. -->
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
