@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<greenHorizonFoliagePlan fruitType="HEMP" version="1">
+
+    <!-- Project-owned build plan. FS25 does not load this file directly.
+         It defines the asset names and state coverage we need before activating
+         xml/fruitTypes.xml and xml/growth/hempGrowth.xml. -->
+
+    <densityMap
+        numStateChannels="4"
+        numGrowthStates="7"
+        witheredState="8"
+        cutState="9" />
+
+    <assetRoot>foliage/hemp</assetRoot>
+
+    <textureTargets>
+        <texture role="diffuseAlpha" filename="hempFoliage_diffuse.png" />
+        <texture role="normal" filename="hempFoliage_normal.png" />
+        <texture role="distanceDiffuse" filename="hempFoliage_distance_diffuse.png" />
+        <texture role="distanceNormal" filename="hempFoliage_distance_normal.png" />
+    </textureTargets>
+
+    <growthStates>
+        <state index="1" name="emerged" heightMeters="0.08" density="low" />
+        <state index="2" name="sprout" heightMeters="0.18" density="low" />
+        <state index="3" name="juvenile" heightMeters="0.45" density="medium" />
+        <state index="4" name="vegetative" heightMeters="0.90" density="medium" />
+        <state index="5" name="preFlower" heightMeters="1.35" density="high" />
+        <state index="6" name="flowering" heightMeters="1.70" density="high" forageReady="true" />
+        <state index="7" name="mature" heightMeters="2.00" density="high" harvestReady="true" />
+        <state index="8" name="withered" heightMeters="1.85" density="medium" />
+        <state index="9" name="cut" heightMeters="0.20" density="low" />
+    </growthStates>
+
+    <meshTargets>
+        <mesh stateRange="1-2" cardCount="2" lod="near" />
+        <mesh stateRange="3-4" cardCount="3" lod="near" />
+        <mesh stateRange="5-7" cardCount="4" lod="near" />
+        <mesh stateRange="8" cardCount="3" lod="near" />
+        <mesh stateRange="9" cardCount="2" lod="near" />
+        <mesh stateRange="1-9" cardCount="1" lod="distance" />
+    </meshTargets>
+
+    <activationGates>
+        <gate id="foliageTextures" complete="false" />
+        <gate id="growthStateMeshes" complete="false" />
+        <gate id="mapDensityChannels" complete="false" />
+        <gate id="cutterEffects" complete="false" />
+        <gate id="destructionMasks" complete="false" />
+        <gate id="vehicleCategories" complete="false" />
+        <gate id="growthCalendarTest" complete="false" />
+    </activationGates>
+
+</greenHorizonFoliagePlan>
