@@ -117,11 +117,10 @@ def point_in_polygon(x: float, y: float, points) -> bool:
     for i in range(count):
         xi, yi = points[i]
         xj, yj = points[j]
-        intersects = ((yi > y) != (yj > y)) and (
-            x < (xj - xi) * (y - yi) / max(yj - yi, 1e-9) + xi
-        )
-        if intersects:
-            inside = not inside
+        if (yi > y) != (yj > y):
+            intersection_x = (xj - xi) * (y - yi) / (yj - yi) + xi
+            if x < intersection_x:
+                inside = not inside
         j = i
     return inside
 
