@@ -18,6 +18,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
+            <pallet filename="pallets/xml/hempPallet.xml"/>
         </fillType>
 
         <fillType
@@ -38,6 +39,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.18"/>
             <physics massPerLiter="0.08"/>
+            <pallet filename="pallets/xml/biomassPallet.xml"/>
         </fillType>
 
         <fillType
@@ -68,6 +70,19 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.65"/>
             <physics massPerLiter="0.91"/>
+        </fillType>
+
+        <fillType
+            name="GHI_CBD_OIL"
+            title="CBD Oil"
+            showOnPriceTable="true"
+            isBulkType="false"
+            isPalletType="true"
+            unitShort="$l10n_unit_literShort">
+            <economy pricePerLiter="2.40"/>
+            <physics massPerLiter="0.90" maxPhysicalSurfaceAngle="38"/>
+            <image hud="$dataS/menu/hud/fillTypes/hud_fill_oil_canola.png"/>
+            <pallet filename="pallets/xml/cbdOilPallet.xml"/>
         </fillType>
 
     </fillTypes>

@@ -115,9 +115,12 @@ $requiredEntries = @(
     "pallets/xml/fiberPallet.xml",
     "pallets/xml/flowerPallet.xml",
     "pallets/xml/oilPallet.xml",
+    "pallets/xml/cbdOilPallet.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
+    "placeables/greenhouses/store_hempGreenhouse.dds",
+    "placeables/productions/cbdPlantSmall.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
-    "placeables/greenhouses/i3d/greenhorizonhempgreenhouse.i3d.shapes",
+    "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
     "placeables/greenhouses/textures/greenhouse_glass_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_frame_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_concrete_diffuse.png",
@@ -152,11 +155,38 @@ if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force
 }
 
-# Package the contents of the mod folder so modDesc.xml stays at the zip root.
-$items = Get-ChildItem -Path $modFolder -Force |
-    Where-Object { $_.Name -ne "icon_mod.dds.b64" -and $_.Name -notlike "*.bak" }
-
-Compress-Archive -Path $items.FullName -DestinationPath $zipPath -CompressionLevel Optimal
+# Package every file relative to the mod root and force ZIP-standard forward
+# slashes. Compress-Archive on Windows emits backslash entry names, which FS25's
+# virtual filesystem cannot resolve even though Explorer can browse the ZIP.
+Add-Type -AssemblyName System.IO.Compression
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$stream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::Create)
+$archive = New-Object System.IO.Compression.ZipArchive(
+    $stream,
+    [System.IO.Compression.ZipArchiveMode]::Create,
+    $false
+)
+try {
+    Get-ChildItem -Path $modFolder -Recurse -File -Force |
+        Where-Object {
+            $_.Name -ne "icon_mod.dds.b64" -and
+            $_.Name -notlike "*.bak" -and
+            $_.Name -notlike "*.stale"
+        } |
+        ForEach-Object {
+            $relativePath = $_.FullName.Substring($modFolder.Length).TrimStart("\").Replace("\", "/")
+            [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
+                $archive,
+                $_.FullName,
+                $relativePath,
+                [System.IO.Compression.CompressionLevel]::Optimal
+            ) | Out-Null
+        }
+}
+finally {
+    $archive.Dispose()
+    $stream.Dispose()
+}
 Assert-ZipEntries -ZipPath $zipPath -RelativePaths $requiredEntries
 
 Write-Host "Created: $zipPath" -ForegroundColor Cyan

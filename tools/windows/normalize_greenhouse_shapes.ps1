@@ -28,7 +28,7 @@ function Find-RepoRoot {
 $root = Find-RepoRoot
 $i3dFolder = Join-Path $root "FS25_GreenHorizonIndustries\placeables\greenhouses\i3d"
 $i3dPath = Join-Path $i3dFolder "greenHorizonHempGreenhouse.i3d"
-$canonicalName = "greenhorizonhempgreenhouse.i3d.shapes"
+$canonicalName = "greenHorizonHempGreenhouse.i3d.shapes"
 $canonicalPath = Join-Path $i3dFolder $canonicalName
 
 if (-not (Test-Path $i3dPath)) {

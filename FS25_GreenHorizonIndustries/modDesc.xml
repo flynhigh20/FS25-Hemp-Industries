@@ -2,7 +2,7 @@
 <modDesc descVersion="91">
 
     <author>TooBlastu &amp; ChatGPT</author>
-    <version>0.2.18.0</version>
+    <version>0.3.0.0</version>
 
     <title>
         <en>Green Horizon Industries</en>
@@ -34,6 +34,15 @@ source generation, six product-pallet templates, and hemp-processing foundations
         <text name="production_ghi_hempGreenhouseSeeded">
             <en>Grow Seeded Industrial Hemp</en>
         </text>
+        <text name="storeItem_ghi_cbdPlantSmall">
+            <en>Green Horizon CBD Plant</en>
+        </text>
+        <text name="function_ghi_cbdPlantSmall">
+            <en>Processes industrial hemp into palletized CBD oil.</en>
+        </text>
+        <text name="production_ghi_cbdOil">
+            <en>Extract CBD Oil</en>
+        </text>
     </l10n>
 
     <fillTypes filename="xml/fillTypes.xml"/>
@@ -61,6 +70,7 @@ source generation, six product-pallet templates, and hemp-processing foundations
 
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
+        <storeItem xmlFilename="placeables/productions/cbdPlantSmall.xml"/>
     </storeItems>
 
 </modDesc>
