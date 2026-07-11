@@ -12,8 +12,8 @@
                 <input fillType="WATER" amount="20"/>
             </inputs>
             <outputs>
-                <output fillType="HEMP" amount="16" sellDirectly="true"/>
-                <output fillType="GHI_HEMP_BIOMASS" amount="4" sellDirectly="true"/>
+                <output fillType="HEMP" amount="16"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="4"/>
             </outputs>
             <balance cyclesPerHour="20" costsPerActiveHour="12"/>
         </recipe>
@@ -21,12 +21,12 @@
         <recipe id="ghi_hemp_greenhouse_seeded">
             <inputs>
                 <input fillType="WATER" amount="20"/>
-                <input fillType="GHI_HEMP_SEED" amount="4"/>
+                <input fillType="SEEDS" amount="4"/>
             </inputs>
             <outputs>
-                <output fillType="HEMP" amount="24" sellDirectly="true"/>
-                <output fillType="GHI_HEMP_FLOWER" amount="2" sellDirectly="true"/>
-                <output fillType="GHI_HEMP_BIOMASS" amount="5" sellDirectly="true"/>
+                <output fillType="HEMP" amount="24"/>
+                <output fillType="GHI_HEMP_FLOWER" amount="2"/>
+                <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
             </outputs>
             <balance cyclesPerHour="24" costsPerActiveHour="18"/>
         </recipe>

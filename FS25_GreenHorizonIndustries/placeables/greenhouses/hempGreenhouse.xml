@@ -14,7 +14,7 @@
         <functions>
             <function>$l10n_function_ghi_hempGreenhouse</function>
         </functions>
-        <image>icon_mod.dds</image>
+        <image>placeables/greenhouses/store_hempGreenhouse.dds</image>
         <price>36000</price>
         <dailyUpkeep>24</dailyUpkeep>
         <lifetime>1000</lifetime>
@@ -79,6 +79,8 @@
         <triggerMarker node="warningStripes"/>
         <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
         <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconWater.i3d" adjustToGround="true"/>
+        <triggerMarker node="seedUnloadMarker" filename="$data/shared/assets/marker/markerIconUnload.i3d" adjustToGround="true"/>
+        <triggerMarker node="palletSpawner" filename="$data/shared/assets/marker/markerIconPallet.i3d" adjustToGround="true"/>
     </triggerMarkers>
 
     <greenhouse>
@@ -102,32 +104,20 @@
                     <input fillType="WATER" amount="20"/>
                 </inputs>
                 <outputs>
-                    <output fillType="HEMP" amount="16" sellDirectly="true"/>
-                    <output fillType="GHI_HEMP_BIOMASS" amount="4" sellDirectly="true"/>
+                    <output fillType="HEMP" amount="16"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="4"/>
                 </outputs>
             </production>
 
-            <production id="ghi_hemp_greenhouse_seeded"
-                        name="$l10n_production_ghi_hempGreenhouseSeeded"
-                        cyclesPerHour="24"
-                        costsPerActiveHour="18">
-                <inputs>
-                    <input fillType="WATER" amount="20"/>
-                    <input fillType="GHI_HEMP_SEED" amount="4"/>
-                </inputs>
-                <outputs>
-                    <output fillType="HEMP" amount="24" sellDirectly="true"/>
-                    <output fillType="GHI_HEMP_FLOWER" amount="2" sellDirectly="true"/>
-                    <output fillType="GHI_HEMP_BIOMASS" amount="5" sellDirectly="true"/>
-                </outputs>
-            </production>
         </productions>
 
         <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
             <unloadTrigger exactFillRootNode="exactFillRootNode"
-                           fillTypes="WATER GHI_HEMP_SEED"
+                           fillTypes="WATER"
                            aiNode="unloadTriggerAINode"/>
         </sellingStation>
+
+        <loadingStation fillTypes="WATER" supportsExtension="true"/>
 
         <palletSpawner>
             <spawnPlaces>
@@ -137,17 +127,36 @@
 
         <storage node="storage"
                  isExtension="false"
-                 fillTypes="WATER GHI_HEMP_SEED HEMP GHI_HEMP_BIOMASS GHI_HEMP_FLOWER"
+                 fillTypes="WATER"
                  fillLevelSyncThreshold="10">
             <capacity fillType="WATER" capacity="40000"/>
-            <capacity fillType="GHI_HEMP_SEED" capacity="12000"/>
             <capacity fillType="HEMP" capacity="28000"/>
             <capacity fillType="GHI_HEMP_BIOMASS" capacity="18000"/>
-            <capacity fillType="GHI_HEMP_FLOWER" capacity="8000"/>
         </storage>
 
         <playerTrigger node="playerTrigger"/>
     </productionPoint>
+
+    <animatedObjects>
+        <animatedObject saveId="frontDoor">
+            <animation duration="1.5">
+                <part node="frontDoorGlass"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorHandle"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorKickPlate"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorLeftPost"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorMidRail"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorRightPost"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorTopRail"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="collisionFrontDoor"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+            </animation>
+            <controls triggerNode="door1Trigger" posAction="ACTIVATE_HANDTOOL" posText="action_openDoor" negText="action_closeDoor"/>
+            <sounds>
+                <moving linkNode="frontDoorGlass" template="glassDoorLoop"/>
+                <negEnd linkNode="frontDoorGlass" template="metalDoorsClose"/>
+                <posEnd linkNode="frontDoorGlass" template="metalDoorsOpen"/>
+            </sounds>
+        </animatedObject>
+    </animatedObjects>
 
     <!-- GIANTS Blender export sorts siblings alphabetically. Root child order:
          clearAreas, collisions, greenhouseGameNodes, indoorAreas, infoTrigger,
@@ -181,14 +190,26 @@
         <i3dMapping id="spawnPlaceEnd01" node="0>2|0|0|0"/>
 
         <i3dMapping id="sellingStation" node="0>2|4"/>
+        <!-- Stock greenhouse station layout: exact fill, marker, AI, marker. -->
         <i3dMapping id="exactFillRootNode" node="0>2|4|0"/>
-        <i3dMapping id="unloadTriggerMarker" node="0>2|4|2"/>
-        <i3dMapping id="unloadTriggerAINode" node="0>2|4|1"/>
+        <i3dMapping id="seedUnloadMarker" node="0>2|4|1"/>
+        <i3dMapping id="unloadTriggerAINode" node="0>2|4|2"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>2|4|3"/>
 
         <i3dMapping id="storage" node="0>2|5"/>
         <i3dMapping id="playerTrigger" node="0>2|2"/>
         <i3dMapping id="playerTriggerMarker" node="0>2|3"/>
         <i3dMapping id="teleportNode" node="0>2|6"/>
+        <i3dMapping id="door1Trigger" node="0>2|7"/>
+
+        <i3dMapping id="collisionFrontDoor" node="0>1|2"/>
+        <i3dMapping id="frontDoorGlass" node="0>8|7"/>
+        <i3dMapping id="frontDoorHandle" node="0>8|8"/>
+        <i3dMapping id="frontDoorKickPlate" node="0>8|10"/>
+        <i3dMapping id="frontDoorLeftPost" node="0>8|11"/>
+        <i3dMapping id="frontDoorMidRail" node="0>8|12"/>
+        <i3dMapping id="frontDoorRightPost" node="0>8|13"/>
+        <i3dMapping id="frontDoorTopRail" node="0>8|14"/>
 
         <i3dMapping id="infoTrigger" node="0>4"/>
         <i3dMapping id="warningStripes" node="0>9"/>

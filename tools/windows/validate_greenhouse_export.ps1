@@ -44,7 +44,7 @@ function Fail([string]$Message) {
 $root = Find-RepoRoot
 $i3dFolder = Join-Path $root "FS25_GreenHorizonIndustries\placeables\greenhouses\i3d"
 $i3dPath = Join-Path $i3dFolder "greenHorizonHempGreenhouse.i3d"
-$canonicalShapesName = "greenhorizonhempgreenhouse.i3d.shapes"
+$canonicalShapesName = "greenHorizonHempGreenhouse.i3d.shapes"
 $shapesPath = Join-Path $i3dFolder $canonicalShapesName
 $shapeNormalizer = Join-Path $root "tools\windows\normalize_greenhouse_shapes.ps1"
 $textureNormalizer = Join-Path $root "tools\windows\normalize_greenhouse_texture_paths.ps1"
@@ -145,7 +145,7 @@ else {
 }
 
 if ($raw -match ('externalShapesFile="' + [regex]::Escape($canonicalShapesName) + '"')) {
-    Pass "i3d references the canonical lowercase shapes filename"
+    Pass "i3d references the exact case-sensitive shapes filename"
 }
 else {
     Fail "i3d externalShapesFile does not exactly match $canonicalShapesName"
@@ -161,6 +161,7 @@ $requiredNodeNames = @(
     "palletSpawner",
     "sellingStation",
     "exactFillRootNode",
+    "door1Trigger",
     "storage",
     "playerTrigger",
     "infoTrigger",
@@ -186,16 +187,14 @@ if ($materialCount -ge 5) { Pass "material count: $materialCount" } else { Fail 
 if ($fileCount -ge 5) { Pass "external file count: $fileCount" } else { Fail "only $fileCount File entries were exported" }
 
 $textureNames = @(
-    "greenhouse_glass_diffuse.png",
-    "greenhouse_frame_diffuse.png",
-    "greenhouse_concrete_diffuse.png",
-    "greenhouse_soil_diffuse.png",
-    "greenhouse_hemp_leaf_diffuse.png",
-    "greenhouse_stem_diffuse.png",
-    "greenhouse_water_tank_diffuse.png",
-    "greenhouse_rubber_diffuse.png",
-    "greenhouse_wire_diffuse.png",
-    "greenhouse_light_diffuse.png"
+    "greenhouse_glass_diffuse.dds",
+    "greenhouse_frame_diffuse.dds",
+    "greenhouse_concrete_diffuse.dds",
+    "greenhouse_soil_diffuse.dds",
+    "greenhouse_hemp_leaf_diffuse.dds",
+    "greenhouse_stem_diffuse.dds",
+    "greenhouse_water_tank_diffuse.dds",
+    "greenhouse_rubber_diffuse.dds"
 )
 
 $referencedTextures = 0

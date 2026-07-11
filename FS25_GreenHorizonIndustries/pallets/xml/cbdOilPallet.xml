@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<vehicle type="pallet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/vehicle.xsd">
+    <storeData>
+        <name>CBD Oil Pallet</name>
+        <image>$data/objects/pallets/canolaOilPallet/store_canolaOilPallet.png</image>
+        <price>2400</price>
+        <category>pallets</category>
+        <brand>NONE</brand>
+        <showInStore>false</showInStore>
+        <canBeSold>false</canBeSold>
+        <financeCategory>OTHER</financeCategory>
+    </storeData>
+    <base>
+        <typeDesc>$l10n_typeDesc_pallet</typeDesc>
+        <filename>$data/objects/pallets/canolaOilPallet/canolaOilPallet.i3d</filename>
+        <size width="1.3" length="0.9" height="0.5"/>
+        <canBeReset>false</canBeReset>
+        <components maxMass="400">
+            <component centerOfMass="0 0.1 0" solverIterationCount="10" mass="60"/>
+        </components>
+        <showInVehicleMenu>false</showInVehicleMenu>
+        <mapHotspot available="false"/>
+        <input allowed="false"/>
+    </base>
+    <fillUnit>
+        <fillUnitConfigurations>
+            <fillUnitConfiguration>
+                <fillUnits>
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" fillTypes="GHI_CBD_OIL" capacity="1000" ignoreFillLimit="true"/>
+                </fillUnits>
+            </fillUnitConfiguration>
+        </fillUnitConfigurations>
+    </fillUnit>
+    <pallet fillUnitIndex="1" linkNode="palletRoot">
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletNew_diffuse.dds"/>
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletMiddle_diffuse.dds"/>
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletOld_diffuse.dds"/>
+        <content>
+            <object node="oilContainer01" tensionBeltNode="oilContainer01Tension"/>
+            <object node="oilContainer02" tensionBeltNode="oilContainer02Tension"/>
+            <object node="oilContainer03" tensionBeltNode="oilContainer03Tension"/>
+            <object node="oilContainer04" tensionBeltNode="oilContainer04Tension"/>
+        </content>
+        <sounds>
+            <unload template="palletsFillOil" pitchScale="0.9"/>
+        </sounds>
+    </pallet>
+    <dynamicMount triggerNode="dynamicMountTrigger" triggerForceAcceleration="4" additionalMountDistance="0.40" jointTransY="0.11" jointLimitToRotY="true"/>
+    <i3dMappings>
+        <i3dMapping id="palletRoot" node="0>"/>
+        <i3dMapping id="dynamicMountTrigger" node="0>0"/>
+        <i3dMapping id="oilContainer01" node="0>1|0"/>
+        <i3dMapping id="oilContainer01Tension" node="0>1|0|1"/>
+        <i3dMapping id="oilContainer02" node="0>1|1"/>
+        <i3dMapping id="oilContainer02Tension" node="0>1|1|1"/>
+        <i3dMapping id="oilContainer03" node="0>1|2"/>
+        <i3dMapping id="oilContainer03Tension" node="0>1|2|1"/>
+        <i3dMapping id="oilContainer04" node="0>1|3"/>
+        <i3dMapping id="oilContainer04Tension" node="0>1|3|1"/>
+    </i3dMappings>
+</vehicle>

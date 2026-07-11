@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$expectedVersion = "0.2.18.0"
+$expectedVersion = "0.3.0.0"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -97,7 +97,10 @@ $requiredFiles = @(
     "pallets/xml/fiberPallet.xml",
     "pallets/xml/flowerPallet.xml",
     "pallets/xml/oilPallet.xml",
+    "pallets/xml/cbdOilPallet.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
+    "placeables/greenhouses/store_hempGreenhouse.dds",
+    "placeables/productions/cbdPlantSmall.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
     "placeables/greenhouses/textures/greenhouse_glass_diffuse.png",
@@ -178,6 +181,7 @@ Check-OptionalSet -BaseFolder $modFolder -Description "Generated pallet texture"
 
 $modDesc = Read-Xml (Join-Path $modFolder "modDesc.xml")
 $greenhouse = Read-Xml (Join-Path $modFolder "placeables\greenhouses\hempGreenhouse.xml")
+$cbdPlant = Read-Xml (Join-Path $modFolder "placeables\productions\cbdPlantSmall.xml")
 $fillTypes = Read-Xml (Join-Path $modFolder "xml\fillTypes.xml")
 $processing = Read-Xml (Join-Path $modFolder "xml\productions\hempProcessingRecipes.xml")
 $iconManifest = Read-Xml (Join-Path $modFolder "ui\hempIconManifest.xml")
@@ -190,16 +194,24 @@ if ($null -ne $modDesc) {
     if ($modDesc.modDesc.iconFilename -eq "icon_mod.dds") { Pass "mod icon points to icon_mod.dds" } else { Fail "mod iconFilename is not icon_mod.dds" }
     if ($null -eq $modDesc.modDesc.fruitTypes) { Pass "field fruit type remains safely inactive" } else { Fail "fruitTypes was activated too early" }
 
-    $activeStoreItem = $modDesc.modDesc.storeItems.storeItem.xmlFilename
-    if ($activeStoreItem -eq "placeables/greenhouses/hempGreenhouse.xml") { Pass "greenhouse store item is active" } else { Fail "greenhouse store item path is incorrect" }
+    $activeStoreItems = @($modDesc.modDesc.storeItems.storeItem | ForEach-Object { $_.xmlFilename })
+    if ($activeStoreItems -contains "placeables/greenhouses/hempGreenhouse.xml") { Pass "greenhouse store item is active" } else { Fail "greenhouse store item path is incorrect" }
+    if ($activeStoreItems -contains "placeables/productions/cbdPlantSmall.xml") { Pass "CBD plant store item is active" } else { Fail "CBD plant store item path is incorrect" }
 }
 
-$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")
+$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL", "GHI_CBD_OIL")
 if ($null -ne $fillTypes) {
     $fillNames = @($fillTypes.map.fillTypes.fillType | ForEach-Object { $_.name })
     foreach ($fillName in $requiredFillTypes) {
         if ($fillNames -contains $fillName) { Pass "fill type registered: $fillName" } else { Fail "missing fill type: $fillName" }
     }
+}
+
+if ($null -ne $cbdPlant) {
+    $cbdProduction = $cbdPlant.placeable.productionPoint.productions.production
+    if ($cbdProduction.id -eq "ghi_cbd_oil") { Pass "CBD oil production is registered" } else { Fail "CBD oil production id is missing" }
+    if ($cbdProduction.inputs.input.fillType -eq "HEMP") { Pass "CBD plant accepts HEMP" } else { Fail "CBD plant HEMP input is missing" }
+    if ($cbdProduction.outputs.output.fillType -eq "GHI_CBD_OIL") { Pass "CBD plant outputs GHI_CBD_OIL" } else { Fail "CBD plant output is incorrect" }
 }
 
 if ($null -ne $iconManifest) {

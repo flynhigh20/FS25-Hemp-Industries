@@ -21,10 +21,10 @@ GREENHOUSE_LENGTH = 8.4
 GREENHOUSE_WIDTH = 5.2
 SLAB_LENGTH = 9.0
 SLAB_WIDTH = 5.9
-WALL_HEIGHT = 2.25
-WALL_CENTER_Z = 1.43
-EAVE_Z = 2.55
-ROOF_RISE = 1.22
+WALL_HEIGHT = 2.70
+WALL_CENTER_Z = 1.45
+EAVE_Z = 2.80
+ROOF_RISE = 1.25
 RIDGE_Z = EAVE_Z + ROOF_RISE
 ROOF_HALF_WIDTH = GREENHOUSE_WIDTH / 2.0
 
@@ -410,40 +410,50 @@ def create_gameplay_helpers(root, helper_material):
             add_empty(f"plantNode{index}", (x, y, 0.0), plant_parent, size=0.08)
             index += 1
 
-    pallet = add_empty("palletSpawner", (3.15, 2.25, 0.05), game_nodes, size=0.3)
+    # Keep produced goods clear of the greenhouse and reachable by a loader.
+    pallet = add_empty("palletSpawner", (2.65, -3.75, 0.05), game_nodes, size=0.3)
     spawn_start = add_empty("spawnPlaceStart01", (-0.55, -0.35, 0.0), pallet, size=0.12)
     add_empty("spawnPlaceEnd01", (1.10, 0.70, 0.0), spawn_start, size=0.12)
 
     selling = add_empty("sellingStation", parent=game_nodes)
     make_exact_fill_root(
         "exactFillRootNode",
-        (-3.75, 2.55, 0.65),
-        (1.6, 1.15, 1.25),
+        (-2.50, 4.50, 1.00),
+        (8.00, 8.00, 4.00),
         helper_material,
         selling,
     )
-    add_empty("unloadTriggerMarker", (-3.75, 2.55, 0.05), selling, size=0.22)
-    add_empty("unloadTriggerAINode", (-3.75, 3.25, 0.05), selling, size=0.22)
+    add_empty("unloadTriggerMarker", (-2.50, 4.50, 0.05), selling, size=0.22)
+    add_empty("unloadTriggerAINode", (-2.50, 6.00, 0.05), selling, size=0.22)
+
+    make_trigger_box(
+        "palletTrigger",
+        (-2.50, -4.50, 0.90),
+        (4.00, 3.00, 1.80),
+        helper_material,
+        selling,
+    )
+    add_empty("seedUnloadMarker", (-2.50, -4.50, 0.05), selling, size=0.22)
 
     add_empty("storage", parent=game_nodes)
     make_trigger_box(
         "playerTrigger",
-        (3.55, -2.20, 1.0),
-        (1.35, 1.0, 1.9),
+        (4.75, 0.0, 1.0),
+        (1.20, 1.60, 1.9),
         helper_material,
         game_nodes,
     )
-    add_empty("playerTriggerMarker", (3.55, -2.20, 0.05), game_nodes, size=0.18)
-    add_empty("teleportNode", (3.15, -1.55, 0.05), game_nodes, size=0.18)
+    add_empty("playerTriggerMarker", (4.75, 0.0, 0.05), game_nodes, size=0.18)
+    add_empty("teleportNode", (4.90, 0.0, 0.05), game_nodes, size=0.18)
 
     make_trigger_box(
         "infoTrigger",
-        (3.25, -2.10, 1.0),
-        (1.0, 0.8, 1.8),
+        (4.75, 0.0, 1.0),
+        (1.20, 1.60, 1.8),
         helper_material,
         root,
     )
-    add_empty("warningStripes", (-3.75, 2.55, 0.02), root, size=0.22)
+    add_empty("warningStripes", (-2.50, 4.50, 0.02), root, size=0.22)
 
     collisions = add_empty("collisions", parent=root)
     wall_height = 2.70
@@ -452,6 +462,7 @@ def create_gameplay_helpers(root, helper_material):
     make_static_collision("collisionRear", (-4.22, 0.0, 1.35), (0.12, 5.25, wall_height), helper_material, collisions)
     make_static_collision("collisionFrontLeft", (4.22, -1.72, 1.35), (0.12, 1.80, wall_height), helper_material, collisions)
     make_static_collision("collisionFrontRight", (4.22, 1.72, 1.35), (0.12, 1.80, wall_height), helper_material, collisions)
+    make_static_collision("collisionFrontDoor", (4.26, 0.0, 1.35), (0.12, 1.35, wall_height), helper_material, collisions)
 
     return add_empty("visuals", parent=root)
 
@@ -493,17 +504,37 @@ def add_gable_roof_frame(visuals, frame_material, rubber_material):
 
 
 def add_gable_roof_panels(visuals, glass_material):
-    for bay_index, (x0, x1) in enumerate(zip(ROOF_RIB_X_VALUES, ROOF_RIB_X_VALUES[1:]), start=1):
-        for side, label in [(-1, "left"), (1, "right")]:
-            eave = roof_point(side, 0.0)
-            ridge = roof_point(side, 1.0)
-            vertices = [
-                Vector((x0, eave.y, eave.z)),
-                Vector((x1, eave.y, eave.z)),
-                Vector((x1, ridge.y, ridge.z)),
-                Vector((x0, ridge.y, ridge.z)),
-            ]
-            mesh_face(f"roofGlass_{label}_bay{bay_index:02d}", vertices, glass_material, visuals)
+    """Build two continuous overlapping roof sheets instead of disconnected faces.
+
+    The older bay-by-bay single polygons exposed tiny seams and could disappear
+    from shallow viewing angles. Thin solid sheets overlap the eave/ridge frame,
+    remain visible from both sides, and read as installed polycarbonate panels.
+    """
+    slope_length = math.sqrt(ROOF_HALF_WIDTH ** 2 + ROOF_RISE ** 2)
+    roof_length = max(ROOF_RIB_X_VALUES) - min(ROOF_RIB_X_VALUES) + 0.16
+    slope_angle = math.atan2(ROOF_RISE, ROOF_HALF_WIDTH)
+    center_z = (EAVE_Z + RIDGE_Z) * 0.5
+
+    for side, label in [(-1, "left"), (1, "right")]:
+        panel = cube(
+            f"roofGlass_{label}_continuous",
+            (0.0, side * ROOF_HALF_WIDTH * 0.5, center_z),
+            (roof_length, slope_length + 0.12, 0.045),
+            glass_material,
+            visuals,
+        )
+        panel.rotation_euler.x = -side * slope_angle
+
+    # Solid ridge and eave flashing hide panel edges and rain gaps.
+    cylinder_between(
+        "ridgeWeatherCap",
+        (min(ROOF_RIB_X_VALUES) - 0.08, 0.0, RIDGE_Z + 0.04),
+        (max(ROOF_RIB_X_VALUES) + 0.08, 0.0, RIDGE_Z + 0.04),
+        RAFTER_RADIUS * 1.35,
+        glass_material,
+        visuals,
+        vertices=12,
+    )
 
 
 def add_gable_end_glazing(visuals, glass_material, frame_material):
@@ -558,7 +589,25 @@ def add_foundation(visuals, concrete_material):
     cube("curbFront", (0, -SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_material, visuals)
     cube("curbRear", (0, SLAB_WIDTH / 2, 0.28), (SLAB_LENGTH, 0.18, 0.36), concrete_material, visuals)
     cube("curbLeft", (-SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_material, visuals)
-    cube("curbRight", (SLAB_LENGTH / 2, 0, 0.28), (0.18, SLAB_WIDTH, 0.36), concrete_material, visuals)
+    # Split the front curb around the centered door so the entrance meets the
+    # slab instead of sitting behind a raised concrete threshold.
+    door_clear_half = 0.82
+    side_length = SLAB_WIDTH / 2.0 - door_clear_half
+    side_center = door_clear_half + side_length / 2.0
+    cube(
+        "curbFrontDoorLeft",
+        (SLAB_LENGTH / 2, -side_center, 0.28),
+        (0.18, side_length, 0.36),
+        concrete_material,
+        visuals,
+    )
+    cube(
+        "curbFrontDoorRight",
+        (SLAB_LENGTH / 2, side_center, 0.28),
+        (0.18, side_length, 0.36),
+        concrete_material,
+        visuals,
+    )
 
 
 def add_leaf(name: str, loc, angle: float, scale: float, plant_material, parent):

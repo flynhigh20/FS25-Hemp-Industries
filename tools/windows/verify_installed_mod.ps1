@@ -32,7 +32,7 @@ try {
         "xml/fillTypes.xml",
         "placeables/greenhouses/hempGreenhouse.xml",
         "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
-        "placeables/greenhouses/i3d/greenhorizonhempgreenhouse.i3d.shapes"
+        "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes"
     )
 
     foreach ($relativePath in $required) {

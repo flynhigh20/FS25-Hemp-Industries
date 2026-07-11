@@ -8,16 +8,23 @@
 from __future__ import annotations
 
 import math
+import importlib.util
 import sys
 from pathlib import Path
 
 import bpy
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
+CORE_PATH = SCRIPT_DIR / "greenhouse_generator_core.py"
+if not CORE_PATH.exists():
+    raise FileNotFoundError(f"Missing greenhouse generator core: {CORE_PATH}")
 
-import greenhouse_generator_core as core
+core_spec = importlib.util.spec_from_file_location("greenhouse_generator_core", CORE_PATH)
+if core_spec is None or core_spec.loader is None:
+    raise ImportError(f"Could not load greenhouse generator core: {CORE_PATH}")
+core = importlib.util.module_from_spec(core_spec)
+sys.modules[core_spec.name] = core
+core_spec.loader.exec_module(core)
 
 
 # Refined proportions requested after the first textured export.
@@ -26,9 +33,9 @@ core.SLAB_WIDTH = 6.0
 core.ROOF_RIB_X_VALUES = [-4.55, -4.20, -2.80, -1.40, 0.0, 1.40, 2.80, 4.20, 4.55]
 WALL_FRAME_X_VALUES = [-4.20, -2.80, -1.40, 0.0, 1.40, 2.80, 4.20]
 ROOF_OVERHANG = 0.35
-DOOR_HALF_WIDTH = 0.95
-DOOR_BOTTOM_Z = 0.38
-DOOR_TOP_Z = 2.53
+DOOR_HALF_WIDTH = 0.68
+DOOR_BOTTOM_Z = 0.10
+DOOR_TOP_Z = 2.48
 DOOR_HEIGHT = DOOR_TOP_Z - DOOR_BOTTOM_Z
 DOOR_CENTER_Z = (DOOR_TOP_Z + DOOR_BOTTOM_Z) / 2.0
 
@@ -99,7 +106,7 @@ def add_walls_and_frame(visuals, glass_material, frame_material):
     for x in WALL_FRAME_X_VALUES:
         core.cylinder_between(
             f"postLeft_x{x:.2f}",
-            (x, -core.ROOF_HALF_WIDTH, 0.38),
+            (x, -core.ROOF_HALF_WIDTH, 0.10),
             (x, -core.ROOF_HALF_WIDTH, core.EAVE_Z),
             core.POST_RADIUS,
             frame_material,
@@ -108,7 +115,7 @@ def add_walls_and_frame(visuals, glass_material, frame_material):
         )
         core.cylinder_between(
             f"postRight_x{x:.2f}",
-            (x, core.ROOF_HALF_WIDTH, 0.38),
+            (x, core.ROOF_HALF_WIDTH, 0.10),
             (x, core.ROOF_HALF_WIDTH, core.EAVE_Z),
             core.POST_RADIUS,
             frame_material,
@@ -134,7 +141,7 @@ def add_walls_and_frame(visuals, glass_material, frame_material):
         for x in WALL_FRAME_X_VALUES:
             core.cylinder_between(
                 f"windowMullion_{x:.2f}_{y:.2f}",
-                (x, y, 0.38),
+                (x, y, 0.10),
                 (x, y, core.EAVE_Z),
                 0.020,
                 frame_material,
@@ -142,9 +149,33 @@ def add_walls_and_frame(visuals, glass_material, frame_material):
                 vertices=8,
             )
 
+    # Rear wall framing: a modest grid that matches the side bays while keeping
+    # the greenhouse transparent and uncluttered.
+    rear_x = -core.GREENHOUSE_LENGTH / 2 - 0.012
+    for index, y in enumerate((-1.30, 0.0, 1.30), start=1):
+        core.cylinder_between(
+            f"rearWallMullion{index}",
+            (rear_x, y, 0.10),
+            (rear_x, y, core.EAVE_Z),
+            0.025,
+            frame_material,
+            visuals,
+            vertices=10,
+        )
+    for index, z in enumerate((0.95, 1.80, core.EAVE_Z), start=1):
+        core.cylinder_between(
+            f"rearWallRail{index}",
+            (rear_x, -core.ROOF_HALF_WIDTH, z),
+            (rear_x, core.ROOF_HALF_WIDTH, z),
+            core.RAIL_RADIUS,
+            frame_material,
+            visuals,
+            vertices=12,
+        )
+
 
 def add_beds_and_details(visuals, materials):
-    """Refine beds, add irrigation, and make the double entrance taller."""
+    """Add simple planting beds and one clean, centered greenhouse door."""
     for bed_index, y in enumerate([-1.45, 0.0, 1.45], start=1):
         core.cube(
             f"raisedGrowBed{bed_index}",
@@ -160,45 +191,27 @@ def add_beds_and_details(visuals, materials):
             materials["soil"],
             visuals,
         )
-        core.cylinder_between(
-            f"irrigationMain{bed_index}",
-            (-3.15, y, 0.73),
-            (3.15, y, 0.73),
-            0.018,
-            materials["rubber"],
-            visuals,
-            vertices=10,
-        )
         for x in [-2.8, -2.0, -1.2, -0.4, 0.4, 1.2, 2.0, 2.8]:
             core.add_hemp_plant(x, y, materials["stem"], materials["plant"], visuals)
 
     front_x = core.GREENHOUSE_LENGTH / 2 + 0.04
-    leaf_width = DOOR_HALF_WIDTH - 0.08
+    door_width = DOOR_HALF_WIDTH * 2.0 - 0.10
     core.cube(
-        "frontDoorLeftGlass",
-        (front_x, -leaf_width / 2.0, DOOR_CENTER_Z),
-        (0.04, leaf_width, DOOR_HEIGHT),
-        materials["glass"],
-        visuals,
-    )
-    core.cube(
-        "frontDoorRightGlass",
-        (front_x, leaf_width / 2.0, DOOR_CENTER_Z),
-        (0.04, leaf_width, DOOR_HEIGHT),
+        "frontDoorGlass",
+        (front_x, 0.0, DOOR_CENTER_Z),
+        (0.045, door_width, DOOR_HEIGHT),
         materials["glass"],
         visuals,
     )
     for name, y in (
         ("frontDoorLeftPost", -DOOR_HALF_WIDTH),
-        ("frontDoorCenterPost", 0.0),
         ("frontDoorRightPost", DOOR_HALF_WIDTH),
     ):
-        radius = 0.028 if y == 0.0 else core.POST_RADIUS
         core.cylinder_between(
             name,
             (front_x, y, DOOR_BOTTOM_Z),
             (front_x, y, DOOR_TOP_Z),
-            radius,
+            core.POST_RADIUS,
             materials["frame"],
             visuals,
             vertices=12,
@@ -213,28 +226,129 @@ def add_beds_and_details(visuals, materials):
         vertices=12,
     )
 
-    core.cylinder(
-        "waterStorageTank",
-        (-3.35, 2.05, 1.05),
-        0.42,
-        1.55,
-        materials["water"],
-        visuals,
-        vertices=40,
-    )
+    # A glass transom closes the front wall exactly up to the eave.
+    transom_height = max(core.EAVE_Z - DOOR_TOP_Z, 0.12)
     core.cube(
-        "nutrientControlBox",
-        (-3.2, -2.45, 1.15),
-        (0.62, 0.12, 0.82),
+        "frontDoorTransomGlass",
+        (front_x, 0.0, DOOR_TOP_Z + transom_height * 0.5),
+        (0.045, DOOR_HALF_WIDTH * 2.0, transom_height),
+        materials["glass"],
+        visuals,
+    )
+    core.cylinder_between(
+        "frontDoorHeader",
+        (front_x, -DOOR_HALF_WIDTH - 0.08, core.EAVE_Z),
+        (front_x, DOOR_HALF_WIDTH + 0.08, core.EAVE_Z),
+        core.RAIL_RADIUS * 1.35,
+        materials["frame"],
+        visuals,
+        vertices=12,
+    )
+
+    core.cube(
+        "frontDoorKickPlate",
+        (front_x + 0.028, 0.0, DOOR_BOTTOM_Z + 0.15),
+        (0.025, door_width - 0.08, 0.28),
         materials["frame"],
         visuals,
     )
-    for index, y in enumerate([-1.45, 0.0, 1.45], start=1):
+    core.cylinder_between(
+        "frontDoorMidRail",
+        (front_x + 0.035, -door_width * 0.47, 1.12),
+        (front_x + 0.035, door_width * 0.47, 1.12),
+        core.RAIL_RADIUS,
+        materials["frame"],
+        visuals,
+        vertices=12,
+    )
+    core.cube(
+        "frontDoorHandle",
+        (front_x + 0.075, 0.42, 1.45),
+        (0.035, 0.05, 0.38),
+        materials["frame"],
+        visuals,
+    )
+
+
+def add_greenhouse_decorations(visuals, materials):
+    """Add restrained functional details without changing the clean shell."""
+    # One overhead irrigation main with short misting drops above the beds.
+    core.cylinder_between(
+        "irrigationHeaderPipe",
+        (-3.35, 0.0, 2.55),
+        (3.35, 0.0, 2.55),
+        0.022,
+        materials["rubber"],
+        visuals,
+        vertices=12,
+    )
+    for index, x in enumerate((-2.75, -1.65, -0.55, 0.55, 1.65, 2.75), start=1):
+        core.cylinder_between(
+            f"misterDrop{index}",
+            (x, 0.0, 2.55),
+            (x, 0.0, 2.37),
+            0.010,
+            materials["rubber"],
+            visuals,
+            vertices=10,
+        )
+        core.cylinder(
+            f"misterNozzle{index}",
+            (x, 0.0, 2.34),
+            0.028,
+            0.055,
+            materials["water"],
+            visuals,
+            vertices=12,
+        )
+
+    # Slim gutters tucked beneath both eaves and one rear downspout.
+    for side, label in ((-1, "Left"), (1, "Right")):
+        y = side * (core.ROOF_HALF_WIDTH + 0.035)
+        core.cylinder_between(
+            f"roofGutter{label}",
+            (-4.35, y, core.EAVE_Z - 0.055),
+            (4.35, y, core.EAVE_Z - 0.055),
+            0.035,
+            materials["frame"],
+            visuals,
+            vertices=12,
+        )
+    core.cylinder_between(
+        "rainDownspout",
+        (-4.30, core.ROOF_HALF_WIDTH + 0.04, core.EAVE_Z - 0.05),
+        (-4.30, core.ROOF_HALF_WIDTH + 0.04, 0.32),
+        0.032,
+        materials["frame"],
+        visuals,
+        vertices=12,
+    )
+
+    # Small wall instruments and a hose reel add believable scale.
+    core.cube(
+        "climateMonitorBox",
+        (3.55, -core.ROOF_HALF_WIDTH + 0.035, 1.55),
+        (0.32, 0.075, 0.42),
+        materials["frame"],
+        visuals,
+    )
+    core.cylinder(
+        "hoseReel",
+        (-3.35, -core.ROOF_HALF_WIDTH + 0.09, 0.92),
+        0.24,
+        0.12,
+        materials["rubber"],
+        visuals,
+        vertices=24,
+    ).rotation_euler.x = math.radians(90)
+
+    # Three unobtrusive row labels at the front ends of the grow beds.
+    for index, y in enumerate((-1.45, 0.0, 1.45), start=1):
         core.cube(
-            f"growLightStrip{index}",
-            (0, y, 2.42),
-            (6.8, 0.08, 0.06),
-            materials["light"],
+            f"plantRowLabel{index}",
+            (3.48, y, 0.82),
+            (0.05, 0.34, 0.18),
+            materials["frame"],
             visuals,
         )
 
@@ -365,8 +479,7 @@ def build_model() -> None:
     core.add_gable_roof_panels(visuals, materials["glass"])
     core.add_gable_end_glazing(visuals, materials["glass"], materials["frame"])
     add_beds_and_details(visuals, materials)
-    add_light_conduit(visuals, materials)
-    add_trigger_visuals(visuals, materials)
+    add_greenhouse_decorations(visuals, materials)
     core.add_preview_camera()
 
     bpy.context.scene.unit_settings.system = "METRIC"
@@ -378,7 +491,7 @@ def build_model() -> None:
     print(f"Generated image textures: {core.TEXTURE_DIR}")
     print(f"Roof extends {ROOF_OVERHANG:.2f} m beyond both end walls.")
     print(f"Door top is {DOOR_TOP_Z:.2f} m above the model origin.")
-    print("Visible amber and green pads mark the gameplay trigger locations.")
+    print("Gameplay triggers are included as invisible helper shapes.")
     print("Export root greenHorizonHempGreenhouse directly to the mod i3d folder.")
     print("Run menu option 13 immediately after export to normalize and validate texture paths.")
 
