@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <greenHorizonIndustries>
 
-    <!-- Phase 2.17 inactive processing recipes.
-         These values are balancing targets for a future Hemp Processing Facility.
-         They are not loaded by modDesc.xml and do not affect the greenhouse test. -->
+    <!-- Phase 3 balancing mirror for the active Hemp Processing Facility.
+         Fiber and biomass remain intermediate outputs for future textile and
+         mill/energy chains; they are intentionally hidden from the price table. -->
 
     <productionRecipes>
 
@@ -29,37 +29,13 @@
             <balance cyclesPerHour="8" costsPerActiveHour="55" massLossPercent="12"/>
         </recipe>
 
-        <recipe id="ghi_hemp_seed_cleaning" name="Hemp Seed Cleaning">
-            <inputs>
-                <input fillType="HEMP" amount="100"/>
-            </inputs>
-            <outputs>
-                <output fillType="GHI_HEMP_SEED" amount="20"/>
-                <output fillType="GHI_HEMP_BIOMASS" amount="65"/>
-            </outputs>
-            <balance cyclesPerHour="10" costsPerActiveHour="36" massLossPercent="15"/>
-        </recipe>
-
-        <recipe id="ghi_hemp_oil_pressing" name="Cold-Pressed Hemp Oil">
-            <inputs>
-                <input fillType="GHI_HEMP_SEED" amount="100"/>
-            </inputs>
-            <outputs>
-                <output fillType="GHI_HEMP_OIL" amount="32"/>
-                <output fillType="GHI_HEMP_BIOMASS" amount="58"/>
-            </outputs>
-            <balance cyclesPerHour="7" costsPerActiveHour="68" massLossPercent="10"/>
-        </recipe>
-
     </productionRecipes>
 
     <storageTargets>
         <capacity fillType="HEMP" liters="120000"/>
-        <capacity fillType="GHI_HEMP_SEED" liters="40000"/>
         <capacity fillType="GHI_HEMP_BIOMASS" liters="90000"/>
         <capacity fillType="GHI_HEMP_FIBER" liters="50000"/>
         <capacity fillType="GHI_HEMP_FLOWER" liters="30000"/>
-        <capacity fillType="GHI_HEMP_OIL" liters="30000"/>
     </storageTargets>
 
     <activationRequirements>

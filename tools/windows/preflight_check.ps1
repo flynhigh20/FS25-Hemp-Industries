@@ -99,7 +99,8 @@ $requiredFiles = @(
     "pallets/xml/oilPallet.xml",
     "pallets/xml/cbdOilPallet.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
-    "placeables/greenhouses/store_hempGreenhouse.dds",
+    "placeables/greenhouses/store_hempGreenhouse.png",
+    "placeables/productions/store_hempProcessingFacility.png",
     "placeables/productions/cbdPlantSmall.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
@@ -244,7 +245,7 @@ if ($null -ne $mapDraft) {
 
 if ($null -ne $processing) {
     $recipes = @($processing.greenHorizonIndustries.productionRecipes.recipe)
-    if ($recipes.Count -eq 4) { Pass "processing plan has four recipes" } else { Fail "processing plan has $($recipes.Count) recipes instead of four" }
+    if ($recipes.Count -eq 2) { Pass "processing plan has two active recipes" } else { Fail "processing plan has $($recipes.Count) recipes instead of two" }
 }
 
 $palletSpecs = @(

@@ -34,8 +34,8 @@
     <infoTrigger triggerNode="infoTrigger"/>
     <hotspots><hotspot type="PRODUCTION_POINT" linkNode="unloadTriggerMarker" teleportNode="playerTriggerMarker"/></hotspots>
     <triggerMarkers>
-        <triggerMarker node="warningStripes01"/>
-        <triggerMarker node="warningStripes02"/>
+        <triggerMarker node="warningStripes01" filename="placeables/shared/palletWarningStripes.i3d"/>
+        <triggerMarker node="warningStripes02" filename="placeables/shared/palletWarningStripes.i3d"/>
         <triggerMarker node="unloadTriggerMarker" adjustToGround="true" filename="$data/shared/assets/marker/markerIconUnload.i3d"/>
         <triggerMarker node="playerTriggerMarker" adjustToGround="true" filename="$data/shared/assets/marker/markerIconWrench.i3d"/>
     </triggerMarkers>

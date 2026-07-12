@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="greenHorizonHempProcessingFacility" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0"/>
+  </Asset>
+
+  <Files>
+    <File fileId="6" filename="../../../branding/green_horizon_industries_main_logo.png"/>
+    <File fileId="7" filename="../../greenhouses/textures/greenhouse_concrete_diffuse.dds"/>
+    <File fileId="8" filename="../../greenhouses/textures/greenhouse_glass_diffuse.dds"/>
+    <File fileId="9" filename="../../greenhouses/textures/greenhouse_frame_diffuse.dds"/>
+    <File fileId="10" filename="../../greenhouses/textures/greenhouse_hemp_leaf_diffuse.dds"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="GHI_BrandLogo" materialId="3" emissiveColor="0 0 0 1" specularColor="0.2 1 0.1">
+      <Texture fileId="6"/>
+    </Material>
+    <Material name="GHI_Concrete" materialId="1" diffuseColor="0.7 0.7 0.68 1" emissiveColor="0 0 0 1" specularColor="0.18 1 0">
+      <Texture fileId="7"/>
+    </Material>
+    <Material name="GHI_DarkGlass" materialId="6" diffuseColor="0.15 0.32 0.34 0.48" emissiveColor="0 0 0 1" specularColor="0.82 1 0.25" alphaBlending="true">
+      <Texture fileId="8"/>
+    </Material>
+    <Material name="GHI_DarkSteel" materialId="5" diffuseColor="0.16 0.2 0.2 1" emissiveColor="0 0 0 1" specularColor="0.72 1 0.72">
+      <Texture fileId="9"/>
+    </Material>
+    <Material name="GHI_GreenAccent" materialId="2" diffuseColor="0.18 0.58 0.3 1" emissiveColor="0 0 0 1" specularColor="0.3 1 0.2">
+      <Texture fileId="10"/>
+    </Material>
+    <Material name="GHI_LightMetalPanel" materialId="4" diffuseColor="0.72 0.79 0.78 1" emissiveColor="0 0 0 1" specularColor="0.62 1 0.55">
+      <Texture fileId="9"/>
+    </Material>
+    <Material name="GHI_RollupDoor" materialId="7" diffuseColor="0.38 0.48 0.46 1" emissiveColor="0 0 0 1" specularColor="0.64 1 0.58">
+      <Texture fileId="9"/>
+    </Material>
+    <Material name="GHI_RoofMetal" materialId="8" diffuseColor="0.26 0.34 0.34 1" emissiveColor="0 0 0 1" specularColor="0.7 1 0.68">
+      <Texture fileId="9"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="greenHorizonHempProcessingFacility.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="greenHorizonHempProcessingFacility" nodeId="62">
+      <TransformGroup name="collisions" nodeId="63">
+        <Shape name="collisionFrontLeft" translation="-4.7 2 4" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="64" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionFrontRight" translation="4.55 2 4" shapeId="2" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="65" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionLeft" translation="-6 2 0" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="66" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionPersonnelDoor" translation="4.45 1.15 4" shapeId="4" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0xfffffbff" nodeId="67" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionRear" translation="0 2 -4" shapeId="5" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="68" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionRight" translation="6 2 0" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="69" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="collisionRollupDoor" translation="0.9 1.75 4" shapeId="6" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0xfffffbff" nodeId="70" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="facilityGameNodes" nodeId="71">
+        <TransformGroup name="palletAreaEnd" translation="5.6 0.05 -7" nodeId="72"/>
+        <TransformGroup name="palletAreaStart" translation="2.6 0.05 -4.8" nodeId="73"/>
+        <TransformGroup name="palletSpawner" translation="4.3 0.05 -4.8" nodeId="74"/>
+        <Shape name="personnelDoorTrigger" translation="4.45 1 5" scale="1 1 0.35" shapeId="7" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="75" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="playerTrigger" translation="4.5 1 5" shapeId="8" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="76" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <TransformGroup name="playerTriggerMarker" translation="4.5 0.05 5" nodeId="77"/>
+        <Shape name="rollupDoorTrigger" translation="0.9 1 5" scale="1 1 0.35" shapeId="9" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="78" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="unloadTrigger" translation="-4.3 0.8 6" shapeId="10" kinematic="true" compound="true" collisionFilterGroup="0x40000000" collisionFilterMask="0x20000000" nodeId="79" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <TransformGroup name="unloadTriggerMarker" translation="-4.3 0.05 6" nodeId="80"/>
+      </TransformGroup>
+      <TransformGroup name="visuals" nodeId="81">
+        <Shape name="brandSignBacking" translation="-4.65 2.55 4.16" shapeId="11" nodeId="82" castsShadows="true" receiveShadows="true" materialIds="2"/>
+        <Shape name="brandSignLogo" translation="-4.65 2.55 4.215" rotation="90 -0 0" shapeId="12" nodeId="83" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bufferTank" translation="6.95 1.28 -1.8" shapeId="13" nodeId="84" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="concreteSlab" translation="0 0.12 0" shapeId="14" nodeId="85" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="eaveBeam_-4.05" translation="0 4.05 4.05" shapeId="15" nodeId="86" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="eaveBeam_4.05" translation="0 4.05 -4.05" shapeId="15" nodeId="87" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_-6.05_-4.05" translation="-6.05 2.1 4.05" shapeId="16" nodeId="88" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_-6.05_4.05" translation="-6.05 2.1 -4.05" shapeId="16" nodeId="89" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_0.0_-4.05" translation="0 2.1 4.05" shapeId="16" nodeId="90" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_0.0_4.05" translation="0 2.1 -4.05" shapeId="16" nodeId="91" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_6.05_-4.05" translation="6.05 2.1 4.05" shapeId="16" nodeId="92" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="framePost_6.05_4.05" translation="6.05 2.1 -4.05" shapeId="16" nodeId="93" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="frontWallCenter" translation="0.9 3.65 4" shapeId="17" nodeId="94" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="frontWallLeft" translation="-4.7 2 4" shapeId="18" nodeId="95" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="frontWallRight" translation="4.55 2 4" shapeId="19" nodeId="96" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="leftWall" translation="-6 2 0" shapeId="20" nodeId="97" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="loadingApron" translation="0 0.1 6" shapeId="21" nodeId="98" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="personnelDoor" translation="4.45 1.15 4.12" shapeId="22" nodeId="99" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="personnelDoorWindow" translation="4.45 1.55 4.2" shapeId="23" nodeId="100" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="rafterLeft_-6.05" translation="-6.05 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="24" nodeId="101" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rafterLeft_0.0" translation="0 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="24" nodeId="102" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rafterLeft_6.05" translation="6.05 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="24" nodeId="103" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rafterRight_-6.05" translation="-6.05 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="24" nodeId="104" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rafterRight_0.0" translation="0 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="24" nodeId="105" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rafterRight_6.05" translation="6.05 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="24" nodeId="106" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rearWall" translation="0 2 -4" shapeId="25" nodeId="107" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="ridgeBeam" translation="0 5.15 0" shapeId="26" nodeId="108" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rightWall" translation="6 2 0" shapeId="20" nodeId="109" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="rollupDoor" translation="0.9 1.75 4.11" shapeId="27" nodeId="110" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="rollupRib_0.55" translation="0.9 0.55 4.19" shapeId="28" nodeId="111" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rollupRib_1.1" translation="0.9 1.1 4.19" shapeId="28" nodeId="112" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rollupRib_1.65" translation="0.9 1.65 4.19" shapeId="28" nodeId="113" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rollupRib_2.2" translation="0.9 2.2 4.19" shapeId="28" nodeId="114" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rollupRib_2.75" translation="0.9 2.75 4.19" shapeId="28" nodeId="115" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="rollupRib_3.3" translation="0.9 3.3 4.19" shapeId="28" nodeId="116" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="roofSheetFront" translation="0 4.59 2.03" rotation="15.2 -0 0" shapeId="29" nodeId="117" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="roofSheetRear" translation="0 4.59 -2.03" rotation="-15.2 -0 0" shapeId="29" nodeId="118" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="tankBand_0.35" translation="6.95 0.35 -1.8" shapeId="30" nodeId="119" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="tankBand_2.2" translation="6.95 2.2 -1.8" shapeId="30" nodeId="120" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="transferPipeHorizontal" translation="6.48 3.85 -0.55" shapeId="31" nodeId="121" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="transferPipeVertical" translation="6.95 2.6 -0.55" shapeId="32" nodeId="122" castsShadows="true" receiveShadows="true" materialIds="5"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

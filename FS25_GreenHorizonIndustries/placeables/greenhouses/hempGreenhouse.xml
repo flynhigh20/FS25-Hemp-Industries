@@ -14,7 +14,7 @@
         <functions>
             <function>$l10n_function_ghi_hempGreenhouse</function>
         </functions>
-        <image>placeables/greenhouses/store_hempGreenhouse.dds</image>
+        <image>placeables/greenhouses/store_hempGreenhouse.png</image>
         <price>36000</price>
         <dailyUpkeep>24</dailyUpkeep>
         <lifetime>1000</lifetime>
@@ -76,7 +76,7 @@
     </hotspots>
 
     <triggerMarkers>
-        <triggerMarker node="warningStripes"/>
+        <triggerMarker node="warningStripes" filename="placeables/shared/palletWarningStripes.i3d"/>
         <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
         <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconWater.i3d" adjustToGround="true"/>
         <triggerMarker node="seedUnloadMarker" filename="$data/shared/assets/marker/markerIconUnload.i3d" adjustToGround="true"/>
@@ -109,15 +109,30 @@
                 </outputs>
             </production>
 
+            <production id="ghi_hemp_greenhouse_seeded"
+                        name="$l10n_production_ghi_hempGreenhouseSeeded"
+                        cyclesPerHour="20"
+                        costsPerActiveHour="16">
+                <inputs>
+                    <input fillType="WATER" amount="20"/>
+                    <input fillType="SEEDS" amount="4"/>
+                </inputs>
+                <outputs>
+                    <output fillType="HEMP" amount="26"/>
+                    <output fillType="GHI_HEMP_FLOWER" amount="3"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
+                </outputs>
+            </production>
+
         </productions>
 
         <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
             <unloadTrigger exactFillRootNode="exactFillRootNode"
-                           fillTypes="WATER"
+                           fillTypes="WATER SEEDS"
                            aiNode="unloadTriggerAINode"/>
         </sellingStation>
 
-        <loadingStation fillTypes="WATER" supportsExtension="true"/>
+        <loadingStation fillTypes="WATER SEEDS" supportsExtension="true"/>
 
         <palletSpawner>
             <spawnPlaces>
@@ -127,11 +142,13 @@
 
         <storage node="storage"
                  isExtension="false"
-                 fillTypes="WATER"
+                 fillTypes="WATER SEEDS"
                  fillLevelSyncThreshold="10">
             <capacity fillType="WATER" capacity="40000"/>
+            <capacity fillType="SEEDS" capacity="12000"/>
             <capacity fillType="HEMP" capacity="28000"/>
             <capacity fillType="GHI_HEMP_BIOMASS" capacity="18000"/>
+            <capacity fillType="GHI_HEMP_FLOWER" capacity="8000"/>
         </storage>
 
         <playerTrigger node="playerTrigger"/>
