@@ -18,6 +18,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
+            <image hud="branding/hemp_greenhouse_badge.png"/>
             <pallet filename="pallets/xml/hempPallet.xml"/>
         </fillType>
 
@@ -29,6 +30,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.85"/>
             <physics massPerLiter="0.62"/>
+            <pallet filename="pallets/xml/seedPallet.xml"/>
         </fillType>
 
         <fillType
@@ -50,6 +52,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.72"/>
             <physics massPerLiter="0.10"/>
+            <pallet filename="pallets/xml/fiberPallet.xml"/>
         </fillType>
 
         <fillType
@@ -60,6 +63,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.20"/>
             <physics massPerLiter="0.06"/>
+            <pallet filename="pallets/xml/flowerPallet.xml"/>
         </fillType>
 
         <fillType
@@ -70,6 +74,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.65"/>
             <physics massPerLiter="0.91"/>
+            <pallet filename="pallets/xml/oilPallet.xml"/>
         </fillType>
 
         <fillType

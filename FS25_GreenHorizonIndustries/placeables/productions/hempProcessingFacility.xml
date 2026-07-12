@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<placeable type="productionPoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
+    <storeData>
+        <name>$l10n_storeItem_ghi_hempProcessingFacility</name>
+        <functions><function>$l10n_function_ghi_hempProcessingFacility</function></functions>
+        <image>placeables/greenhouses/store_hempGreenhouse.dds</image>
+        <price>125000</price>
+        <dailyUpkeep>85</dailyUpkeep>
+        <lifetime>1000</lifetime>
+        <rotation>0</rotation>
+        <brand>NONE</brand>
+        <species>PLACEABLE</species>
+        <category>productionPoints</category>
+        <brush><type>placeable</type><category>production</category><tab>factories</tab></brush>
+        <canBeSold>true</canBeSold>
+        <showInStore>true</showInStore>
+    </storeData>
+
+    <base>
+        <filename>placeables/productions/i3d/greenHorizonHempProcessingFacility.i3d</filename>
+        <canBeRenamed>true</canBeRenamed>
+    </base>
+
+    <placement useRandomYRotation="false" useManualYRotation="true">
+        <sounds><place template="largeImp"/></sounds>
+    </placement>
+
+    <hotspots>
+        <hotspot type="PRODUCTION_POINT" linkNode="unloadTriggerMarker" teleportNode="playerTriggerMarker"/>
+    </hotspots>
+
+    <triggerMarkers>
+        <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconUnload.i3d" adjustToGround="true"/>
+        <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
+        <triggerMarker node="palletSpawner" filename="$data/shared/assets/marker/markerIconPallet.i3d" adjustToGround="true"/>
+    </triggerMarkers>
+
+    <productionPoint>
+        <productions sharedThroughputCapacity="false">
+            <production id="ghi_hemp_decortication" name="$l10n_production_ghi_hempDecortication" cyclesPerHour="12" costsPerActiveHour="42">
+                <inputs><input fillType="HEMP" amount="100"/></inputs>
+                <outputs>
+                    <output fillType="GHI_HEMP_FIBER" amount="45"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="45"/>
+                </outputs>
+            </production>
+            <production id="ghi_hemp_flower_sorting" name="$l10n_production_ghi_hempFlowerSorting" cyclesPerHour="8" costsPerActiveHour="55">
+                <inputs><input fillType="HEMP" amount="100"/></inputs>
+                <outputs>
+                    <output fillType="GHI_HEMP_FLOWER" amount="18"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="70"/>
+                </outputs>
+            </production>
+            <production id="ghi_hemp_seed_cleaning" name="$l10n_production_ghi_hempSeedCleaning" cyclesPerHour="10" costsPerActiveHour="36">
+                <inputs><input fillType="HEMP" amount="100"/></inputs>
+                <outputs>
+                    <output fillType="GHI_HEMP_SEED" amount="20"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="65"/>
+                </outputs>
+            </production>
+            <production id="ghi_hemp_oil_pressing" name="$l10n_production_ghi_hempOilPressing" cyclesPerHour="7" costsPerActiveHour="68">
+                <inputs><input fillType="GHI_HEMP_SEED" amount="100"/></inputs>
+                <outputs>
+                    <output fillType="GHI_HEMP_OIL" amount="32"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="58"/>
+                </outputs>
+            </production>
+        </productions>
+
+        <storage isExtension="false" fillLevelSyncThreshold="50">
+            <capacity fillType="HEMP" capacity="120000"/>
+            <capacity fillType="GHI_HEMP_SEED" capacity="40000"/>
+            <capacity fillType="GHI_HEMP_BIOMASS" capacity="90000"/>
+            <capacity fillType="GHI_HEMP_FIBER" capacity="50000"/>
+            <capacity fillType="GHI_HEMP_FLOWER" capacity="30000"/>
+            <capacity fillType="GHI_HEMP_OIL" capacity="30000"/>
+        </storage>
+
+        <sellingStation node="sellingStation" supportsExtension="false" allowMissions="false">
+            <unloadTrigger exactFillRootNode="unloadTrigger" aiNode="unloadTriggerAINode" fillTypes="HEMP GHI_HEMP_SEED"/>
+        </sellingStation>
+
+        <palletSpawner>
+            <spawnPlaces><spawnPlace startNode="palletAreaStart" endNode="palletAreaEnd"/></spawnPlaces>
+        </palletSpawner>
+
+        <playerTrigger node="playerTrigger"/>
+    </productionPoint>
+
+    <i3dMappings>
+        <i3dMapping id="palletAreaEnd" node="0>1|0"/>
+        <i3dMapping id="palletAreaStart" node="0>1|1"/>
+        <i3dMapping id="palletSpawner" node="0>1|2"/>
+        <i3dMapping id="playerTrigger" node="0>1|3"/>
+        <i3dMapping id="playerTriggerMarker" node="0>1|4"/>
+        <i3dMapping id="sellingStation" node="0>1|5"/>
+        <i3dMapping id="unloadTrigger" node="0>1|5|0"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>1|5|1"/>
+        <i3dMapping id="unloadTriggerAINode" node="0>1|5|2"/>
+    </i3dMappings>
+</placeable>

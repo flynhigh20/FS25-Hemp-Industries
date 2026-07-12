@@ -43,6 +43,12 @@ source generation, six product-pallet templates, and hemp-processing foundations
         <text name="production_ghi_cbdOil">
             <en>Extract CBD Oil</en>
         </text>
+        <text name="storeItem_ghi_hempProcessingFacility"><en>Green Horizon Hemp Processing Facility</en></text>
+        <text name="function_ghi_hempProcessingFacility"><en>Separates industrial hemp into fiber, flower, seed, biomass, and cold-pressed hemp oil.</en></text>
+        <text name="production_ghi_hempDecortication"><en>Hemp Decortication</en></text>
+        <text name="production_ghi_hempFlowerSorting"><en>Hemp Flower Sorting</en></text>
+        <text name="production_ghi_hempSeedCleaning"><en>Hemp Seed Cleaning</en></text>
+        <text name="production_ghi_hempOilPressing"><en>Cold-Pressed Hemp Oil</en></text>
     </l10n>
 
     <fillTypes filename="xml/fillTypes.xml"/>
@@ -71,6 +77,7 @@ source generation, six product-pallet templates, and hemp-processing foundations
     <storeItems>
         <storeItem xmlFilename="placeables/greenhouses/hempGreenhouse.xml"/>
         <storeItem xmlFilename="placeables/productions/cbdPlantSmall.xml"/>
+        <storeItem xmlFilename="placeables/productions/hempProcessingFacility.xml"/>
     </storeItems>
 
 </modDesc>
