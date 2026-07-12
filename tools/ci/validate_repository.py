@@ -145,7 +145,7 @@ def check_fill_types(parsed: dict[Path, ET.ElementTree]) -> None:
         "GHI_HEMP_SEED",
         "GHI_HEMP_BIOMASS",
         "GHI_HEMP_FIBER",
-        "GHI_HEMP_FLOWER",
+        "HEMP_FLOWER",
         "GHI_HEMP_OIL",
     }
     missing = sorted(required - names)
@@ -245,7 +245,7 @@ def check_icon_manifest(parsed: dict[Path, ET.ElementTree]) -> None:
         "GHI_HEMP_SEED",
         "GHI_HEMP_BIOMASS",
         "GHI_HEMP_FIBER",
-        "GHI_HEMP_FLOWER",
+        "HEMP_FLOWER",
         "GHI_HEMP_OIL",
         "HEMP_CROP",
         "HEMP_CALENDAR",

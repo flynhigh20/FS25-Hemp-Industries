@@ -20,7 +20,7 @@ ICON_SPECS = [
     ("GHI_HEMP_SEED", "fillType_hempSeed.png", "seed", (0.56, 0.43, 0.20, 1.0)),
     ("GHI_HEMP_BIOMASS", "fillType_hempBiomass.png", "biomass", (0.39, 0.38, 0.17, 1.0)),
     ("GHI_HEMP_FIBER", "fillType_hempFiber.png", "fiber", (0.69, 0.62, 0.43, 1.0)),
-    ("GHI_HEMP_FLOWER", "fillType_hempFlower.png", "flower", (0.30, 0.45, 0.16, 1.0)),
+    ("HEMP_FLOWER", "fillType_hempFlower.png", "flower", (0.30, 0.45, 0.16, 1.0)),
     ("GHI_HEMP_OIL", "fillType_hempOil.png", "oil", (0.84, 0.58, 0.08, 1.0)),
     ("HEMP_CROP", "crop_hemp.png", "crop", (0.10, 0.42, 0.14, 1.0)),
     ("HEMP_CALENDAR", "calendar_hemp.png", "calendar", (0.15, 0.36, 0.17, 1.0)),

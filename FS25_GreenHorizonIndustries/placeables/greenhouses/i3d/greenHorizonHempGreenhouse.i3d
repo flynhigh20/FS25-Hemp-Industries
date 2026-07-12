@@ -91,13 +91,14 @@
           <TransformGroup name="plantNode8" nodeId="389"/>
           <TransformGroup name="plantNode9" translation="1.4 0 0" nodeId="390"/>
         </TransformGroup>
-        <Shape name="playerTrigger" translation="4.75 1 0" shapeId="4" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="391" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="163"/>
-        <TransformGroup name="playerTriggerMarker" translation="4.75 0.05 0" nodeId="392"/>
+        <Shape name="playerTrigger" translation="4.75 1 2" shapeId="4" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="391" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="163"/>
+        <TransformGroup name="playerTriggerMarker" translation="4.75 0.05 2" nodeId="392"/>
         <TransformGroup name="sellingStation" nodeId="393">
           <Shape name="exactFillRootNode" translation="-0.55 0 -6" shapeId="6" kinematic="true" compound="true" collisionFilterGroup="0x40000000" collisionFilterMask="0x20000000" nodeId="395" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="166"/>
           <TransformGroup name="seedUnloadMarker" translation="-2.5 0.05 4.5" nodeId="396"/>
           <TransformGroup name="unloadTriggerAINode" translation="-2.5 0.05 -6" nodeId="397"/>
           <TransformGroup name="unloadTriggerMarker" translation="-2.5 0.05 -6" nodeId="398"/>
+          <Shape name="seedPalletTrigger" translation="-2.5 1 4.5" scale="1.5 1 1.5" shapeId="4" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x10000" nodeId="712" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="163"/>
         </TransformGroup>
         <TransformGroup name="storage" nodeId="399"/>
         <TransformGroup name="teleportNode" translation="4.9 0.05 0" nodeId="400"/>

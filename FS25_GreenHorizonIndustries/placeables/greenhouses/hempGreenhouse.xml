@@ -130,6 +130,7 @@
             <unloadTrigger exactFillRootNode="exactFillRootNode"
                            fillTypes="WATER SEEDS"
                            aiNode="unloadTriggerAINode"/>
+            <palletTrigger triggerNode="seedPalletTrigger" fillTypes="SEEDS" autoUnload="true"/>
         </sellingStation>
 
         <!-- Bulk outputs remain loadable while custom product pallets are still inactive. -->
@@ -213,6 +214,7 @@
         <i3dMapping id="seedUnloadMarker" node="0>2|4|1"/>
         <i3dMapping id="unloadTriggerAINode" node="0>2|4|2"/>
         <i3dMapping id="unloadTriggerMarker" node="0>2|4|3"/>
+        <i3dMapping id="seedPalletTrigger" node="0>2|4|4"/>
 
         <i3dMapping id="storage" node="0>2|5"/>
         <i3dMapping id="playerTrigger" node="0>2|2"/>

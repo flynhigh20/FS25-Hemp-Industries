@@ -2,119 +2,96 @@
 
 ## Current Test Snapshot
 
-- Active working folder: `FS25_GreenHorizonIndustries/`
-- Current mod version: `0.3.0.0`
-- The Hemp Greenhouse appears in the FS25 **Greenhouses** category.
-- Water unloading is confirmed working after correcting `exactFillRootNode` to use `shapeId="6"` in the exported I3D.
-- Generic base-game `SEEDS` currently do **not** unload at either visible greenhouse drop point.
-- The greenhouse wrench/player interaction is visible but currently does **not** open the production menu.
-- The same wrench/player interaction works on the CBD plant.
-- `GHI_HEMP_SEED` remains reserved for the later custom hemp-seed pallet and production chain.
-- The seeded greenhouse recipe produces `HEMP_FLOWER` as the more efficient CBD-processing input.
-- The CBD plant is intended to accept both `HEMP` and `HEMP_FLOWER` through separate recipes.
-- The facility/savegame warning has not been retested yet.
-- Current handoff details are in `CODEX_HANDOFF.md`.
+- Active mod version: `0.3.0.0`.
+- Active placeables: Hemp Greenhouse and CBD Plant.
+- Water unloading is confirmed working with `exactFillRootNode shapeId="6"`.
+- Greenhouse wrench and generic seed-bag intake were confirmed broken in the previous test.
+- The wrench trigger is now separated from the door trigger in code and awaits retest.
+- A dedicated stock-pattern `seedPalletTrigger` is now present and awaits retest.
+- CBD plant is configured for separate `HEMP` and `HEMP_FLOWER` recipes.
+- Full context and safety constraints are in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 — Foundation
 
-- [x] GitHub repository
-- [x] Folder structure
-- [x] Rename active mod folder to `FS25_GreenHorizonIndustries/`
-- [x] Project branding
-- [x] Roadmap
-- [x] Initial `modDesc.xml`
-- [x] Initial fill types
-- [x] Verify `fillTypes.xml` loads in FS25
-- [x] Add `icon_mod.dds`
-- [x] First successful fill-type load
+- [x] Repository and protected-branch workflow
+- [x] Active `FS25_GreenHorizonIndustries/` mod folder
+- [x] Branding, roadmap, and `modDesc.xml`
+- [x] Initial fill types and mod icon
+- [x] Confirm fill types load in FS25
 - [ ] Reconfirm `descVersion` against the installed FS25 build before release
 
 ---
 
-## Phase 2 / Alpha 0.2 — Hemp Greenhouse Systems
+## Phase 2 / Alpha 0.2 — Greenhouse and CBD Loop
 
 ### Completed
 
-- [x] Greenhouse production test XML
-- [x] Store-item wiring in `modDesc.xml`
-- [x] Greenhouse appears in the FS25 Greenhouses category
-- [x] Production inputs/outputs draft
-- [x] Water-only recipe
-- [x] Seed-boosted recipe foundation
-- [x] Base-game `SEEDS` booster input merged into the active greenhouse XML
-- [x] Seeded recipe produces `HEMP_FLOWER`
-- [x] Recipe balance notes
-- [x] Peaked glass greenhouse Blender generator
-- [x] Front/rear roof overhang refinement
-- [x] Door top raised to approximately `2.53 m`
-- [x] Grow lights, conduit, irrigation, tank, control box, and grow beds
-- [x] Placement, clear-area, level-area, indoor-area, test-area, and collision helpers
-- [x] Player, unload, storage, pallet-spawn, and marker helper nodes
-- [x] Visible trigger pads for test identification
-- [x] Texture-path normalizer
-- [x] I3D shapes filename/reference normalizer
-- [x] Export validator and package blocker
-- [x] Package/install cleanup for legacy loose folders and ZIP names
-- [x] Water unload trigger confirmed working with `exactFillRootNode shapeId="6"`
-- [x] CBD plant active in `modDesc.xml`
-- [x] CBD plant configured with separate `HEMP` and `HEMP_FLOWER` recipes
+- [x] Greenhouse store item and custom model
+- [x] Water-only greenhouse recipe
+- [x] Base-game `SEEDS` boosted recipe
+- [x] Seeded recipe outputs `HEMP_FLOWER`
+- [x] Water unload confirmed with `shapeId="6"`
+- [x] Greenhouse door animation and collision
+- [x] CBD plant store item
+- [x] CBD bulk-hemp recipe
+- [x] CBD flower recipe with improved efficiency
+- [x] CBD storage/unloading configured for both hemp inputs
+- [x] Export validation and clean package/install tools
 
-### Current test work
+### Fixes prepared — test next
 
-- [ ] Fix greenhouse wrench/player trigger so the production menu opens
-- [ ] Compare greenhouse trigger setup against the working CBD plant setup
-- [ ] Fix generic `SEEDS` unloading; current test failed at both visible greenhouse drop points
-- [ ] Determine whether seed bags need a dedicated trigger shape or different stock greenhouse input configuration
-- [ ] Preserve working water unloading and `shapeId="6"` while fixing seed intake
-- [ ] Confirm both greenhouse recipes start, consume inputs, and produce outputs
-- [ ] Confirm `HEMP_FLOWER` no longer reports an unsupported loading-station or pallet-spawner warning
-- [ ] Confirm the CBD plant shows both recipes
-- [ ] Confirm the CBD plant accepts both `HEMP` and `HEMP_FLOWER`
-- [ ] Confirm CBD oil pallet output works
-- [ ] Confirm the packaged ZIP contains `xml/fillTypes.xml` and both active placeable XML files
-- [ ] Confirm FS25 loads the shapes file without a filename-case error
-- [ ] Confirm all corrected I3D mappings resolve without child-index errors
-- [ ] Confirm placement, leveling, walking access, collisions, and trigger positions in game
-- [ ] Test using a fresh save or remove the obsolete `hempProcessingFacility.xml` entry from a backed-up old save
-- [ ] Convert final PNG textures to mipmapped DDS files where appropriate
-- [ ] Replace or refine the temporary static hemp visuals after gameplay is stable
-- [ ] Final greenhouse and CBD economy balancing
+- [x] Separate greenhouse wrench/player trigger from the door trigger volume
+- [x] Add dedicated `seedPalletTrigger` with pallet collision mask `0x10000`
+- [x] Add `<palletTrigger fillTypes="SEEDS" autoUnload="true">` to the greenhouse selling station
+- [x] Preserve the confirmed water trigger and `shapeId="6"`
+- [ ] Confirm the relocated wrench opens the production menu
+- [ ] Confirm the door action still works independently
+- [ ] Confirm a normal base-game seed bag auto-unloads at the seed marker
+- [ ] Confirm water unloading still works after the changes
+- [ ] Confirm both greenhouse recipes consume inputs and produce outputs
+- [ ] Confirm `HEMP_FLOWER` produces no unsupported output warning
+- [ ] Confirm CBD plant displays both recipes
+- [ ] Confirm CBD plant accepts both `HEMP` and `HEMP_FLOWER`
+- [ ] Confirm CBD oil pallet output
+- [ ] Review `log.txt` for bad mappings, missing shapes, or unsupported fill types
 
-### Later Phase 2 work
+### Remaining Phase 2 work
 
-- [ ] Export and activate the custom Hemp Seed pallet
-- [ ] Switch booster input from `SEEDS` back to `GHI_HEMP_SEED`
-- [ ] Export and activate the flower and other custom product pallets
-- [ ] Add dedicated sell points
-- [ ] Complete final store and production icons
+- [ ] Fresh-save regression test for placement, leveling, access, and collisions
+- [ ] Remove or retest obsolete savegame `hempProcessingFacility.xml` references
+- [ ] Final greenhouse and CBD economy balance
+- [ ] Final store and production icons
+- [ ] Convert final textures to mipmapped DDS where appropriate
+- [ ] Export and activate custom product pallets only after gameplay is stable
 
 ---
 
-## Phase 3 / Alpha 0.3 — Field Crop Extension
+## Phase 3 / Alpha 0.3 — Outdoor Hemp Crop
 
-- [ ] Activate fruit-type registration
-- [ ] Register Industrial Hemp as a field crop
-- [ ] Finalize crop textures
-- [ ] Finalize all growth stages
-- [ ] Complete harvest setup
-- [ ] Validate destruction, density channels, save/reload, and multiplayer behavior
-- [ ] Precision Farming experiments
+- [ ] Generate and approve final crop texture atlas
+- [ ] Validate all nine visible foliage/growth states
+- [ ] Activate HEMP fruit-type registration on a controlled test map
+- [ ] Validate seasonal growth, density channels, destruction, and save/reload
+- [ ] Configure yield, mature-to-cut transition, windrow, and cutter effects
+- [ ] Adapt one base-game planter and harvester for the first field test
+- [ ] Run the first plant-to-harvest-to-delivery test
+- [ ] Precision Farming and multiplayer experiments
 
 ---
 
-## Beta
+## Later Industry and Equipment
 
-- [ ] Custom harvester
-- [ ] New equipment
-- [ ] Custom processing buildings
-- [ ] Console testing and optimization
+- [ ] Biomass mill or energy destination
+- [ ] Fiber textile/tailor destination
+- [ ] CBD-edibles bakery chain
+- [ ] Decide whether a custom harvester is necessary after base-equipment testing
+- [ ] Console performance and compatibility pass
 
 ---
 
 ## Version 1.0
 
-- [ ] Full regression test
-- [ ] Multiplayer test
-- [ ] Performance pass
+- [ ] Full regression and multiplayer testing
+- [ ] Performance and economy balance
 - [ ] Localization pass
 - [ ] ModHub-ready package

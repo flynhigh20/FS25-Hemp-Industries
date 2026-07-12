@@ -426,24 +426,28 @@ def create_gameplay_helpers(root, helper_material):
     add_empty("unloadTriggerMarker", (-2.50, 4.50, 0.05), selling, size=0.22)
     add_empty("unloadTriggerAINode", (-2.50, 6.00, 0.05), selling, size=0.22)
 
-    make_trigger_box(
+    pallet_trigger = make_trigger_box(
         "palletTrigger",
         (-2.50, -4.50, 0.90),
         (4.00, 3.00, 1.80),
         helper_material,
         selling,
     )
+    pallet_trigger["static"] = False
+    pallet_trigger["kinematic"] = True
+    pallet_trigger["compound"] = True
+    pallet_trigger["collisionFilterMask"] = "0x10000"
     add_empty("seedUnloadMarker", (-2.50, -4.50, 0.05), selling, size=0.22)
 
     add_empty("storage", parent=game_nodes)
     make_trigger_box(
         "playerTrigger",
-        (4.75, 0.0, 1.0),
+        (4.75, -2.0, 1.0),
         (1.20, 1.60, 1.9),
         helper_material,
         game_nodes,
     )
-    add_empty("playerTriggerMarker", (4.75, 0.0, 0.05), game_nodes, size=0.18)
+    add_empty("playerTriggerMarker", (4.75, -2.0, 0.05), game_nodes, size=0.18)
     add_empty("teleportNode", (4.90, 0.0, 0.05), game_nodes, size=0.18)
 
     make_trigger_box(

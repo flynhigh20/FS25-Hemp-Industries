@@ -23,7 +23,7 @@
                 <input fillType="HEMP" amount="100"/>
             </inputs>
             <outputs>
-                <output fillType="GHI_HEMP_FLOWER" amount="18"/>
+                <output fillType="HEMP_FLOWER" amount="18"/>
                 <output fillType="GHI_HEMP_BIOMASS" amount="70"/>
             </outputs>
             <balance cyclesPerHour="8" costsPerActiveHour="55" massLossPercent="12"/>
@@ -58,7 +58,7 @@
         <capacity fillType="GHI_HEMP_SEED" liters="40000"/>
         <capacity fillType="GHI_HEMP_BIOMASS" liters="90000"/>
         <capacity fillType="GHI_HEMP_FIBER" liters="50000"/>
-        <capacity fillType="GHI_HEMP_FLOWER" liters="30000"/>
+        <capacity fillType="HEMP_FLOWER" liters="30000"/>
         <capacity fillType="GHI_HEMP_OIL" liters="30000"/>
     </storageTargets>
 

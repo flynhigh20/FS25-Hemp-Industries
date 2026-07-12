@@ -52,7 +52,7 @@
 
     <futureVehicleWorkflows>
         <workflow id="biomassForage" enabled="false" outputFillType="GHI_HEMP_BIOMASS"/>
-        <workflow id="flowerHarvest" enabled="false" outputFillType="GHI_HEMP_FLOWER"/>
+        <workflow id="flowerHarvest" enabled="false" outputFillType="HEMP_FLOWER"/>
         <workflow id="fiberWindrow" enabled="false" outputFillType="GHI_HEMP_FIBER"/>
     </futureVehicleWorkflows>
 
