@@ -53,7 +53,7 @@
         </fillType>
 
         <fillType
-            name="GHI_HEMP_FLOWER"
+            name="HEMP_FLOWER"
             title="Hemp Flower"
             showOnPriceTable="true"
             isBulkType="true"
