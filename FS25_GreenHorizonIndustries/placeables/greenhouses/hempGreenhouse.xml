@@ -120,7 +120,7 @@
                 </inputs>
                 <outputs>
                     <output fillType="HEMP" amount="24"/>
-                    <output fillType="GHI_HEMP_FLOWER" amount="2"/>
+                    <output fillType="HEMP_FLOWER" amount="2"/>
                     <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
                 </outputs>
             </production>
@@ -132,7 +132,8 @@
                            aiNode="unloadTriggerAINode"/>
         </sellingStation>
 
-        <loadingStation fillTypes="WATER SEEDS" supportsExtension="true"/>
+        <!-- Bulk outputs remain loadable while custom product pallets are still inactive. -->
+        <loadingStation fillTypes="HEMP GHI_HEMP_BIOMASS HEMP_FLOWER" supportsExtension="true"/>
 
         <palletSpawner>
             <spawnPlaces>
@@ -142,13 +143,13 @@
 
         <storage node="storage"
                  isExtension="false"
-                 fillTypes="WATER SEEDS HEMP GHI_HEMP_BIOMASS GHI_HEMP_FLOWER"
+                 fillTypes="WATER SEEDS HEMP GHI_HEMP_BIOMASS HEMP_FLOWER"
                  fillLevelSyncThreshold="10">
             <capacity fillType="WATER" capacity="40000"/>
             <capacity fillType="SEEDS" capacity="12000"/>
             <capacity fillType="HEMP" capacity="28000"/>
             <capacity fillType="GHI_HEMP_BIOMASS" capacity="18000"/>
-            <capacity fillType="GHI_HEMP_FLOWER" capacity="8000"/>
+            <capacity fillType="HEMP_FLOWER" capacity="8000"/>
         </storage>
 
         <playerTrigger node="playerTrigger"/>
