@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<i3D name="palletWarningStripes" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Files>
+    <File fileId="1" filename="$data/shared/warningStripes_diffuse.png"/>
+    <File fileId="2" filename="$data/shared/warningStripes_normal.png"/>
+    <File fileId="3" filename="$data/shared/warningStripes_specular.png"/>
+  </Files>
+  <Materials>
+    <Material name="warningStripes_mat" materialId="2">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+    </Material>
+  </Materials>
+  <Shapes externalShapesFile="palletWarningStripes.i3d.shapes"/>
+  <Scene>
+    <TransformGroup name="palletWarningStripes" nodeId="1">
+      <Shape name="warningStripes" translation="0 0.02 0" scale="1.25 1 1.25" shapeId="4" castsShadows="false" receiveShadows="true" nonRenderable="true" terrainDecal="true" materialIds="2" clipDistance="200" nodeId="2"/>
+    </TransformGroup>
+  </Scene>
+</i3D>

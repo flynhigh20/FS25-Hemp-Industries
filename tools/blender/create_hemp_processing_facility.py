@@ -153,13 +153,27 @@ box("transferPipeHorizontal", (6.48, 0.55, 3.85), (1.08, 0.13, 0.13), steel, vis
 # Non-rendered helper meshes, kept spatially separate. Trigger collision flags
 # are finalized after I3D export, but these must be real shapes rather than
 # empties for FS25 to detect them.
-player_trigger = box("playerTrigger", (4.5, -5.0, 1.0), (1.8, 1.8, 2.0), concrete, game_nodes, 0)
+player_trigger = box("playerTrigger", (4.5, -5.0, 1.0), (1.8, 0.65, 2.0), concrete, game_nodes, 0)
 player_trigger.hide_render = True
 player_trigger.display_type = "WIRE"
+player_trigger["i3D_static"] = True
+player_trigger["i3D_trigger"] = True
+player_trigger["i3D_collision"] = True
+player_trigger["i3D_cpuMesh"] = True
+player_trigger["i3D_nonRenderable"] = True
+player_trigger["i3D_collisionFilterGroup"] = "536870912"
+player_trigger["i3D_collisionFilterMask"] = "1048576"
 empty("playerTriggerMarker", (4.5, -5.0, 0.05), game_nodes, "PLAIN_AXES", 0.25)
-unload_trigger = box("unloadTrigger", (-1.0, -6.0, 0.8), (4.5, 3.0, 1.6), concrete, game_nodes, 0)
+unload_trigger = box("unloadTrigger", (-4.3, -6.0, 0.8), (3.0, 3.0, 1.6), concrete, game_nodes, 0)
 unload_trigger.hide_render = True
 unload_trigger.display_type = "WIRE"
+unload_trigger["i3D_kinematic"] = True
+unload_trigger["i3D_compound"] = True
+unload_trigger["i3D_collision"] = True
+unload_trigger["i3D_cpuMesh"] = True
+unload_trigger["i3D_nonRenderable"] = True
+unload_trigger["i3D_collisionFilterGroup"] = "1073741824"
+unload_trigger["i3D_collisionFilterMask"] = "536870912"
 empty("unloadTriggerMarker", (-1.0, -6.0, 0.05), game_nodes, "PLAIN_AXES", 0.25)
 empty("palletSpawner", (4.3, 4.8, 0.05), game_nodes, "PLAIN_AXES", 0.3)
 empty("palletAreaStart", (2.6, 4.8, 0.05), game_nodes, "PLAIN_AXES", 0.2)
@@ -176,6 +190,12 @@ for name, loc, size in (
     obj = box(name, loc, size, concrete, collisions, 0)
     obj.hide_render = True
     obj.display_type = "WIRE"
+    obj["i3D_static"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_cpuMesh"] = True
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_collisionFilterGroup"] = "4148"
+    obj["i3D_collisionFilterMask"] = "4294966271"
 
 bpy.context.scene.render.engine = "BLENDER_EEVEE_NEXT"
 bpy.context.scene.unit_settings.system = "METRIC"

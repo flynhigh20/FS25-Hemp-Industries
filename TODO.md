@@ -18,7 +18,8 @@
 - [x] Greenhouse store item and production XML
 - [x] Custom greenhouse model, materials, and decorative irrigation equipment
 - [x] Greenhouse placement, floor alignment, walls, and collisions
-- [x] Greenhouse store image and branded badge
+- [x] Dedicated greenhouse building store thumbnail
+- [x] Seed-boosted greenhouse recipe using base-game SEEDS as an additive
 - [x] Player production trigger and wrench marker
 - [x] Dedicated manual WATER unloading node (`exactFillRootNode`, shapeId 6)
 - [x] Confirm tanker water transfer works in FS25
@@ -28,9 +29,9 @@
 - [x] Sliding greenhouse door animation and collision setup
 - [x] Remove stale `warningStripes` door mappings
 - [x] Separate the wrench/player trigger from the door trigger
-- [ ] Confirm the relocated wrench opens the greenhouse menu after a clean restart
-- [ ] Confirm the sliding door opens, closes, and updates collision in FS25
-- [ ] Run a complete grow cycle and verify hemp/biomass pallet spawning
+- [x] Confirm the relocated wrench opens the greenhouse menu after a clean restart
+- [x] Confirm the sliding door opens, closes, and updates collision in FS25
+- [x] Run a complete grow cycle and verify hemp/biomass pallet spawning
 - [ ] Final greenhouse production-rate and economy balancing
 
 ---
@@ -47,11 +48,17 @@
 - [x] Package and validate version `0.3.0.0`
 - [x] Build the custom steel-frame Hemp Processing Facility model
 - [x] Add dedicated facility collisions, unloading trigger, player trigger, and pallet area
-- [x] Activate decortication, flower sorting, seed cleaning, and hemp oil pressing recipes
-- [ ] Complete an in-game CBD production cycle
+- [x] Activate decortication and flower-sorting recipes
+- [x] Keep fiber and biomass as intermediate factory outputs
+- [x] Hide seed, biomass, fiber, and hemp oil from public price tables
+- [x] Add a dedicated processing-facility building store thumbnail
+- [x] Complete an in-game CBD production cycle
 - [ ] Verify HEMP delivery, CBD oil production, and pallet spawning
 - [ ] Test and balance all Hemp Processing Facility recipes
-- [ ] Add sell points and product pricing
+- [ ] Add a biomass mill or energy-chain destination
+- [ ] Add a fiber textile/tailor-chain destination
+- [ ] Add a CBD-edibles bakery production chain using CBD oil and hemp flower
+- [ ] Finalize sell-point coverage for HEMP, hemp flower, CBD oil, and future edibles
 - [ ] Review production-chain UI names, icons, and descriptions
 
 ### Outdoor Hemp Crop Foundation
