@@ -6,10 +6,13 @@
 - Current mod version: `0.3.0.0`
 - The Hemp Greenhouse appears in the FS25 **Greenhouses** category.
 - Water unloading is confirmed working after correcting `exactFillRootNode` to use `shapeId="6"` in the exported I3D.
-- The current booster test uses the base-game generic fill type `SEEDS`.
+- Generic base-game `SEEDS` currently do **not** unload at either visible greenhouse drop point.
+- The greenhouse wrench/player interaction is visible but currently does **not** open the production menu.
+- The same wrench/player interaction works on the CBD plant.
 - `GHI_HEMP_SEED` remains reserved for the later custom hemp-seed pallet and production chain.
 - The seeded greenhouse recipe produces `HEMP_FLOWER` as the more efficient CBD-processing input.
 - The CBD plant is intended to accept both `HEMP` and `HEMP_FLOWER` through separate recipes.
+- The facility/savegame warning has not been retested yet.
 - Current handoff details are in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 — Foundation
@@ -58,7 +61,11 @@
 
 ### Current test work
 
-- [ ] Confirm generic `SEEDS` unload at the same trigger where water works
+- [ ] Fix greenhouse wrench/player trigger so the production menu opens
+- [ ] Compare greenhouse trigger setup against the working CBD plant setup
+- [ ] Fix generic `SEEDS` unloading; current test failed at both visible greenhouse drop points
+- [ ] Determine whether seed bags need a dedicated trigger shape or different stock greenhouse input configuration
+- [ ] Preserve working water unloading and `shapeId="6"` while fixing seed intake
 - [ ] Confirm both greenhouse recipes start, consume inputs, and produce outputs
 - [ ] Confirm `HEMP_FLOWER` no longer reports an unsupported loading-station or pallet-spawner warning
 - [ ] Confirm the CBD plant shows both recipes
