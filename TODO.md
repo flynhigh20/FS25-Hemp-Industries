@@ -5,9 +5,9 @@
 - Active working folder: `FS25_GreenHorizonIndustries/`
 - Current public test version: `0.2.18.0`
 - The Hemp Greenhouse now appears in the FS25 **Greenhouses** category.
-- The current booster test should use the base-game generic fill type `SEEDS` so ordinary store-bought seed bags, pallets, or tenders can supply it.
+- The current booster test uses the base-game generic fill type `SEEDS` so ordinary store-bought seed bags, pallets, or tenders can supply it.
 - `GHI_HEMP_SEED` remains reserved for the later custom hemp-seed pallet and production chain.
-- The latest local Blender/I3D export must still be merged from the user's main working copy before it is treated as the repository's final model.
+- Water unloading is confirmed working after correcting `exactFillRootNode` to use `shapeId="6"` in the exported I3D.
 
 ## Phase 1 / Alpha 0.1 — Foundation
 
@@ -47,15 +47,15 @@
 - [x] I3D shapes filename/reference normalizer
 - [x] Export validator and package blocker
 - [x] Package/install cleanup for legacy loose folders and ZIP names
+- [x] Base-game `SEEDS` booster input merged into the active greenhouse XML
+- [x] Water unload trigger confirmed working with `exactFillRootNode shapeId="6"`
 
 ### Current test work
 
-- [ ] Merge the user's latest local `hempGreenhouse.xml` change using `SEEDS` as the temporary booster input
-- [ ] Merge the user's latest exported `.i3d` and `.i3d.shapes` from the main local working copy
 - [ ] Confirm the packaged ZIP contains `xml/fillTypes.xml` and `placeables/greenhouses/hempGreenhouse.xml`
 - [ ] Confirm FS25 loads the shapes file without a filename-case error
 - [ ] Confirm all corrected I3D mappings resolve without child-index errors
-- [ ] Confirm water and generic `SEEDS` unload correctly at the greenhouse
+- [ ] Confirm generic `SEEDS` unload correctly at the greenhouse
 - [ ] Confirm both recipes start, consume inputs, and produce outputs
 - [ ] Confirm placement, leveling, walking access, collisions, and trigger positions in game
 - [ ] Convert final PNG textures to mipmapped DDS files where appropriate
