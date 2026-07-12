@@ -109,15 +109,30 @@
                 </outputs>
             </production>
 
+            <!-- Temporary test booster: accepts any base-game seed bag/pallet using SEEDS. -->
+            <production id="ghi_hemp_greenhouse_seeded"
+                        name="$l10n_production_ghi_hempGreenhouseSeeded"
+                        cyclesPerHour="24"
+                        costsPerActiveHour="18">
+                <inputs>
+                    <input fillType="WATER" amount="20"/>
+                    <input fillType="SEEDS" amount="4"/>
+                </inputs>
+                <outputs>
+                    <output fillType="HEMP" amount="24"/>
+                    <output fillType="GHI_HEMP_FLOWER" amount="2"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
+                </outputs>
+            </production>
         </productions>
 
         <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
             <unloadTrigger exactFillRootNode="exactFillRootNode"
-                           fillTypes="WATER"
+                           fillTypes="WATER SEEDS"
                            aiNode="unloadTriggerAINode"/>
         </sellingStation>
 
-        <loadingStation fillTypes="WATER" supportsExtension="true"/>
+        <loadingStation fillTypes="WATER SEEDS" supportsExtension="true"/>
 
         <palletSpawner>
             <spawnPlaces>
@@ -127,11 +142,13 @@
 
         <storage node="storage"
                  isExtension="false"
-                 fillTypes="WATER"
+                 fillTypes="WATER SEEDS HEMP GHI_HEMP_BIOMASS GHI_HEMP_FLOWER"
                  fillLevelSyncThreshold="10">
             <capacity fillType="WATER" capacity="40000"/>
+            <capacity fillType="SEEDS" capacity="12000"/>
             <capacity fillType="HEMP" capacity="28000"/>
             <capacity fillType="GHI_HEMP_BIOMASS" capacity="18000"/>
+            <capacity fillType="GHI_HEMP_FLOWER" capacity="8000"/>
         </storage>
 
         <playerTrigger node="playerTrigger"/>
