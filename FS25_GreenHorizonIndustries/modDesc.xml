@@ -38,10 +38,13 @@ source generation, six product-pallet templates, and hemp-processing foundations
             <en>Green Horizon CBD Plant</en>
         </text>
         <text name="function_ghi_cbdPlantSmall">
-            <en>Processes industrial hemp into palletized CBD oil.</en>
+            <en>Processes industrial hemp or refined hemp flower into palletized CBD oil.</en>
         </text>
-        <text name="production_ghi_cbdOil">
-            <en>Extract CBD Oil</en>
+        <text name="production_ghi_cbdOilHemp">
+            <en>Extract CBD Oil from Hemp</en>
+        </text>
+        <text name="production_ghi_cbdOilFlower">
+            <en>Extract CBD Oil from Hemp Flower</en>
         </text>
     </l10n>
 
