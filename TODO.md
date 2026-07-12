@@ -3,11 +3,14 @@
 ## Current Test Snapshot
 
 - Active working folder: `FS25_GreenHorizonIndustries/`
-- Current public test version: `0.2.18.0`
-- The Hemp Greenhouse now appears in the FS25 **Greenhouses** category.
-- The current booster test uses the base-game generic fill type `SEEDS` so ordinary store-bought seed bags, pallets, or tenders can supply it.
-- `GHI_HEMP_SEED` remains reserved for the later custom hemp-seed pallet and production chain.
+- Current mod version: `0.3.0.0`
+- The Hemp Greenhouse appears in the FS25 **Greenhouses** category.
 - Water unloading is confirmed working after correcting `exactFillRootNode` to use `shapeId="6"` in the exported I3D.
+- The current booster test uses the base-game generic fill type `SEEDS`.
+- `GHI_HEMP_SEED` remains reserved for the later custom hemp-seed pallet and production chain.
+- The seeded greenhouse recipe produces `HEMP_FLOWER` as the more efficient CBD-processing input.
+- The CBD plant is intended to accept both `HEMP` and `HEMP_FLOWER` through separate recipes.
+- Current handoff details are in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 — Foundation
 
@@ -35,6 +38,8 @@
 - [x] Production inputs/outputs draft
 - [x] Water-only recipe
 - [x] Seed-boosted recipe foundation
+- [x] Base-game `SEEDS` booster input merged into the active greenhouse XML
+- [x] Seeded recipe produces `HEMP_FLOWER`
 - [x] Recipe balance notes
 - [x] Peaked glass greenhouse Blender generator
 - [x] Front/rear roof overhang refinement
@@ -47,26 +52,32 @@
 - [x] I3D shapes filename/reference normalizer
 - [x] Export validator and package blocker
 - [x] Package/install cleanup for legacy loose folders and ZIP names
-- [x] Base-game `SEEDS` booster input merged into the active greenhouse XML
 - [x] Water unload trigger confirmed working with `exactFillRootNode shapeId="6"`
+- [x] CBD plant active in `modDesc.xml`
+- [x] CBD plant configured with separate `HEMP` and `HEMP_FLOWER` recipes
 
 ### Current test work
 
-- [ ] Confirm the packaged ZIP contains `xml/fillTypes.xml` and `placeables/greenhouses/hempGreenhouse.xml`
+- [ ] Confirm generic `SEEDS` unload at the same trigger where water works
+- [ ] Confirm both greenhouse recipes start, consume inputs, and produce outputs
+- [ ] Confirm `HEMP_FLOWER` no longer reports an unsupported loading-station or pallet-spawner warning
+- [ ] Confirm the CBD plant shows both recipes
+- [ ] Confirm the CBD plant accepts both `HEMP` and `HEMP_FLOWER`
+- [ ] Confirm CBD oil pallet output works
+- [ ] Confirm the packaged ZIP contains `xml/fillTypes.xml` and both active placeable XML files
 - [ ] Confirm FS25 loads the shapes file without a filename-case error
 - [ ] Confirm all corrected I3D mappings resolve without child-index errors
-- [ ] Confirm generic `SEEDS` unload correctly at the greenhouse
-- [ ] Confirm both recipes start, consume inputs, and produce outputs
 - [ ] Confirm placement, leveling, walking access, collisions, and trigger positions in game
+- [ ] Test using a fresh save or remove the obsolete `hempProcessingFacility.xml` entry from a backed-up old save
 - [ ] Convert final PNG textures to mipmapped DDS files where appropriate
 - [ ] Replace or refine the temporary static hemp visuals after gameplay is stable
-- [ ] Final greenhouse economy balancing
+- [ ] Final greenhouse and CBD economy balancing
 
 ### Later Phase 2 work
 
 - [ ] Export and activate the custom Hemp Seed pallet
 - [ ] Switch booster input from `SEEDS` back to `GHI_HEMP_SEED`
-- [ ] Export and activate the other custom product pallets
+- [ ] Export and activate the flower and other custom product pallets
 - [ ] Add dedicated sell points
 - [ ] Complete final store and production icons
 
