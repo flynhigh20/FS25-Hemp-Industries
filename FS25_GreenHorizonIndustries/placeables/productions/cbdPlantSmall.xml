@@ -42,16 +42,16 @@
     <productionPoint>
         <productions>
             <production id="ghi_cbd_oil" name="$l10n_production_ghi_cbdOil" cyclesPerHour="4" costsPerActiveHour="32">
-                <inputs><input fillType="HEMP" amount="40"/></inputs>
+                <inputs><input fillType="HEMP_FLOWER" amount="40"/></inputs>
                 <outputs><output fillType="GHI_CBD_OIL" amount="10"/></outputs>
             </production>
         </productions>
         <storage isExtension="false" fillLevelSyncThreshold="50">
-            <capacity fillType="HEMP" capacity="48000"/>
+            <capacity fillType="HEMP_FLOWER" capacity="48000"/>
             <capacity fillType="GHI_CBD_OIL" capacity="12000"/>
         </storage>
         <sellingStation node="sellingStation" supportsExtension="false" allowMissions="false">
-            <unloadTrigger exactFillRootNode="exactFillNode" aiNode="unloadTriggerAINode" fillTypes="HEMP"/>
+            <unloadTrigger exactFillRootNode="exactFillNode" aiNode="unloadTriggerAINode" fillTypes="HEMP_FLOWER"/>
         </sellingStation>
         <palletSpawner><spawnPlaces><spawnPlace startNode="palletAreaStart01" endNode="palletAreaEnd01"/></spawnPlaces></palletSpawner>
         <playerTrigger node="playerTrigger"/>
