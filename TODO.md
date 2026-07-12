@@ -37,6 +37,8 @@
 
 ## Phase 3 / Alpha 0.3 — Production Expansion (Early)
 
+- [x] Add a dedicated industrial-hemp leaf HUD icon
+
 - [x] Activate the Green Horizon CBD production facility
 - [x] Add `GHI_CBD_OIL` fill type
 - [x] Add CBD oil pallet definition

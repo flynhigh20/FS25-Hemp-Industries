@@ -18,7 +18,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
-            <image hud="branding/hemp_greenhouse_badge.png"/>
+            <image hud="ui/hud_fill_hemp.png"/>
             <pallet filename="pallets/xml/hempPallet.xml"/>
         </fillType>
 

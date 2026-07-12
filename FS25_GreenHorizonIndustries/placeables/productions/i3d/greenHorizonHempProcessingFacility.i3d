@@ -7,26 +7,37 @@
 
   <Files>
     <File fileId="6" filename="../../../branding/green_horizon_industries_main_logo.png"/>
+    <File fileId="7" filename="../../greenhouses/textures/greenhouse_concrete_diffuse.dds"/>
+    <File fileId="8" filename="../../greenhouses/textures/greenhouse_glass_diffuse.dds"/>
+    <File fileId="9" filename="../../greenhouses/textures/greenhouse_frame_diffuse.dds"/>
+    <File fileId="10" filename="../../greenhouses/textures/greenhouse_hemp_leaf_diffuse.dds"/>
   </Files>
 
 
   <Materials>
-    <Material name="GHI_BrandLogo" materialId="3" emissiveColor="1 1 1 1" specularColor="0.619608 1 0.101961">
+    <Material name="GHI_BrandLogo" materialId="3" emissiveColor="0 0 0 1" specularColor="0.2 1 0.1">
       <Texture fileId="6"/>
     </Material>
-    <Material name="GHI_Concrete" materialId="1" diffuseColor="0.290196 0.301961 0.278431 1" emissiveColor="1 1 1 1" specularColor="0.180392 1 0">
+    <Material name="GHI_Concrete" materialId="1" diffuseColor="0.7 0.7 0.68 1" emissiveColor="0 0 0 1" specularColor="0.18 1 0">
+      <Texture fileId="7"/>
     </Material>
-    <Material name="GHI_DarkGlass" materialId="6" diffuseColor="0.0235294 0.0705882 0.0745098 1" emissiveColor="1 1 1 1" specularColor="0.819608 1 0.25098">
+    <Material name="GHI_DarkGlass" materialId="6" diffuseColor="0.15 0.32 0.34 0.48" emissiveColor="0 0 0 1" specularColor="0.82 1 0.25" alphaBlending="true">
+      <Texture fileId="8"/>
     </Material>
-    <Material name="GHI_DarkSteel" materialId="5" diffuseColor="0.0352941 0.054902 0.0588235 1" emissiveColor="1 1 1 1" specularColor="0.721569 1 0.721569">
+    <Material name="GHI_DarkSteel" materialId="5" diffuseColor="0.16 0.2 0.2 1" emissiveColor="0 0 0 1" specularColor="0.72 1 0.72">
+      <Texture fileId="9"/>
     </Material>
-    <Material name="GHI_GreenAccent" materialId="2" diffuseColor="0.0784314 0.321569 0.180392 1" emissiveColor="1 1 1 1" specularColor="0.580392 1 0.25098">
+    <Material name="GHI_GreenAccent" materialId="2" diffuseColor="0.18 0.58 0.3 1" emissiveColor="0 0 0 1" specularColor="0.3 1 0.2">
+      <Texture fileId="10"/>
     </Material>
-    <Material name="GHI_LightMetalPanel" materialId="4" diffuseColor="0.470588 0.541176 0.529412 1" emissiveColor="1 1 1 1" specularColor="0.619608 1 0.54902">
+    <Material name="GHI_LightMetalPanel" materialId="4" diffuseColor="0.72 0.79 0.78 1" emissiveColor="0 0 0 1" specularColor="0.62 1 0.55">
+      <Texture fileId="9"/>
     </Material>
-    <Material name="GHI_RollupDoor" materialId="7" diffuseColor="0.180392 0.25098 0.239216 1" emissiveColor="1 1 1 1" specularColor="0.639216 1 0.580392">
+    <Material name="GHI_RollupDoor" materialId="7" diffuseColor="0.38 0.48 0.46 1" emissiveColor="0 0 0 1" specularColor="0.64 1 0.58">
+      <Texture fileId="9"/>
     </Material>
-    <Material name="GHI_RoofMetal" materialId="8" diffuseColor="0.121569 0.180392 0.180392 1" emissiveColor="1 1 1 1" specularColor="0.701961 1 0.678431">
+    <Material name="GHI_RoofMetal" materialId="8" diffuseColor="0.26 0.34 0.34 1" emissiveColor="0 0 0 1" specularColor="0.7 1 0.68">
+      <Texture fileId="9"/>
     </Material>
   </Materials>
 
