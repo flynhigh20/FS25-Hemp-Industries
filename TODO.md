@@ -12,6 +12,7 @@
 - Hemp distribution is confirmed; seeded greenhouse output now lists `HEMP_FLOWER` first so its production-menu output toggle can target flower separately.
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
 - CBD oil pallets are confirmed spawning. Greenhouse output pallet registrations and flower pallet support are now repaired; in-game spawn confirmation is pending.
+- Greenhouse store thumbnail now uses a building render instead of the badge logo; CBD wall sign texture binding and greenhouse pallet-area stripe placement are repaired pending a fresh-place test.
 - Full recovery and workflow context is in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 - Foundation
@@ -83,6 +84,7 @@
 - [ ] Fresh-save regression test for placement, access, and collisions
 - [ ] Final greenhouse and CBD economy pass after measured gameplay
 - [ ] Final store and production icons
+- [x] Replace greenhouse badge-style store image with a greenhouse building thumbnail
 - [ ] Convert logo and final textures to power-of-two mipmapped DDS
 - [ ] Remove obsolete savegame references only if they still appear
 

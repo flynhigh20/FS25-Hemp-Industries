@@ -422,7 +422,7 @@
         <Shape name="windowMullion_4.20_-2.61" translation="4.2 1.45 2.612" rotation="-0 -180 -0" shapeId="190" nodeId="709" castsShadows="true" receiveShadows="true" materialIds="158"/>
         <Shape name="windowMullion_4.20_2.61" translation="4.2 1.45 -2.612" rotation="-0 -180 -0" shapeId="190" nodeId="710" castsShadows="true" receiveShadows="true" materialIds="158"/>
       </TransformGroup>
-      <TransformGroup name="warningStripes" translation="-3.75 0.02 -2.55" nodeId="711"/>
+      <TransformGroup name="warningStripes" translation="2.65 0.02 3.75" nodeId="711"/>
     </TransformGroup>
   </Scene>
 

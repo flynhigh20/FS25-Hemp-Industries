@@ -6,6 +6,7 @@
   </Asset>
 
   <Files>
+    <File fileId="1" filename="../../../branding/green_horizon_industries_main_logo.png" relativePath="true"/>
   </Files>
 
 
@@ -25,6 +26,7 @@
     <Material name="CBD_StainlessSteel" materialId="11" diffuseColor="0.419608 0.478431 0.501961 1" specularColor="0.741176 1 0.8">
     </Material>
     <Material name="GHI_BrandLogo" materialId="12" specularColor="0.619608 1 0.101961">
+      <Texture fileId="1"/>
     </Material>
     <Material name="GHI_Concrete" materialId="13" diffuseColor="0.290196 0.301961 0.278431 1" specularColor="0.180392 1 0">
     </Material>

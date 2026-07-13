@@ -48,6 +48,10 @@
 - Pallet spawn hierarchy is `palletSpawner -> palletAreaStart -> palletAreaEnd` and visible stripes are aligned to that footprint.
 - Clear, level, paint, indoor, and AI-update areas are active. The optional invalid test area was removed.
 - The seeded greenhouse recipe lists `HEMP_FLOWER` first. Existing saves still contain only `<autoDeliverFillType>HEMP</autoDeliverFillType>` until the user re-toggles the seeded recipe to `Distributing`.
+- Existing tested greenhouses were confirmed to have `<autoDeliverFillType>HEMP</autoDeliverFillType>` persisted in `savegame1/placeables.xml`; deleting and freshly placing them is required for a clean flower-distribution test.
+- Greenhouse store image is now a 512x512 building thumbnail rather than the badge logo.
+- CBD factory `GHI_BrandLogo` now has an explicit relative file reference and texture binding; fresh placement/reload is pending confirmation.
+- Greenhouse floating pallet marker was removed. The warning-stripe marker now uses the actual pallet-spawner position; seed and water markers were not changed.
 
 ## Exporter pitfalls that already caused failures
 

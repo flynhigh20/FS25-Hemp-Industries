@@ -80,7 +80,6 @@
         <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
         <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconWater.i3d" adjustToGround="true"/>
         <triggerMarker node="seedUnloadMarker" filename="$data/shared/assets/marker/markerIconUnload.i3d" adjustToGround="true"/>
-        <triggerMarker node="palletSpawner" filename="$data/shared/assets/marker/markerIconPallet.i3d" adjustToGround="true"/>
     </triggerMarkers>
 
     <greenhouse>
