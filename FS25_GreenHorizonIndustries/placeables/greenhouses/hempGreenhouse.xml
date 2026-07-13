@@ -119,8 +119,8 @@
                     <input fillType="SEEDS" amount="4"/>
                 </inputs>
                 <outputs>
-                    <output fillType="HEMP" amount="24"/>
                     <output fillType="HEMP_FLOWER" amount="2"/>
+                    <output fillType="HEMP" amount="24"/>
                     <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
                 </outputs>
             </production>
@@ -138,7 +138,7 @@
 
         <palletSpawner>
             <spawnPlaces>
-                <spawnPlace startNode="spawnPlaceStart01" endNode="spawnPlaceEnd01"/>
+                <spawnPlace startNode="palletAreaStart" endNode="palletAreaEnd"/>
             </spawnPlaces>
         </palletSpawner>
 
@@ -205,8 +205,8 @@
 
         <i3dMapping id="plantNodes" node="0>2|1"/>
         <i3dMapping id="palletSpawner" node="0>2|0"/>
-        <i3dMapping id="spawnPlaceStart01" node="0>2|0|0"/>
-        <i3dMapping id="spawnPlaceEnd01" node="0>2|0|0|0"/>
+        <i3dMapping id="palletAreaStart" node="0>2|0|0"/>
+        <i3dMapping id="palletAreaEnd" node="0>2|0|0|0"/>
 
         <i3dMapping id="sellingStation" node="0>2|4"/>
         <!-- Stock greenhouse station layout: exact fill, marker, AI, marker. -->

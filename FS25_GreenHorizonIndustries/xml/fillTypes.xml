@@ -79,7 +79,7 @@
             isBulkType="false"
             isPalletType="true"
             unitShort="$l10n_unit_literShort">
-            <economy pricePerLiter="2.40"/>
+            <economy pricePerLiter="4.80"/>
             <physics massPerLiter="0.90" maxPhysicalSurfaceAngle="38"/>
             <image hud="$dataS/menu/hud/fillTypes/hud_fill_oil_canola.png"/>
             <pallet filename="pallets/xml/cbdOilPallet.xml"/>
