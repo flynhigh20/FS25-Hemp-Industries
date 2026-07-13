@@ -123,15 +123,18 @@ def check_mod_descriptor(parsed: dict[Path, ET.ElementTree]) -> str:
     expected_filenames = {
         "placeables/greenhouses/hempGreenhouse.xml",
         "placeables/productions/cbdPlantSmall.xml",
+        "pallets/xml/hempPallet.xml",
+        "pallets/xml/biomassPallet.xml",
+        "pallets/xml/flowerPallet.xml",
         "pallets/xml/cbdOilPallet.xml",
     }
     if active_filenames != expected_filenames:
         fail(
-            "Active store items do not match the expected greenhouse, CBD plant, "
-            f"and CBD oil pallet: {sorted(active_filenames)}"
+            "Active store items do not match the expected placeables and output pallets: "
+            f"{sorted(active_filenames)}"
         )
     else:
-        passed("Expected greenhouse, CBD plant, and CBD oil pallet store items are active")
+        passed("Expected placeables and output pallet store items are active")
 
     return version
 

@@ -11,7 +11,7 @@
 - CBD oil uses a provisional 250 L pallet worth $1,200 (`$4.80/L`).
 - Hemp distribution is confirmed; seeded greenhouse output now lists `HEMP_FLOWER` first so its production-menu output toggle can target flower separately.
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
-- CBD oil pallets are confirmed spawning; greenhouse output pallets currently do not spawn and remain the active pallet issue.
+- CBD oil pallets are confirmed spawning. Greenhouse output pallet registrations and flower pallet support are now repaired; in-game spawn confirmation is pending.
 - Full recovery and workflow context is in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 - Foundation
@@ -39,7 +39,7 @@
 - [x] Both recipes consume inputs and produce outputs
 - [x] No unsupported `HEMP_FLOWER` output warning
 - [x] Standardize greenhouse pallet contract as `palletSpawner -> palletAreaStart -> palletAreaEnd`, separate from unload triggers
-- [ ] Fix and confirm physical greenhouse output pallet spawning
+- [ ] Confirm the repaired physical greenhouse output pallet spawning in game
 
 ### CBD factory completed in code
 

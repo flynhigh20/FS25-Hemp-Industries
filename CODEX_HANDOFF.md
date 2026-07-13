@@ -26,7 +26,7 @@
 - Base-game seed bags auto-unload through the dedicated pallet trigger.
 - Greenhouse production wrench works independently from the door.
 - Both greenhouse recipes consume their inputs and produce outputs.
-- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. Physical greenhouse output pallets currently do not spawn, so this remains an active issue.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER pallet store items are now registered, and FLOWER uses a working stock pallet base. In-game spawn confirmation is pending.
 - CBD factory custom model loads.
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
@@ -83,13 +83,13 @@
 6. On each greenhouse, select the seeded recipe and re-toggle it to `Distributing`; confirm `HEMP_FLOWER` appears in the CBD factory.
 7. Set CBD oil output to `Storing`.
 8. Physical 250 L pallet spawning is confirmed.
-9. Confirm greenhouse output pallets still fail to spawn and capture any related `log.txt` warning.
+9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn in the marked area.
 10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
 11. Exit and inspect `log.txt`.
 
 ## Next implementation work while the user tests
 
-1. Fix physical greenhouse output pallet spawning without changing the proven water, seed, or wrench setup.
+1. Confirm the repaired physical greenhouse output pallet spawning without changing the proven water, seed, or wrench setup.
 2. Confirm flower auto-delivery after re-toggling the seeded greenhouse recipe.
 3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
 4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.

@@ -60,6 +60,7 @@
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.20"/>
             <physics massPerLiter="0.06"/>
+            <pallet filename="pallets/xml/flowerPallet.xml"/>
         </fillType>
 
         <fillType
