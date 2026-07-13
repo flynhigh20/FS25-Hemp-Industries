@@ -119,12 +119,19 @@ def check_mod_descriptor(parsed: dict[Path, ET.ElementTree]) -> str:
 
     store_items = root.find("storeItems")
     active_items = [] if store_items is None else list(store_items.findall("storeItem"))
-    if len(active_items) != 1:
-        fail(f"Expected one active store item, found {len(active_items)}")
-    elif active_items[0].get("xmlFilename") != "placeables/greenhouses/hempGreenhouse.xml":
-        fail("Active store item is not the Hemp Greenhouse")
+    active_filenames = {item.get("xmlFilename") for item in active_items}
+    expected_filenames = {
+        "placeables/greenhouses/hempGreenhouse.xml",
+        "placeables/productions/cbdPlantSmall.xml",
+        "pallets/xml/cbdOilPallet.xml",
+    }
+    if active_filenames != expected_filenames:
+        fail(
+            "Active store items do not match the expected greenhouse, CBD plant, "
+            f"and CBD oil pallet: {sorted(active_filenames)}"
+        )
     else:
-        passed("Hemp Greenhouse is the sole active store item")
+        passed("Expected greenhouse, CBD plant, and CBD oil pallet store items are active")
 
     return version
 
