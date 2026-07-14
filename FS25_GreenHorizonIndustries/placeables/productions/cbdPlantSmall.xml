@@ -16,11 +16,10 @@
         <showInStore>true</showInStore>
     </storeData>
     <base>
-        <filename>$data/placeables/brandless/productionPointsSmall/oilPlant/oilPlant.i3d</filename>
+        <filename>placeables/productions/i3d/greenhorizonhempprocessingfacility.i3d</filename>
         <canBeRenamed>true</canBeRenamed>
     </base>
     <placement useRandomYRotation="false" useManualYRotation="true">
-        <testAreas><testArea startNode="testAreaStart01" endNode="testAreaEnd01"/></testAreas>
         <sounds><place template="smallImp"/></sounds>
     </placement>
     <clearAreas><clearArea startNode="clearAreaStart01" widthNode="clearAreaWidth01" heightNode="clearAreaHeight01"/></clearAreas>
@@ -29,16 +28,38 @@
         <paintAreas><paintArea startNode="paintAreaStart01" widthNode="paintAreaWidth01" heightNode="paintAreaHeight01" groundType="asphalt"/></paintAreas>
     </leveling>
     <indoorAreas><indoorArea startNode="indoorAreaStart01" widthNode="indoorAreaWidth01" heightNode="indoorAreaHeight01"/></indoorAreas>
-    <tipOcclusionUpdateAreas><tipOcclusionUpdateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01"/></tipOcclusionUpdateAreas>
-    <ai><updateAreas><updateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01"/></updateAreas></ai>
-    <infoTrigger triggerNode="infoTrigger"/>
+    <tipOcclusionUpdateAreas><tipOcclusionUpdateArea startNode="aiUpdateAreaStart01" endNode="aiUpdateAreaEnd01"/></tipOcclusionUpdateAreas>
+    <ai><updateAreas><updateArea startNode="aiUpdateAreaStart01" endNode="aiUpdateAreaEnd01"/></updateAreas></ai>
     <hotspots><hotspot type="PRODUCTION_POINT" linkNode="unloadTriggerMarker" teleportNode="playerTriggerMarker"/></hotspots>
     <triggerMarkers>
-        <triggerMarker node="warningStripes01"/>
-        <triggerMarker node="warningStripes02"/>
         <triggerMarker node="unloadTriggerMarker" adjustToGround="true" filename="$data/shared/assets/marker/markerIconUnload.i3d"/>
         <triggerMarker node="playerTriggerMarker" adjustToGround="true" filename="$data/shared/assets/marker/markerIconWrench.i3d"/>
     </triggerMarkers>
+    <animatedObjects>
+        <animatedObject saveId="personnelDoor">
+            <animation duration="1.5">
+                <part node="personnelDoor">
+                    <keyFrame time="0" rotation="0 0 0"/>
+                    <keyFrame time="1" rotation="0 100 0"/>
+                </part>
+            </animation>
+            <controls triggerNode="personnelDoorTrigger" posAction="ACTIVATE_HANDTOOL" posText="action_openDoor" negText="action_closeDoor"/>
+            <sounds>
+                <moving linkNode="personnelDoor" template="glassDoorLoop"/>
+                <negEnd linkNode="personnelDoor" template="metalDoorsClose"/>
+                <posEnd linkNode="personnelDoor" template="metalDoorsOpen"/>
+            </sounds>
+        </animatedObject>
+        <animatedObject saveId="rollupDoor">
+            <animation duration="2.5">
+                <part node="rollupDoor">
+                    <keyFrame time="0" translation="-1.20804 1.75 4.11"/>
+                    <keyFrame time="1" translation="-5.60804 1.75 4.11"/>
+                </part>
+            </animation>
+            <controls triggerNode="rollupDoorTrigger" posAction="ACTIVATE_HANDTOOL" posText="action_openDoor" negText="action_closeDoor"/>
+        </animatedObject>
+    </animatedObjects>
     <productionPoint>
         <productions>
             <production id="ghi_cbd_oil_hemp" name="$l10n_production_ghi_cbdOilHemp" cyclesPerHour="4" costsPerActiveHour="32">
@@ -56,7 +77,7 @@
             <capacity fillType="GHI_CBD_OIL" capacity="12000"/>
         </storage>
         <sellingStation node="sellingStation" supportsExtension="false" allowMissions="false">
-            <unloadTrigger exactFillRootNode="exactFillNode" aiNode="unloadTriggerAINode" fillTypes="HEMP HEMP_FLOWER"/>
+            <unloadTrigger exactFillRootNode="unloadTrigger" fillTypes="HEMP HEMP_FLOWER"/>
         </sellingStation>
         <palletSpawner><spawnPlaces><spawnPlace startNode="palletAreaStart01" endNode="palletAreaEnd01"/></spawnPlaces></palletSpawner>
         <playerTrigger node="playerTrigger"/>
@@ -66,16 +87,31 @@
         </sounds>
     </productionPoint>
     <i3dMappings>
-        <i3dMapping id="clearAreaStart01" node="0>0|0"/><i3dMapping id="clearAreaWidth01" node="0>0|0|0"/><i3dMapping id="clearAreaHeight01" node="0>0|0|1"/>
-        <i3dMapping id="levelAreaStart01" node="0>1|0"/><i3dMapping id="levelAreaWidth01" node="0>1|0|0"/><i3dMapping id="levelAreaHeight01" node="0>1|0|1"/>
-        <i3dMapping id="paintAreaStart01" node="0>2|0"/><i3dMapping id="paintAreaWidth01" node="0>2|0|0"/><i3dMapping id="paintAreaHeight01" node="0>2|0|1"/>
-        <i3dMapping id="indoorAreaStart01" node="0>3|0"/><i3dMapping id="indoorAreaWidth01" node="0>3|0|0"/><i3dMapping id="indoorAreaHeight01" node="0>3|0|1"/>
-        <i3dMapping id="testAreaStart01" node="0>4|0"/><i3dMapping id="testAreaEnd01" node="0>4|0|0"/>
-        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>5|0"/><i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>5|0|0"/>
-        <i3dMapping id="infoTrigger" node="0>6"/><i3dMapping id="sellingStation" node="0>7"/><i3dMapping id="exactFillNode" node="0>7|0"/>
-        <i3dMapping id="unloadTriggerMarker" node="0>7|1"/><i3dMapping id="unloadTriggerAINode" node="0>7|2"/>
-        <i3dMapping id="playerTrigger" node="0>8|0"/><i3dMapping id="playerTriggerMarker" node="0>8|1"/>
-        <i3dMapping id="warningStripes01" node="0>9|0"/><i3dMapping id="warningStripes02" node="0>9|1"/>
-        <i3dMapping id="palletSpawner" node="0>10"/><i3dMapping id="palletAreaStart01" node="0>10|0"/><i3dMapping id="palletAreaEnd01" node="0>10|0|0"/>
+        <i3dMapping id="sellingStation" node="0>1"/>
+        <i3dMapping id="aiUpdateAreaEnd01" node="0>1|0"/>
+        <i3dMapping id="aiUpdateAreaStart01" node="0>1|1"/>
+        <i3dMapping id="clearAreaHeight01" node="0>1|2"/>
+        <i3dMapping id="clearAreaStart01" node="0>1|3"/>
+        <i3dMapping id="clearAreaWidth01" node="0>1|4"/>
+        <i3dMapping id="indoorAreaHeight01" node="0>1|5"/>
+        <i3dMapping id="indoorAreaStart01" node="0>1|6"/>
+        <i3dMapping id="indoorAreaWidth01" node="0>1|7"/>
+        <i3dMapping id="levelAreaHeight01" node="0>1|8"/>
+        <i3dMapping id="levelAreaStart01" node="0>1|9"/>
+        <i3dMapping id="levelAreaWidth01" node="0>1|10"/>
+        <i3dMapping id="paintAreaHeight01" node="0>1|11"/>
+        <i3dMapping id="paintAreaStart01" node="0>1|12"/>
+        <i3dMapping id="paintAreaWidth01" node="0>1|13"/>
+        <i3dMapping id="palletSpawner" node="0>1|14"/>
+        <i3dMapping id="palletAreaStart01" node="0>1|14|0"/>
+        <i3dMapping id="palletAreaEnd01" node="0>1|14|0|0"/>
+        <i3dMapping id="personnelDoorTrigger" node="0>1|15"/>
+        <i3dMapping id="playerTrigger" node="0>1|16"/>
+        <i3dMapping id="playerTriggerMarker" node="0>1|17"/>
+        <i3dMapping id="rollupDoorTrigger" node="0>1|18"/>
+        <i3dMapping id="unloadTrigger" node="0>1|21"/>
+        <i3dMapping id="unloadTriggerMarker" node="0>1|22"/>
+        <i3dMapping id="personnelDoor" node="0>2|160"/>
+        <i3dMapping id="rollupDoor" node="0>2|170"/>
     </i3dMappings>
 </placeable>

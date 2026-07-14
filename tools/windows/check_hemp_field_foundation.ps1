@@ -139,7 +139,7 @@ if ($null -ne $modDesc) {
     }
 }
 
-$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL")
+$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "HEMP_FLOWER", "GHI_HEMP_OIL")
 if ($null -ne $fillTypes) {
     $fillTypeNames = @($fillTypes.map.fillTypes.fillType | ForEach-Object { $_.name })
     foreach ($fillTypeName in $requiredFillTypes) {

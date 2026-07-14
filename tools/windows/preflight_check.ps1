@@ -199,7 +199,7 @@ if ($null -ne $modDesc) {
     if ($activeStoreItems -contains "placeables/productions/cbdPlantSmall.xml") { Pass "CBD plant store item is active" } else { Fail "CBD plant store item path is incorrect" }
 }
 
-$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "GHI_HEMP_FLOWER", "GHI_HEMP_OIL", "GHI_CBD_OIL")
+$requiredFillTypes = @("HEMP", "GHI_HEMP_SEED", "GHI_HEMP_BIOMASS", "GHI_HEMP_FIBER", "HEMP_FLOWER", "GHI_HEMP_OIL", "GHI_CBD_OIL")
 if ($null -ne $fillTypes) {
     $fillNames = @($fillTypes.map.fillTypes.fillType | ForEach-Object { $_.name })
     foreach ($fillName in $requiredFillTypes) {
@@ -208,10 +208,13 @@ if ($null -ne $fillTypes) {
 }
 
 if ($null -ne $cbdPlant) {
-    $cbdProduction = $cbdPlant.placeable.productionPoint.productions.production
-    if ($cbdProduction.id -eq "ghi_cbd_oil") { Pass "CBD oil production is registered" } else { Fail "CBD oil production id is missing" }
-    if ($cbdProduction.inputs.input.fillType -eq "HEMP") { Pass "CBD plant accepts HEMP" } else { Fail "CBD plant HEMP input is missing" }
-    if ($cbdProduction.outputs.output.fillType -eq "GHI_CBD_OIL") { Pass "CBD plant outputs GHI_CBD_OIL" } else { Fail "CBD plant output is incorrect" }
+    $cbdProductions = @($cbdPlant.placeable.productionPoint.productions.production)
+    $hempRecipe = @($cbdProductions | Where-Object { $_.id -eq "ghi_cbd_oil_hemp" }) | Select-Object -First 1
+    $flowerRecipe = @($cbdProductions | Where-Object { $_.id -eq "ghi_cbd_oil_flower" }) | Select-Object -First 1
+    if ($null -ne $hempRecipe -and $null -ne $flowerRecipe) { Pass "both CBD oil productions are registered" } else { Fail "CBD oil production ids are incomplete" }
+    if ($hempRecipe.inputs.input.fillType -eq "HEMP") { Pass "CBD plant accepts HEMP" } else { Fail "CBD plant HEMP input is missing" }
+    if ($flowerRecipe.inputs.input.fillType -eq "HEMP_FLOWER") { Pass "CBD plant accepts HEMP_FLOWER" } else { Fail "CBD plant HEMP_FLOWER input is missing" }
+    if ($hempRecipe.outputs.output.fillType -eq "GHI_CBD_OIL" -and $flowerRecipe.outputs.output.fillType -eq "GHI_CBD_OIL") { Pass "CBD plant outputs GHI_CBD_OIL" } else { Fail "CBD plant output is incorrect" }
 }
 
 if ($null -ne $iconManifest) {
@@ -252,7 +255,7 @@ $palletSpecs = @(
     @{ File = "seedPallet.xml"; FillType = "GHI_HEMP_SEED" },
     @{ File = "biomassPallet.xml"; FillType = "GHI_HEMP_BIOMASS" },
     @{ File = "fiberPallet.xml"; FillType = "GHI_HEMP_FIBER" },
-    @{ File = "flowerPallet.xml"; FillType = "GHI_HEMP_FLOWER" },
+    @{ File = "flowerPallet.xml"; FillType = "HEMP_FLOWER" },
     @{ File = "oilPallet.xml"; FillType = "GHI_HEMP_OIL" }
 )
 

@@ -80,7 +80,6 @@
         <triggerMarker node="playerTriggerMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" adjustToGround="true"/>
         <triggerMarker node="unloadTriggerMarker" filename="$data/shared/assets/marker/markerIconWater.i3d" adjustToGround="true"/>
         <triggerMarker node="seedUnloadMarker" filename="$data/shared/assets/marker/markerIconUnload.i3d" adjustToGround="true"/>
-        <triggerMarker node="palletSpawner" filename="$data/shared/assets/marker/markerIconPallet.i3d" adjustToGround="true"/>
     </triggerMarkers>
 
     <greenhouse>
@@ -96,6 +95,23 @@
 
     <productionPoint>
         <productions>
+            <!-- Temporary test booster: accepts any base-game seed bag/pallet using SEEDS. -->
+            <production id="ghi_hemp_greenhouse_seeded"
+                        name="$l10n_production_ghi_hempGreenhouseSeeded"
+                        cyclesPerHour="24"
+                        costsPerActiveHour="18">
+                <inputs>
+                    <input fillType="WATER" amount="20"/>
+                    <input fillType="SEEDS" amount="4"/>
+                </inputs>
+                <outputs>
+                    <output fillType="HEMP_FLOWER" amount="8"/>
+                    <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
+                </outputs>
+            </production>
+
+            <!-- Keep the flower-producing recipe first so FS25 prioritizes
+                 HEMP_FLOWER when production output is set to Distributing. -->
             <production id="ghi_hemp_greenhouse_basic"
                         name="$l10n_production_ghi_hempGreenhouseBasic"
                         cyclesPerHour="20"
@@ -108,36 +124,18 @@
                     <output fillType="GHI_HEMP_BIOMASS" amount="4"/>
                 </outputs>
             </production>
-
-            <!-- Temporary test booster: accepts any base-game seed bag/pallet using SEEDS. -->
-            <production id="ghi_hemp_greenhouse_seeded"
-                        name="$l10n_production_ghi_hempGreenhouseSeeded"
-                        cyclesPerHour="24"
-                        costsPerActiveHour="18">
-                <inputs>
-                    <input fillType="WATER" amount="20"/>
-                    <input fillType="SEEDS" amount="4"/>
-                </inputs>
-                <outputs>
-                    <output fillType="HEMP" amount="24"/>
-                    <output fillType="HEMP_FLOWER" amount="2"/>
-                    <output fillType="GHI_HEMP_BIOMASS" amount="5"/>
-                </outputs>
-            </production>
         </productions>
 
         <sellingStation node="sellingStation" appearsOnStats="true" supportsExtension="true">
             <unloadTrigger exactFillRootNode="exactFillRootNode"
                            fillTypes="WATER SEEDS"
                            aiNode="unloadTriggerAINode"/>
+            <palletTrigger triggerNode="seedPalletTrigger" fillTypes="SEEDS" autoUnload="true"/>
         </sellingStation>
-
-        <!-- Bulk outputs remain loadable while custom product pallets are still inactive. -->
-        <loadingStation fillTypes="HEMP GHI_HEMP_BIOMASS HEMP_FLOWER" supportsExtension="true"/>
 
         <palletSpawner>
             <spawnPlaces>
-                <spawnPlace startNode="spawnPlaceStart01" endNode="spawnPlaceEnd01"/>
+                <spawnPlace startNode="palletAreaStart" endNode="palletAreaEnd"/>
             </spawnPlaces>
         </palletSpawner>
 
@@ -158,14 +156,14 @@
     <animatedObjects>
         <animatedObject saveId="frontDoor">
             <animation duration="1.5">
-                <part node="frontDoorGlass"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorHandle"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorKickPlate"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorLeftPost"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorMidRail"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorRightPost"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="frontDoorTopRail"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
-                <part node="collisionFrontDoor"><keyFrame time="0" translation="0 0 0"/><keyFrame time="1" translation="0 0 -1.5"/></part>
+                <part node="frontDoorGlass"><keyFrame time="0" translation="4.24 1.29 0"/><keyFrame time="1" translation="4.24 1.29 -1.5"/></part>
+                <part node="frontDoorHandle"><keyFrame time="0" translation="4.315 1.45 -0.42"/><keyFrame time="1" translation="4.315 1.45 -1.92"/></part>
+                <part node="frontDoorKickPlate"><keyFrame time="0" translation="4.268 0.25 0"/><keyFrame time="1" translation="4.268 0.25 -1.5"/></part>
+                <part node="frontDoorLeftPost"><keyFrame time="0" translation="4.24 1.29 0.68"/><keyFrame time="1" translation="4.24 1.29 -0.82"/></part>
+                <part node="frontDoorMidRail"><keyFrame time="0" translation="4.275 1.12 0"/><keyFrame time="1" translation="4.275 1.12 -1.5"/></part>
+                <part node="frontDoorRightPost"><keyFrame time="0" translation="4.24 1.29 -0.68"/><keyFrame time="1" translation="4.24 1.29 -2.18"/></part>
+                <part node="frontDoorTopRail"><keyFrame time="0" translation="4.24 2.48 0"/><keyFrame time="1" translation="4.24 2.48 -1.5"/></part>
+                <part node="collisionFrontDoor"><keyFrame time="0" translation="4.26 1.35 0"/><keyFrame time="1" translation="4.26 1.35 -1.5"/></part>
             </animation>
             <controls triggerNode="door1Trigger" posAction="ACTIVATE_HANDTOOL" posText="action_openDoor" negText="action_closeDoor"/>
             <sounds>
@@ -204,8 +202,8 @@
 
         <i3dMapping id="plantNodes" node="0>2|1"/>
         <i3dMapping id="palletSpawner" node="0>2|0"/>
-        <i3dMapping id="spawnPlaceStart01" node="0>2|0|0"/>
-        <i3dMapping id="spawnPlaceEnd01" node="0>2|0|0|0"/>
+        <i3dMapping id="palletAreaStart" node="0>2|0|0"/>
+        <i3dMapping id="palletAreaEnd" node="0>2|0|0|0"/>
 
         <i3dMapping id="sellingStation" node="0>2|4"/>
         <!-- Stock greenhouse station layout: exact fill, marker, AI, marker. -->
@@ -213,6 +211,7 @@
         <i3dMapping id="seedUnloadMarker" node="0>2|4|1"/>
         <i3dMapping id="unloadTriggerAINode" node="0>2|4|2"/>
         <i3dMapping id="unloadTriggerMarker" node="0>2|4|3"/>
+        <i3dMapping id="seedPalletTrigger" node="0>2|4|4"/>
 
         <i3dMapping id="storage" node="0>2|5"/>
         <i3dMapping id="playerTrigger" node="0>2|2"/>

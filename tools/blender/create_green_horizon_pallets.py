@@ -54,7 +54,7 @@ PRODUCTS = [
     },
     {
         "code": "flower",
-        "fill_type": "GHI_HEMP_FLOWER",
+        "fill_type": "HEMP_FLOWER",
         "title": "HEMP FLOWER",
         "kind": "cartons",
         "color": (0.23, 0.38, 0.13, 1.0),

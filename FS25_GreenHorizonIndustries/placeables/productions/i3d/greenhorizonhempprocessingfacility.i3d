@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="greenhorizonhempprocessingfacility.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.13"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="../../../branding/green_horizon_industries_main_logo.png" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="CBD_BenchTop" materialId="5" diffuseColor="0.25098 0.121569 0.054902 1" specularColor="0.478431 1 0">
+    </Material>
+    <Material name="CBD_ButtonRed" materialId="6" diffuseColor="0.54902 0.0156863 0.0117647 1" specularColor="0.701961 1 0.14902">
+    </Material>
+    <Material name="CBD_IndustrialGreen" materialId="7" diffuseColor="0.0431373 0.219608 0.141176 1" specularColor="0.65098 1 0.45098">
+    </Material>
+    <Material name="CBD_MachineDark" materialId="8" diffuseColor="0.0352941 0.054902 0.0588235 1" specularColor="0.701961 1 0.65098">
+    </Material>
+    <Material name="CBD_OilAmber" materialId="9" diffuseColor="0.580392 0.2 0.0235294 1" specularColor="0.780392 1 0.101961">
+    </Material>
+    <Material name="CBD_SafetyYellow" materialId="10" diffuseColor="0.901961 0.54902 0.0196078 1" specularColor="0.658824 1 0.101961">
+    </Material>
+    <Material name="CBD_StainlessSteel" materialId="11" diffuseColor="0.419608 0.478431 0.501961 1" specularColor="0.741176 1 0.8">
+    </Material>
+    <Material name="GHI_BrandLogo" materialId="12" specularColor="0.619608 1 0.101961">
+      <Texture fileId="1"/>
+    </Material>
+    <Material name="GHI_Concrete" materialId="13" diffuseColor="0.290196 0.301961 0.278431 1" specularColor="0.180392 1 0">
+    </Material>
+    <Material name="GHI_DarkGlass" materialId="14" diffuseColor="0.0235294 0.0705882 0.0745098 1" specularColor="0.819608 1 0.25098">
+    </Material>
+    <Material name="GHI_DarkSteel" materialId="15" diffuseColor="0.0352941 0.054902 0.0588235 1" specularColor="0.721569 1 0.721569">
+    </Material>
+    <Material name="GHI_GalvanizedSeam" materialId="16" diffuseColor="0.219608 0.278431 0.290196 1" specularColor="0.721569 1 0.780392">
+    </Material>
+    <Material name="GHI_GreenAccent" materialId="17" diffuseColor="0.0784314 0.321569 0.180392 1" specularColor="0.580392 1 0.25098">
+    </Material>
+    <Material name="GHI_GreenLowerPanel" materialId="18" diffuseColor="0.0235294 0.160784 0.105882 1" specularColor="0.678431 1 0.478431">
+    </Material>
+    <Material name="GHI_LightMetalPanel" materialId="19" diffuseColor="0.470588 0.541176 0.529412 1" specularColor="0.619608 1 0.54902">
+    </Material>
+    <Material name="GHI_RollupDoor" materialId="20" diffuseColor="0.180392 0.25098 0.239216 1" specularColor="0.639216 1 0.580392">
+    </Material>
+    <Material name="GHI_RoofMetal" materialId="21" diffuseColor="0.121569 0.180392 0.180392 1" specularColor="0.701961 1 0.678431">
+    </Material>
+    <Material name="GHI_SafetyStripeBlack" materialId="22" diffuseColor="0.0235294 0.0313726 0.027451 1" specularColor="0.521569 1 0.34902">
+    </Material>
+    <Material name="GHI_SafetyStripeYellow" materialId="23" diffuseColor="0.921569 0.580392 0.0156863 1" specularColor="0.580392 1 0.2">
+    </Material>
+    <Material name="GHI_StainlessKickPlate" materialId="24" diffuseColor="0.34902 0.411765 0.419608 1" specularColor="0.760784 1 0.819608">
+    </Material>
+    <Material name="GHI_WarmInsulatedPanel" materialId="25" diffuseColor="0.478431 0.521569 0.501961 1" specularColor="0.619608 1 0.419608">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="greenhorizonhempprocessingfacility.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="greenHorizonHempProcessingFacility" nodeId="106">
+      <TransformGroup name="collisions" nodeId="107">
+        <Shape name="collisionFrontLeft" translation="-4.7 2 4" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="108" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <Shape name="collisionFrontRight" translation="4.55 2 4" shapeId="2" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="109" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <Shape name="collisionLeft" translation="-6 2 0" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="110" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <Shape name="collisionRear" translation="0 2 -4" shapeId="4" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="111" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <Shape name="collisionRight" translation="6 2 0" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="112" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+      </TransformGroup>
+      <TransformGroup name="facilityGameNodes" nodeId="113">
+        <TransformGroup name="aiUpdateAreaEnd01" translation="6.6 4.8 -4.6" nodeId="114"/>
+        <TransformGroup name="aiUpdateAreaStart01" translation="-6.6 0 7.6" nodeId="115"/>
+        <TransformGroup name="clearAreaHeight01" translation="-6.6 0 -4.6" nodeId="116"/>
+        <TransformGroup name="clearAreaStart01" translation="-6.6 0 7.6" nodeId="117"/>
+        <TransformGroup name="clearAreaWidth01" translation="6.6 0 7.6" nodeId="118"/>
+        <TransformGroup name="indoorAreaHeight01" translation="-5.75 0.05 -3.75" nodeId="119"/>
+        <TransformGroup name="indoorAreaStart01" translation="-5.75 0.05 3.75" nodeId="120"/>
+        <TransformGroup name="indoorAreaWidth01" translation="5.75 0.05 3.75" nodeId="121"/>
+        <TransformGroup name="levelAreaHeight01" translation="-6.6 0 -4.6" nodeId="122"/>
+        <TransformGroup name="levelAreaStart01" translation="-6.6 0 7.6" nodeId="123"/>
+        <TransformGroup name="levelAreaWidth01" translation="6.6 0 7.6" nodeId="124"/>
+        <TransformGroup name="paintAreaHeight01" translation="-6.6 0 -4.6" nodeId="125"/>
+        <TransformGroup name="paintAreaStart01" translation="-6.6 0 7.6" nodeId="126"/>
+        <TransformGroup name="paintAreaWidth01" translation="6.6 0 7.6" nodeId="127"/>
+        <TransformGroup name="palletSpawner" translation="4.3 0.05 -4.8" nodeId="130">
+          <TransformGroup name="palletAreaStart" translation="-1.7 0 0" nodeId="129">
+            <TransformGroup name="palletAreaEnd" translation="3 0 -2.2" nodeId="128"/>
+          </TransformGroup>
+        </TransformGroup>
+        <Shape name="personnelDoorTrigger" translation="4.45 1 4.14409" shapeId="5" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="131" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <Shape name="playerTrigger" translation="-1.32378 1 0.726506" shapeId="6" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="132" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <TransformGroup name="playerTriggerMarker" translation="4.65 0.05 2.95" nodeId="133"/>
+        <Shape name="rollupDoorTrigger" translation="1.19894 1 3.56974" shapeId="7" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" nodeId="134" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <TransformGroup name="testAreaEnd01" translation="6.6 4.8 -4.6" nodeId="135"/>
+        <TransformGroup name="testAreaStart01" translation="-6.6 0 7.6" nodeId="136"/>
+        <Shape name="unloadTrigger" translation="-1.15 0.8 6.94863" shapeId="8" kinematic="true" compound="true" collisionFilterGroup="0x40000000" collisionFilterMask="0x20000000" nodeId="137" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+        <TransformGroup name="unloadTriggerMarker" translation="-1.15 0.05 6.65" nodeId="138"/>
+      </TransformGroup>
+      <TransformGroup name="visuals" nodeId="139">
+        <Shape name="BenchScaleBase" translation="-3.55 1.18 -2.72" shapeId="9" nodeId="140" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="BenchScaleDisplay" translation="-3.55 1.37 -2.92" shapeId="10" nodeId="141" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="CBDCollectionBottleCap_0" translation="2.55 1.43 -2.7" shapeId="11" nodeId="142" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="CBDCollectionBottleCap_1" translation="2.85 1.43 -2.7" shapeId="11" nodeId="143" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="CBDCollectionBottleCap_2" translation="3.15 1.43 -2.7" shapeId="11" nodeId="144" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="CBDCollectionBottleCap_3" translation="3.45 1.43 -2.7" shapeId="11" nodeId="145" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="CBDCollectionBottle_0" translation="2.55 1.25 -2.7" shapeId="12" nodeId="146" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="CBDCollectionBottle_1" translation="2.85 1.25 -2.7" shapeId="12" nodeId="147" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="CBDCollectionBottle_2" translation="3.15 1.25 -2.7" shapeId="12" nodeId="148" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="CBDCollectionBottle_3" translation="3.45 1.25 -2.7" shapeId="12" nodeId="149" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="ControlButtonHeat" translation="0.08 1.68 -1.9" rotation="90 -0 0" shapeId="11" nodeId="150" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="ControlButtonStart" translation="-0.32 1.68 -1.9" rotation="90 -0 0" shapeId="11" nodeId="151" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="ControlButtonStop" translation="-0.12 1.68 -1.9" rotation="90 -0 0" shapeId="11" nodeId="152" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="ControlDisplay" translation="-0.15 1.84 -1.89" shapeId="13" nodeId="153" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="CrudeOilTank" translation="1.05 0.86 -1.62" shapeId="14" nodeId="154" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="CrudeOilTankTop" translation="1.05 1.66 -1.62" shapeId="15" nodeId="155" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchBackRail" translation="-3.25 1.45 -3.18" shapeId="16" nodeId="156" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchLeg_-1.25_-0.36" translation="-4.5 0.52 -2.39" shapeId="17" nodeId="157" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchLeg_-1.25_0.36" translation="-4.5 0.52 -3.11" shapeId="17" nodeId="158" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchLeg_1.25_-0.36" translation="-2 0.52 -2.39" shapeId="17" nodeId="159" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchLeg_1.25_0.36" translation="-2 0.52 -3.11" shapeId="17" nodeId="160" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ExtractionBenchTop" translation="-3.25 1.02 -2.75" shapeId="18" nodeId="161" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="FilterVessel" translation="2.25 1.05 -1.72" shapeId="19" nodeId="162" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="FilterVesselBand" translation="2.25 0.43 -1.72" shapeId="20" nodeId="163" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="FilterVesselBand.001" translation="2.25 1.65 -1.72" shapeId="20" nodeId="164" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="FilterVesselCone" translation="2.25 0.15 -1.72" shapeId="21" nodeId="165" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="KickPlateLeftIn" translation="-5.87 0.16 0" shapeId="22" nodeId="166" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="KickPlateLeftOut" translation="-6.13 0.16 0" shapeId="22" nodeId="167" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="KickPlateRearIn" translation="0 0.16 -3.87" shapeId="23" nodeId="168" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="KickPlateRearOut" translation="0 0.16 -4.13" shapeId="23" nodeId="169" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="KickPlateRightIn" translation="5.87 0.16 0" shapeId="22" nodeId="170" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="KickPlateRightOut" translation="6.13 0.16 0" shapeId="22" nodeId="171" castsShadows="true" receiveShadows="true" materialIds="24"/>
+        <Shape name="LeftSeamIn_-1" translation="-5.87 2.75 1" shapeId="24" nodeId="172" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_-2" translation="-5.87 2.75 2" shapeId="24" nodeId="173" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_-3" translation="-5.87 2.75 3" shapeId="24" nodeId="174" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_0" translation="-5.87 2.75 0" shapeId="24" nodeId="175" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_1" translation="-5.87 2.75 -1" shapeId="24" nodeId="176" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_2" translation="-5.87 2.75 -2" shapeId="24" nodeId="177" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamIn_3" translation="-5.87 2.75 -3" shapeId="24" nodeId="178" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_-1" translation="-6.13 2.75 1" shapeId="24" nodeId="179" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_-2" translation="-6.13 2.75 2" shapeId="24" nodeId="180" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_-3" translation="-6.13 2.75 3" shapeId="24" nodeId="181" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_0" translation="-6.13 2.75 0" shapeId="24" nodeId="182" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_1" translation="-6.13 2.75 -1" shapeId="24" nodeId="183" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_2" translation="-6.13 2.75 -2" shapeId="24" nodeId="184" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftSeamOut_3" translation="-6.13 2.75 -3" shapeId="24" nodeId="185" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftTransitionIn" translation="-5.87 1.6 0" shapeId="25" nodeId="186" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LeftTransitionOut" translation="-6.13 1.6 0" shapeId="25" nodeId="187" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="LowerPanelFrontLeftInside" translation="-4.7 0.82 3.905" shapeId="26" nodeId="188" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelFrontLeftOutside" translation="-4.7 0.82 4.095" shapeId="26" nodeId="189" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelFrontRightInside" translation="4.55 0.82 3.905" shapeId="27" nodeId="190" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelFrontRightOutside" translation="4.55 0.82 4.095" shapeId="27" nodeId="191" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelLeftInside" translation="-5.905 0.82 0" shapeId="28" nodeId="192" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelLeftOutside" translation="-6.095 0.82 0" shapeId="28" nodeId="193" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelRearInside" translation="0 0.82 -3.905" shapeId="29" nodeId="194" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelRearOutside" translation="0 0.82 -4.095" shapeId="29" nodeId="195" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelRightInside" translation="5.905 0.82 0" shapeId="28" nodeId="196" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="LowerPanelRightOutside" translation="6.095 0.82 0" shapeId="28" nodeId="197" castsShadows="true" receiveShadows="true" materialIds="18"/>
+        <Shape name="OilLineFilterDrop" translation="2.25 0.915 -2" rotation="5.00896e-06 5.00896e-06 -180" shapeId="30" nodeId="198" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilLinePressToTank" translation="0.2 1.32 -1.38" rotation="90 90 0" shapeId="31" nodeId="199" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilLineTankToFilter" translation="1.65 1.35 -2" rotation="90 90 0" shapeId="32" nodeId="200" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressBarrel" translation="-1.25 1.55 -1.05" rotation="0 -0 -90" shapeId="33" nodeId="201" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressBarrelBand" translation="-1.85 1.55 -1.05" rotation="0 -0 -90" shapeId="34" nodeId="202" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressBarrelBand.001" translation="-1.45 1.55 -1.05" rotation="0 -0 -90" shapeId="34" nodeId="203" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressBarrelBand.002" translation="-1.05 1.55 -1.05" rotation="0 -0 -90" shapeId="34" nodeId="204" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressBarrelBand.003" translation="-0.65 1.55 -1.05" rotation="0 -0 -90" shapeId="34" nodeId="205" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressCabinet" translation="-2.05 0.82 -1.05" shapeId="35" nodeId="206" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="OilPressControlPanel" translation="-0.15 1.67 -2.02" shapeId="36" nodeId="207" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="OilPressControlPedestal" translation="-0.15 0.92 -2.2" shapeId="37" nodeId="208" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressHopper" translation="-1.95 2.18 -1.05" shapeId="38" nodeId="209" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressHopperRim" translation="-1.95 2.56 -1.05" shapeId="39" nodeId="210" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressMotor" translation="-2.72 1.43 -1.05" shapeId="40" nodeId="211" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilPressMotorFin" translation="-2.72 1.25 -0.62" shapeId="41" nodeId="212" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressMotorFin.001" translation="-2.72 1.43 -0.62" shapeId="41" nodeId="213" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressMotorFin.002" translation="-2.72 1.61 -0.62" shapeId="41" nodeId="214" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="OilPressSkid" translation="-1.55 0.16 -1.05" shapeId="42" nodeId="215" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="OilSightGlass" translation="0.5 0.94 -1.62" shapeId="43" nodeId="216" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="PackingBenchBackRail" translation="3.25 1.45 -3.18" shapeId="16" nodeId="217" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="PackingBenchLeg_-1.25_-0.36" translation="2 0.52 -2.39" shapeId="17" nodeId="218" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="PackingBenchLeg_-1.25_0.36" translation="2 0.52 -3.11" shapeId="17" nodeId="219" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="PackingBenchLeg_1.25_-0.36" translation="4.5 0.52 -2.39" shapeId="17" nodeId="220" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="PackingBenchLeg_1.25_0.36" translation="4.5 0.52 -3.11" shapeId="17" nodeId="221" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="PackingBenchTop" translation="3.25 1.02 -2.75" shapeId="18" nodeId="222" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="PalletStripeBase" translation="4.1 0.07 -5.9" shapeId="44" nodeId="223" castsShadows="true" receiveShadows="true" materialIds="22"/>
+        <Shape name="PalletStripeBorderFront" translation="4.1 0.09 -7" shapeId="45" nodeId="224" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeBorderLeft" translation="2.62 0.09 -5.9" shapeId="46" nodeId="225" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeBorderRear" translation="4.1 0.09 -4.8" shapeId="45" nodeId="226" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeBorderRight" translation="5.58 0.09 -5.9" shapeId="46" nodeId="227" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_0" translation="2.78 0.085 -5.9" shapeId="47" nodeId="228" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_1" translation="3.16 0.085 -5.9" shapeId="47" nodeId="229" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_2" translation="3.54 0.085 -5.9" shapeId="47" nodeId="230" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_3" translation="3.92 0.085 -5.9" shapeId="47" nodeId="231" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_4" translation="4.3 0.085 -5.9" shapeId="47" nodeId="232" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_5" translation="4.68 0.085 -5.9" shapeId="47" nodeId="233" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_6" translation="5.06 0.085 -5.9" shapeId="47" nodeId="234" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PalletStripeYellow_7" translation="5.44 0.085 -5.9" shapeId="47" nodeId="235" castsShadows="true" receiveShadows="true" materialIds="23"/>
+        <Shape name="PressCakeChute" translation="-0.22 1.32 -1.05" shapeId="48" nodeId="236" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="PressCakeTote" translation="0.18 0.58 -1.05" shapeId="49" nodeId="237" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="PressCakeToteLip" translation="0.18 1.04 -1.05" shapeId="50" nodeId="238" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="RearSeamIn_-1" translation="-1 2.75 -3.87" shapeId="51" nodeId="239" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_-2" translation="-2 2.75 -3.87" shapeId="51" nodeId="240" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_-3" translation="-3 2.75 -3.87" shapeId="51" nodeId="241" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_-4" translation="-4 2.75 -3.87" shapeId="51" nodeId="242" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_-5" translation="-5 2.75 -3.87" shapeId="51" nodeId="243" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_0" translation="0 2.75 -3.87" shapeId="51" nodeId="244" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_1" translation="1 2.75 -3.87" shapeId="51" nodeId="245" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_2" translation="2 2.75 -3.87" shapeId="51" nodeId="246" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_3" translation="3 2.75 -3.87" shapeId="51" nodeId="247" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_4" translation="4 2.75 -3.87" shapeId="51" nodeId="248" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamIn_5" translation="5 2.75 -3.87" shapeId="51" nodeId="249" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_-1" translation="-1 2.75 -4.13" shapeId="51" nodeId="250" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_-2" translation="-2 2.75 -4.13" shapeId="51" nodeId="251" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_-3" translation="-3 2.75 -4.13" shapeId="51" nodeId="252" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_-4" translation="-4 2.75 -4.13" shapeId="51" nodeId="253" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_-5" translation="-5 2.75 -4.13" shapeId="51" nodeId="254" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_0" translation="0 2.75 -4.13" shapeId="51" nodeId="255" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_1" translation="1 2.75 -4.13" shapeId="51" nodeId="256" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_2" translation="2 2.75 -4.13" shapeId="51" nodeId="257" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_3" translation="3 2.75 -4.13" shapeId="51" nodeId="258" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_4" translation="4 2.75 -4.13" shapeId="51" nodeId="259" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearSeamOut_5" translation="5 2.75 -4.13" shapeId="51" nodeId="260" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearTransitionIn" translation="0 1.6 -3.87" shapeId="52" nodeId="261" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RearTransitionOut" translation="0 1.6 -4.13" shapeId="52" nodeId="262" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_-1" translation="5.87 2.75 1" shapeId="24" nodeId="263" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_-2" translation="5.87 2.75 2" shapeId="24" nodeId="264" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_-3" translation="5.87 2.75 3" shapeId="24" nodeId="265" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_0" translation="5.87 2.75 0" shapeId="24" nodeId="266" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_1" translation="5.87 2.75 -1" shapeId="24" nodeId="267" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_2" translation="5.87 2.75 -2" shapeId="24" nodeId="268" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamIn_3" translation="5.87 2.75 -3" shapeId="24" nodeId="269" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_-1" translation="6.13 2.75 1" shapeId="24" nodeId="270" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_-2" translation="6.13 2.75 2" shapeId="24" nodeId="271" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_-3" translation="6.13 2.75 3" shapeId="24" nodeId="272" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_0" translation="6.13 2.75 0" shapeId="24" nodeId="273" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_1" translation="6.13 2.75 -1" shapeId="24" nodeId="274" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_2" translation="6.13 2.75 -2" shapeId="24" nodeId="275" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightSeamOut_3" translation="6.13 2.75 -3" shapeId="24" nodeId="276" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightTransitionIn" translation="5.075 1.15 4.12" shapeId="53" nodeId="277" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="RightTransitionOut" translation="6.13 1.6 0" shapeId="25" nodeId="278" castsShadows="true" receiveShadows="true" materialIds="16"/>
+        <Shape name="ToolChest" translation="4.05 1.34 -2.75" shapeId="54" nodeId="279" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="ToolChestDrawer" translation="4.05 1.22 -2.42" shapeId="55" nodeId="280" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ToolChestDrawer.001" translation="4.05 1.35 -2.42" shapeId="55" nodeId="281" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="ToolChestDrawer.002" translation="4.05 1.48 -2.42" shapeId="55" nodeId="282" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="brandSignBacking" translation="-4.65 2.55 4.16" shapeId="56" nodeId="283" castsShadows="true" receiveShadows="true" materialIds="17"/>
+        <Shape name="brandSignLogo" translation="-4.65 2.55 4.215" rotation="90 -0 0" shapeId="57" nodeId="284" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="bufferTank" translation="6.95 1.28 -1.8" shapeId="58" nodeId="285" castsShadows="true" receiveShadows="true" materialIds="19"/>
+        <Shape name="concreteSlab" translation="0 0.12 0" shapeId="59" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="eaveBeam_-4.05" translation="0 4.05 4.05" shapeId="60" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="eaveBeam_4.05" translation="0 4.05 -4.05" shapeId="60" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_-6.05_-4.05" translation="-6.05 2.1 4.05" shapeId="61" nodeId="289" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_-6.05_4.05" translation="-6.05 2.1 -4.05" shapeId="61" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_0.0_-4.05" translation="0 2.1 4.05" shapeId="61" nodeId="291" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_0.0_4.05" translation="0 2.1 -4.05" shapeId="61" nodeId="292" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_6.05_-4.05" translation="6.05 2.1 4.05" shapeId="61" nodeId="293" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="framePost_6.05_4.05" translation="6.05 2.1 -4.05" shapeId="61" nodeId="294" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="frontWallCenter" translation="0.9 3.65 4" shapeId="62" nodeId="295" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="frontWallLeft" translation="-4.7 2 4" shapeId="63" nodeId="296" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="frontWallRight" translation="4.55 2 4" shapeId="64" nodeId="297" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="leftWall" translation="-6 2 0" shapeId="65" nodeId="298" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="loadingApron" translation="0 0.1 6" shapeId="66" nodeId="299" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="personnelDoor" translation="5.075 1.15 4.12" shapeId="67" nodeId="300" castsShadows="true" receiveShadows="true" materialIds="15">
+          <Shape name="collisionPersonnelDoor" translation="-0.625 0 -0.12" shapeId="68" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0xfffffbff" nodeId="301" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+          <Shape name="personnelDoorWindow" translation="-0.625 0.4 0.0799999" shapeId="69" nodeId="302" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        </Shape>
+        <Shape name="rafterLeft_-6.05" translation="-6.05 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="70" nodeId="303" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rafterLeft_0.0" translation="0 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="70" nodeId="304" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rafterLeft_6.05" translation="6.05 4.6 2.025" rotation="74.8047 -180 -4.83383e-06" shapeId="70" nodeId="305" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rafterRight_-6.05" translation="-6.05 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="70" nodeId="306" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rafterRight_0.0" translation="0 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="70" nodeId="307" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rafterRight_6.05" translation="6.05 4.6 -2.025" rotation="-74.8048 1.31289e-06 180" shapeId="70" nodeId="308" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rearWall" translation="0 2 -4" shapeId="71" nodeId="309" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="ridgeBeam" translation="0 5.15 0" shapeId="72" nodeId="310" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="rightWall" translation="6 2 0" shapeId="65" nodeId="311" castsShadows="true" receiveShadows="true" materialIds="25"/>
+        <Shape name="slidingDoor" translation="1 1.75 4" shapeId="73" nodeId="312" castsShadows="true" receiveShadows="true" materialIds="20">
+          <Shape name="collisionSlidingDoor" translation="0 0 -0.11" shapeId="74" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0xfffffbff" nodeId="313" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+          <Shape name="rollupRib_0.55" translation="0 -1.2 0.0799999" shapeId="75" nodeId="314" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_1.1" translation="0 -0.65 0.0799999" shapeId="75" nodeId="315" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_1.65" translation="0 -0.1 0.0799999" shapeId="75" nodeId="316" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_2.2" translation="0 0.45 0.0799999" shapeId="75" nodeId="317" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_2.75" translation="0 1 0.0799999" shapeId="75" nodeId="318" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_3.3" translation="0 1.55 0.0799999" shapeId="75" nodeId="319" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        </Shape>
+        <Shape name="slidingDoor" translation="-1.20804 1.75 4.11" shapeId="73" nodeId="377" castsShadows="true" receiveShadows="true" materialIds="20">
+          <Shape name="collisionSlidingDoor" translation="0 0 -0.11" shapeId="74" kinematic="true" collisionFilterGroup="0x3e" collisionFilterMask="0xfffffbff" nodeId="378" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
+          <Shape name="rollupRib_0.55" translation="0 -1.2 0.0799999" shapeId="75" nodeId="379" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_1.1" translation="0 -0.65 0.0799999" shapeId="75" nodeId="380" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_1.65" translation="0 -0.1 0.0799999" shapeId="75" nodeId="381" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_2.2" translation="0 0.45 0.0799999" shapeId="75" nodeId="382" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_2.75" translation="0 1 0.0799999" shapeId="75" nodeId="383" castsShadows="true" receiveShadows="true" materialIds="15"/>
+          <Shape name="rollupRib_3.3" translation="0 1.55 0.0799999" shapeId="75" nodeId="384" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        </Shape>
+        <Shape name="roofSheetFront" translation="0 4.59 2.03" rotation="15.2 -0 0" shapeId="76" nodeId="320" castsShadows="true" receiveShadows="true" materialIds="21"/>
+        <Shape name="roofSheetRear" translation="0 4.59 -2.03" rotation="-15.2 -0 0" shapeId="76" nodeId="321" castsShadows="true" receiveShadows="true" materialIds="21"/>
+        <Shape name="tankBand_0.35" translation="6.95 0.35 -1.8" shapeId="77" nodeId="322" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="tankBand_2.2" translation="6.95 2.2 -1.8" shapeId="77" nodeId="323" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="transferPipeHorizontal" translation="6.48 3.85 -0.55" shapeId="78" nodeId="324" castsShadows="true" receiveShadows="true" materialIds="15"/>
+        <Shape name="transferPipeVertical" translation="6.95 2.6 -0.55" shapeId="79" nodeId="325" castsShadows="true" receiveShadows="true" materialIds="15"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

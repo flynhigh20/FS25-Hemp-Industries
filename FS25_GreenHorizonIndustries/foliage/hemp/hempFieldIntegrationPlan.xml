@@ -37,7 +37,7 @@
     <firstReleaseScope>
         <output fillType="HEMP" enabled="true" />
         <output fillType="GHI_HEMP_FIBER" enabled="false" reason="Dedicated windrow and pickup route not finished." />
-        <output fillType="GHI_HEMP_FLOWER" enabled="false" reason="Field separation and harvesting route not finished." />
+        <output fillType="HEMP_FLOWER" enabled="false" reason="Field separation and harvesting route not finished." />
     </firstReleaseScope>
 
     <activationRule>

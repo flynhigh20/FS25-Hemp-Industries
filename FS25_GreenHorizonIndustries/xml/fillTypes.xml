@@ -15,6 +15,7 @@
             title="Industrial Hemp"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
@@ -36,6 +37,7 @@
             title="Hemp Biomass"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.18"/>
             <physics massPerLiter="0.08"/>
@@ -57,9 +59,11 @@
             title="Hemp Flower"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.20"/>
             <physics massPerLiter="0.06"/>
+            <pallet filename="pallets/xml/flowerPallet.xml"/>
         </fillType>
 
         <fillType
@@ -78,8 +82,9 @@
             showOnPriceTable="true"
             isBulkType="false"
             isPalletType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
-            <economy pricePerLiter="2.40"/>
+            <economy pricePerLiter="4.80"/>
             <physics massPerLiter="0.90" maxPhysicalSurfaceAngle="38"/>
             <image hud="$dataS/menu/hud/fillTypes/hud_fill_oil_canola.png"/>
             <pallet filename="pallets/xml/cbdOilPallet.xml"/>

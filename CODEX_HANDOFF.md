@@ -1,159 +1,108 @@
-# Codex Handoff — Green Horizon Industries
+# Codex Handoff - Green Horizon Industries
 
-## Repository and branch
+## Start here
 
 - Repository: `flynhigh20/FS25-Hemp-Industries`
-- Branch: `main`
+- Protected base branch: `main`
+- Current working folder: `C:\Users\user\Desktop\FS25-Hemp-Industries-main`
+- Do not switch to older Codex workspaces, the separate Git clone, or the installed mod ZIP.
 - Active mod folder: `FS25_GreenHorizonIndustries/`
-- Current mod version in `modDesc.xml`: `0.3.0.0`
-- User's local working copy: `C:\Users\user\Desktop\FS25-Hemp-Industries-main`
+- Current test version: `0.3.0.0`
+- The user requested that current progress be synchronized to GitHub after this handoff update.
 
-## Current active scope
+## Active placeables
 
-Two active store items are registered:
+1. Hemp Greenhouse: `placeables/greenhouses/hempGreenhouse.xml`
+2. CBD Processing Factory XML: `placeables/productions/cbdPlantSmall.xml`
+3. CBD factory I3D: `placeables/productions/i3d/greenhorizonhempprocessingfacility.i3d`
+4. CBD factory shapes: `placeables/productions/i3d/greenhorizonhempprocessingfacility.i3d.shapes`
+5. Blender source: `assets/blender/green_horizon_hemp_processing_facility.blend`
 
-1. `placeables/greenhouses/hempGreenhouse.xml`
-2. `placeables/productions/cbdPlantSmall.xml`
+## Confirmed working in FS25
 
-The field crop, custom product pallets, cutter effects, and larger processing chain remain incomplete or inactive unless explicitly registered elsewhere.
+- Greenhouse placement, model, and materials are confirmed. The latest Blender export reset door animation transforms and trigger flags; these were repaired in source/I3D and require one regression test.
+- Greenhouse manual water unloading.
+- Preserve the proven greenhouse `exactFillRootNode` kinematic/compound collision flags; do not replace it with a plain renderable mesh.
+- Base-game seed bags auto-unload through the dedicated pallet trigger.
+- Greenhouse production wrench works independently from the door.
+- Both greenhouse recipes consume their inputs and produce outputs.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet mappings and their fill types declare `isPalletType="true"`. In-game spawn confirmation is pending.
+- CBD factory custom model loads.
+- CBD factory internal production wrench works.
+- CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
+- Industrial hemp and `HEMP_FLOWER` distribution from greenhouse to CBD factory are confirmed.
 
-## Confirmed working
+## Current CBD factory build
 
-- Hemp Greenhouse appears in the FS25 Greenhouses category.
-- Water unloading works.
-- The greenhouse unload shape required `exactFillRootNode` to use `shapeId="6"` in `greenHorizonHempGreenhouse.i3d`.
-- Greenhouse model, shapes file, doorway, helpers, and corrected I3D mapping work have been merged into `main`.
-- Temporary booster input uses base-game `SEEDS` rather than `GHI_HEMP_SEED`.
-- CBD plant is active in the store.
-- The wrench/player trigger works on the CBD plant.
+- Decorative interior includes an industrial screw press, hopper, motor, press-cake tote, oil tank, filter vessel, piping, controls, benches, scale, bottles, and tool chest.
+- Factory has a two-tone metal-panel wall finish and wall/door collisions.
+- Production wrench is inside near the personnel entrance.
+- Material unloading is outside for vehicle access.
+- The large door uses absolute closed position `-1.20804 1.75 4.11` and open position `-5.60804 1.75 4.11`; zero-based translation teleports it to the building center.
+- CBD output must be set to `Storing` to create physical pallets.
+- CBD pallet capacity: 250 L.
+- CBD oil price: `$4.80/L`; full pallet value: about `$1,200`.
+- Physical CBD pallets are confirmed working. A save with roughly 7,000 L stored spawned about 28 pallets immediately.
+- Pallet footprint/location is accepted; the visible grass came from the chosen factory placement site.
+- `cbdOilPallet.xml` is registered in `modDesc.xml` as a hidden store item.
+- Pallet spawn hierarchy is `palletSpawner -> palletAreaStart -> palletAreaEnd` and visible stripes are aligned to that footprint.
+- Clear, level, paint, indoor, and AI-update areas are active. The optional invalid test area was removed.
+- The seeded greenhouse recipe is now a dedicated `HEMP_FLOWER` + biomass route; the basic recipe remains the Industrial Hemp route. Flower auto-delivery is confirmed working.
+- Greenhouse store image is now a 512x512 building thumbnail rather than the badge logo.
+- CBD factory `GHI_BrandLogo` now has an explicit relative file reference and texture binding; fresh placement/reload is pending confirmation.
+- Greenhouse floating pallet marker was removed. Visible warning-stripe geometry is exported and both stripes and spawn line are positioned outside the rear wall; seed and water markers were not changed.
 
-## Current greenhouse design
+## Exporter pitfalls that already caused failures
 
-### Basic recipe
+1. Blender may export the factory as lowercase `greenhorizonhempprocessingfacility.i3d`; keep XML and shapes names synchronized.
+2. The `<base><filename>` path is resolved from the mod root and must include `placeables/productions/i3d/`.
+3. FS25 I3D mappings use `0>` for the exported scene root. Do not add another root `0|`. Current trigger hierarchy begins at `0>1`.
+4. Blender exported the logo with too many `../` segments. After every export, normalize it to:
+   `../../../branding/green_horizon_industries_main_logo.png`
+5. Blender initially exported `emissiveColor="1 1 1 1"` on all factory materials, making the game view white. The Blender source now has emission disabled on all 19 materials. Verify a new I3D contains no full-white emissive values.
+6. GIANTS export crashes in Blender background mode on this machine; the user exports from the Blender UI.
+7. Blender exports animated door parts at their real absolute positions. Never use `translation="0 0 0"` as the closed keyframe or the pieces teleport to the greenhouse center.
+8. Blender may omit trigger/collision flags. After export, validate and restore `static`/`kinematic`, `trigger`, collision groups/masks, `compound`, and `nonRenderable` attributes before packaging.
 
-- Input: `WATER`
-- Outputs: `HEMP` and `GHI_HEMP_BIOMASS`
+## Current XML mapping contract
 
-### Seeded upgraded recipe
+- `sellingStation`: `0>1`
+- `palletSpawner`: `0>1|14`
+- `palletAreaStart01`: `0>1|14|0`
+- `palletAreaEnd01`: `0>1|14|0|0`
+- `personnelDoorTrigger`: `0>1|15`
+- `playerTrigger`: `0>1|16`
+- `playerTriggerMarker`: `0>1|17`
+- `rollupDoorTrigger`: `0>1|18`
+- `unloadTrigger`: `0>1|21`
+- `unloadTriggerMarker`: `0>1|22`
+- Door visual paths depend on export order and must be recalculated if the Blender hierarchy changes.
 
-- Inputs: `WATER` and base-game `SEEDS`
-- Outputs: increased `HEMP`, `HEMP_FLOWER`, and `GHI_HEMP_BIOMASS`
+## Immediate user test
 
-The upgraded recipe exists specifically to create flower as the more efficient CBD-processing route.
+1. Restart FS25 and place a fresh CBD factory.
+2. Confirm factory colors are normal, not white.
+3. Confirm the large door slides left and clears the opening.
+4. Confirm the personnel door works.
+5. Confirm internal wrench and both recipes.
+6. `HEMP_FLOWER` distribution is confirmed; retain the dedicated seeded flower route.
+7. Set CBD oil output to `Storing`.
+8. Physical 250 L pallet spawning is confirmed.
+9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn on the rear warning stripes.
+10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
+11. Exit and inspect `log.txt`.
 
-## Current CBD plant design
+## Next implementation work while the user tests
 
-The CBD plant must accept both greenhouse products through two separate recipes:
+1. Confirm greenhouse pallets now spawn with `isPalletType="true"` and complete stock-pallet mappings.
+2. Reconfirm the greenhouse door stays on the front wall and slides sideways after the absolute-keyframe repair.
+3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
+4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.
+5. Inspect `log.txt`, then begin Phase 3 only after the remaining Phase 2 tests pass.
 
-1. `HEMP` -> `GHI_CBD_OIL`
-2. `HEMP_FLOWER` -> `GHI_CBD_OIL`
+## Do not change casually
 
-The flower recipe should be more efficient than the bulk-hemp recipe. The current intended balance is:
-
-- `40 HEMP` -> `10 GHI_CBD_OIL`
-- `20 HEMP_FLOWER` -> `10 GHI_CBD_OIL`
-
-Its storage and unloading station must accept both `HEMP` and `HEMP_FLOWER`.
-
-## Current issues found during FS25 testing
-
-### Seed unloading — confirmed broken
-
-The user tested a normal base-game seed bag at both visible greenhouse drop locations:
-
-- the working water unload location
-- the separate seed/unload marker location
-
-`SEEDS` did not unload at either location.
-
-The greenhouse currently has four visible markers:
-
-- water marker
-- wrench/player-production marker
-- unload marker
-- pallet marker
-
-The separate `seedUnloadMarker` is only a visual marker in the current setup. There is one actual `exactFillRootNode`, configured for `WATER SEEDS`, but the base-game seed bag still did not discharge.
-
-Codex should inspect the stock FS25 greenhouse input configuration and compare:
-
-- exact fill trigger shape and collision flags
-- unloading station versus loading station declarations
-- whether seed bags require a dedicated fill trigger rather than the current water-style exact-fill trigger
-- whether a separate seed trigger shape/node is required
-- marker placement versus the actual trigger volume
-
-Do not assume that adding `SEEDS` to the XML fillTypes list alone is sufficient; the in-game test proves it is not.
-
-### Greenhouse wrench/player trigger — confirmed broken
-
-The wrench icon is visible at the greenhouse, but interacting with it does not open the production menu.
-
-The same interaction works correctly on `cbdPlantSmall.xml`, so compare the greenhouse player trigger and mappings directly against the CBD plant setup.
-
-Inspect:
-
-- `playerTrigger` shape flags and collision group/mask
-- `playerTrigger` i3dMapping path
-- overlap/conflict with `door1Trigger`, because both are near the same doorway and currently reuse the same trigger shape geometry/shapeId
-- whether `infoTrigger` or `playerTrigger` should be used for greenhouse production interaction
-- whether the door action is intercepting the production action
-
-### Flower output warning
-
-FS25 reported:
-
-```text
-Output filltype 'GHI_HEMP_FLOWER' is not supported by loading station or pallet spawner
-```
-
-The active greenhouse was changed to use `HEMP_FLOWER`, and the loading/storage declarations were updated. Verify the warning is gone after a fresh package/install.
-
-No custom flower pallet is active yet. Flower may remain stored internally until the flower pallet I3D/XML is finished and activated.
-
-### Old savegame warning
-
-FS25 reported:
-
-```text
-Placeable '.../placeables/productions/hempProcessingFacility.xml' not defined in store items
-```
-
-That path is from an older savegame entry. The currently active production is `placeables/productions/cbdPlantSmall.xml`. Use a fresh save for clean testing, or back up and remove the obsolete placeable entry from `savegame1/placeables.xml`.
-
-The user has not tested the old facility warning/fix yet.
-
-## Important current files
-
-- `FS25_GreenHorizonIndustries/modDesc.xml`
-- `FS25_GreenHorizonIndustries/xml/fillTypes.xml`
-- `FS25_GreenHorizonIndustries/placeables/greenhouses/hempGreenhouse.xml`
-- `FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d`
-- `FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes`
-- `FS25_GreenHorizonIndustries/placeables/productions/cbdPlantSmall.xml`
-- `tools/windows/preflight_check.ps1`
-- `tools/windows/package_and_install_mod.ps1`
-- `tools/windows/validate_greenhouse_export.ps1`
-- `TODO.md`
-
-## Immediate next steps
-
-1. Fix the greenhouse wrench/player trigger first so the production menu can be opened.
-2. Compare the greenhouse trigger setup against the working CBD plant trigger setup.
-3. Fix generic `SEEDS` intake using a proven stock FS25 greenhouse/production input pattern.
-4. Add a true separate seed trigger shape only if the stock configuration requires it.
-5. Preserve the confirmed working water unloading and `shapeId="6"` fix.
-6. Repackage and test the greenhouse production menu and seed bag unloading.
-7. Confirm both greenhouse recipes consume inputs and produce the intended outputs.
-8. Confirm `HEMP_FLOWER` no longer generates the loading-station/pallet-spawner warning.
-9. Confirm the CBD plant shows two recipes and accepts both `HEMP` and `HEMP_FLOWER`.
-10. Test CBD oil pallet output.
-11. Review the log for missing shapes, bad I3D child mappings, unsupported output fill types, or stale savegame placeables.
-12. Update `TODO.md` with confirmed results.
-
-## Do not change yet
-
-- Do not switch the greenhouse booster back to `GHI_HEMP_SEED` until the custom hemp-seed pallet is exported and active.
-- Do not activate unfinished field-crop registration or custom product pallets merely to silence warnings.
-- Do not replace the working greenhouse I3D/shapes export without preserving the current node hierarchy and `shapeId="6"` unload fix.
-- Do not assume the old `hempProcessingFacility.xml` warning is caused by the current `modDesc.xml`; it is a stale savegame reference.
+- Do not remove or simplify greenhouse water `exactFillRootNode` collision attributes.
+- Do not remove the proven greenhouse seed pallet trigger.
+- Do not activate field fruit types until the controlled-map test is ready.
+- Use the protected-branch workflow for GitHub updates; never force-push `main`.

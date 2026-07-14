@@ -3,7 +3,7 @@
     <storeData>
         <name>CBD Oil Pallet</name>
         <image>$data/objects/pallets/canolaOilPallet/store_canolaOilPallet.png</image>
-        <price>2400</price>
+        <price>1200</price>
         <category>pallets</category>
         <brand>NONE</brand>
         <showInStore>false</showInStore>
@@ -26,7 +26,7 @@
         <fillUnitConfigurations>
             <fillUnitConfiguration>
                 <fillUnits>
-                    <fillUnit unitTextOverride="$l10n_unit_literShort" fillTypes="GHI_CBD_OIL" capacity="1000" ignoreFillLimit="true"/>
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" fillTypes="GHI_CBD_OIL" capacity="250" ignoreFillLimit="true"/>
                 </fillUnits>
             </fillUnitConfiguration>
         </fillUnitConfigurations>

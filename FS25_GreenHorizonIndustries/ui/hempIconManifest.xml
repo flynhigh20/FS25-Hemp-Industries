@@ -13,7 +13,7 @@
         <icon id="GHI_HEMP_SEED" role="fillType" filename="fillType_hempSeed.png" linked="false"/>
         <icon id="GHI_HEMP_BIOMASS" role="fillType" filename="fillType_hempBiomass.png" linked="false"/>
         <icon id="GHI_HEMP_FIBER" role="fillType" filename="fillType_hempFiber.png" linked="false"/>
-        <icon id="GHI_HEMP_FLOWER" role="fillType" filename="fillType_hempFlower.png" linked="false"/>
+        <icon id="HEMP_FLOWER" role="fillType" filename="fillType_hempFlower.png" linked="false"/>
         <icon id="GHI_HEMP_OIL" role="fillType" filename="fillType_hempOil.png" linked="false"/>
         <icon id="GHI_CBD_OIL" role="fillType" filename="fillType_cbdOil.png" linked="false"/>
         <icon id="HEMP_CROP" role="crop" filename="crop_hemp.png" linked="false"/>
