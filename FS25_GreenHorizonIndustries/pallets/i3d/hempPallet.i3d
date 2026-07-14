@@ -65,14 +65,14 @@
   </Materials>
   <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes"></Shapes>
   <Scene>
-    <Shape name="pallet_hemp" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nodeId="428" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">
+    <Shape name="pallet_hemp" shapeId="1" dynamic="true" compound="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" nodeId="428" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">
       <TransformGroup name="collisions" nodeId="429">
-        <Shape name="floorCollision01" translation="0 0.13 0" shapeId="1" compoundChild="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nonRenderable="true" nodeId="430" castsShadows="true" receiveShadows="true" materialIds="1" />
-        <Shape name="floorCollision02" translation="0 0.58 0" shapeId="2" compoundChild="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nonRenderable="true" nodeId="431" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision01" translation="0 0.13 0" shapeId="1" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nonRenderable="true" nodeId="430" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision02" translation="0 0.58 0" shapeId="2" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nonRenderable="true" nodeId="431" castsShadows="true" receiveShadows="true" materialIds="1" />
       </TransformGroup>
       <Shape name="dischargeActivationTrigger" translation="0 0.55 -0.8" shapeId="3" nodeId="432" castsShadows="true" receiveShadows="true" materialIds="1" />
       <TransformGroup name="dischargeNode" translation="0 0.55 -0.75" nodeId="433" />
-      <Shape name="dynamicMountTrigger" translation="0 0.55 0" shapeId="4" kinematic="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x2000" nonRenderable="true" nodeId="434" castsShadows="true" receiveShadows="true" materialIds="1" />
+      <Shape name="dynamicMountTrigger" translation="0 0.55 0" shapeId="4" kinematic="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nonRenderable="true" nodeId="434" castsShadows="true" receiveShadows="true" materialIds="1" />
       <TransformGroup name="fillUnit" nodeId="435">
         <Shape name="exactFillRootNode" translation="0 0.56 0" shapeId="5" nodeId="436" castsShadows="true" receiveShadows="true" materialIds="1" />
         <Shape name="fillTrigger" translation="0 0.65 0" shapeId="6" nodeId="437" castsShadows="true" receiveShadows="true" materialIds="1" />
