@@ -11,8 +11,9 @@
 - CBD oil uses a provisional 250 L pallet worth $1,200 (`$4.80/L`).
 - Industrial hemp and `HEMP_FLOWER` distribution into the CBD factory are confirmed working in game.
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
-- CBD oil pallets are confirmed spawning. Greenhouse HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet definitions and are flagged `isPalletType="true"`; in-game spawn confirmation is pending.
-- Greenhouse store thumbnail now uses a building render instead of the badge logo. Greenhouse pallet stripes are exported and moved outside with the spawn line; the door animation now preserves absolute closed/open transforms. Both await in-game confirmation.
+- CBD oil pallets are confirmed spawning. A lettuce placeholder pallet also spawned from the greenhouse, proving its spawn contract. HEMP, BIOMASS, and FLOWER now point to distinct Green Horizon pallet I3Ds; their visuals await in-game confirmation.
+- Greenhouse store thumbnail now uses a building render instead of the badge logo. Greenhouse pallet stripes are exported and moved outside with the spawn line. The repaired door position is confirmed in game.
+- Greenhouse status-screen emissive meshes and materials are restored in the Blender source. The GIANTS exporter crashes in background mode, so a GUI export is still required before the emissives reach the game I3D.
 - Full recovery and workflow context is in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 - Foundation
@@ -40,7 +41,8 @@
 - [x] Both recipes consume inputs and produce outputs
 - [x] No unsupported `HEMP_FLOWER` output warning
 - [x] Standardize greenhouse pallet contract as `palletSpawner -> palletAreaStart -> palletAreaEnd`, separate from unload triggers
-- [ ] Confirm physical greenhouse pallets after adding `isPalletType="true"` and complete stock-pallet mappings
+- [x] Confirm the greenhouse can instantiate a physical pallet (lettuce placeholder)
+- [ ] Confirm distinct Green Horizon HEMP, BIOMASS, and FLOWER pallet visuals in game
 
 ### CBD factory completed in code
 

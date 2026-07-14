@@ -20,13 +20,13 @@
 
 ## Confirmed working in FS25
 
-- Greenhouse placement, model, and materials are confirmed. The latest Blender export reset door animation transforms and trigger flags; these were repaired in source/I3D and require one regression test.
+- Greenhouse placement, model, and materials are confirmed. The repaired front-door position is confirmed in game.
 - Greenhouse manual water unloading.
 - Preserve the proven greenhouse `exactFillRootNode` kinematic/compound collision flags; do not replace it with a plain renderable mesh.
 - Base-game seed bags auto-unload through the dedicated pallet trigger.
 - Greenhouse production wrench works independently from the door.
 - Both greenhouse recipes consume their inputs and produce outputs.
-- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet mappings and their fill types declare `isPalletType="true"`. In-game spawn confirmation is pending.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. A lettuce placeholder spawned successfully, proving the spawner. HEMP, BIOMASS, and FLOWER now load isolated custom Green Horizon I3Ds generated from `greenhorizonproductpallets.i3d`; distinct visuals await in-game confirmation.
 - CBD factory custom model loads.
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
@@ -88,14 +88,14 @@
 6. `HEMP_FLOWER` distribution is confirmed; retain the dedicated seeded flower route.
 7. Set CBD oil output to `Storing`.
 8. Physical 250 L pallet spawning is confirmed.
-9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn on the rear warning stripes.
+9. Set each greenhouse output to `Storing` and confirm the distinct HEMP, BIOMASS, and FLOWER custom pallets spawn on the rear warning stripes.
 10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
 11. Exit and inspect `log.txt`.
 
 ## Next implementation work while the user tests
 
-1. Confirm greenhouse pallets now spawn with `isPalletType="true"` and complete stock-pallet mappings.
-2. Reconfirm the greenhouse door stays on the front wall and slides sideways after the absolute-keyframe repair.
+1. Confirm all three custom greenhouse pallet models, capacities, collisions, and tension-belt behavior.
+2. Export the saved greenhouse Blender source through the GUI exporter to carry the restored restrained status-screen emissives into the game I3D; background export crashes Blender 4.2.
 3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
 4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.
 5. Inspect `log.txt`, then begin Phase 3 only after the remaining Phase 2 tests pass.

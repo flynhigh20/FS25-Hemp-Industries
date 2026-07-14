@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<i3D name="greenhorizonproductpallets" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0" />
+  </Asset>
+  <Files>
+    <File fileId="4" filename="../textures/pallet_biomass_diffuse.png" />
+    <File fileId="6" filename="../textures/pallet_dark_wood_diffuse.png" />
+    <File fileId="18" filename="../textures/pallet_fiber_diffuse.png" />
+    <File fileId="19" filename="../textures/pallet_flower_diffuse.png" />
+    <File fileId="1" filename="../textures/pallet_helper_diffuse.png" />
+    <File fileId="20" filename="../textures/pallet_hemp_diffuse.png" />
+    <File fileId="10" filename="../textures/pallet_label_diffuse.png" />
+    <File fileId="23" filename="../textures/pallet_metal_diffuse.png" />
+    <File fileId="21" filename="../textures/pallet_oil_diffuse.png" />
+    <File fileId="25" filename="../textures/pallet_seed_diffuse.png" />
+    <File fileId="12" filename="../textures/pallet_strap_diffuse.png" />
+    <File fileId="8" filename="../textures/pallet_text_diffuse.png" />
+    <File fileId="14" filename="../textures/pallet_wood_diffuse.png" />
+    <File fileId="16" filename="../textures/pallet_wrap_diffuse.png" />
+  </Files>
+  <Materials>
+    <Material name="GHI_biomassProduct" materialId="2" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+      <Texture fileId="4" />
+    </Material>
+    <Material name="GHI_blackStrap" materialId="6" emissiveColor="1 1 1 1" specularColor="0.54902 1 0">
+      <Texture fileId="12" />
+    </Material>
+    <Material name="GHI_clearWrap" materialId="8" emissiveColor="1 1 1 1" specularColor="0.8 1 0">
+      <Texture fileId="16" />
+    </Material>
+    <Material name="GHI_drumMetal" materialId="13" emissiveColor="1 1 1 1" specularColor="0.619608 1 0.54902">
+      <Texture fileId="23" />
+    </Material>
+    <Material name="GHI_fiberProduct" materialId="9" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+      <Texture fileId="18" />
+    </Material>
+    <Material name="GHI_flowerProduct" materialId="10" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+      <Texture fileId="19" />
+    </Material>
+    <Material name="GHI_helperNonRenderable" materialId="1" emissiveColor="1 1 1 1" specularColor="0.101961 1 0">
+      <Texture fileId="1" />
+    </Material>
+    <Material name="GHI_hempProduct" materialId="11" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+      <Texture fileId="20" />
+    </Material>
+    <Material name="GHI_labelStock" materialId="5" emissiveColor="1 1 1 1" specularColor="0.34902 1 0">
+      <Texture fileId="10" />
+    </Material>
+    <Material name="GHI_labelText" materialId="4" emissiveColor="1 1 1 1" specularColor="0.45098 1 0">
+      <Texture fileId="8" />
+    </Material>
+    <Material name="GHI_oilProduct" materialId="12" emissiveColor="1 1 1 1" specularColor="0.619608 1 0">
+      <Texture fileId="21" />
+    </Material>
+    <Material name="GHI_palletDarkWood" materialId="3" emissiveColor="1 1 1 1" specularColor="0.0784314 1 0">
+      <Texture fileId="6" />
+    </Material>
+    <Material name="GHI_palletWood" materialId="7" emissiveColor="1 1 1 1" specularColor="0.121569 1 0">
+      <Texture fileId="14" />
+    </Material>
+    <Material name="GHI_seedProduct" materialId="14" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+      <Texture fileId="25" />
+    </Material>
+  </Materials>
+  <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes"></Shapes>
+  <Scene>
+    <TransformGroup name="pallet_biomass" nodeId="284">
+      <TransformGroup name="collisions.002" nodeId="285">
+        <Shape name="floorCollision01.002" translation="0 0.13 0" shapeId="1" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision02.002" translation="0 0.58 0" shapeId="2" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="1" />
+      </TransformGroup>
+      <Shape name="dischargeActivationTrigger.002" translation="0 0.55 -0.8" shapeId="3" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="1" />
+      <TransformGroup name="dischargeNode.002" translation="0 0.55 -0.75" nodeId="289" />
+      <Shape name="dynamicMountTrigger.002" translation="0 0.55 0" shapeId="4" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="1" />
+      <TransformGroup name="fillUnit.002" nodeId="291">
+        <Shape name="exactFillRootNode.002" translation="0 0.56 0" shapeId="5" nodeId="292" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="fillTrigger.002" translation="0 0.65 0" shapeId="6" nodeId="293" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="fillVolume.002" translation="0 0.6 0" shapeId="7" nodeId="294" castsShadows="true" receiveShadows="true" materialIds="1" />
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.002" nodeId="295">
+        <Shape name="biomassBale" translation="0 0.4 0.3" shapeId="8" nodeId="296" castsShadows="true" receiveShadows="true" materialIds="2" />
+        <Shape name="biomassBale.001" translation="0 0.4 -0.3" shapeId="8" nodeId="297" castsShadows="true" receiveShadows="true" materialIds="2" />
+        <Shape name="biomassBale.002" translation="0 0.72 0.3" shapeId="8" nodeId="298" castsShadows="true" receiveShadows="true" materialIds="2" />
+        <Shape name="biomassBale.003" translation="0 0.72 -0.3" shapeId="8" nodeId="299" castsShadows="true" receiveShadows="true" materialIds="2" />
+        <Shape name="bottomRunner.006" translation="0 0.035 0.43" shapeId="9" nodeId="300" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="bottomRunner.007" translation="0 0.035 0" shapeId="9" nodeId="301" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="bottomRunner.008" translation="0 0.035 -0.43" shapeId="9" nodeId="302" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="brandText.002" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="10" nodeId="303" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="fillTypeText.002" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="11" nodeId="304" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="labelPanel.002" translation="0 0.62 0.654" shapeId="12" nodeId="305" castsShadows="true" receiveShadows="true" materialIds="5" />
+        <Shape name="palletBlock.018" translation="-0.52 0.095 0.43" shapeId="13" nodeId="306" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.019" translation="-0.52 0.095 0" shapeId="13" nodeId="307" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.020" translation="-0.52 0.095 -0.43" shapeId="13" nodeId="308" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.021" translation="0 0.095 0.43" shapeId="13" nodeId="309" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.022" translation="0 0.095 0" shapeId="13" nodeId="310" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.023" translation="0 0.095 -0.43" shapeId="13" nodeId="311" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.024" translation="0.52 0.095 0.43" shapeId="13" nodeId="312" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.025" translation="0.52 0.095 0" shapeId="13" nodeId="313" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.026" translation="0.52 0.095 -0.43" shapeId="13" nodeId="314" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="productText.002" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="14" nodeId="315" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="strapBack.004" translation="-0.34 0.62 -0.642" shapeId="15" nodeId="316" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapBack.005" translation="0.34 0.62 -0.642" shapeId="15" nodeId="317" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapFront.004" translation="-0.34 0.62 0.642" shapeId="15" nodeId="318" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapFront.005" translation="0.34 0.62 0.642" shapeId="15" nodeId="319" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="topDeckBoard.010" translation="0 0.16 0.44" shapeId="16" nodeId="320" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.011" translation="0 0.16 0.22" shapeId="16" nodeId="321" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.012" translation="0 0.16 0" shapeId="16" nodeId="322" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.013" translation="0 0.16 -0.22" shapeId="16" nodeId="323" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.014" translation="0 0.16 -0.44" shapeId="16" nodeId="324" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="wrapBack.002" translation="0 0.62 -0.62" shapeId="17" nodeId="325" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapFront.002" translation="0 0.62 0.62" shapeId="17" nodeId="326" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapLeft.002" translation="-0.6 0.62 0" shapeId="18" nodeId="327" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapRight.002" translation="0.6 0.62 0" shapeId="18" nodeId="328" castsShadows="true" receiveShadows="true" materialIds="8" />
+      </TransformGroup>
+      <TransformGroup name="raycastNode.002" translation="0 0.6 -0.7" nodeId="329" />
+    </TransformGroup>
+  </Scene>
+</i3D>
