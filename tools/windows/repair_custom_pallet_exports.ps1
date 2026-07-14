@@ -50,14 +50,16 @@ function Repair-PalletI3d {
     $text = $text.Replace('emissiveColor="1 1 1 1"', 'emissiveColor="0 0 0 1"')
 
     $rootPattern = '<TransformGroup name="' + [regex]::Escape($RootName) + '" nodeId="(?<nodeId>\d+)">'
-    $rootReplacement = '<Shape name="' + $RootName + '" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nodeId="${nodeId}" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">'
+    $rootReplacement = '<Shape name="' + $RootName + '" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nodeId="${nodeId}" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">'
     $text = [regex]::Replace($text, $rootPattern, $rootReplacement, 1)
 
     $text = [regex]::Replace(
         $text,
         '(<Shape name="floorCollision0[12](?:\.\d+)?"[^>]*?shapeId="\d+")(?=\s+nodeId=)',
-        '$1 compoundChild="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nonRenderable="true"'
+        '$1 compoundChild="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nonRenderable="true"'
     )
+
+    $text = $text.Replace('collisionFilterGroup="0x10" collisionFilterMask="0x1803018"', 'collisionFilterGroup="0x10000" collisionFilterMask="0x1813008"')
 
     $text = [regex]::Replace(
         $text,

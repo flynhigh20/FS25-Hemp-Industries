@@ -65,10 +65,10 @@
   </Materials>
   <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes"></Shapes>
   <Scene>
-    <Shape name="pallet_biomass" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nodeId="284" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">
+    <Shape name="pallet_biomass" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nodeId="284" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">
       <TransformGroup name="collisions.002" nodeId="285">
-        <Shape name="floorCollision01.002" translation="0 0.13 0" shapeId="1" compoundChild="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nonRenderable="true" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1" />
-        <Shape name="floorCollision02.002" translation="0 0.58 0" shapeId="2" compoundChild="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nonRenderable="true" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision01.002" translation="0 0.13 0" shapeId="1" compoundChild="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nonRenderable="true" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision02.002" translation="0 0.58 0" shapeId="2" compoundChild="true" collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1" nonRenderable="true" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="1" />
       </TransformGroup>
       <Shape name="dischargeActivationTrigger.002" translation="0 0.55 -0.8" shapeId="3" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="1" />
       <TransformGroup name="dischargeNode.002" translation="0 0.55 -0.75" nodeId="289" />
