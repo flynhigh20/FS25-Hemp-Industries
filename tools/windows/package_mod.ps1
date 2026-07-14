@@ -72,7 +72,12 @@ function Assert-ZipEntries {
     try {
         $entries = @{}
         foreach ($entry in $zip.Entries) {
-            $entries[$entry.FullName.Replace("\", "/")] = $true
+            $normalizedName = $entry.FullName.Replace("\", "/")
+            $entries[$normalizedName] = $true
+
+            if ($normalizedName.StartsWith("FS25_GreenHorizonIndustries/", [System.StringComparison]::OrdinalIgnoreCase)) {
+                throw "Package contains an extra top-level mod folder: $normalizedName"
+            }
         }
 
         foreach ($relativePath in $RelativePaths) {
@@ -87,11 +92,32 @@ function Assert-ZipEntries {
     }
 }
 
+function Invoke-RequiredValidator {
+    param(
+        [string]$ValidatorPath,
+        [string]$Description,
+        [string]$RepoRoot
+    )
+
+    if (-not (Test-Path $ValidatorPath)) {
+        throw "Missing $Description validator: $ValidatorPath"
+    }
+
+    Write-Host ""
+    Write-Host "Running $Description..." -ForegroundColor Cyan
+    & $ValidatorPath -RepoRoot $RepoRoot
+    if ($LASTEXITCODE -ne 0) {
+        throw "$Description failed. The mod will not be packaged."
+    }
+}
+
 $repoRoot = Find-RepoRoot
 $modFolder = Join-Path $repoRoot "FS25_GreenHorizonIndustries"
 $modDescPath = Join-Path $modFolder "modDesc.xml"
 $distDir = Join-Path $repoRoot "dist"
 $zipPath = Join-Path $distDir "FS25_GreenHorizonIndustries.zip"
+$preflightValidator = Join-Path $repoRoot "tools\windows\preflight_check.ps1"
+$activeProductionValidator = Join-Path $repoRoot "tools\windows\validate_active_production_contract.ps1"
 $exportValidator = Join-Path $repoRoot "tools\windows\validate_greenhouse_export.ps1"
 $palletExportRepair = Join-Path $repoRoot "tools\windows\repair_custom_pallet_exports.ps1"
 
@@ -122,6 +148,8 @@ $requiredEntries = @(
     "placeables/productions/cbdPlantSmall.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d.shapes",
+    "placeables/productions/i3d/greenhorizonhempprocessingfacility.i3d",
+    "placeables/productions/i3d/greenhorizonhempprocessingfacility.i3d.shapes",
     "placeables/greenhouses/textures/greenhouse_glass_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_frame_diffuse.png",
     "placeables/greenhouses/textures/greenhouse_concrete_diffuse.png",
@@ -138,9 +166,6 @@ Write-Host "Green Horizon Industries Windows Packager" -ForegroundColor Green
 Write-Host "Repo: $repoRoot"
 Write-Host "Version: $version"
 
-if (-not (Test-Path $exportValidator)) {
-    throw "Missing greenhouse export validator: $exportValidator"
-}
 if (-not (Test-Path $palletExportRepair)) {
     throw "Missing custom pallet export repair: $palletExportRepair"
 }
@@ -152,12 +177,9 @@ if ($LASTEXITCODE -ne 0) {
     throw "Custom pallet export repair failed. The broken export will not be packaged."
 }
 
-Write-Host ""
-Write-Host "Repairing and validating the exported greenhouse before packaging..." -ForegroundColor Cyan
-& $exportValidator -RepoRoot $repoRoot
-if ($LASTEXITCODE -ne 0) {
-    throw "Greenhouse export validation failed. The incomplete export will not be packaged."
-}
+Invoke-RequiredValidator -ValidatorPath $preflightValidator -Description "repository preflight" -RepoRoot $repoRoot
+Invoke-RequiredValidator -ValidatorPath $activeProductionValidator -Description "active production contract validation" -RepoRoot $repoRoot
+Invoke-RequiredValidator -ValidatorPath $exportValidator -Description "greenhouse export validation" -RepoRoot $repoRoot
 
 Assert-RequiredFiles -ModFolder $modFolder -RelativePaths $requiredEntries
 
@@ -201,13 +223,19 @@ finally {
 Assert-ZipEntries -ZipPath $zipPath -RelativePaths $requiredEntries
 
 Write-Host "Created: $zipPath" -ForegroundColor Cyan
-Write-Host "Zip root check: PASS" -ForegroundColor Green
+Write-Host "Zip root and required-entry checks: PASS" -ForegroundColor Green
 
+# Exact project-owned names only. This cleanup deliberately avoids wildcard
+# deletion so unrelated FS25 mods cannot be removed accidentally.
 $legacyModNames = @(
     "FS25_GreenHorizonIndustries.zip",
     "FS25_GreenHorizonIndustries",
+    "FS25_Green_Horizon_Industries.zip",
+    "FS25_Green_Horizon_Industries",
     "FS25_Hemp_Industries.zip",
     "FS25_Hemp_Industries",
+    "FS25_HempIndustries.zip",
+    "FS25_HempIndustries",
     "greenHorizonHempGreenhouse.zip",
     "greenHorizonHempGreenhouse"
 )
