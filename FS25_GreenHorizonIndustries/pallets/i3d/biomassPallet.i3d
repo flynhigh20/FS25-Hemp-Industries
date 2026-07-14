@@ -20,59 +20,59 @@
     <File fileId="16" filename="../textures/pallet_wrap_diffuse.png" />
   </Files>
   <Materials>
-    <Material name="GHI_biomassProduct" materialId="2" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_biomassProduct" materialId="2" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="4" />
     </Material>
-    <Material name="GHI_blackStrap" materialId="6" emissiveColor="1 1 1 1" specularColor="0.54902 1 0">
+    <Material name="GHI_blackStrap" materialId="6" emissiveColor="0 0 0 1" specularColor="0.54902 1 0">
       <Texture fileId="12" />
     </Material>
-    <Material name="GHI_clearWrap" materialId="8" emissiveColor="1 1 1 1" specularColor="0.8 1 0">
+    <Material name="GHI_clearWrap" materialId="8" emissiveColor="0 0 0 1" specularColor="0.8 1 0">
       <Texture fileId="16" />
     </Material>
-    <Material name="GHI_drumMetal" materialId="13" emissiveColor="1 1 1 1" specularColor="0.619608 1 0.54902">
+    <Material name="GHI_drumMetal" materialId="13" emissiveColor="0 0 0 1" specularColor="0.619608 1 0.54902">
       <Texture fileId="23" />
     </Material>
-    <Material name="GHI_fiberProduct" materialId="9" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_fiberProduct" materialId="9" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="18" />
     </Material>
-    <Material name="GHI_flowerProduct" materialId="10" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_flowerProduct" materialId="10" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="19" />
     </Material>
-    <Material name="GHI_helperNonRenderable" materialId="1" emissiveColor="1 1 1 1" specularColor="0.101961 1 0">
+    <Material name="GHI_helperNonRenderable" materialId="1" emissiveColor="0 0 0 1" specularColor="0.101961 1 0">
       <Texture fileId="1" />
     </Material>
-    <Material name="GHI_hempProduct" materialId="11" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_hempProduct" materialId="11" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="20" />
     </Material>
-    <Material name="GHI_labelStock" materialId="5" emissiveColor="1 1 1 1" specularColor="0.34902 1 0">
+    <Material name="GHI_labelStock" materialId="5" emissiveColor="0 0 0 1" specularColor="0.34902 1 0">
       <Texture fileId="10" />
     </Material>
-    <Material name="GHI_labelText" materialId="4" emissiveColor="1 1 1 1" specularColor="0.45098 1 0">
+    <Material name="GHI_labelText" materialId="4" emissiveColor="0 0 0 1" specularColor="0.45098 1 0">
       <Texture fileId="8" />
     </Material>
-    <Material name="GHI_oilProduct" materialId="12" emissiveColor="1 1 1 1" specularColor="0.619608 1 0">
+    <Material name="GHI_oilProduct" materialId="12" emissiveColor="0 0 0 1" specularColor="0.619608 1 0">
       <Texture fileId="21" />
     </Material>
-    <Material name="GHI_palletDarkWood" materialId="3" emissiveColor="1 1 1 1" specularColor="0.0784314 1 0">
+    <Material name="GHI_palletDarkWood" materialId="3" emissiveColor="0 0 0 1" specularColor="0.0784314 1 0">
       <Texture fileId="6" />
     </Material>
-    <Material name="GHI_palletWood" materialId="7" emissiveColor="1 1 1 1" specularColor="0.121569 1 0">
+    <Material name="GHI_palletWood" materialId="7" emissiveColor="0 0 0 1" specularColor="0.121569 1 0">
       <Texture fileId="14" />
     </Material>
-    <Material name="GHI_seedProduct" materialId="14" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_seedProduct" materialId="14" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="25" />
     </Material>
   </Materials>
   <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes"></Shapes>
   <Scene>
-    <TransformGroup name="pallet_biomass" nodeId="284">
+    <Shape name="pallet_biomass" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nodeId="284" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1">
       <TransformGroup name="collisions.002" nodeId="285">
-        <Shape name="floorCollision01.002" translation="0 0.13 0" shapeId="1" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1" />
-        <Shape name="floorCollision02.002" translation="0 0.58 0" shapeId="2" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision01.002" translation="0 0.13 0" shapeId="1" compoundChild="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nonRenderable="true" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="floorCollision02.002" translation="0 0.58 0" shapeId="2" compoundChild="true" collisionFilterGroup="0x10" collisionFilterMask="0x1803018" density="0.1" nonRenderable="true" nodeId="287" castsShadows="true" receiveShadows="true" materialIds="1" />
       </TransformGroup>
       <Shape name="dischargeActivationTrigger.002" translation="0 0.55 -0.8" shapeId="3" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="1" />
       <TransformGroup name="dischargeNode.002" translation="0 0.55 -0.75" nodeId="289" />
-      <Shape name="dynamicMountTrigger.002" translation="0 0.55 0" shapeId="4" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="1" />
+      <Shape name="dynamicMountTrigger.002" translation="0 0.55 0" shapeId="4" kinematic="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x2000" nonRenderable="true" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="1" />
       <TransformGroup name="fillUnit.002" nodeId="291">
         <Shape name="exactFillRootNode.002" translation="0 0.56 0" shapeId="5" nodeId="292" castsShadows="true" receiveShadows="true" materialIds="1" />
         <Shape name="fillTrigger.002" translation="0 0.65 0" shapeId="6" nodeId="293" castsShadows="true" receiveShadows="true" materialIds="1" />
@@ -114,6 +114,6 @@
         <Shape name="wrapRight.002" translation="0.6 0.62 0" shapeId="18" nodeId="328" castsShadows="true" receiveShadows="true" materialIds="8" />
       </TransformGroup>
       <TransformGroup name="raycastNode.002" translation="0 0.6 -0.7" nodeId="329" />
-    </TransformGroup>
+    </Shape>
   </Scene>
 </i3D>

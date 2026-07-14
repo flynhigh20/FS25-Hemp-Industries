@@ -93,6 +93,7 @@ $modDescPath = Join-Path $modFolder "modDesc.xml"
 $distDir = Join-Path $repoRoot "dist"
 $zipPath = Join-Path $distDir "FS25_GreenHorizonIndustries.zip"
 $exportValidator = Join-Path $repoRoot "tools\windows\validate_greenhouse_export.ps1"
+$palletExportRepair = Join-Path $repoRoot "tools\windows\repair_custom_pallet_exports.ps1"
 
 [xml]$modDesc = Get-Content -Path $modDescPath -Raw
 $version = $modDesc.modDesc.version.Trim()
@@ -139,6 +140,16 @@ Write-Host "Version: $version"
 
 if (-not (Test-Path $exportValidator)) {
     throw "Missing greenhouse export validator: $exportValidator"
+}
+if (-not (Test-Path $palletExportRepair)) {
+    throw "Missing custom pallet export repair: $palletExportRepair"
+}
+
+Write-Host ""
+Write-Host "Repairing custom pallet physics and material defaults..." -ForegroundColor Cyan
+& $palletExportRepair -RepoRoot $repoRoot
+if ($LASTEXITCODE -ne 0) {
+    throw "Custom pallet export repair failed. The broken export will not be packaged."
 }
 
 Write-Host ""

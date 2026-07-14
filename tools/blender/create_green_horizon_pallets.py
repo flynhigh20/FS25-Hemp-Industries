@@ -184,6 +184,12 @@ def make_image_material(
     links.new(texture.outputs["Color"], bsdf.inputs["Base Color"])
     bsdf.inputs["Roughness"].default_value = roughness
     bsdf.inputs["Metallic"].default_value = metallic
+    emission_color = bsdf.inputs.get("Emission Color") or bsdf.inputs.get("Emission")
+    if emission_color is not None:
+        emission_color.default_value = (0.0, 0.0, 0.0, 1.0)
+    emission_strength = bsdf.inputs.get("Emission Strength")
+    if emission_strength is not None:
+        emission_strength.default_value = 0.0
 
     if alpha:
         links.new(texture.outputs["Alpha"], bsdf.inputs["Alpha"])

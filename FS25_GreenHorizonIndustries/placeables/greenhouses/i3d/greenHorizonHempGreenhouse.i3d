@@ -18,34 +18,34 @@
 
 
   <Materials>
-    <Material name="blackPowderCoatedFrame" materialId="2" emissiveColor="1 1 1 1" specularColor="0.580392 1 0.34902">
+    <Material name="blackPowderCoatedFrame" materialId="2" emissiveColor="0 0 0 1" specularColor="0.580392 1 0.34902">
       <Texture fileId="4"/>
     </Material>
-    <Material name="blackRubberGasket" materialId="8" emissiveColor="1 1 1 1" specularColor="0.219608 1 0">
+    <Material name="blackRubberGasket" materialId="8" emissiveColor="0 0 0 1" specularColor="0.219608 1 0">
       <Texture fileId="16"/>
     </Material>
-    <Material name="blueWaterTank" materialId="9" emissiveColor="1 1 1 1" specularColor="0.639216 1 0">
+    <Material name="blueWaterTank" materialId="9" emissiveColor="0 0 0 1" specularColor="0.639216 1 0">
       <Texture fileId="18"/>
     </Material>
-    <Material name="clearPolycarbonate" materialId="4" emissiveColor="1 1 1 1" specularColor="0.85098 1 0">
+    <Material name="clearPolycarbonate" materialId="4" emissiveColor="0 0 0 1" specularColor="0.85098 1 0">
       <Texture fileId="8"/>
     </Material>
-    <Material name="darkGrowBedSoil" materialId="5" emissiveColor="1 1 1 1" specularColor="0.0392157 1 0">
+    <Material name="darkGrowBedSoil" materialId="5" emissiveColor="0 0 0 1" specularColor="0.0392157 1 0">
       <Texture fileId="10"/>
     </Material>
-    <Material name="GHI_WarningStripeBlack" materialId="10" diffuseColor="0.0235294 0.0235294 0.0196078 1" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_WarningStripeBlack" materialId="10" diffuseColor="0.0235294 0.0235294 0.0196078 1" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
     </Material>
-    <Material name="GHI_WarningStripeYellow" materialId="11" diffuseColor="0.94902 0.619608 0.0156863 1" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="GHI_WarningStripeYellow" materialId="11" diffuseColor="0.94902 0.619608 0.0156863 1" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
     </Material>
-    <Material name="helperNonRenderable" materialId="1" diffuseColor="1 0.14902 0.0196078 1" emissiveColor="1 1 1 1" specularColor="0.101961 1 0">
+    <Material name="helperNonRenderable" materialId="1" diffuseColor="1 0.14902 0.0196078 1" emissiveColor="0 0 0 1" specularColor="0.101961 1 0">
     </Material>
-    <Material name="hempStemGreenBrown" materialId="7" emissiveColor="1 1 1 1" specularColor="0.278431 1 0">
+    <Material name="hempStemGreenBrown" materialId="7" emissiveColor="0 0 0 1" specularColor="0.278431 1 0">
       <Texture fileId="14"/>
     </Material>
-    <Material name="industrialHempLeaf" materialId="6" emissiveColor="1 1 1 1" specularColor="0.380392 1 0">
+    <Material name="industrialHempLeaf" materialId="6" emissiveColor="0 0 0 1" specularColor="0.380392 1 0">
       <Texture fileId="12"/>
     </Material>
-    <Material name="pouredConcrete" materialId="3" emissiveColor="1 1 1 1" specularColor="0.121569 1 0">
+    <Material name="pouredConcrete" materialId="3" emissiveColor="0 0 0 1" specularColor="0.121569 1 0">
       <Texture fileId="6"/>
     </Material>
   </Materials>
