@@ -82,7 +82,6 @@
             showOnPriceTable="true"
             isBulkType="false"
             isPalletType="true"
-            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="4.80"/>
             <physics massPerLiter="0.90" maxPhysicalSurfaceAngle="38"/>
