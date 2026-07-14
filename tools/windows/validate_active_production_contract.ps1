@@ -68,6 +68,96 @@ function Assert-ContainsAll {
     }
 }
 
+function Resolve-ModContentPath {
+    param(
+        [string]$ModFolder,
+        [string]$RelativePath,
+        [string]$Description
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RelativePath)) {
+        Fail "$Description is empty"
+        return $null
+    }
+
+    if ([System.IO.Path]::IsPathRooted($RelativePath)) {
+        Fail "$Description must be mod-relative, not absolute: $RelativePath"
+        return $null
+    }
+
+    $normalizedModFolder = [System.IO.Path]::GetFullPath($ModFolder).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+    $candidate = [System.IO.Path]::GetFullPath((Join-Path $ModFolder $RelativePath))
+    if (-not $candidate.StartsWith($normalizedModFolder, [System.StringComparison]::OrdinalIgnoreCase)) {
+        Fail "$Description escapes the mod folder: $RelativePath"
+        return $null
+    }
+
+    return $candidate
+}
+
+function Assert-ActivePalletContract {
+    param(
+        $FillTypesDocument,
+        [string]$FillTypeName,
+        [string]$ExpectedPalletXml,
+        [string]$ModFolder
+    )
+
+    $fillType = @($FillTypesDocument.map.fillTypes.fillType | Where-Object { $_.name -eq $FillTypeName }) | Select-Object -First 1
+    if ($null -eq $fillType) {
+        Fail "Pallet fill type is not registered: $FillTypeName"
+        return
+    }
+
+    $palletXmlRelative = [string]$fillType.pallet.filename
+    if ($palletXmlRelative -ne $ExpectedPalletXml) {
+        Fail "$FillTypeName pallet XML must be $ExpectedPalletXml (found '$palletXmlRelative')"
+        return
+    }
+
+    $palletXmlPath = Resolve-ModContentPath -ModFolder $ModFolder -RelativePath $palletXmlRelative -Description "$FillTypeName pallet XML path"
+    if ($null -eq $palletXmlPath) { return }
+    if (-not (Test-Path -LiteralPath $palletXmlPath -PathType Leaf)) {
+        Fail "$FillTypeName pallet XML does not exist: $palletXmlRelative"
+        return
+    }
+    Pass "$FillTypeName pallet XML exists"
+
+    $palletXml = Read-Xml $palletXmlPath
+    if ($null -eq $palletXml) { return }
+
+    $i3dRelative = [string]$palletXml.vehicle.base.filename
+    if ($i3dRelative.StartsWith('$data/', [System.StringComparison]::OrdinalIgnoreCase) -or
+        $i3dRelative.StartsWith('$dataS/', [System.StringComparison]::OrdinalIgnoreCase)) {
+        Pass "$FillTypeName pallet uses a base-game I3D: $i3dRelative"
+        return
+    }
+
+    $i3dPath = Resolve-ModContentPath -ModFolder $ModFolder -RelativePath $i3dRelative -Description "$FillTypeName pallet I3D path"
+    if ($null -eq $i3dPath) { return }
+    if (-not (Test-Path -LiteralPath $i3dPath -PathType Leaf)) {
+        Fail "$FillTypeName pallet I3D does not exist: $i3dRelative"
+        return
+    }
+    Pass "$FillTypeName pallet I3D exists"
+
+    $i3d = Read-Xml $i3dPath
+    if ($null -eq $i3d) { return }
+
+    $shapesRelative = [string]$i3d.i3D.Shapes.externalShapesFile
+    if ([string]::IsNullOrWhiteSpace($shapesRelative)) {
+        Fail "$FillTypeName pallet I3D does not reference an external shapes file"
+        return
+    }
+
+    $shapesPath = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $i3dPath) $shapesRelative))
+    if (-not (Test-Path -LiteralPath $shapesPath -PathType Leaf)) {
+        Fail "$FillTypeName pallet shapes file does not exist: $shapesRelative"
+        return
+    }
+    Pass "$FillTypeName pallet I3D and shapes file resolve inside the mod"
+}
+
 $root = Find-RepoRoot
 $modFolder = Join-Path $root "FS25_GreenHorizonIndustries"
 
@@ -91,6 +181,10 @@ if ($null -ne $fillTypes) {
     else {
         Pass "Deprecated GHI_HEMP_FLOWER registration is absent"
     }
+
+    Assert-ActivePalletContract -FillTypesDocument $fillTypes -FillTypeName "HEMP" -ExpectedPalletXml "pallets/xml/hempPallet.xml" -ModFolder $modFolder
+    Assert-ActivePalletContract -FillTypesDocument $fillTypes -FillTypeName "HEMP_FLOWER" -ExpectedPalletXml "pallets/xml/flowerPallet.xml" -ModFolder $modFolder
+    Assert-ActivePalletContract -FillTypesDocument $fillTypes -FillTypeName "GHI_HEMP_BIOMASS" -ExpectedPalletXml "pallets/xml/biomassPallet.xml" -ModFolder $modFolder
 }
 
 if ($null -ne $modDesc) {
