@@ -20,17 +20,17 @@
 
 ## Confirmed working in FS25
 
-- Greenhouse placement, model, materials, collisions, and animated door.
+- Greenhouse placement, model, and materials are confirmed. The latest Blender export reset door animation transforms and trigger flags; these were repaired in source/I3D and require one regression test.
 - Greenhouse manual water unloading.
-- Preserve greenhouse `exactFillRootNode shapeId="6"`.
+- Preserve the proven greenhouse `exactFillRootNode` kinematic/compound collision flags; do not replace it with a plain renderable mesh.
 - Base-game seed bags auto-unload through the dedicated pallet trigger.
 - Greenhouse production wrench works independently from the door.
 - Both greenhouse recipes consume their inputs and produce outputs.
-- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER pallet store items are now registered, and FLOWER uses a working stock pallet base. In-game spawn confirmation is pending.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet mappings and their fill types declare `isPalletType="true"`. In-game spawn confirmation is pending.
 - CBD factory custom model loads.
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
-- Industrial hemp distribution from greenhouse to CBD factory is confirmed.
+- Industrial hemp and `HEMP_FLOWER` distribution from greenhouse to CBD factory are confirmed.
 
 ## Current CBD factory build
 
@@ -47,11 +47,10 @@
 - `cbdOilPallet.xml` is registered in `modDesc.xml` as a hidden store item.
 - Pallet spawn hierarchy is `palletSpawner -> palletAreaStart -> palletAreaEnd` and visible stripes are aligned to that footprint.
 - Clear, level, paint, indoor, and AI-update areas are active. The optional invalid test area was removed.
-- The seeded greenhouse recipe lists `HEMP_FLOWER` first. Existing saves still contain only `<autoDeliverFillType>HEMP</autoDeliverFillType>` until the user re-toggles the seeded recipe to `Distributing`.
-- Existing tested greenhouses were confirmed to have `<autoDeliverFillType>HEMP</autoDeliverFillType>` persisted in `savegame1/placeables.xml`; deleting and freshly placing them is required for a clean flower-distribution test.
+- The seeded greenhouse recipe is now a dedicated `HEMP_FLOWER` + biomass route; the basic recipe remains the Industrial Hemp route. Flower auto-delivery is confirmed working.
 - Greenhouse store image is now a 512x512 building thumbnail rather than the badge logo.
 - CBD factory `GHI_BrandLogo` now has an explicit relative file reference and texture binding; fresh placement/reload is pending confirmation.
-- Greenhouse floating pallet marker was removed. The warning-stripe marker now uses the actual pallet-spawner position; seed and water markers were not changed.
+- Greenhouse floating pallet marker was removed. Visible warning-stripe geometry is exported and both stripes and spawn line are positioned outside the rear wall; seed and water markers were not changed.
 
 ## Exporter pitfalls that already caused failures
 
@@ -62,6 +61,8 @@
    `../../../branding/green_horizon_industries_main_logo.png`
 5. Blender initially exported `emissiveColor="1 1 1 1"` on all factory materials, making the game view white. The Blender source now has emission disabled on all 19 materials. Verify a new I3D contains no full-white emissive values.
 6. GIANTS export crashes in Blender background mode on this machine; the user exports from the Blender UI.
+7. Blender exports animated door parts at their real absolute positions. Never use `translation="0 0 0"` as the closed keyframe or the pieces teleport to the greenhouse center.
+8. Blender may omit trigger/collision flags. After export, validate and restore `static`/`kinematic`, `trigger`, collision groups/masks, `compound`, and `nonRenderable` attributes before packaging.
 
 ## Current XML mapping contract
 
@@ -84,24 +85,24 @@
 3. Confirm the large door slides left and clears the opening.
 4. Confirm the personnel door works.
 5. Confirm internal wrench and both recipes.
-6. On each greenhouse, select the seeded recipe and re-toggle it to `Distributing`; confirm `HEMP_FLOWER` appears in the CBD factory.
+6. `HEMP_FLOWER` distribution is confirmed; retain the dedicated seeded flower route.
 7. Set CBD oil output to `Storing`.
 8. Physical 250 L pallet spawning is confirmed.
-9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn in the marked area.
+9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn on the rear warning stripes.
 10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
 11. Exit and inspect `log.txt`.
 
 ## Next implementation work while the user tests
 
-1. Confirm the repaired physical greenhouse output pallet spawning without changing the proven water, seed, or wrench setup.
-2. Confirm flower auto-delivery after re-toggling the seeded greenhouse recipe.
+1. Confirm greenhouse pallets now spawn with `isPalletType="true"` and complete stock-pallet mappings.
+2. Reconfirm the greenhouse door stays on the front wall and slides sideways after the absolute-keyframe repair.
 3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
 4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.
 5. Inspect `log.txt`, then begin Phase 3 only after the remaining Phase 2 tests pass.
 
 ## Do not change casually
 
-- Do not replace greenhouse water `shapeId="6"`.
+- Do not remove or simplify greenhouse water `exactFillRootNode` collision attributes.
 - Do not remove the proven greenhouse seed pallet trigger.
 - Do not activate field fruit types until the controlled-map test is ready.
 - Use the protected-branch workflow for GitHub updates; never force-push `main`.

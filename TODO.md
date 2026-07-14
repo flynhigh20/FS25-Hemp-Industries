@@ -9,10 +9,10 @@
 - The custom CBD factory loads and its internal production wrench works.
 - Factory materials were corrected after Blender exported every material as fully emissive.
 - CBD oil uses a provisional 250 L pallet worth $1,200 (`$4.80/L`).
-- Hemp distribution is confirmed; seeded greenhouse output now lists `HEMP_FLOWER` first so its production-menu output toggle can target flower separately.
+- Industrial hemp and `HEMP_FLOWER` distribution into the CBD factory are confirmed working in game.
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
-- CBD oil pallets are confirmed spawning. Greenhouse output pallet registrations and flower pallet support are now repaired; in-game spawn confirmation is pending.
-- Greenhouse store thumbnail now uses a building render instead of the badge logo; CBD wall sign texture binding and greenhouse pallet-area stripe placement are repaired pending a fresh-place test.
+- CBD oil pallets are confirmed spawning. Greenhouse HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet definitions and are flagged `isPalletType="true"`; in-game spawn confirmation is pending.
+- Greenhouse store thumbnail now uses a building render instead of the badge logo. Greenhouse pallet stripes are exported and moved outside with the spawn line; the door animation now preserves absolute closed/open transforms. Both await in-game confirmation.
 - Full recovery and workflow context is in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 - Foundation
@@ -36,11 +36,11 @@
 - [x] Water unloading with `exactFillRootNode shapeId="6"`
 - [x] Dedicated seed pallet trigger and auto-unload
 - [x] Production wrench separated from door trigger
-- [x] Door animation and collision
+- [ ] Reconfirm corrected door animation and collision after the latest Blender export
 - [x] Both recipes consume inputs and produce outputs
 - [x] No unsupported `HEMP_FLOWER` output warning
 - [x] Standardize greenhouse pallet contract as `palletSpawner -> palletAreaStart -> palletAreaEnd`, separate from unload triggers
-- [ ] Confirm the repaired physical greenhouse output pallet spawning in game
+- [ ] Confirm physical greenhouse pallets after adding `isPalletType="true"` and complete stock-pallet mappings
 
 ### CBD factory completed in code
 
@@ -70,7 +70,7 @@
 - [x] Confirm large door slides left and clears the opening
 - [x] Confirm personnel door opens and closes cleanly
 - [x] Confirm industrial hemp distributes from greenhouse to CBD factory
-- [ ] Re-toggle the seeded greenhouse recipe to `Distributing` and confirm `HEMP_FLOWER` transfers
+- [x] Confirm `HEMP_FLOWER` distributes from the seeded greenhouse recipe to the CBD factory
 - [x] Confirm both recipes activate from the internal wrench
 - [x] Set CBD output mode to `Storing`
 - [x] Confirm 250 L CBD-oil pallets instantiate and spawn

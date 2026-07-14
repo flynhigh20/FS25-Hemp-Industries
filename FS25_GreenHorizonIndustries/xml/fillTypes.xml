@@ -15,6 +15,7 @@
             title="Industrial Hemp"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.45"/>
             <physics massPerLiter="0.12"/>
@@ -36,6 +37,7 @@
             title="Hemp Biomass"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="0.18"/>
             <physics massPerLiter="0.08"/>
@@ -57,6 +59,7 @@
             title="Hemp Flower"
             showOnPriceTable="true"
             isBulkType="true"
+            isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="1.20"/>
             <physics massPerLiter="0.06"/>
@@ -78,6 +81,7 @@
             title="CBD Oil"
             showOnPriceTable="true"
             isBulkType="false"
+            isPalletType="true"
             isPalletType="true"
             unitShort="$l10n_unit_literShort">
             <economy pricePerLiter="4.80"/>
