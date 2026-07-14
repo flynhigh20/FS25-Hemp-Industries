@@ -77,7 +77,7 @@ source generation, six product-pallet templates, and hemp-processing foundations
         <storeItem xmlFilename="pallets/xml/hempPallet.xml"/>
         <storeItem xmlFilename="pallets/xml/biomassPallet.xml"/>
         <storeItem xmlFilename="pallets/xml/flowerPallet.xml"/>
-        <storeItem xmlFilename="pallets/xml/cbdOilPallet.xml"/>
+        <storeItem xmlFilename="pallets/xml/cbdOilPallet.xml" isHidden="true"/>
     </storeItems>
 
 </modDesc>
