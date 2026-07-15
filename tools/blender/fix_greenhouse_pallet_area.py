@@ -14,14 +14,15 @@ def material(name, color):
 
 
 def cube(name, location, scale, mat, parent):
-    bpy.ops.mesh.primitive_cube_add(location=location)
+    bpy.ops.mesh.primitive_cube_add(location=(0.0, 0.0, 0.0))
     obj = bpy.context.object
     obj.name = name
     obj.scale = scale
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     obj.data.materials.append(mat)
     obj.parent = parent
-    obj.matrix_parent_inverse = parent.matrix_world.inverted()
+    obj.matrix_parent_inverse.identity()
+    obj.location = location
     obj["i3D_castsShadows"] = False
     obj["i3D_receiveShadows"] = True
     return obj
@@ -51,22 +52,28 @@ for obj in list(bpy.data.objects):
 black = material("GHI_WarningStripeBlack", (0.025, 0.025, 0.018))
 yellow = material("GHI_WarningStripeYellow", (0.95, 0.62, 0.015))
 
-# Thin ground backing, border, and alternating diagonal hazard bars.
-cube("GHI_PalletStripeBase", marker.location, (1.55, 1.15, 0.006), black, marker)
-for index, x in enumerate((-1.05, -0.70, -0.35, 0.0, 0.35, 0.70, 1.05), 1):
+# Thin ground backing, border, and diagonal hazard bars. All positions are
+# local to warningStripes so reopening or rotating the greenhouse cannot throw
+# individual bars outside the painted pad.
+cube("GHI_PalletStripeBase", (0.0, 0.0, 0.0), (1.55, 1.15, 0.006), black, marker)
+for index, x in enumerate((-0.78, -0.52, -0.26, 0.0, 0.26, 0.52, 0.78), 1):
     bar = cube(
         f"GHI_PalletStripeYellow{index:02d}",
-        (marker.location.x + x, marker.location.y, marker.location.z + 0.009),
-        (0.10, 1.00, 0.004),
+        (x, 0.0, 0.009),
+        (0.09, 0.72, 0.004),
         yellow,
         marker,
     )
-    bar.rotation_euler[2] = math.radians(32)
+    bar.rotation_euler[2] = math.radians(122)
 
-cube("GHI_PalletStripeBorderFront", (marker.location.x, marker.location.y - 1.10, marker.location.z + 0.011), (1.55, 0.045, 0.005), yellow, marker)
-cube("GHI_PalletStripeBorderRear", (marker.location.x, marker.location.y + 1.10, marker.location.z + 0.011), (1.55, 0.045, 0.005), yellow, marker)
-cube("GHI_PalletStripeBorderLeft", (marker.location.x - 1.50, marker.location.y, marker.location.z + 0.011), (0.045, 1.10, 0.005), yellow, marker)
-cube("GHI_PalletStripeBorderRight", (marker.location.x + 1.50, marker.location.y, marker.location.z + 0.011), (0.045, 1.10, 0.005), yellow, marker)
+cube("GHI_PalletStripeBorderFront", (0.0, -1.10, 0.011), (1.55, 0.045, 0.005), yellow, marker)
+cube("GHI_PalletStripeBorderRear", (0.0, 1.10, 0.011), (1.55, 0.045, 0.005), yellow, marker)
+cube("GHI_PalletStripeBorderLeft", (-1.50, 0.0, 0.011), (0.045, 1.10, 0.005), yellow, marker)
+cube("GHI_PalletStripeBorderRight", (1.50, 0.0, 0.011), (0.045, 1.10, 0.005), yellow, marker)
+
+# Keep the border aligned to the spawn rectangle. Only the diagonal yellow
+# bars are turned across the square.
+marker.rotation_euler[2] = 0.0
 
 bpy.context.scene.frame_set(1)
 bpy.ops.wm.save_as_mainfile(filepath=bpy.data.filepath)

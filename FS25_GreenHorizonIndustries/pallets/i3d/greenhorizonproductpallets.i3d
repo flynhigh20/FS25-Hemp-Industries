@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="greenhorizonproductpallets" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0"/>
+  </Asset>
+
+  <Files>
+    <File fileId="3" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_biomass_diffuse.png"/>
+    <File fileId="5" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_dark_wood_diffuse.png"/>
+    <File fileId="17" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_fiber_diffuse.png"/>
+    <File fileId="18" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_flower_diffuse.png"/>
+    <File fileId="1" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_helper_diffuse.png"/>
+    <File fileId="19" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_hemp_diffuse.png"/>
+    <File fileId="9" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_label_diffuse.png"/>
+    <File fileId="22" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_metal_diffuse.png"/>
+    <File fileId="20" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_oil_diffuse.png"/>
+    <File fileId="24" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_seed_diffuse.png"/>
+    <File fileId="11" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_strap_diffuse.png"/>
+    <File fileId="7" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_text_diffuse.png"/>
+    <File fileId="13" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_wood_diffuse.png"/>
+    <File fileId="15" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_wrap_diffuse.png"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="GHI_biomassProduct" materialId="2" specularColor="0.278431 1 0">
+      <Texture fileId="3"/>
+    </Material>
+    <Material name="GHI_blackStrap" materialId="6" specularColor="0.54902 1 0">
+      <Texture fileId="11"/>
+    </Material>
+    <Material name="GHI_clearWrap" materialId="8" specularColor="0.8 1 0">
+      <Texture fileId="15"/>
+    </Material>
+    <Material name="GHI_drumMetal" materialId="13" specularColor="0.619608 1 0.54902">
+      <Texture fileId="22"/>
+    </Material>
+    <Material name="GHI_fiberProduct" materialId="9" specularColor="0.278431 1 0">
+      <Texture fileId="17"/>
+    </Material>
+    <Material name="GHI_flowerProduct" materialId="10" specularColor="0.278431 1 0">
+      <Texture fileId="18"/>
+    </Material>
+    <Material name="GHI_helperNonRenderable" materialId="1" specularColor="0.101961 1 0">
+      <Texture fileId="1"/>
+    </Material>
+    <Material name="GHI_hempProduct" materialId="11" specularColor="0.278431 1 0">
+      <Texture fileId="19"/>
+    </Material>
+    <Material name="GHI_labelStock" materialId="5" specularColor="0.34902 1 0">
+      <Texture fileId="9"/>
+    </Material>
+    <Material name="GHI_labelText" materialId="4" specularColor="0.45098 1 0">
+      <Texture fileId="7"/>
+    </Material>
+    <Material name="GHI_oilProduct" materialId="12" specularColor="0.619608 1 0">
+      <Texture fileId="20"/>
+    </Material>
+    <Material name="GHI_palletDarkWood" materialId="3" specularColor="0.0784314 1 0">
+      <Texture fileId="5"/>
+    </Material>
+    <Material name="GHI_palletWood" materialId="7" specularColor="0.121569 1 0">
+      <Texture fileId="13"/>
+    </Material>
+    <Material name="GHI_seedProduct" materialId="14" specularColor="0.278431 1 0">
+      <Texture fileId="24"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <Shape name="pallet_biomass" translation="3.3 0 -1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="278" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions.002" nodeId="279"/>
+      <Shape name="dischargeActivationTrigger.002" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="280" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode.002" translation="0 0.55 -0.75" nodeId="281"/>
+      <Shape name="dynamicMountTrigger.002" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="282" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit.002" nodeId="283">
+        <Shape name="exactFillRootNode.002" translation="0 0.56 0" shapeId="4" nodeId="284" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger.002" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="285" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume.002" translation="0 0.6 0" shapeId="6" nodeId="286" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.002" nodeId="287">
+        <Shape name="biomassBale" translation="0 0.4 0.3" shapeId="7" nodeId="288" castsShadows="true" receiveShadows="true" materialIds="2"/>
+        <Shape name="biomassBale.001" translation="0 0.4 -0.3" shapeId="7" nodeId="289" castsShadows="true" receiveShadows="true" materialIds="2"/>
+        <Shape name="biomassBale.002" translation="0 0.72 0.3" shapeId="7" nodeId="290" castsShadows="true" receiveShadows="true" materialIds="2"/>
+        <Shape name="biomassBale.003" translation="0 0.72 -0.3" shapeId="7" nodeId="291" castsShadows="true" receiveShadows="true" materialIds="2"/>
+        <Shape name="bottomRunner.006" translation="0 0.035 0.43" shapeId="8" nodeId="292" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.007" translation="0 0.035 0" shapeId="8" nodeId="293" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.008" translation="0 0.035 -0.43" shapeId="8" nodeId="294" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText.002" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="295" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="fillTypeText.002" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="10" nodeId="296" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="labelPanel.002" translation="0 0.62 0.654" shapeId="11" nodeId="297" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="palletBlock.018" translation="-0.52 0.095 0.43" shapeId="12" nodeId="298" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.019" translation="-0.52 0.095 0" shapeId="12" nodeId="299" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.020" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="300" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.021" translation="0 0.095 0.43" shapeId="12" nodeId="301" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.022" translation="0 0.095 0" shapeId="12" nodeId="302" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.023" translation="0 0.095 -0.43" shapeId="12" nodeId="303" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.024" translation="0.52 0.095 0.43" shapeId="12" nodeId="304" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.025" translation="0.52 0.095 0" shapeId="12" nodeId="305" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.026" translation="0.52 0.095 -0.43" shapeId="12" nodeId="306" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText.002" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="13" nodeId="307" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="strapBack.004" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="308" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.005" translation="0.34 0.62 -0.642" shapeId="14" nodeId="309" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.004" translation="-0.34 0.62 0.642" shapeId="14" nodeId="310" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.005" translation="0.34 0.62 0.642" shapeId="14" nodeId="311" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard.010" translation="0 0.16 0.44" shapeId="15" nodeId="312" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.011" translation="0 0.16 0.22" shapeId="15" nodeId="313" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.012" translation="0 0.16 0" shapeId="15" nodeId="314" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.013" translation="0 0.16 -0.22" shapeId="15" nodeId="315" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.014" translation="0 0.16 -0.44" shapeId="15" nodeId="316" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack.002" translation="0 0.62 -0.62" shapeId="16" nodeId="317" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront.002" translation="0 0.62 0.62" shapeId="16" nodeId="318" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft.002" translation="-0.6 0.62 0" shapeId="17" nodeId="319" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight.002" translation="0.6 0.62 0" shapeId="17" nodeId="320" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode.002" translation="0 0.6 -0.7" nodeId="321"/>
+    </Shape>
+    <Shape name="pallet_fiber" translation="-3.3 0 1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="322" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions.003" nodeId="323"/>
+      <Shape name="dischargeActivationTrigger.003" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="324" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode.003" translation="0 0.55 -0.75" nodeId="325"/>
+      <Shape name="dynamicMountTrigger.003" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="326" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit.003" nodeId="327">
+        <Shape name="exactFillRootNode.003" translation="0 0.56 0" shapeId="4" nodeId="328" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger.003" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="329" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume.003" translation="0 0.6 0" shapeId="6" nodeId="330" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.003" nodeId="331">
+        <Shape name="bottomRunner.009" translation="0 0.035 0.43" shapeId="8" nodeId="332" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.010" translation="0 0.035 0" shapeId="8" nodeId="333" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.011" translation="0 0.035 -0.43" shapeId="8" nodeId="334" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText.003" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="335" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="fiberCoil" translation="-0.36 0.39 0" shapeId="18" nodeId="336" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fiberCoil.001" translation="-0.36 0.68 0" shapeId="18" nodeId="337" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fiberCoil.002" translation="0 0.39 0" shapeId="18" nodeId="338" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fiberCoil.003" translation="0 0.68 0" shapeId="18" nodeId="339" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fiberCoil.004" translation="0.36 0.39 0" shapeId="18" nodeId="340" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fiberCoil.005" translation="0.36 0.68 0" shapeId="18" nodeId="341" castsShadows="true" receiveShadows="true" materialIds="9"/>
+        <Shape name="fillTypeText.003" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="19" nodeId="342" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="labelPanel.003" translation="0 0.62 0.654" shapeId="11" nodeId="343" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="palletBlock.027" translation="-0.52 0.095 0.43" shapeId="12" nodeId="344" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.028" translation="-0.52 0.095 0" shapeId="12" nodeId="345" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.029" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="346" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.030" translation="0 0.095 0.43" shapeId="12" nodeId="347" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.031" translation="0 0.095 0" shapeId="12" nodeId="348" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.032" translation="0 0.095 -0.43" shapeId="12" nodeId="349" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.033" translation="0.52 0.095 0.43" shapeId="12" nodeId="350" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.034" translation="0.52 0.095 0" shapeId="12" nodeId="351" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.035" translation="0.52 0.095 -0.43" shapeId="12" nodeId="352" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText.003" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="20" nodeId="353" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="strapBack.006" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="354" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.007" translation="0.34 0.62 -0.642" shapeId="14" nodeId="355" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.006" translation="-0.34 0.62 0.642" shapeId="14" nodeId="356" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.007" translation="0.34 0.62 0.642" shapeId="14" nodeId="357" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard.015" translation="0 0.16 0.44" shapeId="15" nodeId="358" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.016" translation="0 0.16 0.22" shapeId="15" nodeId="359" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.017" translation="0 0.16 0" shapeId="15" nodeId="360" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.018" translation="0 0.16 -0.22" shapeId="15" nodeId="361" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.019" translation="0 0.16 -0.44" shapeId="15" nodeId="362" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack.003" translation="0 0.62 -0.62" shapeId="16" nodeId="363" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront.003" translation="0 0.62 0.62" shapeId="16" nodeId="364" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft.003" translation="-0.6 0.62 0" shapeId="17" nodeId="365" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight.003" translation="0.6 0.62 0" shapeId="17" nodeId="366" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode.003" translation="0 0.6 -0.7" nodeId="367"/>
+    </Shape>
+    <Shape name="pallet_flower" translation="0 0 1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="368" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions.004" nodeId="369"/>
+      <Shape name="dischargeActivationTrigger.004" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="370" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode.004" translation="0 0.55 -0.75" nodeId="371"/>
+      <Shape name="dynamicMountTrigger.004" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="372" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit.004" nodeId="373">
+        <Shape name="exactFillRootNode.004" translation="0 0.56 0" shapeId="4" nodeId="374" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger.004" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="375" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume.004" translation="0 0.6 0" shapeId="6" nodeId="376" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.004" nodeId="377">
+        <Shape name="bottomRunner.012" translation="0 0.035 0.43" shapeId="8" nodeId="378" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.013" translation="0 0.035 0" shapeId="8" nodeId="379" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.014" translation="0 0.035 -0.43" shapeId="8" nodeId="380" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText.004" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="381" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="fillTypeText.004" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="21" nodeId="382" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="flowerCarton" translation="-0.31 0.38 0.27" shapeId="22" nodeId="383" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.001" translation="-0.31 0.38 -0.27" shapeId="22" nodeId="384" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.002" translation="0.31 0.38 0.27" shapeId="22" nodeId="385" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.003" translation="0.31 0.38 -0.27" shapeId="22" nodeId="386" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.004" translation="-0.31 0.67 0.27" shapeId="22" nodeId="387" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.005" translation="-0.31 0.67 -0.27" shapeId="22" nodeId="388" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.006" translation="0.31 0.67 0.27" shapeId="22" nodeId="389" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="flowerCarton.007" translation="0.31 0.67 -0.27" shapeId="22" nodeId="390" castsShadows="true" receiveShadows="true" materialIds="10"/>
+        <Shape name="labelPanel.004" translation="0 0.62 0.654" shapeId="11" nodeId="391" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="palletBlock.036" translation="-0.52 0.095 0.43" shapeId="12" nodeId="392" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.037" translation="-0.52 0.095 0" shapeId="12" nodeId="393" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.038" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="394" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.039" translation="0 0.095 0.43" shapeId="12" nodeId="395" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.040" translation="0 0.095 0" shapeId="12" nodeId="396" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.041" translation="0 0.095 -0.43" shapeId="12" nodeId="397" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.042" translation="0.52 0.095 0.43" shapeId="12" nodeId="398" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.043" translation="0.52 0.095 0" shapeId="12" nodeId="399" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.044" translation="0.52 0.095 -0.43" shapeId="12" nodeId="400" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText.004" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="23" nodeId="401" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="strapBack.008" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="402" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.009" translation="0.34 0.62 -0.642" shapeId="14" nodeId="403" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.008" translation="-0.34 0.62 0.642" shapeId="14" nodeId="404" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.009" translation="0.34 0.62 0.642" shapeId="14" nodeId="405" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard.020" translation="0 0.16 0.44" shapeId="15" nodeId="406" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.021" translation="0 0.16 0.22" shapeId="15" nodeId="407" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.022" translation="0 0.16 0" shapeId="15" nodeId="408" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.023" translation="0 0.16 -0.22" shapeId="15" nodeId="409" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.024" translation="0 0.16 -0.44" shapeId="15" nodeId="410" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack.004" translation="0 0.62 -0.62" shapeId="16" nodeId="411" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront.004" translation="0 0.62 0.62" shapeId="16" nodeId="412" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft.004" translation="-0.6 0.62 0" shapeId="17" nodeId="413" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight.004" translation="0.6 0.62 0" shapeId="17" nodeId="414" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode.004" translation="0 0.6 -0.7" nodeId="415"/>
+    </Shape>
+    <Shape name="pallet_hemp" translation="-3.3 0 -1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="416" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions" nodeId="417"/>
+      <Shape name="dischargeActivationTrigger" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="418" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode" translation="0 0.55 -0.75" nodeId="419"/>
+      <Shape name="dynamicMountTrigger" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="420" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit" nodeId="421">
+        <Shape name="exactFillRootNode" translation="0 0.56 0" shapeId="4" nodeId="422" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="423" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume" translation="0 0.6 0" shapeId="6" nodeId="424" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals" nodeId="425">
+        <Shape name="bottomRunner" translation="0 0.035 0.43" shapeId="8" nodeId="426" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.001" translation="0 0.035 0" shapeId="8" nodeId="427" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.002" translation="0 0.035 -0.43" shapeId="8" nodeId="428" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="429" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="compressedHempPack" translation="-0.32 0.34 0.28" shapeId="24" nodeId="430" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.001" translation="-0.32 0.34 -0.28" shapeId="24" nodeId="431" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.002" translation="0.32 0.34 0.28" shapeId="24" nodeId="432" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.003" translation="0.32 0.34 -0.28" shapeId="24" nodeId="433" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.004" translation="-0.32 0.58 0.28" shapeId="24" nodeId="434" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.005" translation="-0.32 0.58 -0.28" shapeId="24" nodeId="435" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.006" translation="0.32 0.58 0.28" shapeId="24" nodeId="436" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.007" translation="0.32 0.58 -0.28" shapeId="24" nodeId="437" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.008" translation="-0.32 0.82 0.28" shapeId="24" nodeId="438" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.009" translation="-0.32 0.82 -0.28" shapeId="24" nodeId="439" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.010" translation="0.32 0.82 0.28" shapeId="24" nodeId="440" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="compressedHempPack.011" translation="0.32 0.82 -0.28" shapeId="24" nodeId="441" castsShadows="true" receiveShadows="true" materialIds="11"/>
+        <Shape name="fillTypeText" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="25" nodeId="442" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="labelPanel" translation="0 0.62 0.654" shapeId="11" nodeId="443" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="palletBlock" translation="-0.52 0.095 0.43" shapeId="12" nodeId="444" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.001" translation="-0.52 0.095 0" shapeId="12" nodeId="445" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.002" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="446" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.003" translation="0 0.095 0.43" shapeId="12" nodeId="447" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.004" translation="0 0.095 0" shapeId="12" nodeId="448" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.005" translation="0 0.095 -0.43" shapeId="12" nodeId="449" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.006" translation="0.52 0.095 0.43" shapeId="12" nodeId="450" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.007" translation="0.52 0.095 0" shapeId="12" nodeId="451" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.008" translation="0.52 0.095 -0.43" shapeId="12" nodeId="452" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="26" nodeId="453" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="strapBack" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="454" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.001" translation="0.34 0.62 -0.642" shapeId="14" nodeId="455" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront" translation="-0.34 0.62 0.642" shapeId="14" nodeId="456" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.001" translation="0.34 0.62 0.642" shapeId="14" nodeId="457" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard" translation="0 0.16 0.44" shapeId="15" nodeId="458" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.001" translation="0 0.16 0.22" shapeId="15" nodeId="459" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.002" translation="0 0.16 0" shapeId="15" nodeId="460" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.003" translation="0 0.16 -0.22" shapeId="15" nodeId="461" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.004" translation="0 0.16 -0.44" shapeId="15" nodeId="462" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack" translation="0 0.62 -0.62" shapeId="16" nodeId="463" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront" translation="0 0.62 0.62" shapeId="16" nodeId="464" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft" translation="-0.6 0.62 0" shapeId="17" nodeId="465" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight" translation="0.6 0.62 0" shapeId="17" nodeId="466" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode" translation="0 0.6 -0.7" nodeId="467"/>
+    </Shape>
+    <Shape name="pallet_oil" translation="3.3 0 1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="468" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions.005" nodeId="469"/>
+      <Shape name="dischargeActivationTrigger.005" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="470" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode.005" translation="0 0.55 -0.75" nodeId="471"/>
+      <Shape name="dynamicMountTrigger.005" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="472" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit.005" nodeId="473">
+        <Shape name="exactFillRootNode.005" translation="0 0.56 0" shapeId="4" nodeId="474" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger.005" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="475" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume.005" translation="0 0.6 0" shapeId="6" nodeId="476" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.005" nodeId="477">
+        <Shape name="bottomRunner.015" translation="0 0.035 0.43" shapeId="8" nodeId="478" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.016" translation="0 0.035 0" shapeId="8" nodeId="479" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.017" translation="0 0.035 -0.43" shapeId="8" nodeId="480" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText.005" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="481" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="fillTypeText.005" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="27" nodeId="482" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="labelPanel.005" translation="0 0.62 0.654" shapeId="11" nodeId="483" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="oilDrum" translation="-0.31 0.5 0.27" shapeId="28" nodeId="484" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="oilDrum.001" translation="-0.31 0.5 -0.27" shapeId="28" nodeId="485" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="oilDrum.002" translation="0.31 0.5 0.27" shapeId="28" nodeId="486" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="oilDrum.003" translation="0.31 0.5 -0.27" shapeId="28" nodeId="487" castsShadows="true" receiveShadows="true" materialIds="12"/>
+        <Shape name="oilDrumBandBottom" translation="-0.31 0.24 0.27" shapeId="29" nodeId="488" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandBottom.001" translation="-0.31 0.24 -0.27" shapeId="29" nodeId="489" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandBottom.002" translation="0.31 0.24 0.27" shapeId="29" nodeId="490" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandBottom.003" translation="0.31 0.24 -0.27" shapeId="29" nodeId="491" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandTop" translation="-0.31 0.76 0.27" shapeId="29" nodeId="492" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandTop.001" translation="-0.31 0.76 -0.27" shapeId="29" nodeId="493" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandTop.002" translation="0.31 0.76 0.27" shapeId="29" nodeId="494" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="oilDrumBandTop.003" translation="0.31 0.76 -0.27" shapeId="29" nodeId="495" castsShadows="true" receiveShadows="true" materialIds="13"/>
+        <Shape name="palletBlock.045" translation="-0.52 0.095 0.43" shapeId="12" nodeId="496" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.046" translation="-0.52 0.095 0" shapeId="12" nodeId="497" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.047" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="498" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.048" translation="0 0.095 0.43" shapeId="12" nodeId="499" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.049" translation="0 0.095 0" shapeId="12" nodeId="500" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.050" translation="0 0.095 -0.43" shapeId="12" nodeId="501" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.051" translation="0.52 0.095 0.43" shapeId="12" nodeId="502" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.052" translation="0.52 0.095 0" shapeId="12" nodeId="503" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.053" translation="0.52 0.095 -0.43" shapeId="12" nodeId="504" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText.005" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="30" nodeId="505" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="strapBack.010" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="506" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.011" translation="0.34 0.62 -0.642" shapeId="14" nodeId="507" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.010" translation="-0.34 0.62 0.642" shapeId="14" nodeId="508" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.011" translation="0.34 0.62 0.642" shapeId="14" nodeId="509" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard.025" translation="0 0.16 0.44" shapeId="15" nodeId="510" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.026" translation="0 0.16 0.22" shapeId="15" nodeId="511" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.027" translation="0 0.16 0" shapeId="15" nodeId="512" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.028" translation="0 0.16 -0.22" shapeId="15" nodeId="513" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.029" translation="0 0.16 -0.44" shapeId="15" nodeId="514" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack.005" translation="0 0.62 -0.62" shapeId="16" nodeId="515" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront.005" translation="0 0.62 0.62" shapeId="16" nodeId="516" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft.005" translation="-0.6 0.62 0" shapeId="17" nodeId="517" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight.005" translation="0.6 0.62 0" shapeId="17" nodeId="518" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode.005" translation="0 0.6 -0.7" nodeId="519"/>
+    </Shape>
+    <Shape name="pallet_seed" translation="0 0 -1.65" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="520" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions.001" nodeId="521"/>
+      <Shape name="dischargeActivationTrigger.001" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="522" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="dischargeNode.001" translation="0 0.55 -0.75" nodeId="523"/>
+      <Shape name="dynamicMountTrigger.001" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="524" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+      <TransformGroup name="fillUnit.001" nodeId="525">
+        <Shape name="exactFillRootNode.001" translation="0 0.56 0" shapeId="4" nodeId="526" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="fillTrigger.001" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="527" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1"/>
+        <Shape name="fillVolume.001" translation="0 0.6 0" shapeId="6" nodeId="528" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="palletVisuals.001" nodeId="529">
+        <Shape name="bottomRunner.003" translation="0 0.035 0.43" shapeId="8" nodeId="530" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.004" translation="0 0.035 0" shapeId="8" nodeId="531" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="bottomRunner.005" translation="0 0.035 -0.43" shapeId="8" nodeId="532" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="brandText.001" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="533" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="fillTypeText.001" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="31" nodeId="534" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="labelPanel.001" translation="0 0.62 0.654" shapeId="11" nodeId="535" castsShadows="true" receiveShadows="true" materialIds="5"/>
+        <Shape name="palletBlock.009" translation="-0.52 0.095 0.43" shapeId="12" nodeId="536" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.010" translation="-0.52 0.095 0" shapeId="12" nodeId="537" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.011" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="538" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.012" translation="0 0.095 0.43" shapeId="12" nodeId="539" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.013" translation="0 0.095 0" shapeId="12" nodeId="540" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.014" translation="0 0.095 -0.43" shapeId="12" nodeId="541" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.015" translation="0.52 0.095 0.43" shapeId="12" nodeId="542" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.016" translation="0.52 0.095 0" shapeId="12" nodeId="543" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="palletBlock.017" translation="0.52 0.095 -0.43" shapeId="12" nodeId="544" castsShadows="true" receiveShadows="true" materialIds="3"/>
+        <Shape name="productText.001" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="32" nodeId="545" castsShadows="true" receiveShadows="true" materialIds="4"/>
+        <Shape name="seedBag" translation="-0.36 0.36 0.3" rotation="0 -1.87138 0" shapeId="33" nodeId="546" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.001" translation="0 0.36 0.3" rotation="0 -3.1212 0" shapeId="33" nodeId="547" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.002" translation="0.36 0.36 0.3" rotation="0 -0.472103 0" shapeId="33" nodeId="548" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.003" translation="-0.36 0.36 -0.02" rotation="0 0.424978 0" shapeId="33" nodeId="549" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.004" translation="0 0.36 -0.02" rotation="0 -2.44226 0" shapeId="33" nodeId="550" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.005" translation="0.36 0.36 -0.02" rotation="0 1.67869 0" shapeId="33" nodeId="551" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.006" translation="-0.18 0.6 -0.33" rotation="0 -4.27117 0" shapeId="33" nodeId="552" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.007" translation="0.18 0.6 -0.33" rotation="0 2.71598 0" shapeId="33" nodeId="553" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.008" translation="-0.18 0.6 0.13" rotation="0 -3.5927 0" shapeId="33" nodeId="554" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="seedBag.009" translation="0.18 0.6 0.13" rotation="0 -4.00576 0" shapeId="33" nodeId="555" castsShadows="true" receiveShadows="true" materialIds="14"/>
+        <Shape name="strapBack.002" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="556" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapBack.003" translation="0.34 0.62 -0.642" shapeId="14" nodeId="557" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.002" translation="-0.34 0.62 0.642" shapeId="14" nodeId="558" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="strapFront.003" translation="0.34 0.62 0.642" shapeId="14" nodeId="559" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        <Shape name="topDeckBoard.005" translation="0 0.16 0.44" shapeId="15" nodeId="560" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.006" translation="0 0.16 0.22" shapeId="15" nodeId="561" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.007" translation="0 0.16 0" shapeId="15" nodeId="562" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.008" translation="0 0.16 -0.22" shapeId="15" nodeId="563" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="topDeckBoard.009" translation="0 0.16 -0.44" shapeId="15" nodeId="564" castsShadows="true" receiveShadows="true" materialIds="7"/>
+        <Shape name="wrapBack.001" translation="0 0.62 -0.62" shapeId="16" nodeId="565" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapFront.001" translation="0 0.62 0.62" shapeId="16" nodeId="566" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapLeft.001" translation="-0.6 0.62 0" shapeId="17" nodeId="567" castsShadows="true" receiveShadows="true" materialIds="8"/>
+        <Shape name="wrapRight.001" translation="0.6 0.62 0" shapeId="17" nodeId="568" castsShadows="true" receiveShadows="true" materialIds="8"/>
+      </TransformGroup>
+      <TransformGroup name="raycastNode.001" translation="0 0.6 -0.7" nodeId="569"/>
+    </Shape>
+    <Light name="previewAreaLight" translation="0 7 8" rotation="-90 -0 0" nodeId="570" type="directional" color="1 1 1" emitDiffuse="true" emitSpecular="true" castShadowMap="true" depthMapBias="0.005" depthMapSlopeScaleBias="2" depthMapSlopeClamp="0.02" depthMapResolution="512" shadowFarDistance="80" shadowExtrusionDistance="200" softShadowsLightSize="0.5" softShadowsLightDistance="15" softShadowsDepthBiasFactor="1" softShadowsMaxPenumbraSize="0.5" range="40"/>
+    <Camera name="previewCamera" translation="11.5 8.5 13.5" rotation="-24 40 0" nodeId="571" fov="50" nearClip="0.1" farClip="1000" orthographicHeight="1"/>
+  </Scene>
+
+</i3D>

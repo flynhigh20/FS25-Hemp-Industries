@@ -4,7 +4,7 @@
 
 - Repository: `flynhigh20/FS25-Hemp-Industries`
 - Protected base branch: `main`
-- Current working folder: `C:\Users\user\Desktop\FS25-Hemp-Industries-main`
+- Current working folder: `C:\Users\user\Desktop\FS25-Hemp-Industries`
 - Do not switch to older Codex workspaces, the separate Git clone, or the installed mod ZIP.
 - Active mod folder: `FS25_GreenHorizonIndustries/`
 - Current test version: `0.3.0.0`
@@ -20,13 +20,15 @@
 
 ## Confirmed working in FS25
 
-- Greenhouse placement, model, and materials are confirmed. The latest Blender export reset door animation transforms and trigger flags; these were repaired in source/I3D and require one regression test.
+- Greenhouse placement, model, and materials are confirmed. The repaired front-door position is confirmed in game.
 - Greenhouse manual water unloading.
 - Preserve the proven greenhouse `exactFillRootNode` kinematic/compound collision flags; do not replace it with a plain renderable mesh.
 - Base-game seed bags auto-unload through the dedicated pallet trigger.
 - Greenhouse production wrench works independently from the door.
 - Both greenhouse recipes consume their inputs and produce outputs.
-- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. HEMP, BIOMASS, and FLOWER now use complete GIANTS lettuce-pallet mappings and their fill types declare `isPalletType="true"`. In-game spawn confirmation is pending.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. Industrial Hemp and Flower pallets are confirmed colored, movable, and collidable in game. Savegame inspection confirms two 1,000 L Biomass pallet vehicles also spawned, one behind each greenhouse; their visual identification in game remains pending.
+- Greenhouse warning stripes are confirmed correctly positioned in game. The front door and building/pallet collisions are confirmed working.
+- Custom pallet texture paths are normalized to `../textures/...`; the active-production validator now rejects pallet textures that resolve outside the mod.
 - CBD factory custom model loads.
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
@@ -88,14 +90,14 @@
 6. `HEMP_FLOWER` distribution is confirmed; retain the dedicated seeded flower route.
 7. Set CBD oil output to `Storing`.
 8. Physical 250 L pallet spawning is confirmed.
-9. Set a greenhouse output to `Storing` and confirm HEMP, BIOMASS, or FLOWER pallets spawn on the rear warning stripes.
+9. Set each greenhouse output to `Storing` and confirm the distinct HEMP, BIOMASS, and FLOWER custom pallets spawn on the rear warning stripes.
 10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
 11. Exit and inspect `log.txt`.
 
 ## Next implementation work while the user tests
 
-1. Confirm greenhouse pallets now spawn with `isPalletType="true"` and complete stock-pallet mappings.
-2. Reconfirm the greenhouse door stays on the front wall and slides sideways after the absolute-keyframe repair.
+1. Visually identify the two already-spawned Biomass pallets and confirm their label, color, collisions, and tension-belt behavior. Industrial Hemp and Flower are confirmed.
+2. Restore/confirm the greenhouse status-screen emissives without changing the proven door, stripes, seed trigger, pallet area, or collision nodes.
 3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
 4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.
 5. Inspect `log.txt`, then begin Phase 3 only after the remaining Phase 2 tests pass.

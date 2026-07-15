@@ -184,6 +184,12 @@ def make_image_material(
     links.new(texture.outputs["Color"], bsdf.inputs["Base Color"])
     bsdf.inputs["Roughness"].default_value = roughness
     bsdf.inputs["Metallic"].default_value = metallic
+    emission_color = bsdf.inputs.get("Emission Color") or bsdf.inputs.get("Emission")
+    if emission_color is not None:
+        emission_color.default_value = (0.0, 0.0, 0.0, 1.0)
+    emission_strength = bsdf.inputs.get("Emission Strength")
+    if emission_strength is not None:
+        emission_strength.default_value = 0.0
 
     if alpha:
         links.new(texture.outputs["Alpha"], bsdf.inputs["Alpha"])
@@ -234,7 +240,7 @@ def cylinder(name: str, loc, radius: float, depth: float, material=None, parent=
     return obj
 
 
-def add_text_mesh(name: str, body: str, loc, size: float, material, parent):
+def add_text_mesh(name: str, body: str, loc, size: float, material, parent, max_width: float = 0.88):
     bpy.ops.object.text_add(location=loc, rotation=(math.radians(90), 0.0, 0.0))
     obj = bpy.context.object
     obj.name = name
@@ -242,14 +248,19 @@ def add_text_mesh(name: str, body: str, loc, size: float, material, parent):
     obj.data.align_x = "CENTER"
     obj.data.align_y = "CENTER"
     obj.data.size = size
-    obj.data.extrude = 0.004
+    obj.data.extrude = 0.002
+    obj.data.bevel_depth = 0.0005
     obj.data.materials.append(material)
     obj.parent = parent
 
     bpy.context.view_layer.objects.active = obj
     obj.select_set(True)
     bpy.ops.object.convert(target="MESH")
-    return bpy.context.object
+    mesh_obj = bpy.context.object
+    if mesh_obj.dimensions.x > max_width:
+        mesh_obj.scale.x *= max_width / mesh_obj.dimensions.x
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    return mesh_obj
 
 
 def make_trigger_box(name: str, loc, dimensions, helper_material, parent):
@@ -262,6 +273,14 @@ def make_trigger_box(name: str, loc, dimensions, helper_material, parent):
     obj["collisionFilterMask"] = "0x100000"
     obj["nonRenderable"] = True
     obj["castsShadows"] = False
+    obj["i3D_kinematic"] = True
+    obj["i3D_compound"] = True
+    obj["i3D_trigger"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_collisionFilterGroup"] = "536870912"
+    obj["i3D_collisionFilterMask"] = "131072"
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_cpuMesh"] = True
     return obj
 
 
@@ -274,6 +293,15 @@ def make_collision(name: str, loc, dimensions, helper_material, parent):
     obj["collisionFilterMask"] = "0x1"
     obj["nonRenderable"] = True
     obj["castsShadows"] = False
+    obj["i3D_compoundChild"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_collisionFilterGroup"] = "65536"
+    obj["i3D_collisionFilterMask"] = "4265474947"
+    obj["i3D_staticFriction"] = 1.0
+    obj["i3D_dynamicFriction"] = 1.0
+    obj["i3D_density"] = 0.0
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_cpuMesh"] = True
     return obj
 
 
@@ -384,7 +412,7 @@ def add_wrap(parent, materials, z=0.62, height=0.82):
 def add_label(parent, product, materials, z=0.62):
     cube("labelPanel", (0.0, -0.654, z), (1.02, 0.025, 0.38), materials["label"], parent)
     add_text_mesh("brandText", "GREEN HORIZON", (0.0, -0.674, z + 0.105), 0.075, materials["text"], parent)
-    add_text_mesh("productText", product["title"], (0.0, -0.675, z - 0.015), 0.055, materials["text"], parent)
+    add_text_mesh("productText", product["title"], (0.0, -0.675, z - 0.015), 0.050, materials["text"], parent, max_width=0.86)
     add_text_mesh("fillTypeText", product["fill_type"], (0.0, -0.676, z - 0.115), 0.030, materials["text"], parent)
 
 
@@ -456,9 +484,10 @@ def build_helper_hierarchy(root, materials):
 
     visuals = add_empty("palletVisuals", parent=root)
 
-    collisions = add_empty("collisions", parent=root)
-    make_collision("floorCollision01", (0.0, 0.0, 0.13), (1.42, 0.96, 0.24), materials["helper"], collisions)
-    make_collision("floorCollision02", (0.0, 0.0, 0.58), (1.16, 0.92, 0.76), materials["helper"], collisions)
+    # Keep an empty first child to preserve the established i3dMapping indexes.
+    # The pallet root itself is now the single CPU collision shape, matching
+    # the structure used by FS25's stock greenhouse pallets.
+    add_empty("collisions", parent=root)
 
     add_empty("raycastNode", (0.0, 0.70, 0.60), root)
     make_trigger_box("dischargeActivationTrigger", (0.0, 0.80, 0.55), (0.70, 0.45, 0.65), materials["helper"], root)
@@ -467,7 +496,30 @@ def build_helper_hierarchy(root, materials):
 
 
 def build_product_root(product, x_position: float, y_position: float, materials):
-    root = add_empty(f"pallet_{product['code']}", (x_position, y_position, 0.0), size=0.35)
+    root = cube(
+        f"pallet_{product['code']}",
+        (x_position, y_position, 0.0),
+        (1.42, 0.96, 1.10),
+        materials["helper"],
+        None,
+    )
+    # Move collision geometry above the object's origin without moving the
+    # origin used by the vehicle component.
+    for vertex in root.data.vertices:
+        vertex.co.z += 0.55
+    root.display_type = "WIRE"
+    root.hide_render = True
+    root["i3D_dynamic"] = True
+    root["i3D_compound"] = True
+    root["i3D_collision"] = True
+    root["i3D_collisionFilterGroup"] = "65540"
+    root["i3D_collisionFilterMask"] = "4265606019"
+    root["i3D_staticFriction"] = 1.0
+    root["i3D_dynamicFriction"] = 1.0
+    root["i3D_density"] = 0.0
+    root["i3D_nonRenderable"] = True
+    root["i3D_cpuMesh"] = True
+    root["i3D_clipDistance"] = 150.0
     root["fillType"] = product["fill_type"]
     root["capacityLiters"] = 1000
     root["exportFilename"] = f"{product['code']}Pallet.i3d"

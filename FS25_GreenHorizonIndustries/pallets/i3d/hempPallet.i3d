@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<i3D name="greenhorizonproductpallets" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0" />
+  </Asset>
+
+  <Files>
+    <File fileId="3" filename="../textures/pallet_biomass_diffuse.png" />
+    <File fileId="5" filename="../textures/pallet_dark_wood_diffuse.png" />
+    <File fileId="17" filename="../textures/pallet_fiber_diffuse.png" />
+    <File fileId="18" filename="../textures/pallet_flower_diffuse.png" />
+    <File fileId="1" filename="../textures/pallet_helper_diffuse.png" />
+    <File fileId="19" filename="../textures/pallet_hemp_diffuse.png" />
+    <File fileId="9" filename="../textures/pallet_label_diffuse.png" />
+    <File fileId="22" filename="../textures/pallet_metal_diffuse.png" />
+    <File fileId="20" filename="../textures/pallet_oil_diffuse.png" />
+    <File fileId="24" filename="../textures/pallet_seed_diffuse.png" />
+    <File fileId="11" filename="../textures/pallet_strap_diffuse.png" />
+    <File fileId="7" filename="../textures/pallet_text_diffuse.png" />
+    <File fileId="13" filename="../textures/pallet_wood_diffuse.png" />
+    <File fileId="15" filename="../textures/pallet_wrap_diffuse.png" />
+  </Files>
+
+
+  <Materials>
+    <Material name="GHI_biomassProduct" materialId="2" specularColor="0.278431 1 0">
+      <Texture fileId="3" />
+    </Material>
+    <Material name="GHI_blackStrap" materialId="6" specularColor="0.54902 1 0">
+      <Texture fileId="11" />
+    </Material>
+    <Material name="GHI_clearWrap" materialId="8" specularColor="0.8 1 0">
+      <Texture fileId="15" />
+    </Material>
+    <Material name="GHI_drumMetal" materialId="13" specularColor="0.619608 1 0.54902">
+      <Texture fileId="22" />
+    </Material>
+    <Material name="GHI_fiberProduct" materialId="9" specularColor="0.278431 1 0">
+      <Texture fileId="17" />
+    </Material>
+    <Material name="GHI_flowerProduct" materialId="10" specularColor="0.278431 1 0">
+      <Texture fileId="18" />
+    </Material>
+    <Material name="GHI_helperNonRenderable" materialId="1" specularColor="0.101961 1 0">
+      <Texture fileId="1" />
+    </Material>
+    <Material name="GHI_hempProduct" materialId="11" specularColor="0.278431 1 0">
+      <Texture fileId="19" />
+    </Material>
+    <Material name="GHI_labelStock" materialId="5" specularColor="0.34902 1 0">
+      <Texture fileId="9" />
+    </Material>
+    <Material name="GHI_labelText" materialId="4" specularColor="0.45098 1 0">
+      <Texture fileId="7" />
+    </Material>
+    <Material name="GHI_oilProduct" materialId="12" specularColor="0.619608 1 0">
+      <Texture fileId="20" />
+    </Material>
+    <Material name="GHI_palletDarkWood" materialId="3" specularColor="0.0784314 1 0">
+      <Texture fileId="5" />
+    </Material>
+    <Material name="GHI_palletWood" materialId="7" specularColor="0.121569 1 0">
+      <Texture fileId="13" />
+    </Material>
+    <Material name="GHI_seedProduct" materialId="14" specularColor="0.278431 1 0">
+      <Texture fileId="24" />
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="greenhorizonproductpallets.i3d.shapes">
+  </Shapes>
+
+  <Scene><Shape name="pallet_hemp" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="416" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
+      <TransformGroup name="collisions" nodeId="417" />
+      <Shape name="dischargeActivationTrigger" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="418" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1" />
+      <TransformGroup name="dischargeNode" translation="0 0.55 -0.75" nodeId="419" />
+      <Shape name="dynamicMountTrigger" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="420" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1" />
+      <TransformGroup name="fillUnit" nodeId="421">
+        <Shape name="exactFillRootNode" translation="0 0.56 0" shapeId="4" nodeId="422" castsShadows="true" receiveShadows="true" materialIds="1" />
+        <Shape name="fillTrigger" translation="0 0.65 0" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="423" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1" />
+        <Shape name="fillVolume" translation="0 0.6 0" shapeId="6" nodeId="424" castsShadows="true" receiveShadows="true" materialIds="1" />
+      </TransformGroup>
+      <TransformGroup name="palletVisuals" nodeId="425">
+        <Shape name="bottomRunner" translation="0 0.035 0.43" shapeId="8" nodeId="426" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="bottomRunner.001" translation="0 0.035 0" shapeId="8" nodeId="427" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="bottomRunner.002" translation="0 0.035 -0.43" shapeId="8" nodeId="428" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="brandText" translation="0 0.725 0.674" rotation="90 -0 0" shapeId="9" nodeId="429" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="compressedHempPack" translation="-0.32 0.34 0.28" shapeId="24" nodeId="430" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.001" translation="-0.32 0.34 -0.28" shapeId="24" nodeId="431" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.002" translation="0.32 0.34 0.28" shapeId="24" nodeId="432" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.003" translation="0.32 0.34 -0.28" shapeId="24" nodeId="433" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.004" translation="-0.32 0.58 0.28" shapeId="24" nodeId="434" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.005" translation="-0.32 0.58 -0.28" shapeId="24" nodeId="435" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.006" translation="0.32 0.58 0.28" shapeId="24" nodeId="436" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.007" translation="0.32 0.58 -0.28" shapeId="24" nodeId="437" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.008" translation="-0.32 0.82 0.28" shapeId="24" nodeId="438" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.009" translation="-0.32 0.82 -0.28" shapeId="24" nodeId="439" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.010" translation="0.32 0.82 0.28" shapeId="24" nodeId="440" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="compressedHempPack.011" translation="0.32 0.82 -0.28" shapeId="24" nodeId="441" castsShadows="true" receiveShadows="true" materialIds="11" />
+        <Shape name="fillTypeText" translation="0 0.505 0.676" rotation="90 -0 0" shapeId="25" nodeId="442" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="labelPanel" translation="0 0.62 0.654" shapeId="11" nodeId="443" castsShadows="true" receiveShadows="true" materialIds="5" />
+        <Shape name="palletBlock" translation="-0.52 0.095 0.43" shapeId="12" nodeId="444" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.001" translation="-0.52 0.095 0" shapeId="12" nodeId="445" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.002" translation="-0.52 0.095 -0.43" shapeId="12" nodeId="446" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.003" translation="0 0.095 0.43" shapeId="12" nodeId="447" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.004" translation="0 0.095 0" shapeId="12" nodeId="448" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.005" translation="0 0.095 -0.43" shapeId="12" nodeId="449" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.006" translation="0.52 0.095 0.43" shapeId="12" nodeId="450" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.007" translation="0.52 0.095 0" shapeId="12" nodeId="451" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="palletBlock.008" translation="0.52 0.095 -0.43" shapeId="12" nodeId="452" castsShadows="true" receiveShadows="true" materialIds="3" />
+        <Shape name="productText" translation="0 0.605 0.675" rotation="90 -0 0" shapeId="26" nodeId="453" castsShadows="true" receiveShadows="true" materialIds="4" />
+        <Shape name="strapBack" translation="-0.34 0.62 -0.642" shapeId="14" nodeId="454" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapBack.001" translation="0.34 0.62 -0.642" shapeId="14" nodeId="455" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapFront" translation="-0.34 0.62 0.642" shapeId="14" nodeId="456" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="strapFront.001" translation="0.34 0.62 0.642" shapeId="14" nodeId="457" castsShadows="true" receiveShadows="true" materialIds="6" />
+        <Shape name="topDeckBoard" translation="0 0.16 0.44" shapeId="15" nodeId="458" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.001" translation="0 0.16 0.22" shapeId="15" nodeId="459" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.002" translation="0 0.16 0" shapeId="15" nodeId="460" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.003" translation="0 0.16 -0.22" shapeId="15" nodeId="461" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="topDeckBoard.004" translation="0 0.16 -0.44" shapeId="15" nodeId="462" castsShadows="true" receiveShadows="true" materialIds="7" />
+        <Shape name="wrapBack" translation="0 0.62 -0.62" shapeId="16" nodeId="463" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapFront" translation="0 0.62 0.62" shapeId="16" nodeId="464" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapLeft" translation="-0.6 0.62 0" shapeId="17" nodeId="465" castsShadows="true" receiveShadows="true" materialIds="8" />
+        <Shape name="wrapRight" translation="0.6 0.62 0" shapeId="17" nodeId="466" castsShadows="true" receiveShadows="true" materialIds="8" />
+      </TransformGroup>
+      <TransformGroup name="raycastNode" translation="0 0.6 -0.7" nodeId="467" />
+    </Shape></Scene>
+
+</i3D>

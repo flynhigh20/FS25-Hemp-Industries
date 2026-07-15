@@ -345,6 +345,13 @@ def make_trigger_box(name: str, loc, dimensions, helper_material, parent):
     obj["nonRenderable"] = True
     obj["castsShadows"] = False
     obj["receiveShadows"] = False
+    obj["i3D_static"] = True
+    obj["i3D_trigger"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_collisionFilterGroup"] = "536870912"
+    obj["i3D_collisionFilterMask"] = "1048576"
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_cpuMesh"] = True
     return obj
 
 
@@ -359,6 +366,13 @@ def make_exact_fill_root(name: str, loc, dimensions, helper_material, parent):
     obj["nonRenderable"] = True
     obj["castsShadows"] = False
     obj["receiveShadows"] = False
+    obj["i3D_kinematic"] = True
+    obj["i3D_compound"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_collisionFilterGroup"] = "1073741824"
+    obj["i3D_collisionFilterMask"] = "536870912"
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_cpuMesh"] = True
     return obj
 
 
@@ -372,6 +386,15 @@ def make_static_collision(name: str, loc, dimensions, helper_material, parent):
     obj["nonRenderable"] = True
     obj["castsShadows"] = False
     obj["receiveShadows"] = False
+    obj["i3D_static"] = True
+    obj["i3D_collision"] = True
+    obj["i3D_collisionFilterGroup"] = "4148"
+    obj["i3D_collisionFilterMask"] = "4294966271"
+    obj["i3D_staticFriction"] = 0.5
+    obj["i3D_dynamicFriction"] = 0.5
+    obj["i3D_density"] = 1.0
+    obj["i3D_nonRenderable"] = True
+    obj["i3D_cpuMesh"] = True
     return obj
 
 
