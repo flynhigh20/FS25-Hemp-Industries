@@ -161,6 +161,8 @@ $requiredNodeNames = @(
     "palletSpawner",
     "sellingStation",
     "exactFillRootNode",
+    "seedUnloadMarker",
+    "seedPalletTrigger",
     "door1Trigger",
     "storage",
     "playerTrigger",
