@@ -3,7 +3,7 @@
 ## Current Test Snapshot
 
 - Active mod version: `0.3.0.0`.
-- Work only from `C:\Users\user\Desktop\FS25-Hemp-Industries-main`.
+- Work only from `C:\Users\user\Desktop\FS25-Hemp-Industries`.
 - Active placeables: Hemp Greenhouse and CBD Processing Factory.
 - Greenhouse water, base-game seed bags, wrench, materials, and both recipes are confirmed working in game.
 - The custom CBD factory loads and its internal production wrench works.
@@ -42,7 +42,11 @@
 - [x] No unsupported `HEMP_FLOWER` output warning
 - [x] Standardize greenhouse pallet contract as `palletSpawner -> palletAreaStart -> palletAreaEnd`, separate from unload triggers
 - [x] Confirm the greenhouse can instantiate a physical pallet (lettuce placeholder)
-- [ ] Confirm distinct Green Horizon HEMP, BIOMASS, and FLOWER pallet visuals in game
+- [x] Confirm Industrial Hemp and Flower pallet colors, movement, and collisions in game
+- [x] Confirm Biomass pallet spawning through savegame vehicle records (two 1,000 L pallets)
+- [ ] Visually identify Biomass pallets in game and confirm label/color/tension belts
+- [x] Confirm rear warning-stripe placement and greenhouse door/collisions in game
+- [ ] Restore and confirm restrained greenhouse status-screen emissives
 
 ### CBD factory completed in code
 
@@ -94,7 +98,8 @@
 
 ## Phase 3 / Alpha 0.3 - Outdoor Hemp Crop
 
-- [ ] Generate and approve final crop texture atlas
+- [x] Generate initial crop texture atlas, crop icons, and cutter-effect sources
+- [ ] Approve and integrate the realistic AI-assisted crop atlas as the final texture set
 - [ ] Validate all nine visible foliage/growth states
 - [ ] Activate HEMP fruit-type registration on a controlled test map
 - [ ] Validate seasonal growth, density channels, destruction, and save/reload
