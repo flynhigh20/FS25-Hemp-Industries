@@ -69,7 +69,10 @@ if ($null -ne $registration) {
         else { Fail "Map registration $key must be $($expected[$key])" }
     }
 
-    $selectedWorkflows = @($registration.greenHorizonMapRegistration.firstVehicleWorkflow.* | Where-Object { $_.selected -eq "true" })
+    $selectedWorkflows = @(
+        $registration.greenHorizonMapRegistration.firstVehicleWorkflow.ChildNodes |
+            Where-Object { $_.NodeType -eq [System.Xml.XmlNodeType]::Element -and $_.selected -eq "true" }
+    )
     if ($selectedWorkflows.Count -eq 0) { Pass "No unverified field vehicle workflow is selected" }
     else { Fail "A field vehicle workflow was selected before testing" }
 
