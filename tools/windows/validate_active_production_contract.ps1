@@ -144,6 +144,23 @@ function Assert-ActivePalletContract {
     $i3d = Read-Xml $i3dPath
     if ($null -eq $i3d) { return }
 
+    $i3dFolder = Split-Path -Parent $i3dPath
+    $invalidTexture = $false
+    foreach ($fileNode in @($i3d.i3D.Files.File)) {
+        $textureRelative = [string]$fileNode.filename
+        if ([string]::IsNullOrWhiteSpace($textureRelative)) { continue }
+        $texturePath = [System.IO.Path]::GetFullPath((Join-Path $i3dFolder $textureRelative))
+        $modRoot = [System.IO.Path]::GetFullPath($ModFolder).TrimEnd('\') + '\'
+        if (-not $texturePath.StartsWith($modRoot, [System.StringComparison]::OrdinalIgnoreCase) -or
+            -not (Test-Path -LiteralPath $texturePath -PathType Leaf)) {
+            Fail "$FillTypeName pallet texture does not resolve inside the mod: $textureRelative"
+            $invalidTexture = $true
+        }
+    }
+    if (-not $invalidTexture) {
+        Pass "$FillTypeName pallet texture paths resolve inside the mod"
+    }
+
     $shapesRelative = [string]$i3d.i3D.Shapes.externalShapesFile
     if ([string]::IsNullOrWhiteSpace($shapesRelative)) {
         Fail "$FillTypeName pallet I3D does not reference an external shapes file"

@@ -48,6 +48,14 @@ function Repair-PalletI3d {
 
     $text = Get-Content -LiteralPath $Path -Raw
     $text = $text.Replace('emissiveColor="1 1 1 1"', 'emissiveColor="0 0 0 1"')
+    # Blender records texture paths relative to the .blend location. The
+    # isolated I3Ds live in pallets/i3d, so every project pallet texture must
+    # resolve through the adjacent pallets/textures directory.
+    $text = [regex]::Replace(
+        $text,
+        'filename="[^"]*FS25_GreenHorizonIndustries/pallets/textures/([^"/]+)"',
+        'filename="../textures/$1"'
+    )
 
     $rootPattern = '<TransformGroup name="' + [regex]::Escape($RootName) + '" nodeId="(?<nodeId>\d+)">'
     $rootReplacement = '<Shape name="' + $RootName + '" shapeId="1" dynamic="true" compound="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" nodeId="${nodeId}" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1" clipDistance="150">'
@@ -85,6 +93,9 @@ function Repair-PalletI3d {
     }
     if ($text -notmatch 'dynamicMountTrigger[^>]*trigger="true"') {
         throw "Dynamic mount trigger repair failed for $RootName"
+    }
+    if ($text -match 'filename="(?!\.\./textures/)[^"]*pallet_[^"]+"') {
+        throw "Pallet texture-path normalization failed for $RootName"
     }
 
     [System.IO.File]::WriteAllText($Path, $text, [System.Text.UTF8Encoding]::new($false))

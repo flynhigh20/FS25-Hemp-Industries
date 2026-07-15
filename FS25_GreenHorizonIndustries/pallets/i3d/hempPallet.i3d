@@ -6,20 +6,20 @@
   </Asset>
 
   <Files>
-    <File fileId="3" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_biomass_diffuse.png" />
-    <File fileId="5" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_dark_wood_diffuse.png" />
-    <File fileId="17" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_fiber_diffuse.png" />
-    <File fileId="18" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_flower_diffuse.png" />
-    <File fileId="1" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_helper_diffuse.png" />
-    <File fileId="19" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_hemp_diffuse.png" />
-    <File fileId="9" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_label_diffuse.png" />
-    <File fileId="22" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_metal_diffuse.png" />
-    <File fileId="20" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_oil_diffuse.png" />
-    <File fileId="24" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_seed_diffuse.png" />
-    <File fileId="11" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_strap_diffuse.png" />
-    <File fileId="7" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_text_diffuse.png" />
-    <File fileId="13" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_wood_diffuse.png" />
-    <File fileId="15" filename="../../../../../../../FS25_GreenHorizonIndustries/pallets/textures/pallet_wrap_diffuse.png" />
+    <File fileId="3" filename="../textures/pallet_biomass_diffuse.png" />
+    <File fileId="5" filename="../textures/pallet_dark_wood_diffuse.png" />
+    <File fileId="17" filename="../textures/pallet_fiber_diffuse.png" />
+    <File fileId="18" filename="../textures/pallet_flower_diffuse.png" />
+    <File fileId="1" filename="../textures/pallet_helper_diffuse.png" />
+    <File fileId="19" filename="../textures/pallet_hemp_diffuse.png" />
+    <File fileId="9" filename="../textures/pallet_label_diffuse.png" />
+    <File fileId="22" filename="../textures/pallet_metal_diffuse.png" />
+    <File fileId="20" filename="../textures/pallet_oil_diffuse.png" />
+    <File fileId="24" filename="../textures/pallet_seed_diffuse.png" />
+    <File fileId="11" filename="../textures/pallet_strap_diffuse.png" />
+    <File fileId="7" filename="../textures/pallet_text_diffuse.png" />
+    <File fileId="13" filename="../textures/pallet_wood_diffuse.png" />
+    <File fileId="15" filename="../textures/pallet_wrap_diffuse.png" />
   </Files>
 
 
