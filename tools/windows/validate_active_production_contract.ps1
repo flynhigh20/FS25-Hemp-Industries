@@ -271,6 +271,14 @@ if ($null -ne $greenhouse) {
     $storageFillTypes = @(([string]$greenhouse.placeable.productionPoint.storage.fillTypes) -split "\s+" | Where-Object { $_ })
     Assert-ContainsAll -Actual $storageFillTypes -Expected @("WATER", "SEEDS", "HEMP", "GHI_HEMP_BIOMASS", "HEMP_FLOWER") -Description "Greenhouse storage supports all active inputs and outputs"
 
+    $hempPlant = @($greenhouse.placeable.greenhouse.plants.plant | Where-Object { $_.fillType -eq "HEMP" }) | Select-Object -First 1
+    if ($null -ne $hempPlant -and [string]$hempPlant.xmlFilename -eq "placeables/greenhouses/hempGreenhousePlant.xml") {
+        Pass "Greenhouse uses the dedicated custom hemp plant visual"
+    }
+    else {
+        Fail "Greenhouse custom hemp plant visual is missing or incorrect"
+    }
+
     $spawnPlace = $greenhouse.placeable.productionPoint.palletSpawner.spawnPlaces.spawnPlace
     if ([string]$spawnPlace.startNode -eq "palletAreaStart" -and [string]$spawnPlace.endNode -eq "palletAreaEnd") {
         Pass "Greenhouse pallet spawner uses the nested start/end mapping contract"
@@ -314,6 +322,16 @@ if ($null -ne $cbdPlant) {
 
     $unloadFillTypes = @(([string]$cbdPlant.placeable.productionPoint.sellingStation.unloadTrigger.fillTypes) -split "\s+" | Where-Object { $_ })
     Assert-ContainsAll -Actual $unloadFillTypes -Expected @("HEMP", "HEMP_FLOWER") -Description "CBD unloading accepts both greenhouse products"
+
+    $cbdPalletTrigger = $cbdPlant.placeable.productionPoint.sellingStation.palletTrigger
+    $cbdPalletFillTypes = @(([string]$cbdPalletTrigger.fillTypes) -split "\s+" | Where-Object { $_ })
+    Assert-ContainsAll -Actual $cbdPalletFillTypes -Expected @("HEMP", "HEMP_FLOWER") -Description "CBD physical pallet trigger accepts hemp and flower pallets"
+    if ([string]$cbdPalletTrigger.triggerNode -eq "palletTrigger" -and [string]$cbdPalletTrigger.autoUnload -eq "true") {
+        Pass "CBD physical pallet trigger uses the marked unload zone with automatic unloading"
+    }
+    else {
+        Fail "CBD physical pallet trigger contract is incorrect"
+    }
 
     $spawnPlace = $cbdPlant.placeable.productionPoint.palletSpawner.spawnPlaces.spawnPlace
     if ([string]$spawnPlace.startNode -eq "palletAreaStart01" -and [string]$spawnPlace.endNode -eq "palletAreaEnd01") {

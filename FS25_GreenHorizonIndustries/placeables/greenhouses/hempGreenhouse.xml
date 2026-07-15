@@ -84,9 +84,7 @@
 
     <greenhouse>
         <plants>
-            <!-- Temporary FS25-safe growth visual for the first model test.
-                 Replace this base-game visual with the custom hemp plant XML later. -->
-            <plant fillType="HEMP" xmlFilename="$data/placeables/brandless/greenhouses/vegetables/lettuce/lettuce.xml"/>
+            <plant fillType="HEMP" xmlFilename="placeables/greenhouses/hempGreenhousePlant.xml"/>
         </plants>
         <plantSpaces>
             <spacesParent node="plantNodes" useRandomYRot="true"/>
