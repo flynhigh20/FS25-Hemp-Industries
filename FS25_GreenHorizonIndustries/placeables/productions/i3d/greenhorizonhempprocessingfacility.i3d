@@ -97,6 +97,7 @@
         <TransformGroup name="testAreaStart01" translation="-6.6 0 7.6" nodeId="136"/>
         <Shape name="unloadTrigger" translation="-1.15 0.8 6.94863" shapeId="8" kinematic="true" compound="true" collisionFilterGroup="0x40000000" collisionFilterMask="0x20000000" nodeId="137" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="13"/>
         <TransformGroup name="unloadTriggerMarker" translation="-1.15 0.05 6.65" nodeId="138"/>
+        <Shape name="palletTrigger" translation="-1.15 1.2 6.94863" scale="1 1.5 1" shapeId="8" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x10000" nodeId="318" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="13"/>
       </TransformGroup>
       <TransformGroup name="visuals" nodeId="139">
         <Shape name="BenchScaleBase" translation="-3.55 1.18 -2.72" shapeId="9" nodeId="140" castsShadows="true" receiveShadows="true" materialIds="11"/>

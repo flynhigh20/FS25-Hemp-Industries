@@ -9,6 +9,7 @@
 - Active mod folder: `FS25_GreenHorizonIndustries/`
 - Current test version: `0.3.0.0`
 - The user requested that current progress be synchronized to GitHub after this handoff update.
+- Current branch: `agent/fix-phase3-validator-parser`; draft PR: `#9`.
 
 ## Active placeables
 
@@ -33,6 +34,10 @@
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
 - Industrial hemp and `HEMP_FLOWER` distribution from greenhouse to CBD factory are confirmed.
+- The former base-game lettuce greenhouse visual has been removed. `hempGreenhousePlant.xml` and `i3d/hempGreenhousePlant.i3d` now provide dedicated small, mature, and withered hemp stages using the existing custom hemp mesh data. Static/package validation passes; in-game stage visibility is pending.
+- The dedicated greenhouse hemp foliage is now confirmed visible in game.
+- The CBD factory now has a separate `palletTrigger` shape at mapping `0>1|23`. It uses `trigger="true"`, collision group `0x20000000`, and pallet collision mask `0x10000`, matching official FS25 production-point pallet triggers. Physical HEMP/HEMP_FLOWER auto-unload is pending in-game confirmation.
+- Greenhouse pallet spawning is capacity-gated. Current full-pallet thresholds are 3,800 L HEMP, 7,500 L HEMP_FLOWER, and 5,700 L biomass; lower stored amounts are not a spawn failure.
 
 ## Current CBD factory build
 
@@ -78,29 +83,34 @@
 - `rollupDoorTrigger`: `0>1|18`
 - `unloadTrigger`: `0>1|21`
 - `unloadTriggerMarker`: `0>1|22`
+- `palletTrigger`: `0>1|23`
 - Door visual paths depend on export order and must be recalculated if the Blender hierarchy changes.
 
 ## Immediate user test
 
-1. Restart FS25 and place a fresh CBD factory.
-2. Confirm factory colors are normal, not white.
-3. Confirm the large door slides left and clears the opening.
-4. Confirm the personnel door works.
-5. Confirm internal wrench and both recipes.
-6. `HEMP_FLOWER` distribution is confirmed; retain the dedicated seeded flower route.
-7. Set CBD oil output to `Storing`.
-8. Physical 250 L pallet spawning is confirmed.
-9. Set each greenhouse output to `Storing` and confirm the distinct HEMP, BIOMASS, and FLOWER custom pallets spawn on the rear warning stripes.
-10. Decide whether to retain 250 L CBD pallets or use a larger batch to avoid backlog floods.
-11. Exit and inspect `log.txt`.
+1. Install the latest package and restart FS25.
+2. Place a fresh greenhouse and confirm the custom hemp stages appear with no lettuce.
+3. Confirm greenhouse door, water, seed intake, wrench, and existing pallet output still work.
+4. Allow each greenhouse output to reach its full pallet capacity before judging spawn behavior.
+5. Place a fresh CBD factory and move existing HEMP and HEMP_FLOWER pallets into the marked unload zone.
+6. Confirm both physical pallet types auto-unload and increase CBD input storage.
+7. Confirm factory doors, internal wrench, recipes, and CBD oil pallet output remain working.
+8. Exit and inspect `log.txt` for greenhouse-plant or pallet-trigger errors.
 
 ## Next implementation work while the user tests
 
-1. Visually identify the two already-spawned Biomass pallets and confirm their label, color, collisions, and tension-belt behavior. Industrial Hemp and Flower are confirmed.
-2. Restore/confirm the greenhouse status-screen emissives without changing the proven door, stripes, seed trigger, pallet area, or collision nodes.
-3. Choose a backlog-safe CBD pallet capacity; the current spawn location itself is accepted.
-4. Preserve the nested CBD pallet hierarchy in Blender before the next export; the current I3D was repaired directly.
-5. Inspect `log.txt`, then begin Phase 3 only after the remaining Phase 2 tests pass.
+1. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets on a forklift and trailer. They were recovered from `greenhorizonproductpallets.i3d`, retain the complete visual/helper hierarchy, and now include stock-style left/right fork rails plus tension-belt mappings.
+2. Confirm pallet stacking, fork entry, trailer loading, and tension belts with the package at `dist/FS25_GreenHorizonIndustries.zip`.
+3. Restore/confirm the greenhouse status-screen emissives without changing the proven door, stripes, seed trigger, pallet area, or collision nodes.
+4. Continue Phase 3 with controlled runtime registration of `foliage/hemp/hemp.xml`, then test sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
+5. Inspect `log.txt`, then validate seasonal growth, save/reload, cutter transition, and delivery.
+
+## Phase 3 outdoor crop preparation
+
+- `foliage/hemp/hemp.i3d` contains nine exported state roots. The state objects intentionally overlap at the field origin in Blender; that is the correct export layout, not a damaged preview layout.
+- `foliage/hemp/hemp.xml` is a real FS25 `foliageType` definition and its near/distance `blockShape` paths match the exported alphabetical child order.
+- Runtime registration remains deliberately inactive in `modDesc.xml`. Do not install it as a live fruit type until a controlled loader/map registration path is validated.
+- First equipment targets are the stock Great Plains seeder (`SOWINGMACHINE`) and MF 8570 grain combine/header (`GRAINHEADER`).
 
 ## Do not change casually
 

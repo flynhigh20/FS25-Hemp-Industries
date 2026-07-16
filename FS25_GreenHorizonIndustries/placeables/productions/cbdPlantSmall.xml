@@ -78,6 +78,7 @@
         </storage>
         <sellingStation node="sellingStation" supportsExtension="false" allowMissions="false">
             <unloadTrigger exactFillRootNode="unloadTrigger" fillTypes="HEMP HEMP_FLOWER"/>
+            <palletTrigger triggerNode="palletTrigger" fillTypes="HEMP HEMP_FLOWER" autoUnload="true"/>
         </sellingStation>
         <palletSpawner><spawnPlaces><spawnPlace startNode="palletAreaStart01" endNode="palletAreaEnd01"/></spawnPlaces></palletSpawner>
         <playerTrigger node="playerTrigger"/>
@@ -111,6 +112,7 @@
         <i3dMapping id="rollupDoorTrigger" node="0>1|18"/>
         <i3dMapping id="unloadTrigger" node="0>1|21"/>
         <i3dMapping id="unloadTriggerMarker" node="0>1|22"/>
+        <i3dMapping id="palletTrigger" node="0>1|23"/>
         <i3dMapping id="personnelDoor" node="0>2|160"/>
         <i3dMapping id="rollupDoor" node="0>2|170"/>
     </i3dMappings>

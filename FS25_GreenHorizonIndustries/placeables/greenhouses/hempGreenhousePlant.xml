@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<greenhousePlant xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/greenhousePlant.xsd">
+    <i3dFilename>placeables/greenhouses/i3d/hempGreenhousePlant.i3d</i3dFilename>
+    <stages>
+        <growing node="greenSmall"/>
+        <growing node="greenBig"/>
+        <withered node="dead"/>
+    </stages>
+    <i3dMappings>
+        <i3dMapping id="greenSmall" node="0>0"/>
+        <i3dMapping id="greenBig" node="0>1"/>
+        <i3dMapping id="dead" node="0>2"/>
+    </i3dMappings>
+</greenhousePlant>

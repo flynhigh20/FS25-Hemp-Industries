@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<i3D name="hempGreenhousePlant" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Files>
+    <File fileId="1" filename="../textures/greenhouse_hemp_leaf_diffuse.dds"/>
+    <File fileId="2" filename="../textures/greenhouse_stem_diffuse.dds"/>
+  </Files>
+  <Materials>
+    <Material name="hempStemGreenBrown" materialId="1"><Texture fileId="2"/></Material>
+    <Material name="industrialHempLeaf" materialId="2"><Texture fileId="1"/></Material>
+    <Material name="witheredHemp" materialId="3" diffuseColor="0.27 0.16 0.06 1"><Texture fileId="2"/></Material>
+  </Materials>
+  <Shapes externalShapesFile="greenHorizonHempGreenhouse.i3d.shapes"></Shapes>
+  <Scene>
+    <TransformGroup name="hempGreenhousePlant" nodeId="1">
+      <TransformGroup name="greenSmall" scale="0.65 0.65 0.65" nodeId="2">
+        <Shape name="smallStem" translation="0 0.25 0" shapeId="170" materialIds="1" castsShadows="true" receiveShadows="true" nodeId="3"/>
+        <Shape name="smallLeaf1" translation="0.06 0.5 0" rotation="65 0 0" shapeId="26" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="4"/>
+        <Shape name="smallLeaf2" translation="0.03 0.5 -0.0519615" rotation="65 60 0" shapeId="27" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="5"/>
+        <Shape name="smallLeaf3" translation="-0.03 0.5 -0.0519615" rotation="65 120 0" shapeId="28" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="6"/>
+        <Shape name="smallLeaf4" translation="-0.06 0.5 0" rotation="65 180 0" shapeId="29" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="7"/>
+        <Shape name="smallLeaf5" translation="-0.03 0.5 0.0519615" rotation="65 -120 0" shapeId="30" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="8"/>
+        <Shape name="smallLeaf6" translation="0.03 0.5 0.0519615" rotation="65 -60 0" shapeId="31" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="9"/>
+      </TransformGroup>
+      <TransformGroup name="greenBig" scale="1.35 1.35 1.35" nodeId="10">
+        <Shape name="bigStem" translation="0 0.25 0" shapeId="170" materialIds="1" castsShadows="true" receiveShadows="true" nodeId="11"/>
+        <Shape name="bigLeaf1" translation="0.06 0.5 0" rotation="65 0 0" shapeId="26" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="12"/>
+        <Shape name="bigLeaf2" translation="0.03 0.5 -0.0519615" rotation="65 60 0" shapeId="27" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="13"/>
+        <Shape name="bigLeaf3" translation="-0.03 0.5 -0.0519615" rotation="65 120 0" shapeId="28" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="14"/>
+        <Shape name="bigLeaf4" translation="-0.06 0.5 0" rotation="65 180 0" shapeId="29" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="15"/>
+        <Shape name="bigLeaf5" translation="-0.03 0.5 0.0519615" rotation="65 -120 0" shapeId="30" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="16"/>
+        <Shape name="bigLeaf6" translation="0.03 0.5 0.0519615" rotation="65 -60 0" shapeId="31" materialIds="2" castsShadows="true" receiveShadows="true" nodeId="17"/>
+      </TransformGroup>
+      <TransformGroup name="dead" scale="1.1 1.1 1.1" nodeId="18">
+        <Shape name="deadStem" translation="0 0.25 0" shapeId="170" materialIds="3" castsShadows="true" receiveShadows="true" nodeId="19"/>
+        <Shape name="deadLeaf1" translation="0.06 0.5 0" rotation="82 0 0" shapeId="26" materialIds="3" castsShadows="true" receiveShadows="true" nodeId="20"/>
+        <Shape name="deadLeaf2" translation="-0.03 0.5 -0.0519615" rotation="82 120 0" shapeId="28" materialIds="3" castsShadows="true" receiveShadows="true" nodeId="21"/>
+        <Shape name="deadLeaf3" translation="-0.03 0.5 0.0519615" rotation="82 -120 0" shapeId="30" materialIds="3" castsShadows="true" receiveShadows="true" nodeId="22"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+</i3D>

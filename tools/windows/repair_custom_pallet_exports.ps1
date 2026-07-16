@@ -67,6 +67,25 @@ function Repair-PalletI3d {
         '$1 compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nonRenderable="true"'
     )
 
+    # Some GIANTS exports preserve the collisions group but omit its two
+    # generated rail children. Reuse the tiny root carrier mesh at a scaled
+    # size to recreate stock-style left/right floor rails while leaving the
+    # centre fork channels open.
+    if ($text -notmatch 'name="floorCollision01') {
+        $railNodes = @"
+<TransformGroup name="collisions" nodeId="9000">
+        <Shape name="floorCollision01" translation="0.3 0 0.055" scale="8.5 21.5 2.75" shapeId="1" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nodeId="9001" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1" />
+        <Shape name="floorCollision02" translation="-0.3 0 0.055" scale="8.5 21.5 2.75" shapeId="1" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nodeId="9002" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1" />
+      </TransformGroup>
+"@
+        $text = [regex]::Replace(
+            $text,
+            '<TransformGroup name="collisions(?:\.\d+)?" nodeId="\d+"\s*/>',
+            $railNodes,
+            1
+        )
+    }
+
     $text = [regex]::Replace(
         $text,
         '(<Shape name="' + [regex]::Escape($RootName) + '"[^>]*?)collisionFilterGroup="0x10000" collisionFilterMask="0x1813008" density="0.1"([^>]*>)',
@@ -93,6 +112,9 @@ function Repair-PalletI3d {
     }
     if ($text -notmatch 'dynamicMountTrigger[^>]*trigger="true"') {
         throw "Dynamic mount trigger repair failed for $RootName"
+    }
+    if (($text -notmatch 'floorCollision01[^>]*compoundChild="true"') -or ($text -notmatch 'floorCollision02[^>]*compoundChild="true"')) {
+        throw "Fork-rail collision repair failed for $RootName"
     }
     if ($text -match 'filename="(?!\.\./textures/)[^"]*pallet_[^"]+"') {
         throw "Pallet texture-path normalization failed for $RootName"

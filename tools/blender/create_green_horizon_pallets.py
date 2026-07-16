@@ -484,10 +484,26 @@ def build_helper_hierarchy(root, materials):
 
     visuals = add_empty("palletVisuals", parent=root)
 
-    # Keep an empty first child to preserve the established i3dMapping indexes.
-    # The pallet root itself is now the single CPU collision shape, matching
-    # the structure used by FS25's stock greenhouse pallets.
-    add_empty("collisions", parent=root)
+    # Match the stock FS25 greenhouse pallet collision layout.  Two narrow,
+    # low rails support the load while leaving the centre channels open for
+    # pallet forks.  Do not use a full pallet-sized collision cube here: it
+    # makes the visual pallet movable but blocks forks from entering it.
+    collisions = add_empty("collisions", parent=root)
+    collisions["i3D_collision"] = False
+    make_collision(
+        "floorCollision01",
+        (0.30, 0.0, 0.055),
+        (0.34, 0.86, 0.11),
+        materials["helper"],
+        collisions,
+    )
+    make_collision(
+        "floorCollision02",
+        (-0.30, 0.0, 0.055),
+        (0.34, 0.86, 0.11),
+        materials["helper"],
+        collisions,
+    )
 
     add_empty("raycastNode", (0.0, 0.70, 0.60), root)
     make_trigger_box("dischargeActivationTrigger", (0.0, 0.80, 0.55), (0.70, 0.45, 0.65), materials["helper"], root)
@@ -499,14 +515,16 @@ def build_product_root(product, x_position: float, y_position: float, materials)
     root = cube(
         f"pallet_{product['code']}",
         (x_position, y_position, 0.0),
-        (1.42, 0.96, 1.10),
+        # The root is the dynamic rigid-body carrier.  Its tiny geometry is
+        # intentionally kept below the fork pockets; collision comes from
+        # the stock-style compound children created above.
+        (0.04, 0.04, 0.04),
         materials["helper"],
         None,
     )
-    # Move collision geometry above the object's origin without moving the
-    # origin used by the vehicle component.
+    # Keep the rigid-body origin at ground level like the stock pallet.
     for vertex in root.data.vertices:
-        vertex.co.z += 0.55
+        vertex.co.z += 0.02
     root.display_type = "WIRE"
     root.hide_render = True
     root["i3D_dynamic"] = True
@@ -546,7 +564,7 @@ def add_preview_camera():
     bpy.context.scene.camera = camera
 
 
-def build_model() -> None:
+def build_model(save_source: bool = True) -> None:
     clear_scene()
     materials = build_materials()
 
@@ -562,9 +580,11 @@ def build_model() -> None:
     bpy.context.scene.unit_settings.system = "METRIC"
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_FILE))
-
-    print(f"Saved complete Green Horizon pallet source set: {OUTPUT_FILE}")
+    if save_source:
+        bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_FILE))
+        print(f"Saved complete Green Horizon pallet source set: {OUTPUT_FILE}")
+    else:
+        print("Built Green Horizon pallet source set in memory for direct export")
     print(f"Generated pallet material textures: {TEXTURE_DIR}")
     print("Export each pallet root separately to FS25_GreenHorizonIndustries/pallets/i3d/.")
     print("The pallet XML templates remain inactive until i3d node paths are verified.")

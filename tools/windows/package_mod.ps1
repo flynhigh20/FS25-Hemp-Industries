@@ -144,6 +144,8 @@ $requiredEntries = @(
     "pallets/xml/oilPallet.xml",
     "pallets/xml/cbdOilPallet.xml",
     "placeables/greenhouses/hempGreenhouse.xml",
+    "placeables/greenhouses/hempGreenhousePlant.xml",
+    "placeables/greenhouses/i3d/hempGreenhousePlant.i3d",
     "placeables/greenhouses/store_hempGreenhouse.dds",
     "placeables/productions/cbdPlantSmall.xml",
     "placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d",
