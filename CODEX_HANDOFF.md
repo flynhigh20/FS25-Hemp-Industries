@@ -29,6 +29,7 @@
 - Both greenhouse recipes consume their inputs and produce outputs.
 - Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. Industrial Hemp and Flower pallets are confirmed colored, movable, and collidable in game. Savegame inspection confirms two 1,000 L Biomass pallet vehicles also spawned, one behind each greenhouse; their visual identification in game remains pending.
 - Greenhouse warning stripes are confirmed correctly positioned in game. The front door and building/pallet collisions are confirmed working.
+- Greenhouse status-screen emissives are restored and confirmed working in game.
 - Custom pallet texture paths are normalized to `../textures/...`; the active-production validator now rejects pallet textures that resolve outside the mod.
 - CBD factory custom model loads.
 - CBD factory internal production wrench works.
@@ -50,6 +51,7 @@
 - CBD pallet capacity: 250 L.
 - CBD oil price: `$4.80/L`; full pallet value: about `$1,200`.
 - Physical CBD pallets are confirmed working. A save with roughly 7,000 L stored spawned about 28 pallets immediately.
+- The CBD factory pallet output/drop fix is confirmed working in game.
 - Pallet footprint/location is accepted; the visible grass came from the chosen factory placement site.
 - `cbdOilPallet.xml` is registered in `modDesc.xml` as a hidden store item.
 - Pallet spawn hierarchy is `palletSpawner -> palletAreaStart -> palletAreaEnd` and visible stripes are aligned to that footprint.
@@ -101,9 +103,8 @@
 
 1. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets on a forklift and trailer. They were recovered from `greenhorizonproductpallets.i3d`, retain the complete visual/helper hierarchy, and now include stock-style left/right fork rails plus tension-belt mappings.
 2. Confirm pallet stacking, fork entry, trailer loading, and tension belts with the package at `dist/FS25_GreenHorizonIndustries.zip`.
-3. Restore/confirm the greenhouse status-screen emissives without changing the proven door, stripes, seed trigger, pallet area, or collision nodes.
-4. Continue Phase 3 with controlled runtime registration of `foliage/hemp/hemp.xml`, then test sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
-5. Inspect `log.txt`, then validate seasonal growth, save/reload, cutter transition, and delivery.
+3. Continue Phase 3 with controlled runtime registration of `foliage/hemp/hemp.xml`, then test sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
+4. Inspect `log.txt`, then validate seasonal growth, save/reload, cutter transition, and delivery.
 
 ## Phase 3 outdoor crop preparation
 

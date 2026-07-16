@@ -16,7 +16,8 @@
 - The temporary lettuce greenhouse visual has been replaced by a dedicated three-stage custom hemp plant XML/I3D, and its foliage is confirmed visible in game.
 - The CBD factory now has a dedicated physical pallet trigger using the official FS25 pallet collision mask. HEMP and HEMP_FLOWER pallet auto-unloading is built and validated; in-game confirmation is pending.
 - Current greenhouse pallet capacities are 3,800 L HEMP, 7,500 L HEMP_FLOWER, and 5,700 L biomass. Partial stored amounts do not spawn pallets until a full pallet is available.
-- Greenhouse status-screen emissive meshes and materials are restored in the Blender source. The GIANTS exporter crashes in background mode, so a GUI export is still required before the emissives reach the game I3D.
+- Greenhouse status-screen emissives are restored and confirmed working in game.
+- CBD factory pallet output/drop is repaired and confirmed working in game.
 - Full recovery and workflow context is in `CODEX_HANDOFF.md`.
 
 ## Phase 1 / Alpha 0.1 - Foundation
@@ -51,7 +52,7 @@
 - [x] Confirm rear warning-stripe placement and greenhouse door/collisions in game
 - [x] Replace the temporary lettuce greenhouse visual with a dedicated custom hemp plant asset
 - [x] Confirm custom hemp greenhouse foliage in game
-- [ ] Restore and confirm restrained greenhouse status-screen emissives
+- [x] Restore and confirm restrained greenhouse status-screen emissives
 
 ### CBD factory completed in code
 
@@ -87,6 +88,7 @@
 - [x] Set CBD output mode to `Storing`
 - [x] Confirm 250 L CBD-oil pallets instantiate and spawn
 - [x] Confirm pallet spawn footprint/location is acceptable
+- [x] Confirm repaired CBD pallet output/drop behavior in game
 - [ ] Prevent a large stored backlog from flooding the area with many 250 L pallets at once
 - [ ] Review `log.txt` after exiting
 - [x] Confirm the registered 250 L pallet loads and spawns without a log error
