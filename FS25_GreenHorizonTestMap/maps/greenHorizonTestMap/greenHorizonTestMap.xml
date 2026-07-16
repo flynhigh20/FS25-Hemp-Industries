@@ -69,6 +69,10 @@
 
     <fruitTypeCategories>
         <fruitTypeCategory name="MOWER">MEADOW</fruitTypeCategory>
+        <fruitTypeCategory name="SOWINGMACHINE">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="GRAINHEADER">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="MAIZECUTTER">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="DIRECTCUTTER">HEMP</fruitTypeCategory>
     </fruitTypeCategories>
 
     <additionalFiles>

@@ -72,18 +72,11 @@
             <foliageShape><foliageLod blockShape="0>7|3"/><foliageLod blockShape="0>7|0"/></foliageShape>
         </foliageState>
         <foliageState name="harvested" numBlocksPerUnit="2.0" isCut="true"
-                      isDestructibleByWheel="true" isDestructibleByDisaster="true">
+                      isDestructedByWheel="true" isDestructibleByDisaster="true">
             <foliageShape><foliageLod blockShape="0>8|1"/><foliageLod blockShape="0>8|0"/></foliageShape>
             <foliageShape><foliageLod blockShape="0>8|2"/><foliageLod blockShape="0>8|0"/></foliageShape>
         </foliageState>
     </foliageLayer>
-
-    <fruitTypeCategories>
-        <fruitTypeCategory name="SOWINGMACHINE">HEMP</fruitTypeCategory>
-        <fruitTypeCategory name="GRAINHEADER">HEMP</fruitTypeCategory>
-        <fruitTypeCategory name="MAIZECUTTER">HEMP</fruitTypeCategory>
-        <fruitTypeCategory name="DIRECTCUTTER">HEMP</fruitTypeCategory>
-    </fruitTypeCategories>
 
     <growth>
         <seasonal initialState="mature">

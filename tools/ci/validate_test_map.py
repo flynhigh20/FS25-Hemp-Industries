@@ -107,6 +107,15 @@ def main() -> int:
             passed("HEMP fill-type registration precedes fruit-type loading")
         else:
             fail("Map fillTypes must appear before fruitTypes")
+        categories = {
+            node.get("name"): (node.text or "").strip()
+            for node in root.findall("./fruitTypeCategories/fruitTypeCategory")
+        }
+        for category in ("SOWINGMACHINE", "GRAINHEADER"):
+            if categories.get(category) == "HEMP":
+                passed(f"Map registers HEMP for {category}")
+            else:
+                fail(f"Map must register HEMP for {category}")
 
     if map_fill_types_tree is not None:
         root = map_fill_types_tree.getroot()
@@ -139,15 +148,15 @@ def main() -> int:
             passed("HEMP defines invisible plus nine visible/cut states")
         else:
             fail(f"Expected 10 total HEMP states, found {len(states)}")
-        categories = {
-            node.get("name"): (node.text or "").strip()
-            for node in root.findall("./fruitTypeCategories/fruitTypeCategory")
-        }
-        for category in ("SOWINGMACHINE", "GRAINHEADER"):
-            if categories.get(category) == "HEMP":
-                passed(f"HEMP is registered for {category}")
-            else:
-                fail(f"HEMP is missing from {category}")
+        destructed_states = [
+            state
+            for state in states
+            if state.get("isDestructedByWheel") == "true"
+        ]
+        if len(destructed_states) == 1 and destructed_states[0].get("name") == "harvested":
+            passed("Harvested HEMP is the wheel-destruction target")
+        else:
+            fail("Exactly the harvested state must be isDestructedByWheel")
         periods = root.findall("./growth/seasonal/period")
         if len(periods) == 12:
             passed("HEMP growth calendar defines all 12 periods")
