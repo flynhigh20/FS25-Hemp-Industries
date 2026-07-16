@@ -73,7 +73,10 @@
   </Shapes>
 
   <Scene><Shape name="pallet_biomass" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" staticFriction="1" dynamicFriction="1" density="0.0001" clipDistance="150" nodeId="278" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1">
-      <TransformGroup name="collisions.002" nodeId="279" />
+      <TransformGroup name="collisions" nodeId="9000">
+        <Shape name="floorCollision01" translation="0.3 0 0.055" scale="8.5 21.5 2.75" shapeId="1" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nodeId="9001" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1" />
+        <Shape name="floorCollision02" translation="-0.3 0 0.055" scale="8.5 21.5 2.75" shapeId="1" compoundChild="true" staticFriction="1" dynamicFriction="1" density="0" collisionFilterGroup="0x10000" collisionFilterMask="0xfe3dfb83" nodeId="9002" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="1" />
+      </TransformGroup>
       <Shape name="dischargeActivationTrigger.002" translation="0 0.55 -0.8" shapeId="2" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="280" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1" />
       <TransformGroup name="dischargeNode.002" translation="0 0.55 -0.75" nodeId="281" />
       <Shape name="dynamicMountTrigger.002" translation="0 0.55 0" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x20000" nodeId="282" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="1" />

@@ -99,8 +99,8 @@
 
 ## Next implementation work while the user tests
 
-1. Re-export each product pallet root with **all children included**. The most recent six manual exports contain only the tiny root carrier and must not replace the working game pallets. A valid export must include `dynamicMountTrigger`, `palletVisuals`, `collisions/floorCollision01`, `collisions/floorCollision02`, and the helper nodes.
-2. Test the stock-style fork rails and tension belts on a forklift and trailer after the complete exports are installed.
+1. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets on a forklift and trailer. They were recovered from `greenhorizonproductpallets.i3d`, retain the complete visual/helper hierarchy, and now include stock-style left/right fork rails plus tension-belt mappings.
+2. Confirm pallet stacking, fork entry, trailer loading, and tension belts with the package at `dist/FS25_GreenHorizonIndustries.zip`.
 3. Restore/confirm the greenhouse status-screen emissives without changing the proven door, stripes, seed trigger, pallet area, or collision nodes.
 4. Continue Phase 3 with controlled runtime registration of `foliage/hemp/hemp.xml`, then test sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
 5. Inspect `log.txt`, then validate seasonal growth, save/reload, cutter transition, and delivery.

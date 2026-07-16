@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <vehicle type="pallet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://validation.gdn.giants-software.com/xml/fs25/vehicle.xsd">
     <storeData><name>Hemp Flower 1,000 lb Bulk Tote</name><image>../../icon_mod.dds</image><price>9000</price><category>pallets</category><brand>NONE</brand><showInStore>false</showInStore><canBeSold>false</canBeSold><financeCategory>OTHER</financeCategory></storeData>
-    <base><typeDesc>$l10n_typeDesc_pallet</typeDesc><filename>pallets/i3d/flowerPallet.i3d</filename><size width="1.42" length="1.00" height="1.10"/><canBeReset>false</canBeReset><components maxMass="650"><component centerOfMass="0 0.45 0" solverIterationCount="10" mass="60"/></components><showInVehicleMenu>false</showInVehicleMenu><mapHotspot available="false"/><input allowed="false"/><supportsPickUp>true</supportsPickUp></base>
+    <base><typeDesc>$l10n_typeDesc_pallet</typeDesc><filename>pallets/i3d/flowerPallet.i3d</filename><size width="1.42" length="1.00" height="1.10"/><canBeReset>false</canBeReset><components maxMass="400"><component centerOfMass="0 0.1 0" solverIterationCount="10" mass="60"/></components><showInVehicleMenu>false</showInVehicleMenu><mapHotspot available="false"/><input allowed="false"/><supportsPickUp>true</supportsPickUp></base>
     <fillUnit><fillUnitConfigurations><fillUnitConfiguration><fillUnits removeVehicleIfEmpty="true" removeVehicleReward="150"><fillUnit unitTextOverride="$l10n_unit_literShort" fillTypes="HEMP_FLOWER" capacity="7500" ignoreFillLimit="true"/></fillUnits></fillUnitConfiguration></fillUnitConfigurations></fillUnit>
-    <dynamicMount triggerNode="dynamicMountTrigger" triggerForceAcceleration="4" additionalMountDistance="0.785" jointTransY="0.106" jointLimitToRotY="true"/><pallet fillUnitIndex="1" linkNode="palletRoot"/>
-    <i3dMappings><i3dMapping id="palletRoot" node="0>"/><i3dMapping id="dynamicMountTrigger" node="0>3"/></i3dMappings>
+    <dynamicMount triggerNode="dynamicMountTrigger" triggerForceAcceleration="5" additionalMountDistance="0.8" jointTransY="0.11" jointLimitToRotY="true"/>
+    <tensionBeltObject><meshNodes><meshNode node="palletVisuals"/></meshNodes></tensionBeltObject>
+    <pallet fillUnitIndex="1" linkNode="palletRoot"/>
+    <i3dMappings><i3dMapping id="palletRoot" node="0>"/><i3dMapping id="dynamicMountTrigger" node="0>3"/><i3dMapping id="palletVisuals" node="0>5"/></i3dMappings>
 </vehicle>

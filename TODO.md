@@ -121,7 +121,7 @@
 ### Pallet handling polish
 
 - [x] Model stock-style low fork rails and add stock-equivalent tension-belt configuration in source
-- [ ] Re-export each product pallet with its complete root hierarchy (visuals, mount trigger, collision rails, and helper nodes)
+- [x] Rebuild each active product pallet from the complete combined hierarchy and restore visuals, mount trigger, collision rails, and helper nodes
 - [ ] Confirm forklift entry, stacking, trailer loading, and tension belts in game
 
 ---
