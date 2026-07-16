@@ -46,6 +46,7 @@ def main() -> int:
 
     mod_desc = require("modDesc.xml")
     map_xml = require("maps/greenHorizonTestMap/greenHorizonTestMap.xml")
+    map_fill_types = require("maps/greenHorizonTestMap/fillTypes.xml")
     hemp_xml = require("maps/greenHorizonTestMap/foliage/hemp/hemp.xml")
     require("maps/greenHorizonTestMap/foliage/hemp/hemp.i3d")
     require("maps/greenHorizonTestMap/foliage/hemp/hemp.i3d.shapes")
@@ -56,6 +57,7 @@ def main() -> int:
 
     mod_tree = parse(mod_desc)
     map_tree = parse(map_xml)
+    map_fill_types_tree = parse(map_fill_types)
     hemp_tree = parse(hemp_xml)
 
     if mod_tree is not None:
@@ -71,9 +73,9 @@ def main() -> int:
         else:
             fail("Expected map id GreenHorizonTestMap")
         if root.find("fillTypes") is None:
-            passed("Map does not duplicate the Industries fill-type registration")
+            passed("modDesc leaves canonical fill-type ownership with Industries")
         else:
-            fail("Test map must not register duplicate fill types")
+            fail("Test-map modDesc must not register duplicate fill types")
 
     if map_tree is not None:
         root = map_tree.getroot()
@@ -88,6 +90,37 @@ def main() -> int:
             passed("Map loads its local HEMP foliage type")
         else:
             fail("Map does not load its local HEMP foliage type")
+        fill_types_node = root.find("fillTypes")
+        if (
+            fill_types_node is not None
+            and fill_types_node.get("filename")
+            == "maps/greenHorizonTestMap/fillTypes.xml"
+        ):
+            passed("Map pre-registers HEMP during map loading")
+        else:
+            fail("Map must load its compatibility fillTypes.xml")
+        children = list(root)
+        fruit_types_node = root.find("fruitTypes")
+        fill_pos = children.index(fill_types_node) if fill_types_node in children else -1
+        fruit_pos = children.index(fruit_types_node) if fruit_types_node in children else -1
+        if 0 <= fill_pos < fruit_pos:
+            passed("HEMP fill-type registration precedes fruit-type loading")
+        else:
+            fail("Map fillTypes must appear before fruitTypes")
+
+    if map_fill_types_tree is not None:
+        root = map_fill_types_tree.getroot()
+        names = {
+            (node.get("name") or "").upper()
+            for node in root.findall("./fillTypes/fillType")
+        }
+        if names == {"HEMP"}:
+            passed("Map compatibility file pre-registers only HEMP")
+        else:
+            fail(
+                "Map compatibility fill types must be exactly HEMP, "
+                f"found {sorted(names)}"
+            )
 
     if hemp_tree is not None:
         root = hemp_tree.getroot()

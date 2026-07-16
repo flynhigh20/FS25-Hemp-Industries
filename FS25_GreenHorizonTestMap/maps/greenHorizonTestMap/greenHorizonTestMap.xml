@@ -57,6 +57,11 @@
     <bales filename="$data/maps/maps_bales.xml"/>
     <motionPathEffects filename="$data/effects/motionPathEffects.xml"/>
 
+    <!-- Map fruit types are parsed before modDesc fill types. Register HEMP in
+         the map phase so its fruit type can resolve; Green Horizon Industries
+         subsequently enriches this same fill-type entry with pallet data. -->
+    <fillTypes filename="maps/greenHorizonTestMap/fillTypes.xml" />
+
     <fruitTypes>
         <fruitType filename="$data/foliage/meadow/meadowUS/meadowUS.xml"/>
         <fruitType filename="maps/greenHorizonTestMap/foliage/hemp/hemp.xml"/>
