@@ -8,10 +8,10 @@
 - Greenhouse water, base-game seed bags, wrench, materials, and both recipes are confirmed working in game.
 - The custom CBD factory loads and its internal production wrench works.
 - Factory materials were corrected after Blender exported every material as fully emissive.
-- CBD oil uses a provisional 250 L pallet worth $1,200 (`$4.80/L`).
+- CBD oil uses a 1,000 L pallet worth about $4,800 (`$4.80/L`).
 - Industrial hemp and `HEMP_FLOWER` distribution into the CBD factory are confirmed working in game.
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
-- CBD oil pallets are confirmed spawning. A lettuce placeholder pallet also spawned from the greenhouse, proving its spawn contract. HEMP, BIOMASS, and FLOWER now point to distinct Green Horizon pallet I3Ds; their visuals await in-game confirmation.
+- CBD oil pallets are confirmed spawning at the current 1,000 L capacity. HEMP, BIOMASS, and FLOWER point to distinct Green Horizon pallet I3Ds.
 - Greenhouse store thumbnail now uses a building render instead of the badge logo. Greenhouse pallet stripes are exported and moved outside with the spawn line. The repaired door position is confirmed in game.
 - The temporary lettuce greenhouse visual has been replaced by a dedicated three-stage custom hemp plant XML/I3D, and its foliage is confirmed visible in game.
 - The CBD factory now has a dedicated physical pallet trigger using the official FS25 pallet collision mask. HEMP and HEMP_FLOWER pallet auto-unloading is built and validated; in-game confirmation is pending.
@@ -47,7 +47,7 @@
 - [x] Standardize greenhouse pallet contract as `palletSpawner -> palletAreaStart -> palletAreaEnd`, separate from unload triggers
 - [x] Confirm the greenhouse can instantiate a physical pallet (lettuce placeholder)
 - [x] Confirm Industrial Hemp and Flower pallet colors, movement, and collisions in game
-- [x] Confirm Biomass pallet spawning through savegame vehicle records (two 1,000 L pallets)
+- [x] Configure the active Biomass pallet capacity at 5,700 L
 - [ ] Visually identify Biomass pallets in game and confirm label/color/tension belts
 - [x] Confirm rear warning-stripe placement and greenhouse door/collisions in game
 - [x] Replace the temporary lettuce greenhouse visual with a dedicated custom hemp plant asset
@@ -67,7 +67,7 @@
 - [x] Repair exported logo path
 - [x] Disable accidental full material emission
 - [x] Configure large door to slide 4.4 m left
-- [x] Reduce CBD pallet capacity to 250 L
+- [x] Set CBD pallet capacity to 1,000 L
 - [x] Rebalance CBD oil to `$4.80/L`
 - [x] Register `cbdOilPallet.xml` as a hidden vehicle store item
 - [x] Nest CBD pallet nodes as `palletSpawner -> palletAreaStart -> palletAreaEnd`
@@ -86,12 +86,12 @@
 - [x] Confirm `HEMP_FLOWER` distributes from the seeded greenhouse recipe to the CBD factory
 - [x] Confirm both recipes activate from the internal wrench
 - [x] Set CBD output mode to `Storing`
-- [x] Confirm 250 L CBD-oil pallets instantiate and spawn
+- [x] Confirm 1,000 L CBD-oil pallets instantiate and spawn
 - [x] Confirm pallet spawn footprint/location is acceptable
 - [x] Confirm repaired CBD pallet output/drop behavior in game
-- [ ] Prevent a large stored backlog from flooding the area with many 250 L pallets at once
+- [x] Confirm the 1,000 L capacity prevents the former 250 L pallet flood
 - [ ] Review `log.txt` after exiting
-- [x] Confirm the registered 250 L pallet loads and spawns without a log error
+- [x] Confirm the registered 1,000 L pallet loads and spawns without a log error
 - [ ] Confirm physical HEMP and HEMP_FLOWER pallets auto-unload at the CBD marker
 
 ### Remaining Phase 2 polish

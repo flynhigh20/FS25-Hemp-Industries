@@ -9,7 +9,7 @@
 - Active mod folder: `FS25_GreenHorizonIndustries/`
 - Current test version: `0.3.0.0`
 - The user requested that current progress be synchronized to GitHub after this handoff update.
-- Current branch: `agent/fix-phase3-validator-parser`; draft PR: `#9`.
+- Current branch: `agent/document-confirmed-fixes`; ready-for-review PR: `#10`. PR #9 is merged into `main`.
 
 ## Active placeables
 
@@ -27,7 +27,7 @@
 - Base-game seed bags auto-unload through the dedicated pallet trigger.
 - Greenhouse production wrench works independently from the door.
 - Both greenhouse recipes consume their inputs and produce outputs.
-- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. Industrial Hemp and Flower pallets are confirmed colored, movable, and collidable in game. Savegame inspection confirms two 1,000 L Biomass pallet vehicles also spawned, one behind each greenhouse; their visual identification in game remains pending.
+- Greenhouse pallet XML uses the same nested contract as the CBD factory: `palletSpawner -> palletAreaStart -> palletAreaEnd`; water and seed unloading remain separate. Industrial Hemp and Flower pallets are confirmed colored, movable, and collidable in game. The active Biomass pallet capacity is 5,700 L; its final label/color/tension-belt check remains pending.
 - Greenhouse warning stripes are confirmed correctly positioned in game. The front door and building/pallet collisions are confirmed working.
 - Greenhouse status-screen emissives are restored and confirmed working in game.
 - Custom pallet texture paths are normalized to `../textures/...`; the active-production validator now rejects pallet textures that resolve outside the mod.
@@ -35,7 +35,7 @@
 - CBD factory internal production wrench works.
 - CBD factory accepts the two existing recipes: `HEMP` and `HEMP_FLOWER` to `GHI_CBD_OIL`.
 - Industrial hemp and `HEMP_FLOWER` distribution from greenhouse to CBD factory are confirmed.
-- The former base-game lettuce greenhouse visual has been removed. `hempGreenhousePlant.xml` and `i3d/hempGreenhousePlant.i3d` now provide dedicated small, mature, and withered hemp stages using the existing custom hemp mesh data. Static/package validation passes; in-game stage visibility is pending.
+- The former base-game lettuce greenhouse visual has been removed. `hempGreenhousePlant.xml` and `i3d/hempGreenhousePlant.i3d` provide dedicated custom hemp foliage, confirmed visible in game.
 - The dedicated greenhouse hemp foliage is now confirmed visible in game.
 - The CBD factory now has a separate `palletTrigger` shape at mapping `0>1|23`. It uses `trigger="true"`, collision group `0x20000000`, and pallet collision mask `0x10000`, matching official FS25 production-point pallet triggers. Physical HEMP/HEMP_FLOWER auto-unload is pending in-game confirmation.
 - Greenhouse pallet spawning is capacity-gated. Current full-pallet thresholds are 3,800 L HEMP, 7,500 L HEMP_FLOWER, and 5,700 L biomass; lower stored amounts are not a spawn failure.
@@ -48,9 +48,9 @@
 - Material unloading is outside for vehicle access.
 - The large door uses absolute closed position `-1.20804 1.75 4.11` and open position `-5.60804 1.75 4.11`; zero-based translation teleports it to the building center.
 - CBD output must be set to `Storing` to create physical pallets.
-- CBD pallet capacity: 250 L.
-- CBD oil price: `$4.80/L`; full pallet value: about `$1,200`.
-- Physical CBD pallets are confirmed working. A save with roughly 7,000 L stored spawned about 28 pallets immediately.
+- CBD pallet capacity: 1,000 L.
+- CBD oil price: `$4.80/L`; full pallet value: about `$4,800`.
+- Physical CBD pallets are confirmed working. Roughly 7,000 L stored now represents about seven full pallets rather than the former 28-pallet flood.
 - The CBD factory pallet output/drop fix is confirmed working in game.
 - Pallet footprint/location is accepted; the visible grass came from the chosen factory placement site.
 - `cbdOilPallet.xml` is registered in `modDesc.xml` as a hidden store item.
@@ -90,14 +90,10 @@
 
 ## Immediate user test
 
-1. Install the latest package and restart FS25.
-2. Place a fresh greenhouse and confirm the custom hemp stages appear with no lettuce.
-3. Confirm greenhouse door, water, seed intake, wrench, and existing pallet output still work.
-4. Allow each greenhouse output to reach its full pallet capacity before judging spawn behavior.
-5. Place a fresh CBD factory and move existing HEMP and HEMP_FLOWER pallets into the marked unload zone.
-6. Confirm both physical pallet types auto-unload and increase CBD input storage.
-7. Confirm factory doors, internal wrench, recipes, and CBD oil pallet output remain working.
-8. Exit and inspect `log.txt` for greenhouse-plant or pallet-trigger errors.
+1. Move physical HEMP and HEMP_FLOWER pallets into the CBD marker and confirm each auto-unloads into the factory. This input system is still unconfirmed and is separate from the confirmed CBD-oil pallet output/drop.
+2. Confirm the 5,700 L Biomass pallet label, color, collisions, fork handling, and tension-belt behavior.
+3. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets for fork entry, stacking, trailer loading, and tension belts.
+4. Exit and inspect `log.txt` specifically for pallet-intake, collision, or tension-belt errors.
 
 ## Next implementation work while the user tests
 
