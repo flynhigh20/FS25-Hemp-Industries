@@ -13,7 +13,7 @@
 - CBD pallet vehicle is registered and the spawn hierarchy now matches the proven greenhouse pattern.
 - CBD oil pallets are confirmed spawning. A lettuce placeholder pallet also spawned from the greenhouse, proving its spawn contract. HEMP, BIOMASS, and FLOWER now point to distinct Green Horizon pallet I3Ds; their visuals await in-game confirmation.
 - Greenhouse store thumbnail now uses a building render instead of the badge logo. Greenhouse pallet stripes are exported and moved outside with the spawn line. The repaired door position is confirmed in game.
-- The temporary lettuce greenhouse visual has been replaced by a dedicated three-stage custom hemp plant XML/I3D. Packaging validation passes; in-game growth-stage visibility is the next test.
+- The temporary lettuce greenhouse visual has been replaced by a dedicated three-stage custom hemp plant XML/I3D, and its foliage is confirmed visible in game.
 - The CBD factory now has a dedicated physical pallet trigger using the official FS25 pallet collision mask. HEMP and HEMP_FLOWER pallet auto-unloading is built and validated; in-game confirmation is pending.
 - Current greenhouse pallet capacities are 3,800 L HEMP, 7,500 L HEMP_FLOWER, and 5,700 L biomass. Partial stored amounts do not spawn pallets until a full pallet is available.
 - Greenhouse status-screen emissive meshes and materials are restored in the Blender source. The GIANTS exporter crashes in background mode, so a GUI export is still required before the emissives reach the game I3D.
@@ -50,7 +50,7 @@
 - [ ] Visually identify Biomass pallets in game and confirm label/color/tension belts
 - [x] Confirm rear warning-stripe placement and greenhouse door/collisions in game
 - [x] Replace the temporary lettuce greenhouse visual with a dedicated custom hemp plant asset
-- [ ] Confirm custom small, mature, and withered hemp greenhouse stages in game
+- [x] Confirm custom hemp greenhouse foliage in game
 - [ ] Restore and confirm restrained greenhouse status-screen emissives
 
 ### CBD factory completed in code
@@ -106,14 +106,23 @@
 ## Phase 3 / Alpha 0.3 - Outdoor Hemp Crop
 
 - [x] Generate initial crop texture atlas, crop icons, and cutter-effect sources
+- [x] Export the nine-state outdoor hemp foliage I3D and align every XML blockShape path to its exported hierarchy
+- [x] Create a schema-valid FS25 foliageType definition for outdoor HEMP
+- [x] Select the stock Great Plains seeder and MF 8570/header as the first compatibility targets
 - [ ] Approve and integrate the realistic AI-assisted crop atlas as the final texture set
-- [ ] Validate all nine visible foliage/growth states
+- [ ] Validate all nine visible foliage/growth states in a controlled field test
 - [ ] Activate HEMP fruit-type registration on a controlled test map
 - [ ] Validate seasonal growth, density channels, destruction, and save/reload
 - [ ] Configure yield, mature-to-cut transition, windrow, and cutter effects
 - [ ] Adapt one base-game planter and harvester for the first field test
 - [ ] Run the first plant-to-harvest-to-delivery test
 - [ ] Precision Farming and multiplayer experiments
+
+### Pallet handling polish
+
+- [x] Model stock-style low fork rails and add stock-equivalent tension-belt configuration in source
+- [ ] Re-export each product pallet with its complete root hierarchy (visuals, mount trigger, collision rails, and helper nodes)
+- [ ] Confirm forklift entry, stacking, trailer loading, and tension belts in game
 
 ---
 

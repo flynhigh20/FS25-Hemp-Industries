@@ -92,7 +92,10 @@ def export_pallets():
     sys.path.insert(0, str(REPO_ROOT / "tools" / "blender"))
     import create_green_horizon_pallets
 
-    create_green_horizon_pallets.build_model()
+    # Direct headless exports do not need to rewrite the large multi-pallet
+    # Blender source. Skipping that save also avoids a Blender 4.2 Windows
+    # crash observed before the GIANTS exporter is initialized.
+    create_green_horizon_pallets.build_model(save_source=False)
     enable_exporter()
     for root_name, filename in (
         ("pallet_hemp", "hempPallet.i3d"),

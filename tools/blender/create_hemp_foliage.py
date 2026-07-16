@@ -307,7 +307,10 @@ def create_state_source(root, material, spec, x_position: float):
     state_index, state_name, height, width, card_count, _, tile_index = spec
     state_root = bpy.data.objects.new(f"growthState{state_index:02d}_{state_name}", None)
     bpy.context.collection.objects.link(state_root)
-    state_root.location.x = x_position
+    # Foliage block shapes must share the same origin.  Earlier preview
+    # sources spread the states across the X axis, which looks useful in
+    # Blender but would offset each growth state across the field in game.
+    state_root.location.x = 0.0
     state_root.parent = root
     state_root["growthState"] = state_index
     state_root["stateName"] = state_name
@@ -353,9 +356,8 @@ def build_source_scene(material):
     root["witheredState"] = 8
     root["cutState"] = 9
 
-    spacing = 1.65
-    for index, spec in enumerate(STATE_SPECS):
-        create_state_source(root, material, spec, (index - 4) * spacing)
+    for spec in STATE_SPECS:
+        create_state_source(root, material, spec, 0.0)
 
     return root
 
