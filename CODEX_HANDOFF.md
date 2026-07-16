@@ -9,7 +9,7 @@
 - Active mod folder: `FS25_GreenHorizonIndustries/`
 - Current test version: `0.3.0.0`
 - The user requested that current progress be synchronized to GitHub after this handoff update.
-- Current branch: `agent/document-confirmed-fixes`; ready-for-review PR: `#10`. PR #9 is merged into `main`.
+- Current branch: `agent/green-horizon-test-map`; issue #11 test-map implementation.
 
 ## Active placeables
 
@@ -89,16 +89,19 @@
 
 ## Immediate user test
 
-1. Move physical HEMP and HEMP_FLOWER pallets into the CBD marker and confirm each auto-unloads into the factory. This input system is still unconfirmed and is separate from the confirmed CBD-oil pallet output/drop.
-2. Confirm the 5,700 L Biomass pallet label, color, collisions, fork handling, and tension-belt behavior.
-3. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets for fork entry, stacking, trailer loading, and tension belts.
-4. Exit and inspect `log.txt` specifically for pallet-intake, collision, or tension-belt errors.
+1. Install `FS25_GreenHorizonIndustries.zip` and `FS25_GreenHorizonTestMap.zip` together.
+2. Start a fresh save on **Green Horizon Test Map** and enable both mods.
+3. Confirm HEMP appears in the crop calendar and Great Plains seeder selection.
+4. Sow HEMP, inspect all growth states, and test wheel destruction plus save/reload.
+5. Harvest mature HEMP with the MF 8570 and compatible grain header; confirm HEMP enters the tank and the field changes to the harvested state.
+6. Place the greenhouse and CBD factory, then confirm harvested HEMP can enter the existing production chain.
+7. Exit and inspect `log.txt` for map, foliage, density-channel, fruit-type, or harvesting errors.
 
 ## Next implementation work while the user tests
 
 1. Test the rebuilt HEMP, HEMP_FLOWER, and BIOMASS pallets on a forklift and trailer. They were recovered from `greenhorizonproductpallets.i3d`, retain the complete visual/helper hierarchy, and now include stock-style left/right fork rails plus tension-belt mappings.
 2. Confirm pallet stacking, fork entry, trailer loading, and tension belts with the package at `dist/FS25_GreenHorizonIndustries.zip`.
-3. Continue Phase 3 with controlled runtime registration of `foliage/hemp/hemp.xml`, then test sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
+3. Use the separate test map to validate sowing with the stock Great Plains seeder and harvesting with the MF 8570/header.
 4. Inspect `log.txt`, then validate seasonal growth, save/reload, cutter transition, and delivery.
 
 ## Phase 3 outdoor crop preparation
@@ -107,6 +110,8 @@
 - `foliage/hemp/hemp.xml` is a real FS25 `foliageType` definition and its near/distance `blockShape` paths match the exported alphabetical child order.
 - Runtime registration remains deliberately inactive in `modDesc.xml`. Do not install it as a live fruit type until a controlled loader/map registration path is validated.
 - First equipment targets are the stock Great Plains seeder (`SOWINGMACHINE`) and MF 8570 grain combine/header (`GRAINHEADER`).
+- `FS25_GreenHorizonTestMap/` is the controlled loader. It depends on `FS25_GreenHorizonIndustries`, reuses the official Riverbend Springs terrain, and owns the active local HEMP foliage registration.
+- Build it with `tools/package_test_map.py`; the output is `dist/FS25_GreenHorizonTestMap.zip`.
 
 ## Do not change casually
 

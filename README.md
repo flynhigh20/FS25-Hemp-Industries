@@ -38,6 +38,12 @@ The seed marker is now paired with a real pallet trigger instead of relying on t
 
 ## Test Procedure
 
+### Outdoor HEMP test map
+
+Build the separate developer map with `python tools/package_test_map.py`. Install both `FS25_GreenHorizonIndustries.zip` and `FS25_GreenHorizonTestMap.zip`, then start a fresh save on **Green Horizon Test Map** with both mods enabled.
+
+The map reuses the official Riverbend Springs terrain while owning the active HEMP foliage registration used for the controlled Phase 3 field test.
+
 1. Run `tools/windows/preflight_check.bat`.
 2. Run `tools/windows/package_and_install_mod.bat`.
 3. Fully restart FS25 and use a fresh save or place a fresh greenhouse.
