@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<foliageType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="https://validation.gdn.giants-software.com/xml/fs25/foliageType.xsd">
+    <fruitType name="HEMP" shownOnMap="true" useForFieldMissions="true">
+        <mapColors default="0.16 0.43 0.12 1" colorBlind="0.24 0.55 0.72 1"/>
+        <harvest litersPerSqm="0.92" cutHeight="0.20"/>
+        <growth resetsSpray="true" growthRequiresLime="true"/>
+        <soil lowDensityRequired="true" increasesDensity="false" consumesLime="true" startSprayLevel="0"/>
+        <seeding directionSnapAngle="0" needsRolling="true" litersPerSqm="0.045" isAvailable="true"/>
+        <cultivation isAllowed="true"/>
+    </fruitType>
+
+    <!--
+        State values use four density-map channels:
+        1 invisible, 2 emerged, 3 sprout, 4 juvenile, 5 vegetative,
+        6 pre-flower, 7 flowering, 8 mature, 9 withered, 10 harvested.
+        The I3D has one direct child per visible source state.  Each child
+        contains two or three near crossed cards followed by one distance card.
+    -->
+    <foliageLayer densityMapChannelOffset="0" numDensityMapChannels="4"
+                  numBlocksPerUnit="1.45" shapeSource="hemp.i3d" alignsToSun="false">
+        <foliageStateDefaults distanceMapLayer="1" width="1" height="1"
+                              widthVariance="0.08" heightVariance="0.18"
+                              horizontalPositionVariance="0.22"/>
+        <foliageLodDefaults lod="0" viewDistance="18" blendOutDistance="2" texCoords="0 0 1 1"/>
+        <foliageLodDefaults lod="1" viewDistance="80" blendOutDistance="2" texCoords="0 0 1 1"/>
+
+        <foliageState name="invisible" isGrowing="true" allowsWeeding="true" allowsHoeing="true"/>
+
+        <foliageState name="emerged" numBlocksPerUnit="3.2" isGrowing="true" allowsWeeding="true" allowsHoeing="true">
+            <foliageShape><foliageLod blockShape="0>0|1"/><foliageLod blockShape="0>0|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>0|2"/><foliageLod blockShape="0>0|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="sprout" numBlocksPerUnit="2.8" isGrowing="true" allowsWeeding="true" allowsHoeing="true">
+            <foliageShape><foliageLod blockShape="0>1|1"/><foliageLod blockShape="0>1|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>1|2"/><foliageLod blockShape="0>1|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="juvenile" numBlocksPerUnit="2.2" isGrowing="true" allowsWeeding="true" allowsHoeing="true">
+            <foliageShape><foliageLod blockShape="0>2|1"/><foliageLod blockShape="0>2|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>2|2"/><foliageLod blockShape="0>2|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>2|3"/><foliageLod blockShape="0>2|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="vegetative" numBlocksPerUnit="1.7" isGrowing="true" isDestructibleByWheel="true" isDestructibleByDisaster="true">
+            <foliageShape><foliageLod blockShape="0>3|1"/><foliageLod blockShape="0>3|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>3|2"/><foliageLod blockShape="0>3|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>3|3"/><foliageLod blockShape="0>3|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="preFlower" numBlocksPerUnit="1.45" isGrowing="true" isDestructibleByWheel="true" isDestructibleByDisaster="true">
+            <foliageShape><foliageLod blockShape="0>4|1"/><foliageLod blockShape="0>4|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>4|2"/><foliageLod blockShape="0>4|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>4|3"/><foliageLod blockShape="0>4|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>4|4"/><foliageLod blockShape="0>4|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="flowering" numBlocksPerUnit="1.3" isGrowing="true" isForageReady="true" isDestructibleByWheel="true" isDestructibleByDisaster="true">
+            <foliageShape><foliageLod blockShape="0>5|1"/><foliageLod blockShape="0>5|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>5|2"/><foliageLod blockShape="0>5|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>5|3"/><foliageLod blockShape="0>5|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>5|4"/><foliageLod blockShape="0>5|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="mature" numBlocksPerUnit="1.2" width="1.15" isGrowing="true"
+                      isHarvestReady="true" isDestructibleByWheel="true"
+                      isDestructibleByDisaster="true" groundType="HARVEST_READY_OTHER">
+            <foliageShape><foliageLod blockShape="0>6|1"/><foliageLod blockShape="0>6|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>6|2"/><foliageLod blockShape="0>6|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>6|3"/><foliageLod blockShape="0>6|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>6|4"/><foliageLod blockShape="0>6|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="withered" numBlocksPerUnit="1.2" width="1.1" isWithered="true"
+                      isDestructibleByWheel="true" isDestructibleByDisaster="true">
+            <foliageShape><foliageLod blockShape="0>7|1"/><foliageLod blockShape="0>7|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>7|2"/><foliageLod blockShape="0>7|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>7|3"/><foliageLod blockShape="0>7|0"/></foliageShape>
+        </foliageState>
+        <foliageState name="harvested" numBlocksPerUnit="2.0" isCut="true"
+                      isDestructibleByWheel="true" isDestructibleByDisaster="true">
+            <foliageShape><foliageLod blockShape="0>8|1"/><foliageLod blockShape="0>8|0"/></foliageShape>
+            <foliageShape><foliageLod blockShape="0>8|2"/><foliageLod blockShape="0>8|0"/></foliageShape>
+        </foliageState>
+    </foliageLayer>
+
+    <fruitTypeCategories>
+        <fruitTypeCategory name="SOWINGMACHINE">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="GRAINHEADER">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="MAIZECUTTER">HEMP</fruitTypeCategory>
+        <fruitTypeCategory name="DIRECTCUTTER">HEMP</fruitTypeCategory>
+    </fruitTypeCategories>
+
+    <growth>
+        <seasonal initialState="mature">
+            <period name="EARLY_SPRING" plantingAllowed="true">
+                <update startState="invisible" endState="emerged"/>
+                <update startState="emerged" endState="sprout"/>
+            </period>
+            <period name="MID_SPRING" plantingAllowed="true">
+                <update startState="invisible" endState="emerged"/>
+                <update startState="emerged" endState="sprout"/>
+                <update startState="sprout" endState="juvenile"/>
+            </period>
+            <period name="LATE_SPRING" plantingAllowed="true">
+                <update startState="invisible" endState="emerged"/>
+                <update startState="sprout" endState="juvenile"/>
+                <update startState="juvenile" endState="vegetative"/>
+            </period>
+            <period name="EARLY_SUMMER">
+                <update startState="juvenile" endState="vegetative"/>
+                <update startState="vegetative" endState="preFlower"/>
+            </period>
+            <period name="MID_SUMMER">
+                <update startState="vegetative" endState="preFlower"/>
+                <update startState="preFlower" endState="flowering"/>
+            </period>
+            <period name="LATE_SUMMER">
+                <update startState="preFlower" endState="flowering"/>
+                <update startState="flowering" endState="mature"/>
+            </period>
+            <period name="EARLY_AUTUMN">
+                <update startState="flowering" endState="mature"/>
+            </period>
+            <period name="MID_AUTUMN">
+                <update startState="mature" endState="withered"/>
+            </period>
+            <period name="LATE_AUTUMN"/>
+            <period name="EARLY_WINTER"/>
+            <period name="MID_WINTER"/>
+            <period name="LATE_WINTER"/>
+        </seasonal>
+    </growth>
+</foliageType>

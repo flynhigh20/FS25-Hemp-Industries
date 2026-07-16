@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<modDesc descVersion="91">
+    <author>TooBlastu &amp; ChatGPT</author>
+    <version>0.1.0.0</version>
+
+    <title>
+        <en>Green Horizon Test Map</en>
+    </title>
+
+    <description>
+        <en><![CDATA[
+Developer test map for Green Horizon Industries outdoor HEMP crop integration.
+Uses the official Riverbend Springs terrain and owns the additional HEMP foliage
+registration used for sowing, growth, harvest, destruction, and save/reload tests.
+        ]]></en>
+    </description>
+
+    <iconFilename>icon.dds</iconFilename>
+    <multiplayer supported="false"/>
+
+    <dependencies>
+        <dependency>FS25_GreenHorizonIndustries</dependency>
+    </dependencies>
+
+    <maps>
+        <map id="GreenHorizonTestMap"
+             className="Mission00"
+             filename="$dataS/scripts/mission00.lua"
+             configFilename="maps/greenHorizonTestMap/greenHorizonTestMap.xml"
+             defaultVehiclesXMLFilename="$data/maps/mapUS/config/vehicles.xml"
+             defaultHandToolsXMLFilename="$data/maps/mapUS/config/handTools.xml"
+             defaultPlaceablesXMLFilename="$data/maps/mapUS/config/placeables.xml"
+             defaultItemsXMLFilename="$data/maps/mapUS/config/items.xml">
+            <title>
+                <en>Green Horizon Test Map</en>
+            </title>
+            <description>
+                <en>Riverbend Springs test environment with map-owned outdoor HEMP registration.</en>
+            </description>
+            <iconFilename>preview.dds</iconFilename>
+        </map>
+    </maps>
+</modDesc>
