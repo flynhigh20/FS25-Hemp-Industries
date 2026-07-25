@@ -24,11 +24,9 @@ function ADTMaterials:createTab(layoutSizer)
 
     local contextSizer = UIRowLayoutSizer.new()
     fold:addPanel("Material source and destination", contextSizer)
-    self.selectionLabel = UILabel.new(contextSizer,
-        "Current selection: none", true,
+    self.selectionLabel = UILabel.new(contextSizer, "Current selection: none", true,
         TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 42, BorderDirection.BOTTOM, 5)
-    self.targetLabel = UILabel.new(contextSizer,
-        "Active target: none", true,
+    self.targetLabel = UILabel.new(contextSizer, "Active target: none", true,
         TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 42, BorderDirection.BOTTOM, 5)
     UIButton.new(contextSizer, "Inspect current selection recursively",
         function() self:inspectSelection() end,
@@ -45,7 +43,6 @@ function ADTMaterials:createTab(layoutSizer)
         -1, -1, 140, 25, BorderDirection.RIGHT, 5)
     self.slotInput = UITextArea.new(slotSizer, "0", TextAlignment.LEFT, false, false,
         -1, -1, 100, 25)
-
     UIButton.new(captureSizer, "Capture from current selection",
         function() self:captureMaterial() end,
         nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
@@ -70,10 +67,30 @@ function ADTMaterials:createTab(layoutSizer)
         function() self:applyToCurrentSelection() end,
         nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
 
+    local emissiveSizer = UIRowLayoutSizer.new()
+    fold:addPanel("Emissive repair", emissiveSizer)
+    UILabel.new(emissiveSizer,
+        "Finds unique materials whose emissive color is white (approximately 1,1,1,1) and resets only those emissive values to 0,0,0,0. Textures and material assignments are preserved.",
+        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 68, BorderDirection.BOTTOM, 5)
+    UIButton.new(emissiveSizer, "Preview white emissives on active target",
+        function() self:previewWhiteEmissives(self:getActiveTarget(), "active target") end,
+        nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
+    UIButton.new(emissiveSizer, "RESET WHITE EMISSIVES ON ACTIVE TARGET",
+        function() self:resetWhiteEmissives(self:getActiveTarget(), "active target") end,
+        nil, -1, -1, -1, 32, BorderDirection.BOTTOM, 5)
+    UIButton.new(emissiveSizer, "Preview white emissives on current selection",
+        function() self:previewWhiteEmissives(self.toolkit:getPrimarySelection(), "current selection") end,
+        nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
+    UIButton.new(emissiveSizer, "Reset white emissives on current selection",
+        function() self:resetWhiteEmissives(self.toolkit:getPrimarySelection(), "current selection") end,
+        nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
+    self.emissiveLabel = UILabel.new(emissiveSizer, "Emissive repair: not scanned", true,
+        TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 55)
+
     local noteSizer = UIRowLayoutSizer.new()
     fold:addPanel("Safety", noteSizer)
     UILabel.new(noteSizer,
-        "Only the chosen material slot is changed. Groups are expanded recursively, shapes without that slot are skipped, and no nodes are renamed, moved or deleted. Save the I3D before applying bulk changes.",
+        "Material replacement changes only the chosen slot. Emissive repair changes only exact or near-white emissive colors. Save the I3D before applying bulk changes.",
         true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 70)
 
     self:updateContextLabels()
@@ -94,10 +111,7 @@ function ADTMaterials:getActiveTarget()
 end
 
 function ADTMaterials:updateContextLabels()
-    if self.selectionLabel == nil or self.targetLabel == nil then
-        return
-    end
-
+    if self.selectionLabel == nil or self.targetLabel == nil then return end
     local primary = self.toolkit:getPrimarySelection()
     if primary == nil or not entityExists(primary) then
         self.selectionLabel:setText("Current selection: none")
@@ -106,7 +120,6 @@ function ADTMaterials:updateContextLabels()
         self.selectionLabel:setText(string.format("Current selection: %s  |  %s  |  %d shape(s)",
             getName(primary), self.toolkit:getNodeTypeLabel(primary), #shapes))
     end
-
     local target = self:getActiveTarget()
     if target == nil then
         self.targetLabel:setText("Active target: none - capture one on the Place tab")
@@ -122,13 +135,11 @@ function ADTMaterials:inspectRoot(root, contextLabel)
         self.toolkit:logWarning("No valid " .. contextLabel .. " is available for material inspection.")
         return
     end
-
     local shapes = self.toolkit:collectShapes(root)
     if #shapes == 0 then
         self.toolkit:logWarning("No shape nodes were found under " .. getName(root), root)
         return
     end
-
     local totalSlots = 0
     for _, shape in ipairs(shapes) do
         local count = getNumOfMaterials(shape)
@@ -139,7 +150,6 @@ function ADTMaterials:inspectRoot(root, contextLabel)
             print(string.format("  slot=%d material=%s", slot, self.toolkit:getMaterialDisplayName(materialId)))
         end
     end
-
     self.toolkit:logInfo(string.format("%s contains %d shape(s) and %d total material slot(s).",
         getName(root), #shapes, totalSlots), root)
 end
@@ -158,14 +168,12 @@ function ADTMaterials:captureMaterial()
         self.toolkit:logWarning("Select a source shape or group before capturing a material.")
         return
     end
-
     local slot = self:getSlot()
     local shape = self.toolkit:findFirstShapeWithMaterialSlot(root, slot)
     if shape == nil then
         self.toolkit:logError(string.format("No shape under %s has material slot %d.", getName(root), slot), root)
         return
     end
-
     self.capturedMaterial = getMaterial(shape, slot)
     self.capturedSlot = slot
     self.capturedSource = shape
@@ -185,34 +193,25 @@ function ADTMaterials:clearCapturedMaterial()
 end
 
 function ADTMaterials:countApplicableShapes(root, slot)
-    local applicable = 0
-    local skipped = 0
+    local applicable, skipped = 0, 0
     local shapes = self.toolkit:collectShapes(root)
     for _, shape in ipairs(shapes) do
-        if getNumOfMaterials(shape) > slot then
-            applicable = applicable + 1
-        else
-            skipped = skipped + 1
-        end
+        if getNumOfMaterials(shape) > slot then applicable = applicable + 1 else skipped = skipped + 1 end
     end
     return applicable, skipped, #shapes
 end
 
 function ADTMaterials:previewActiveTarget()
-    if self.previewLabel == nil then
-        return
-    end
+    if self.previewLabel == nil then return end
     if self.capturedMaterial == nil then
         self.previewLabel:setText("Preview: capture a source material first.")
         return
     end
-
     local target = self:getActiveTarget()
     if target == nil then
         self.previewLabel:setText("Preview: capture an active target on the Place tab first.")
         return
     end
-
     local slot = self:getSlot()
     local applicable, skipped, total = self:countApplicableShapes(target, slot)
     self.previewLabel:setText(string.format(
@@ -229,26 +228,21 @@ function ADTMaterials:applyToRoot(root, contextLabel)
         self.toolkit:logWarning("No valid " .. contextLabel .. " is available for material application.")
         return
     end
-
     local slot = self:getSlot()
     local shapes = self.toolkit:collectShapes(root)
     if #shapes == 0 then
         self.toolkit:logWarning("No shape nodes were found under " .. getName(root), root)
         return
     end
-
-    local changed = 0
-    local skipped = 0
+    local changed, skipped = 0, 0
     for _, shape in ipairs(shapes) do
         if getNumOfMaterials(shape) > slot then
             setMaterial(shape, self.capturedMaterial, slot)
             changed = changed + 1
         else
             skipped = skipped + 1
-            print(string.format("ADT Materials: skipped %s; no slot %d", getName(shape), slot))
         end
     end
-
     refreshViewport(true)
     self.toolkit:logInfo(string.format(
         "Applied %s to %s %s: changed %d shape(s), skipped %d without slot %d.",
@@ -263,6 +257,85 @@ end
 
 function ADTMaterials:applyToCurrentSelection()
     self:applyToRoot(self.toolkit:getPrimarySelection(), "current selection")
+end
+
+function ADTMaterials:getUniqueMaterials(root)
+    local materials = {}
+    if root == nil or not entityExists(root) then return materials end
+    for _, shape in ipairs(self.toolkit:collectShapes(root)) do
+        for slot=0, getNumOfMaterials(shape)-1 do
+            local materialId = getMaterial(shape, slot)
+            if materialId ~= nil and materialId ~= 0 then materials[materialId] = true end
+        end
+    end
+    return materials
+end
+
+function ADTMaterials:getEmissive(materialId)
+    if getMaterialEmissiveColor == nil then return nil end
+    local ok, r, g, b, a = pcall(getMaterialEmissiveColor, materialId)
+    if not ok then return nil end
+    return r or 0, g or 0, b or 0, a or 0
+end
+
+function ADTMaterials:isWhiteEmissive(r, g, b, a)
+    return r ~= nil and r >= 0.99 and g >= 0.99 and b >= 0.99 and (a == nil or a >= 0.99)
+end
+
+function ADTMaterials:scanWhiteEmissives(root)
+    local matches = {}
+    local total = 0
+    for materialId in pairs(self:getUniqueMaterials(root)) do
+        total = total + 1
+        local r, g, b, a = self:getEmissive(materialId)
+        if self:isWhiteEmissive(r, g, b, a) then
+            table.insert(matches, {id=materialId, r=r, g=g, b=b, a=a})
+        end
+    end
+    return matches, total
+end
+
+function ADTMaterials:previewWhiteEmissives(root, contextLabel)
+    if root == nil or not entityExists(root) then
+        self.toolkit:logWarning("No valid " .. contextLabel .. " is available for emissive inspection.")
+        return
+    end
+    if getMaterialEmissiveColor == nil or setMaterialEmissiveColor == nil then
+        self.emissiveLabel:setText("Emissive repair: this GIANTS Editor build does not expose the required material API.")
+        self.toolkit:logWarning("Material emissive getter/setter API is unavailable in this GIANTS Editor build.")
+        return
+    end
+    local matches, total = self:scanWhiteEmissives(root)
+    self.emissiveLabel:setText(string.format("%s: %d white-emissive material(s) found among %d unique material(s).",
+        contextLabel, #matches, total))
+    for _, match in ipairs(matches) do
+        print(string.format("ADT WHITE EMISSIVE material=%s rgba=%.4f %.4f %.4f %.4f",
+            self.toolkit:getMaterialDisplayName(match.id), match.r, match.g, match.b, match.a or 0))
+    end
+    self.toolkit:setStatus(string.format("Found %d white-emissive material(s) under %s.", #matches, getName(root)))
+end
+
+function ADTMaterials:resetWhiteEmissives(root, contextLabel)
+    if root == nil or not entityExists(root) then
+        self.toolkit:logWarning("No valid " .. contextLabel .. " is available for emissive repair.")
+        return
+    end
+    if getMaterialEmissiveColor == nil or setMaterialEmissiveColor == nil then
+        self.emissiveLabel:setText("Emissive repair: unsupported by this GIANTS Editor build.")
+        self.toolkit:logWarning("Material emissive getter/setter API is unavailable; no materials were changed.")
+        return
+    end
+    local matches, total = self:scanWhiteEmissives(root)
+    local changed, failed = 0, 0
+    for _, match in ipairs(matches) do
+        local ok = pcall(setMaterialEmissiveColor, match.id, 0, 0, 0, 0)
+        if ok then changed = changed + 1 else failed = failed + 1 end
+    end
+    refreshViewport(true)
+    self.emissiveLabel:setText(string.format("%s: reset %d white emissive(s); %d failed; %d unique material(s) scanned.",
+        contextLabel, changed, failed, total))
+    self.toolkit:logInfo(string.format("Reset white emissive colors under %s: changed %d, failed %d.",
+        getName(root), changed, failed), root)
 end
 
 function ADTMaterials:onSelectionChanged(nodeId, isSelected)
