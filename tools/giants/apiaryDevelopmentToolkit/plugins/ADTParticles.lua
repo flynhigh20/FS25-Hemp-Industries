@@ -62,9 +62,12 @@ function ADTParticles:createTab(layoutSizer)
     UIButton.new(replaceSizer, "ARM IMPORT AND REPLACE PLACEHOLDER",
         function() self:armReplacement() end,
         nil, -1, -1, -1, 32, BorderDirection.BOTTOM, 5)
+    UIButton.new(replaceSizer, "Complete replacement using current selection",
+        function() self:completeReplacementFromSelection() end,
+        nil, -1, -1, -1, 32, BorderDirection.BOTTOM, 5)
     UILabel.new(replaceSizer,
-        "Replacement preserves the placeholder parent, local translation, rotation, scale and name. The placeholder is deleted only after exactly one valid imported root is captured.",
-        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 65)
+        "If this GE build imports the I3D but does not fire the import watcher, select the newly imported root and use the manual completion button. Replacement preserves the placeholder parent, local transform and name. The imported node keeps its own particle settings and user attributes.",
+        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 88)
 
     local watcherSizer = UIRowLayoutSizer.new()
     fold:addPanel("Watcher status", watcherSizer)
@@ -82,7 +85,7 @@ function ADTParticles:createTab(layoutSizer)
         function() self:chooseImportFile() end,
         nil, -1, -1, -1, 28, BorderDirection.BOTTOM, 5)
     self.fileLabel = UILabel.new(sourceSizer, "Selected source: none", true,
-        TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 55)
+        TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 70)
 
     self:updateLabels()
 end
@@ -223,7 +226,7 @@ function ADTParticles:chooseImportFile()
         return
     end
     self.lastImportPath = filename
-    self.fileLabel:setText("Selected source: " .. filename .. "\nUse GE File > Import after arming the desired mode.")
+    self.fileLabel:setText("Selected source: " .. filename .. "\nThis only remembers the path. Arm a mode, then use GE File > Import. Do not use File > Open.")
     self.toolkit:logInfo("Particle source selected: " .. filename)
 end
 
@@ -275,6 +278,12 @@ function ADTParticles:processReplacement(filepath, importedNodes)
     end
 
     local replacement = importedNodes[1]
+    if replacement == snapshot.node then
+        self.resultLabel:setText("Last result: replacement cancelled; selected node is the placeholder")
+        self.toolkit:logError("Select the newly imported particle root, not the existing placeholder.", snapshot.node)
+        return
+    end
+
     link(snapshot.parent, replacement)
     setTranslation(replacement, snapshot.tx, snapshot.ty, snapshot.tz)
     setRotation(replacement, snapshot.rx, snapshot.ry, snapshot.rz)
@@ -288,6 +297,31 @@ function ADTParticles:processReplacement(filepath, importedNodes)
 
     self.resultLabel:setText("Last result: replaced placeholder with " .. snapshot.name)
     self.toolkit:logInfo("Replaced particle placeholder with imported root from " .. filepath, replacement)
+end
+
+function ADTParticles:completeReplacementFromSelection()
+    local replacement = self:getValidNode(self.toolkit:getPrimarySelection())
+    if replacement == nil then
+        self.toolkit:logWarning("Select the newly imported particle root before completing replacement.")
+        return
+    end
+
+    if self.placeholderSnapshot == nil then
+        local snapshot = self:capturePlaceholderSnapshot()
+        if snapshot == nil then
+            self.toolkit:logWarning("Choose a valid placeholder first, then arm replacement before importing.")
+            return
+        end
+        self.placeholderSnapshot = snapshot
+    end
+
+    self:processReplacement("manual current-selection fallback", {replacement})
+    self.armed = false
+    self.mode = "import"
+    self.armLabel:setText("Watcher: disarmed")
+    self.placeholderSnapshot = nil
+    refreshViewport(true)
+    self:updateLabels()
 end
 
 function ADTParticles:onFileImported(filepath, nodes)
