@@ -31,6 +31,7 @@ function openApiaryDevelopmentToolkit()
     g_apiaryDevelopmentToolkit:addPlugin("ADTParticles", "apiaryDevelopmentToolkit/plugins/ADTParticles.lua")
     g_apiaryDevelopmentToolkit:addPlugin("ADTValidate", "apiaryDevelopmentToolkit/plugins/ADTValidate.lua")
     g_apiaryDevelopmentToolkit:addPlugin("ADTDebug", "apiaryDevelopmentToolkit/plugins/ADTDebug.lua")
+    g_apiaryDevelopmentToolkit:addPlugin("ADTUtilities", "apiaryDevelopmentToolkit/plugins/ADTUtilities.lua")
     g_apiaryDevelopmentToolkit:show()
 end
 
