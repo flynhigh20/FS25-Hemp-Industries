@@ -66,9 +66,34 @@ An old save may still contain a removed `hempProcessingFacility.xml` placeable r
 
 These systems must not be activated merely to hide warnings. The greenhouse and CBD production loop must pass first.
 
+## Apiary Development Toolkit
+
+The repository also contains a GIANTS Editor toolkit under:
+
+```text
+tools/giants/apiaryDevelopmentToolkit/
+```
+
+Current effect and particle research is recorded in:
+
+```text
+tools/giants/apiaryDevelopmentToolkit/docs/effectResearchNotes.md
+```
+
+Important findings:
+
+- Generic `particleType="smoke"` tests are not confirmed working; they can load without visible output.
+- `PipeEffect` produces stream geometry, not drifting smoke.
+- `unloadingSmoke` can render through an imported shader Shape, but the authored mesh silhouette may be unsuitable.
+- `<dynamicallyLoadedParts>` applies to compatible vehicle/placeable specialization contexts; a hand tool requires custom Lua loading or direct I3D import.
+- TransformGroups are valid attachment nodes but must not be passed to Shape/material-based effect classes.
+
+Agents and Codex sessions must read `AGENTS.md`, `CODEX_HANDOFF.md`, and the effect research notes before changing toolkit effect logic.
+
 ## Useful Files
 
 ```text
+AGENTS.md
 CODEX_HANDOFF.md
 TODO.md
 FS25_GreenHorizonIndustries/modDesc.xml
@@ -76,6 +101,7 @@ FS25_GreenHorizonIndustries/xml/fillTypes.xml
 FS25_GreenHorizonIndustries/placeables/greenhouses/hempGreenhouse.xml
 FS25_GreenHorizonIndustries/placeables/greenhouses/i3d/greenHorizonHempGreenhouse.i3d
 FS25_GreenHorizonIndustries/placeables/productions/cbdPlantSmall.xml
+tools/giants/apiaryDevelopmentToolkit/docs/effectResearchNotes.md
 tools/windows/preflight_check.ps1
 tools/windows/package_and_install_mod.ps1
 tools/windows/validate_greenhouse_export.ps1
@@ -87,4 +113,5 @@ tools/windows/validate_greenhouse_export.ps1
 - Keep the booster on base-game `SEEDS` until the custom hemp-seed pallet is active.
 - Keep unfinished field crop and custom pallets inactive.
 - Do not upload GIANTS base-game files or extracted game assets.
+- Detect object type before generating specialization-specific XML.
 - Use the protected-branch pull-request workflow for repository changes.
