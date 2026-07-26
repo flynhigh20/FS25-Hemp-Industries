@@ -1,7 +1,7 @@
 -- Author:OpenAI + flynhigh20
 -- Name:ADT Effect Inspector Plugin
 -- Namespace: global
--- Description:Schema-aware GIANTS effect inspector and XML preset generator.
+-- Description:Schema-aware GIANTS effect inspector and safe XML/code guidance.
 -- Icon:
 -- Hide: yes
 -- AlwaysLoaded: no
@@ -31,31 +31,31 @@ function ADTEffectInspector:createTab(layoutSizer)
     fold:addPanel("Schema-aware inspection", inspectSizer)
     self.inspectionLabel = UILabel.new(inspectSizer,
         "No effect node available.", true,
-        TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 185)
+        TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 205)
     UIButton.new(inspectSizer, "Print detailed effect report",
         function() self:printEffectReport() end,
         nil, -1, -1, -1, 28)
 
     local presetSizer = UIRowLayoutSizer.new()
-    fold:addPanel("XML effect presets", presetSizer)
+    fold:addPanel("Safe effect guidance", presetSizer)
     UILabel.new(presetSizer,
-        "Prints ready-to-paste XML based on FS25 handTool schema attributes. Mapping paths use the current scene hierarchy.",
-        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 58, BorderDirection.BOTTOM, 5)
-    UIButton.new(presetSizer, "Print ParticleEffect smoke preset",
+        "Only prints a preset when the selected node type is compatible. TransformGroups are valid attachment nodes, but they must never be passed to ShaderPlaneEffect or ParticleEffect as rendered effect geometry.",
+        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 82, BorderDirection.BOTTOM, 5)
+    UIButton.new(presetSizer, "Print registered ParticleEffect preset",
         function() self:printParticlePreset() end,
         nil, -1, -1, -1, 30, BorderDirection.BOTTOM, 5)
     UIButton.new(presetSizer, "Print PipeEffect pair preset",
         function() self:printPipePreset() end,
         nil, -1, -1, -1, 30, BorderDirection.BOTTOM, 5)
-    UIButton.new(presetSizer, "Print dynamic chimney smoke preset",
+    UIButton.new(presetSizer, "Print external smoke Lua guidance",
         function() self:printDynamicSmokePreset() end,
         nil, -1, -1, -1, 30)
 
     local warningSizer = UIRowLayoutSizer.new()
-    fold:addPanel("Effect behavior warnings", warningSizer)
+    fold:addPanel("Confirmed behavior warnings", warningSizer)
     UILabel.new(warningSizer,
-        "PipeEffect animates visible geometry toward controlPoint; a normal mesh can appear as a solid extending tube. ParticleEffect requires a compatible emitter shape and registered particle/material types. Dynamic chimney smoke loads a complete external smoke asset and may need custom visibility control.",
-        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 115)
+        "Generic particleType=smoke is not verified in FS25. Use a registered particle type such as WASHER_WATER only with a compatible emitter shape. PipeEffect animates mesh geometry and is not smoke. dynamicallyLoadedParts is specialization-dependent and must not be assumed valid for hand tools. Hand-tool external smoke requires custom Lua loading and visibility control.",
+        true, TextAlignment.LEFT, VerticalAlignment.TOP, -1, -1, -1, 145)
 
     self:updateInspection()
 end
@@ -94,18 +94,25 @@ function ADTEffectInspector:getShapeStats(node)
     return #shapes, slots
 end
 
+function ADTEffectInspector:isDirectShape(node)
+    return node ~= nil and entityExists(node) and self.toolkit:isShape(node)
+end
+
 function ADTEffectInspector:getLikelyRole(node, shapeCount)
     local name = string.lower(getName(node) or "")
-    if string.find(name, "pipe") ~= nil then
-        return "Likely PipeEffect geometry. This mesh may visibly extend and retract toward controlPoint."
-    elseif string.find(name, "emit") ~= nil or string.find(name, "particle") ~= nil then
-        return "Likely ParticleEffect emitter shape. It should remain visually hidden or non-renderable in normal use."
-    elseif string.find(name, "smoke") ~= nil and shapeCount == 0 then
-        return "Likely smoke attachment/link transform. Suitable for dynamicallyLoadedPart linking."
+    local directShape = self:isDirectShape(node)
+    if directShape and string.find(name, "pipe") ~= nil then
+        return "Direct Shape likely intended as PipeEffect geometry. It may visibly extend and retract toward controlPoint."
+    elseif directShape and (string.find(name, "emit") ~= nil or string.find(name, "particle") ~= nil) then
+        return "Direct Shape may be a ParticleEffect emitter. Confirm the source asset and registered particle type before generating XML."
+    elseif not directShape and shapeCount == 0 then
+        return "Transform-only attachment node. Safe as a link parent, but unsafe as effect geometry for ShaderPlaneEffect or ParticleEffect."
+    elseif not directShape and shapeCount > 0 then
+        return "TransformGroup containing Shapes. Map the actual compatible child Shape for EffectManager effects, not this parent TransformGroup."
     elseif shapeCount > 0 then
-        return "Rendered geometry is present. Verify the original effect shader/material before assigning an effect class."
+        return "Rendered Shape present. Verify original shader/material and effect class before use."
     end
-    return "Transform-only node. It can be a parent, mapping target or dynamic-effect link, but is not visible effect geometry by itself."
+    return "Unclassified node. Inspect its source asset and runtime specialization before creating effect XML."
 end
 
 function ADTEffectInspector:updateInspection()
@@ -122,12 +129,13 @@ function ADTEffectInspector:updateInspection()
     local tx, ty, tz = getTranslation(node)
     local sx, sy, sz = getScale(node)
     local role = self:getLikelyRole(node, shapeCount)
+    local directShape = self:isDirectShape(node) and "yes" or "no"
 
     self.contextLabel:setText(string.format("Current effect context: %s  |  id %s  |  %s",
         getName(node), tostring(node), self.toolkit:getNodeTypeLabel(node)))
     self.inspectionLabel:setText(string.format(
-        "Mapping path: %s\nDirect children: %d\nRecursive shapes: %d\nMaterial slots: %d\nLocal translation: %.3f %.3f %.3f\nLocal scale: %.3f %.3f %.3f\nAssessment: %s",
-        path, getNumOfChildren(node), shapeCount, materialSlots,
+        "Mapping path: %s\nDirect Shape: %s\nDirect children: %d\nRecursive Shapes: %d\nMaterial slots: %d\nLocal translation: %.3f %.3f %.3f\nLocal scale: %.3f %.3f %.3f\nAssessment: %s",
+        path, directShape, getNumOfChildren(node), shapeCount, materialSlots,
         tx or 0, ty or 0, tz or 0, sx or 0, sy or 0, sz or 0, role))
 end
 
@@ -138,8 +146,12 @@ function ADTEffectInspector:printEffectReport()
     print("ADT EFFECT INSPECTOR BEGIN")
     print(string.format("Node: %s [%s] type=%s", getName(node), tostring(node), self.toolkit:getNodeTypeLabel(node)))
     print("Mapping: " .. (self:getNodePath(node) or "unknown"))
-    print(string.format("Direct children=%d recursiveShapes=%d materialSlots=%d", getNumOfChildren(node), shapeCount, materialSlots))
+    print(string.format("directShape=%s directChildren=%d recursiveShapes=%d materialSlots=%d",
+        tostring(self:isDirectShape(node)), getNumOfChildren(node), shapeCount, materialSlots))
     print("Assessment: " .. self:getLikelyRole(node, shapeCount))
+    if not self:isDirectShape(node) then
+        print("SAFETY: Do not pass this TransformGroup to g_effectManager as ShaderPlaneEffect or ParticleEffect geometry.")
+    end
     if string.find(string.lower(getName(node) or ""), "pipe") ~= nil then
         print("WARNING: PipeEffect controls visible extending geometry; it is not a particle emitter.")
     end
@@ -153,17 +165,23 @@ end
 
 function ADTEffectInspector:printParticlePreset()
     local node = self:getContextNode()
-    if node == nil then self.toolkit:logWarning("Select the intended particle emitter shape first."); return end
+    if node == nil then self.toolkit:logWarning("Select the intended particle emitter Shape first."); return end
+    if not self:isDirectShape(node) then
+        self.toolkit:logError("ParticleEffect requires a compatible Shape. The selected node is a TransformGroup; no preset was generated.", node)
+        return
+    end
     local id = getName(node)
-    print("ADT PARTICLE EFFECT PRESET BEGIN")
+    print("ADT REGISTERED PARTICLE EFFECT PRESET BEGIN")
     print("        <effects>")
-    print(string.format('            <effectNode effectNode="%s" effectClass="ParticleEffect" particleType="smoke" materialType="smokeParticle" emitCountScale="0.5" alphaScale="1" delay="0" worldSpace="true"/>', id))
+    print(string.format('            <effectNode effectNode="%s" effectClass="ParticleEffect" particleType="WASHER_WATER" emitCountScale="7000"/>', id))
     print("        </effects>")
     print("    <i3dMappings>")
     self:printMapping(node)
     print("    </i3dMappings>")
-    print("ADT PARTICLE EFFECT PRESET END")
-    self.toolkit:setStatus("ParticleEffect smoke preset printed for " .. id .. ".")
+    print("WARNING: WASHER_WATER is a confirmed registered type, but visual suitability depends on the emitter Shape and source specialization.")
+    print("WARNING: Generic particleType=smoke is intentionally not generated because it remains unverified.")
+    print("ADT REGISTERED PARTICLE EFFECT PRESET END")
+    self.toolkit:setStatus("Registered ParticleEffect preset printed for " .. id .. ".")
 end
 
 function ADTEffectInspector:printPipePreset()
@@ -187,6 +205,10 @@ function ADTEffectInspector:printPipePreset()
         self.toolkit:logWarning("PipeEffect preset requires sibling nodes named pipeEffect and pipeEffectSmoke.")
         return
     end
+    if not self:isDirectShape(pipeNode) or not self:isDirectShape(smokeNode) then
+        self.toolkit:logError("PipeEffect pair must map actual compatible Shapes. One or both selected nodes are TransformGroups; no preset was generated.", parent)
+        return
+    end
 
     print("ADT PIPE EFFECT PRESET BEGIN")
     print("        <effects>")
@@ -197,25 +219,27 @@ function ADTEffectInspector:printPipePreset()
     self:printMapping(pipeNode)
     self:printMapping(smokeNode)
     print("    </i3dMappings>")
-    print("WARNING: PipeEffect visibly extends/retracts pipeEffect geometry toward controlPoint.")
+    print("WARNING: PipeEffect visibly extends/retracts geometry. This is not free-floating smoke.")
     print("ADT PIPE EFFECT PRESET END")
     self.toolkit:setStatus("PipeEffect pair preset printed.")
 end
 
 function ADTEffectInspector:printDynamicSmokePreset()
     local node = self:getContextNode()
-    if node == nil then self.toolkit:logWarning("Select the smoke attachment/link node first."); return end
+    if node == nil then self.toolkit:logWarning("Select the external-smoke attachment node first."); return end
     local id = getName(node)
-    print("ADT DYNAMIC SMOKE PRESET BEGIN")
-    print("    <dynamicallyLoadedParts>")
-    print(string.format('        <dynamicallyLoadedPart filename="$data/effects/chimneySmoke/smokeTrailSubUV.i3d" node="1" linkNode="%s" shaderParameterName="colorAlpha" shaderParameter="0.5 0.5 0.5 0.5"/>', id))
-    print("    </dynamicallyLoadedParts>")
-    print("    <i3dMappings>")
-    self:printMapping(node)
-    print("    </i3dMappings>")
-    print("NOTE: This loads a complete external smoke asset and may run continuously unless controlled separately.")
-    print("ADT DYNAMIC SMOKE PRESET END")
-    self.toolkit:setStatus("Dynamic chimney smoke preset printed for " .. id .. ".")
+    if self:isDirectShape(node) then
+        self.toolkit:logWarning("External smoke attachment should normally be a TransformGroup, not a rendered Shape.")
+    end
+    print("ADT EXTERNAL SMOKE LUA GUIDANCE BEGIN")
+    print(string.format('    <i3dMapping id="%s" node="%s" />', id, self:getNodePath(node) or "unknown"))
+    print("HAND TOOL: load the complete external smoke I3D from custom Lua, link its loaded root under this attachment node, then control visibility in the hand-tool specialization.")
+    print("DO NOT: pass this TransformGroup through g_effectManager as ShaderPlaneEffect geometry.")
+    print("DO NOT: assume <dynamicallyLoadedParts> works on hand tools; it is specialization-dependent and primarily vehicle-side.")
+    print("CONFIRMED ASSET USED IN TESTING: $data/effects/chimneySmoke/smokeTrailSubUV.i3d")
+    print("CLEANUP: delete the loaded root and release the shared I3D request when the object is deleted.")
+    print("ADT EXTERNAL SMOKE LUA GUIDANCE END")
+    self.toolkit:setStatus("Safe external smoke guidance printed for " .. id .. ".")
 end
 
 function ADTEffectInspector:onSelectionChanged(nodeId, isSelected)
