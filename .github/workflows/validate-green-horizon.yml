@@ -25,3 +25,6 @@ jobs:
 
       - name: Validate XML, Python, and cross-file contracts
         run: python tools/ci/validate_repository.py
+
+      - name: Validate Green Horizon crop test map
+        run: python tools/ci/validate_test_map.py

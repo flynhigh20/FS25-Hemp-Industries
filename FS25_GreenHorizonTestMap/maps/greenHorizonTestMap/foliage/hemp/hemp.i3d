@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="hemp" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="textures/hempFoliage_diffuse.png"/>
+    <File fileId="2" filename="textures/hempFoliage_normal.png"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="GHI_hempFoliageAtlas" materialId="1" emissiveColor="0 0 0 0" specularColor="0.321569 1 0">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="hemp.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="hempFoliageSource" nodeId="39">
+      <TransformGroup name="growthState01_emerged" nodeId="40">
+        <Shape name="state01_distanceCard" translation="0 0 0.9" shapeId="1" nodeId="41" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state01_nearCard01" shapeId="2" nodeId="42" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state01_nearCard02" rotation="-0 90 0" shapeId="2" nodeId="43" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState02_sprout" nodeId="44">
+        <Shape name="state02_distanceCard" translation="0 0 0.9" shapeId="3" nodeId="45" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state02_nearCard01" shapeId="4" nodeId="46" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state02_nearCard02" rotation="-0 90 0" shapeId="4" nodeId="47" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState03_juvenile" nodeId="48">
+        <Shape name="state03_distanceCard" translation="0 0 0.9" shapeId="5" nodeId="49" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state03_nearCard01" shapeId="6" nodeId="50" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state03_nearCard02" rotation="0 60 0" shapeId="6" nodeId="51" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state03_nearCard03" rotation="-0 120 -0" shapeId="6" nodeId="52" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState04_vegetative" nodeId="53">
+        <Shape name="state04_distanceCard" translation="0 0 0.9" shapeId="7" nodeId="54" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state04_nearCard01" shapeId="8" nodeId="55" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state04_nearCard02" rotation="0 60 0" shapeId="8" nodeId="56" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state04_nearCard03" rotation="-0 120 -0" shapeId="8" nodeId="57" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState05_preFlower" nodeId="58">
+        <Shape name="state05_distanceCard" translation="0 0 0.9" shapeId="9" nodeId="59" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state05_nearCard01" shapeId="10" nodeId="60" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state05_nearCard02" rotation="0 45 0" shapeId="10" nodeId="61" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state05_nearCard03" rotation="-0 90 0" shapeId="10" nodeId="62" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state05_nearCard04" rotation="-0 135 -0" shapeId="10" nodeId="63" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState06_flowering" nodeId="64">
+        <Shape name="state06_distanceCard" translation="0 0 0.9" shapeId="11" nodeId="65" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state06_nearCard01" shapeId="12" nodeId="66" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state06_nearCard02" rotation="0 45 0" shapeId="12" nodeId="67" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state06_nearCard03" rotation="-0 90 0" shapeId="12" nodeId="68" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state06_nearCard04" rotation="-0 135 -0" shapeId="12" nodeId="69" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState07_mature" nodeId="70">
+        <Shape name="state07_distanceCard" translation="0 0 0.9" shapeId="13" nodeId="71" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state07_nearCard01" shapeId="14" nodeId="72" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state07_nearCard02" rotation="0 45 0" shapeId="14" nodeId="73" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state07_nearCard03" rotation="-0 90 0" shapeId="14" nodeId="74" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state07_nearCard04" rotation="-0 135 -0" shapeId="14" nodeId="75" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState08_withered" nodeId="76">
+        <Shape name="state08_distanceCard" translation="0 0 0.9" shapeId="15" nodeId="77" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state08_nearCard01" shapeId="16" nodeId="78" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state08_nearCard02" rotation="0 60 0" shapeId="16" nodeId="79" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state08_nearCard03" rotation="-0 120 -0" shapeId="16" nodeId="80" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+      <TransformGroup name="growthState09_cut" nodeId="81">
+        <Shape name="state09_distanceCard" translation="0 0 0.9" shapeId="17" nodeId="82" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state09_nearCard01" shapeId="18" nodeId="83" castsShadows="true" receiveShadows="true" materialIds="1"/>
+        <Shape name="state09_nearCard02" rotation="-0 90 0" shapeId="18" nodeId="84" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

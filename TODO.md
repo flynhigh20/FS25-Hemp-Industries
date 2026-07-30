@@ -111,9 +111,12 @@
 - [x] Export the nine-state outdoor hemp foliage I3D and align every XML blockShape path to its exported hierarchy
 - [x] Create a schema-valid FS25 foliageType definition for outdoor HEMP
 - [x] Select the stock Great Plains seeder and MF 8570/header as the first compatibility targets
+- [x] Build the separate Green Horizon Test Map wrapper around the official Riverbend Springs terrain
+- [x] Package `FS25_GreenHorizonTestMap.zip` with map-owned HEMP foliage registration and four state channels
 - [ ] Approve and integrate the realistic AI-assisted crop atlas as the final texture set
 - [ ] Validate all nine visible foliage/growth states in a controlled field test
-- [ ] Activate HEMP fruit-type registration on a controlled test map
+- [x] Activate HEMP fruit-type registration in the controlled test-map package
+- [ ] Confirm the Green Horizon Test Map appears and starts a fresh save in FS25
 - [ ] Validate seasonal growth, density channels, destruction, and save/reload
 - [ ] Configure yield, mature-to-cut transition, windrow, and cutter effects
 - [ ] Adapt one base-game planter and harvester for the first field test

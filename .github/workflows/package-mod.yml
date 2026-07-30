@@ -18,9 +18,19 @@ jobs:
       - name: Build FS25_Hemp_Industries.zip
         run: python3 tools/package_mod.py --mod-folder FS25_GreenHorizonIndustries --output dist/FS25_Hemp_Industries.zip
 
+      - name: Build FS25_GreenHorizonTestMap.zip
+        run: python3 tools/package_test_map.py
+
       - name: Upload drop-in mod zip
         uses: actions/upload-artifact@v4
         with:
           name: FS25_Hemp_Industries
           path: dist/FS25_Hemp_Industries.zip
+          if-no-files-found: error
+
+      - name: Upload crop test-map zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: FS25_GreenHorizonTestMap
+          path: dist/FS25_GreenHorizonTestMap.zip
           if-no-files-found: error
