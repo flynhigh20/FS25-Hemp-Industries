@@ -108,9 +108,57 @@
 - Runtime registration remains deliberately inactive in `modDesc.xml`. Do not install it as a live fruit type until a controlled loader/map registration path is validated.
 - First equipment targets are the stock Great Plains seeder (`SOWINGMACHINE`) and MF 8570 grain combine/header (`GRAINHEADER`).
 
+## Apiary Development Toolkit and bee-smoker research
+
+The toolkit lives under `tools/giants/apiaryDevelopmentToolkit/`. Current effect findings are documented in `tools/giants/apiaryDevelopmentToolkit/docs/effectResearchNotes.md`.
+
+### Confirmed working
+
+- Shared active-target management across toolkit tabs.
+- Safe handling of missing standard groups.
+- Material inspection and emissive reset.
+- Mapping export with correct I3D-relative paths and root mapping support.
+- Production-building Configure preset/mapping export.
+- Effects inspection, mapping validation, particle checks, and debug logging.
+- A stock pressure-washer effect pair renders and starts/stops correctly on the custom bee smoker.
+- `PipeEffect` visibly extends/retracts its stream geometry.
+- An imported shader smoke Shape using `materialType="unloadingSmoke"` renders through `g_effectManager`.
+
+### Confirmed failures and limits
+
+- `particleType="smoke"` and `particleType="SMOKE"` can load successfully without visible smoke.
+- `materialType="smokeParticle"` did not make those particle tests visible.
+- `PipeEffect` is not suitable for drifting smoke.
+- The imported unloading-smoke mesh has the wrong tall/twisted silhouette for a handheld smoker when viewed at usable scale.
+- A TransformGroup is not a particle emitter or shader-plane Shape.
+- Passing a TransformGroup to a Shape-based effect class can trigger an invalid `getNumOfMaterials` call and interrupt loading.
+- `<dynamicallyLoadedParts>` is for vehicle/placeable specializations and is not automatically processed by a hand tool.
+
+### Current external chimney-smoke test
+
+- Use a mapped TransformGroup named `chimneySmokeLink` at the nozzle.
+- The hand-tool XML must expose it on the custom specialization:
+  `<beeSmoker bellowsNode="bellowsPivot" chimneySmokeLink="chimneySmokeLink">`.
+- The custom Lua must register and resolve `handTool.beeSmoker#chimneySmokeLink`, load `$data/effects/chimneySmoke/smokeTrailSubUV.i3d`, attach it, hide it by default, toggle it during the puff, and delete it on cleanup.
+- Remove the XML `<effects>` block during this test. Do not map `chimneySmokeLink` as an `<effectNode>`.
+- Remove any hand-tool `<dynamicallyLoadedParts>` block; it will not instantiate the asset.
+- The latest corrected Lua intentionally disables the old `g_effectManager:loadEffect` call for this test so the TransformGroup cannot be routed into `ShaderPlaneEffect`.
+
+### Toolkit changes still required
+
+- Detect object/XML type before recommending dynamic parts.
+- Generate dynamic-part XML only for compatible vehicle/placeable contexts.
+- For hand tools, recommend or generate custom Lua loading and include all required XML attributes and mappings.
+- Distinguish Shape and TransformGroup nodes before printing effect presets.
+- Mark generic smoke particle presets as unverified rather than working.
+- Treat particle readiness as structural compatibility only until a registered particle type is proven visible.
+
 ## Do not change casually
 
 - Do not remove or simplify greenhouse water `exactFillRootNode` collision attributes.
 - Do not remove the proven greenhouse seed pallet trigger.
 - Do not activate field fruit types until the controlled-map test is ready.
+- Do not reintroduce `<dynamicallyLoadedParts>` into a hand-tool XML.
+- Do not route `chimneySmokeLink` through `g_effectManager`; it is an attachment TransformGroup.
+- Do not push experimental private bee-smoker changes unless the user explicitly requests a repository update.
 - Use the protected-branch workflow for GitHub updates; never force-push `main`.
